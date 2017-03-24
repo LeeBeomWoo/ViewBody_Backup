@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">ViewBody</string>
+    <string name="tab1">우리 몸에 대해서</string>
+    <string name="tab2">운동에 관해서</string>
+    <string name="tab3">나를 봐주세요</string>
+    <string name="tab4">어떤 음식이 좋을까?</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_night_mode">Night mode</string>
+    <string name="menu_night_mode_system">Follow system</string>
+    <string name="menu_night_mode_day">Day (always)</string>
+    <string name="menu_night_mode_night">Night (always)</string>
+    <string name="menu_night_mode_auto">Auto</string>
+    <string name="trainer_info">내가 누구게?</string>
+    <string name="foodcategory">함께 하면 좋은 음식레시피</string>
+    <string name="bodyinfocategory">관련 인체정보</string>
+    <string name="exerciseinfocategory">관련 운동정보</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">이름</string>
+    <string name="nicname">활동명</string>
+    <string name="facephoto">사진</string>
+    <string name="bodyphoto">전신사진</string>
+    <string name="avatar">아바타</string>
+    <string name="call">연락처</string>
+    <string name="Associaition">발급기관</string>
+    <string name="license">자격증</string>
+    <string name="licensedata">자격증 자료</string>
+    <string name="award">수상 및 입상경력</string>
+    <string name="awarddata">수상 및 입상 자료</string>
+    <string name="email">이메일</string>
+    <string name="messenger">메신저</string>
+    <string name="licensename">자격증 명</string>
+    <string name="licencecheck">검증과정</string>
+    <string name="awardname">입상 및 수상 명</string>
+    <string name="awardcheck">검증과정</string>
+    <string name="upper">상체</string>
+    <string name="lower">하체</string>
+    <string name="spine">척추</string>
+    <string name="writer">작성자 :</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="configure">Configure</string>
+    <string name="add_widget">Add widget</string>
+</resources>

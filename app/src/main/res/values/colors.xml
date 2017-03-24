@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#a7f64e</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="primary_material_light_1">#447ad2</color>
+    <color name="primary_text_material_dark">#adadad</color>
+    <color name="viewstatusbarcolor">#0e474d</color>
+    <color name="viewbodyhombar">#0e474d</color>
+    <color name="viewbodyappbarcolor">#156b74</color>
+    <color name="viewstatusbarcolor_main">#0e474d</color>
+    <color name="viewbodyhombar_main">#0e474d</color>
+    <color name="viewbodyappbarcolor_main">#da17737c</color>
+</resources>
