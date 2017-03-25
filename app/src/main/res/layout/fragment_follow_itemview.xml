@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ItemGroup.Item_follow_fragment">
+
+    <LinearLayout android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical">
+
+    <LinearLayout android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_weight="1.0">
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2.0"/>
+            <TextureView
+                android:id="@+id/capturview"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"/>
+        <!-- <com.tutsplus.facedetection.FaceOverlayView
+             xmlns:android="http://schemas.android.com/apk/res/android"
+             android:id="@+id/face_overlay"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" /> -->
+    </LinearLayout>
+        <WebView
+            android:id="@+id/web_movie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="1"
+            android:layout_weight="1" />
+    </LinearLayout>
+    <SeekBar
+        style="@android:style/Widget.DeviceDefault.Light.SeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:max="10"
+        android:progress="3"
+        android:layout_alignParentStart="true"
+        android:id="@+id/alpha_control"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:visibility="invisible" />
+
+</RelativeLayout>

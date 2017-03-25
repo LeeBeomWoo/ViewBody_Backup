@@ -1,9 +1,11 @@
 package com.example.leebeomwoo.viewbody_final;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.CardFragment.OnListFragmentInteractionListener;
@@ -36,8 +38,8 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mNickView.setText(mValues.get(position).id);
+        holder.mCategoryView.setText(mValues.get(position).content);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,20 +60,18 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
+        public final ImageView mCardView;
+        public final TextView mNickView;
+        public final TextView mCategoryView;
         public DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mNickView = (TextView) view.findViewById(R.id.nickname_txtB);
+            mCategoryView = (TextView) view.findViewById(R.id.category_txtB);
+            mCardView = (ImageView) view.findViewById(R.id.faceimage);
         }
 
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
-        }
     }
 }

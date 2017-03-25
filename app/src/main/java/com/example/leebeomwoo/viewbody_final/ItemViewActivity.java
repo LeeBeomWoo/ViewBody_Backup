@@ -22,7 +22,7 @@ import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
 /**
  * Created by LBW on 2016-06-30.
  */
-public class ItemViewActivity extends AppCompatActivity implements View.OnClickListener {
+public class ItemViewActivity extends AppCompatActivity {
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -54,7 +54,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         bundle.putString("itemUrl", message);
         bundle.putString("tr_Id", tr_id);
         bundle.putInt("section", section);
-
+/**
         FragmentManager fragmentManager = getFragmentManager();
         if (fragment != 3) {
             ItemFragment itemFragment = new ItemFragment();
@@ -77,7 +77,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
             }
         }
         // Now later we can lookup the fragment by tag
-
+**/
     }
 
     public static void setCameraDisplayOrientation(Activity activity,

@@ -11,4 +11,5 @@
     <color name="viewstatusbarcolor_main">#0e474d</color>
     <color name="viewbodyhombar_main">#0e474d</color>
     <color name="viewbodyappbarcolor_main">#da17737c</color>
+    <color name="common_google_signin_btn_text_dark_focused">#200d0d</color>
 </resources>
