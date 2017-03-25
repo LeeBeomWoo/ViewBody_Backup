@@ -13,88 +13,9 @@
         android:id="@+id/fragment"
         android:layout_marginLeft="0dp"
         tools:ignore="RtlHardcoded"
-        android:layout_alignParentTop="false"
+        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true">
     </RelativeLayout>
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|end"
-        android:scaleType="fitCenter"
-        fab:backgroundTint="@color/nocolor"
-        fab:pressedTranslationZ="15dp"
-        android:src="@drawable/mainlogo"
-        android:backgroundTint="@color/nocolor"
-        android:visibility="visible"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab1"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|end"
-        android:visibility="invisible"
-        fab:fab_title="@string/exerciseinfocategory"
-        android:layout_below="@+id/fab"
-        android:layout_alignStart="@+id/fab"
-        android:adjustViewBounds="false"
-        android:scaleType="fitCenter"
-        android:src="@drawable/food_btn"
-        android:layout_alignEnd="@+id/fab"/>
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab2"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|end"
-        android:visibility="invisible"
-        fab:fab_title="@string/bodyinfocategory"
-        android:src="@drawable/muscle"
-        android:scaleType="fitCenter"
-        android:layout_below="@+id/fab1"
-        android:layout_alignParentStart="true" />
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab3"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|end"
-        android:visibility="invisible"
-        fab:fab_title="@string/trainer_info"
-        android:src="@drawable/maninfo"
-        android:adjustViewBounds="false"
-        android:labelFor="@string/trainer_info"
-        android:layout_below="@+id/fab2"
-        android:layout_alignStart="@+id/fab2"
-        android:scaleType="fitCenter" />
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab4"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|end"
-        android:visibility="invisible"
-        fab:fab_title="@string/trainer_info"
-        android:src="@drawable/arrows"
-        android:adjustViewBounds="false"
-        android:labelFor="@string/trainer_info"
-        android:clickable="false"
-        android:scaleType="fitCenter"
-        android:layout_below="@+id/fab3"
-        android:layout_alignStart="@+id/fab3" />
-
-    <com.getbase.floatingactionbutton.FloatingActionButton
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:id="@+id/fab5"
-        android:visibility="invisible"
-        android:layout_below="@+id/fab4"
-        android:layout_alignParentStart="true"
-        android:scaleType="fitCenter"
-        fab:backgroundTint="@color/nocolor" />
 
 
 </RelativeLayout>

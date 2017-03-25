@@ -21,8 +21,8 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.SeekBar;
 
-import com..CameraUse.CameraHelper;
-import com.bcns.viewbody.R;
+import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
+import com.example.leebeomwoo.viewbody_final.R;
 
 import java.io.File;
 import java.io.IOException;

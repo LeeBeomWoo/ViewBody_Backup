@@ -45,8 +45,8 @@ import android.webkit.WebViewClient;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
-import com.bcns.viewbody.CameraUse.AutoFitTextureView;
-import com.bcns.viewbody.R;
+import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
+import com.example.leebeomwoo.viewbody_final.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
