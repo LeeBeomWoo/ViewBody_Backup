@@ -5,25 +5,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.CardFragment.OnListFragmentInteractionListener;
-import com.example.leebeomwoo.viewbody_final.dummy.DummyContent.DummyItem;
+import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<CardItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyCardRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyCardRecyclerViewAdapter(List<CardItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -38,8 +38,9 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mNickView.setText(mValues.get(position).id);
-        holder.mCategoryView.setText(mValues.get(position).content);
+        holder.mCardView.loadUrl(mValues.get(position).getCard_ImageUrl());
+        holder.mNickView.setText(mValues.get(position).getCard_Id());
+        holder.mCategoryView.setText(mValues.get(position).getCard_Category());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,17 +61,17 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public final ImageView mCardView;
+        public final WebView mCardView;
         public final TextView mNickView;
         public final TextView mCategoryView;
-        public DummyItem mItem;
+        public CardItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
             mNickView = (TextView) view.findViewById(R.id.nickname_txtB);
             mCategoryView = (TextView) view.findViewById(R.id.category_txtB);
-            mCardView = (ImageView) view.findViewById(R.id.faceimage);
+            mCardView = (WebView) view.findViewById(R.id.faceimage);
         }
 
     }

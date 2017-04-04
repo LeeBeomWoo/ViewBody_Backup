@@ -9,11 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.leebeomwoo.viewbody_final.dummy.DummyContent;
-import com.example.leebeomwoo.viewbody_final.dummy.DummyContent.DummyItem;
+import com.example.leebeomwoo.viewbody_final.Item.CardItem;
+import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A fragment representing a list of Items.
@@ -28,7 +33,8 @@ public class CardFragment extends Fragment {
     // TODO: Customize parameters
     private int mColumnCount = 2;
     private OnListFragmentInteractionListener mListener;
-
+    String Category;
+    List<CardItem> cardItems;
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -59,7 +65,7 @@ public class CardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_card_list, container, false);
-
+        getList(Category);
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -69,7 +75,7 @@ public class CardFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyCardRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyCardRecyclerViewAdapter(cardItems, mListener));
         }
         return view;
     }
@@ -104,6 +110,25 @@ public class CardFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(CardItem item);
+    }
+    private List<CardItem> getList (String mCategory){
+        Call<ResponseCard> call = ConAdapter.getInstance().getResult_Card(mCategory);
+        call.enqueue(new Callback<ResponseCard>() {
+            @Override
+            public void onResponse(Call<ResponseCard> call, Response<ResponseCard> response) {
+                ResponseCard responseCard = response.body();
+                Toast toast = Toast.makeText(getContext(), responseCard.getResult(), Toast.LENGTH_SHORT);
+                toast.show();
+                cardItems = responseCard.getCardItem();
+            }
+
+            @Override
+            public void onFailure(Call<ResponseCard> call, Throwable t) {
+                Toast toast = Toast.makeText(getContext(),"서버와의 연결이 안됬습니다.", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+        return cardItems;
     }
 }

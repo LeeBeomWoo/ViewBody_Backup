@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card"
     android:layout_width="190dp"
-    android:layout_height="wrap_content"
+    android:layout_height="60dp"
     android:orientation="horizontal">
 
-    <ImageView
+    <WebView
         android:id="@+id/faceimage"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -53,7 +53,6 @@
         android:id="@+id/category_lbl"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/category_txtB"
         android:layout_below="@+id/nick_lbl"
         android:layout_toEndOf="@+id/faceimage"
         android:padding="7dp"

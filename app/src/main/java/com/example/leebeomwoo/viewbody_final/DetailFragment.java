@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.leebeomwoo.viewbody_final.Item.DetailItem;
 import com.example.leebeomwoo.viewbody_final.dummy.DummyContent;
 import com.example.leebeomwoo.viewbody_final.dummy.DummyContent.DummyItem;
 
@@ -104,6 +105,6 @@ public class DetailFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(DetailItem item);
     }
 }

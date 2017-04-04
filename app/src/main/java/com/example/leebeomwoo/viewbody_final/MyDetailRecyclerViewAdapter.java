@@ -4,24 +4,24 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.DetailFragment.OnListFragmentInteractionListener;
-import com.example.leebeomwoo.viewbody_final.dummy.DummyContent.DummyItem;
+import com.example.leebeomwoo.viewbody_final.Item.DetailItem;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class MyDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyDetailRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<DetailItem> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyDetailRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyDetailRecyclerViewAdapter(List<DetailItem> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,8 +36,8 @@ public class MyDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyDetailRe
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText(mValues.get(position).getDetail_Title());
+        holder.mContentView.loadUrl(mValues.get(position).getDetail_ImageUrl());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,19 +59,14 @@ public class MyDetailRecyclerViewAdapter extends RecyclerView.Adapter<MyDetailRe
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+        public final WebView mContentView;
+        public DetailItem mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
-        }
-
-        @Override
-        public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            mIdView = (TextView) view.findViewById(R.id.detile_Title);
+            mContentView = (WebView) view.findViewById(R.id.detile_Image);
         }
     }
 }

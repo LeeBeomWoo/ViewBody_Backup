@@ -40,7 +40,14 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
-    <string name="nickname">닉네임 :</string>
-    <string name="content">작성내용</string>
-    <string name="expertpart" translatable="false">전문분야 :</string>
+    <string name="qnawriteexample"> 질문제목 : \n질문내용 : \n질문자 :\n추가적인 자료나 부가할만한 것들 :</string>
+    <string name="title">제목 :</string>
+    <string name="content">- 내용 -</string>
+    <string name="sempletitle">제목</string>
+    <string name="set">새트 수</string>
+    <string name="time">시간(단위 )</string>
+    <string name="breaktime">휴식시간(단위 )</string>
+    <string name="permission_request">카메라사용에 대한 허가를 요청합니다.</string>
+    <string name="camera_error">현재 사용되어진 기기는 카메라가 지원되지 않는 기기입니다.</string>
+    <string name="expertpart">전문분야 :</string>
 </resources>

@@ -1,8 +1,10 @@
 package com.example.leebeomwoo.viewbody_final;
 
 import com.example.leebeomwoo.viewbody_final.Response.ResponseBd;
+import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCec;
+import com.example.leebeomwoo.viewbody_final.Response.ResponseDetails;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseEc;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFm;
@@ -32,6 +34,12 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
 
     @GET("board/Exercise.jsp")
     Call<ResponseEc> getResult_Ec();
+
+    @GET("board/Exercise.jsp")
+    Call<ResponseCard> getResult_Card(@Field("category") String category);
+
+    @GET("board/Exercise.jsp")
+    Call<ResponseDetails> getResult_Details(@Field("category") String category);
 
     @FormUrlEncoded
     @POST("board/Categorybody.jsp")

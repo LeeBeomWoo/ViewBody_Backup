@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="foreground_material_dark">#ffffff</color>
-    <color name="primary_text_default_material_light">#deffffff</color>
-    <color name="foreground_material_light">#fffefe</color>
-    <color name="secondary_text_default_material_light">#000000</color>
-    <color name="view_body_background_light">#fafafa</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="foreground_material_dark" tools:ignore="PrivateResource">#ffffff</color>
+    <color name="primary_text_default_material_light" tools:ignore="PrivateResource">#deffffff</color>
+    <color name="foreground_material_light" tools:ignore="PrivateResource">#fffefe</color>
+    <color name="secondary_text_default_material_light" tools:ignore="PrivateResource">#000000</color>
+    <color name="view_body_background_light" tools:ignore="PrivateResource">#fafafa</color>
+    <color name="background_material_light" tools:ignore="PrivateResource">#416e73</color>
+    <color name="primary_text_default_material_dark" tools:ignore="PrivateResource">#7c7c7c</color>
 </resources>
