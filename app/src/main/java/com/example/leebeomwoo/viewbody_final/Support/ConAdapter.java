@@ -1,4 +1,5 @@
-package com.example.leebeomwoo.viewbody_final;
+package com.example.leebeomwoo.viewbody_final.Support;
+
 
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -26,7 +27,7 @@ public class ConAdapter {
     private static OkHttpClient client;
     private static NetworkService Interface;
 
-    public static final String SERVER_URL = "http://BCNS.iptime.org:80/BCNS_SERVER/";
+    public static final String SERVER_URL = "http://localhost:8080/BCNS_SERVER-09_27_complete/";
 
     public synchronized static NetworkService getInstance() {
         if (Interface == null) {

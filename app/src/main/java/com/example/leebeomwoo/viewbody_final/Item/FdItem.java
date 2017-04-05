@@ -3,6 +3,16 @@ package com.example.leebeomwoo.viewbody_final.Item;
 /**
  * Created by LBW on 2016-05-24.
  */
+
+/** public String getBd_Category(){
+ return bd_Category;
+ }
+ //  private String bd_word;
+ //  this.bd_word = bd_word;
+ public void setBd_Category(String bd_Category){
+ this.bd_Category = bd_Category;
+ }
+ */
 public class FdItem {
 
     private String fd_ImageUrl;

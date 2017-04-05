@@ -5,6 +5,15 @@ package com.example.leebeomwoo.viewbody_final.Item;
  * Created by LBW on 2016-05-24.
  */
 
+/** public String getBd_Category(){
+ return bd_Category;
+ }
+ //  private String bd_word;
+ //  this.bd_word = bd_word;
+ public void setBd_Category(String bd_Category){
+ this.bd_Category = bd_Category;
+ }
+ */
     public class FmItem {
 
     private String fm_ImageUrl;
@@ -12,13 +21,15 @@ package com.example.leebeomwoo.viewbody_final.Item;
     private String fm_Id;
     private String fm_Title;
     private String fm_ConectCode;
+    private int fm_section;
 
-    public FmItem(String fm_Id, String fm_Title, String fm_Content, String fm_ImageUrl, String fm_ConectCode){
+    public FmItem(String fm_Id, String fm_Title, String fm_Content, String fm_ImageUrl, String fm_ConectCode, int fm_section){
         this.fm_Id = fm_Id;
         this.fm_Title = fm_Title;
         this.fm_Content = fm_Content;
         this.fm_ImageUrl = fm_ImageUrl;
         this.fm_ConectCode = fm_ConectCode;
+        this.fm_section = fm_section;
     }
 
     public String getFm_ImageUrl(){
@@ -59,6 +70,13 @@ package com.example.leebeomwoo.viewbody_final.Item;
 
     public void setFm_ConectCode(String fm_ConectCode){
         this.fm_ConectCode = fm_ConectCode;
+    }
+    public int getFm_Section(){
+        return fm_section;
+    }
+
+    public void setFm_Section(int fm_section){
+        this.fm_section = fm_section;
     }
 }
 
