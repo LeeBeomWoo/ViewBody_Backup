@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!--suppress AndroidDomInspection -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <item name="background">@drawable/background</item>
+        <item name="colorPrimary">@color/viewbodyappbarcolor_main</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:statusBarColor">@color/viewstatusbarcolor_main</item>
+        <item name="android:navigationBarColor">@color/viewbodyhombar_main</item>
+        <item name="android:colorForeground" tools:ignore="PrivateResource">@color/foreground_material_light</item>
+        <item name="android:textColorPrimary">@color/viewbody_primary_text</item>
+        <item name="android:colorBackground">@color/view_body_background_light</item>
+    </style>
+
+    <!--suppress AndroidDomInspection -->
+    <style name="ViewBody" parent="Theme.AppCompat.Light.NoActionBar">>
+        <item name="background">@drawable/background</item>
+        <item name="colorPrimary">@color/viewbodyappbarcolor</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/viewstatusbarcolor</item>
+        <item name="android:navigationBarColor">@color/viewbodyhombar</item>
+        <item name="android:textColorPrimary">@color/colorPrimary</item>
+        <item name="android:colorBackground" tools:ignore="PrivateResource">@color/background_material_light</item>
+        <item name="android:textColorSecondary">@color/common_google_signin_btn_text_dark_focused
+        </item>
+    </style>
+</resources>

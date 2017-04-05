@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ItemGroup.Item_follow_fragment_21">
+    <SeekBar
+        style="@android:style/Widget.DeviceDefault.Light.SeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:id="@+id/alpha_control"
+        android:visibility="invisible"/>
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2">
+
+            <com.bcns.viewbody.CameraUse.AutoFitTextureView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/AutoView" />
+        </FrameLayout>
+
+        <!-- <com.tutsplus.facedetection.FaceOverlayView
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           android:id="@+id/face_overlay"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent" /> -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:id="@+id/relativeLayout2">
+
+        <WebView
+            android:id="@+id/web_movie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:alpha="1" />
+
+    </RelativeLayout>
+
+</LinearLayout>

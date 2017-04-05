@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <com.bcns.viewbody.CameraUse.AutoFitTextureView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/AutoView"/>
+    </FrameLayout>
+
+    <SeekBar
+    style="@android:style/Widget.Material.Light.SeekBar"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+        android:progress="50"
+    android:layout_alignParentStart="true"
+    android:id="@+id/alpha_control"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentTop="true"
+        android:max="100" />
+
+    <WebView
+        android:id="@+id/web_movie"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/alpha_control" />
+
+</RelativeLayout>
