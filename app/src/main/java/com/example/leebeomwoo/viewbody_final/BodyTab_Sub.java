@@ -13,9 +13,10 @@ import android.view.ViewGroup;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
-import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
+import com.example.leebeomwoo.viewbody_final.Adapter.MyCardRecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,6 @@ import static android.content.ContentValues.TAG;
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * to handle interaction events.
- * Use the {@link BodyTab_Sub#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class BodyTab_Sub extends Fragment {
@@ -52,9 +52,10 @@ public class BodyTab_Sub extends Fragment {
     public BodyTab_Sub() {
         // Required empty public constructor
         items = new ArrayList<>();
-        items.add(new MainTabItem("몸 에" + "\n" + "대하여", mParam1, BodyFragment.class));
-        items.add(new MainTabItem("운동에" + "\n" + "대하여", mParam1, ExerciseFragment.class));
-        items.add(new MainTabItem("나 를" + "\n" + "따라해봐", mParam1, MovieFragment.class));
+        items.add(new MainTabItem("상체" + "\n" + "근육", mParam1, BodyFragment.class));
+        items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, ExerciseFragment.class));
+        items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, BodyFragment.class));
+        items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, ExerciseFragment.class));
     }
 
     /**

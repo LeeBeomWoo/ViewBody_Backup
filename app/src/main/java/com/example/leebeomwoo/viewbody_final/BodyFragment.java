@@ -20,7 +20,7 @@ import com.example.leebeomwoo.viewbody_final.Item.BdItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseBd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
-import com.example.leebeomwoo.viewbody_final.recyclerviewAdapter.BodyRecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Adapter.BodyRecyclerViewAdapter;
 
 import java.util.List;
 

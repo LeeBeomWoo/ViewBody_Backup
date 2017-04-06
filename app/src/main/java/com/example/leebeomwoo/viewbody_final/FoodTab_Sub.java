@@ -15,6 +15,8 @@ import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
+import com.example.leebeomwoo.viewbody_final.Adapter.MyCardRecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

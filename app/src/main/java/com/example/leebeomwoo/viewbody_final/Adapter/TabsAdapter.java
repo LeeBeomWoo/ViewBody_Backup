@@ -1,4 +1,4 @@
-package com.example.leebeomwoo.viewbody_final;
+package com.example.leebeomwoo.viewbody_final.Adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;

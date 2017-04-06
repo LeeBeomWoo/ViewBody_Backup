@@ -1,4 +1,4 @@
-package com.example.leebeomwoo.viewbody_final.recyclerviewAdapter;
+package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,8 +13,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-
-import com.example.leebeomwoo.viewbody_final.Item.FdItem;
+import com.example.leebeomwoo.viewbody_final.Item.BdItem;
 import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
@@ -23,21 +22,20 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerViewAdapter.ViewHolder> implements Filterable {
-
-    final List<FdItem> fdItems;
-    Context fContext;
-    private final List<FdItem> userList;
-    private final List<FdItem> filteredUserList;
+public class BodyRecyclerViewAdapter extends RecyclerView.Adapter<BodyRecyclerViewAdapter.ViewHolder> implements Filterable{
+    List<BdItem> bdItems = new ArrayList<>();
+    Context bContext;
+    private final List<BdItem> filteredUserList;
     private UserFilter userFilter;
 
-    public FoodRecyclerViewAdapter(Context context, List<FdItem> fdItemList){
-        this.fdItems = fdItemList;
-        this.fContext = context;
-        this.userList = new ArrayList<>();
+
+
+    public BodyRecyclerViewAdapter(Context context, List<BdItem> bdItemList){
+        this.bdItems = bdItemList;
+        this.bContext = context;
         this.filteredUserList = new ArrayList<>();
     }
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
         public final TextView txtViewTitle;
         public final TextView txtViewContent;
@@ -67,26 +65,28 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_detail, parent, false);
+                .inflate(R.layout.fragment_card, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        final FdItem fdItem = fdItems.get(position);
+        final BdItem bdItem = bdItems.get(position);
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.txtViewTitle.setText(fdItem.getFd_Title());
-        viewHolder.txtViewContent.setText(fdItem.getFd_Content());
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + fdItem.getFd_ImageUrl());
+        viewHolder.txtViewTitle.setText(bdItem.getBd_Title());
+        viewHolder.txtViewContent.setText(bdItem.getBd_Content());
+        viewHolder.txtViewCategory.setText(bdItem.getBd_Category());
+       //  viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + bdItem.getBd_ImageUrl()); 실제 구동시
+        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + bdItem.getBd_ConectCode());
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, ItemViewActivity.class);
-                String viewurl = ConAdapter.SERVER_URL + fdItem.getFd_ImageUrl();
-                String tr_id = fdItem.getFd_Id();
-                int q = 4;
+                String viewurl = ConAdapter.SERVER_URL + "data_image/" + bdItem.getBd_ConectCode();
+                String tr_id = bdItem.getBd_Id();
+                int q =1;
                 //intent.putExtra("item_word", item_word);
                 intent.putExtra("itemUrl", viewurl);
                 intent.putExtra("trId", tr_id);
@@ -98,25 +98,31 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
     @Override
     public int getItemCount() {
 
-        return (null != fdItems ? fdItems.size() : 0);
+        return (null != bdItems ? bdItems.size() : 0);
+    }
+
+    public void setBdItems (List<BdItem> bdItems1) {
+        bdItems.clear();
+        this.bdItems = bdItems1;
     }
     // inner class to hold a reference to each item of RecyclerView
     @Override
     public Filter getFilter() {
         if(userFilter == null)
-            userFilter = new UserFilter(this, userList);
+            userFilter = new UserFilter(this, bdItems);
         return userFilter;
     }
 
-    private static class UserFilter extends Filter {
 
-        FoodRecyclerViewAdapter adapter;
+    private class UserFilter extends Filter {
 
-        private final List<FdItem> originalList;
+        BodyRecyclerViewAdapter adapter;
 
-        private final List<FdItem> filteredList;
+        private final List<BdItem> originalList;
 
-        private UserFilter(FoodRecyclerViewAdapter adapter, List<FdItem> originalList) {
+        private final List<BdItem> filteredList;
+
+        private UserFilter(BodyRecyclerViewAdapter adapter, List<BdItem> originalList) {
             super();
             this.adapter = adapter;
             this.originalList = new LinkedList<>(originalList);
@@ -133,8 +139,8 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (final FdItem user : originalList) {
-                    if (user.getFd_Title().contains(filterPattern)) {
+                for (final BdItem user : originalList) {
+                    if (user.getBd_Title().contains(filterPattern)) {
                         filteredList.add(user);
                     }
                 }
@@ -147,8 +153,10 @@ public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerVi
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             adapter.filteredUserList.clear();
-            adapter.filteredUserList.addAll((ArrayList<FdItem>) results.values);
+            adapter.filteredUserList.addAll((ArrayList<BdItem>) results.values);
             adapter.notifyDataSetChanged();
         }
     }
+
+
 }

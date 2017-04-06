@@ -1,4 +1,4 @@
-package com.example.leebeomwoo.viewbody_final.recyclerviewAdapter;
+package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.content.Intent;

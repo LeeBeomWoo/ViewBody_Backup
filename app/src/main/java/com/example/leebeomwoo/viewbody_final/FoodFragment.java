@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.leebeomwoo.viewbody_final.Item.FdItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
-import com.example.leebeomwoo.viewbody_final.recyclerviewAdapter.FoodRecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Adapter.FoodRecyclerViewAdapter;
 
 import java.util.List;
 

@@ -1,7 +1,6 @@
-package com.example.leebeomwoo.viewbody_final;
+package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Build;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.leebeomwoo.viewbody_final.BodyTab_Sub;
+import com.example.leebeomwoo.viewbody_final.FoodTab_Sub;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
+import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 
 import java.util.ArrayList;
@@ -78,20 +79,7 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (cardItem.getsEction()){
-                    case "0":
-                        BodyTab_Sub fr = new BodyTab_Sub();
-                        fr.setArguments(args);
-                        FragmentManager fm = ;
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_place, fr);
-                        fragmentTransaction.commit();
-                        BodyTab_Sub(cardItem.getId(), cardItem.getsEction());
-                        break;
-                    case "1":
-                        FoodTab_Sub.newInstance(cardItem.getId(), cardItem.getsEction());
-                        break;
-                }
+               //트레이너와 영양사들의 개인정보로 연결되도록 세팅
             }
         });
     }

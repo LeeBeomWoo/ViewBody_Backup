@@ -1,4 +1,4 @@
-package com.example.leebeomwoo.viewbody_final.recyclerviewAdapter;
+package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,7 +13,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.leebeomwoo.viewbody_final.Item.BdItem;
+import com.example.leebeomwoo.viewbody_final.Item.FmItem;
 import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
@@ -22,20 +22,25 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BodyRecyclerViewAdapter extends RecyclerView.Adapter<BodyRecyclerViewAdapter.ViewHolder> implements Filterable{
-    List<BdItem> bdItems = new ArrayList<>();
-    Context bContext;
-    private final List<BdItem> filteredUserList;
+
+public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.ViewHolder> implements Filterable {
+
+
+    final List<FmItem> fmItems;
+    Context mContext;
+    private final List<FmItem> userList;
+    private final List<FmItem> filteredUserList;
     private UserFilter userFilter;
+    int view_category;
 
-
-
-    public BodyRecyclerViewAdapter(Context context, List<BdItem> bdItemList){
-        this.bdItems = bdItemList;
-        this.bContext = context;
+    public MovieRecyclerViewAdapter(Context context, List<FmItem> fmItemList){
+        this.fmItems = fmItemList;
+        this.mContext = context;
+        this.userList = new ArrayList<>();
         this.filteredUserList = new ArrayList<>();
     }
-    public class ViewHolder extends RecyclerView.ViewHolder {
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
         public final TextView txtViewTitle;
         public final TextView txtViewContent;
@@ -65,32 +70,31 @@ public class BodyRecyclerViewAdapter extends RecyclerView.Adapter<BodyRecyclerVi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_card, parent, false);
+                .inflate(R.layout.fragment_detail, parent, false);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        final BdItem bdItem = bdItems.get(position);
+        final FmItem fmItem = fmItems.get(position);
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.txtViewTitle.setText(bdItem.getBd_Title());
-        viewHolder.txtViewContent.setText(bdItem.getBd_Content());
-        viewHolder.txtViewCategory.setText(bdItem.getBd_Category());
-       //  viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + bdItem.getBd_ImageUrl()); 실제 구동시
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + bdItem.getBd_ConectCode());
+        viewHolder.txtViewTitle.setText(fmItem.getFm_Title());
+        viewHolder.txtViewContent.setText(fmItem.getFm_Content());
+        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + fmItem.getFm_ImageUrl());
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, ItemViewActivity.class);
-                String viewurl = ConAdapter.SERVER_URL + "data_image/" + bdItem.getBd_ConectCode();
-                String tr_id = bdItem.getBd_Id();
-                int q =1;
+                String viewurl = fmItem.getFm_ImageUrl();
+                String tr_id = fmItem.getFm_Id();
+                view_category = fmItem.getFm_Section();
+                int q= 3;
                 //intent.putExtra("item_word", item_word);
+                intent.putExtra("page_num", q);
                 intent.putExtra("itemUrl", viewurl);
                 intent.putExtra("trId", tr_id);
-                intent.putExtra("page_num", q);
+                intent.putExtra("section", view_category);
                 context.startActivity(intent);
             }
         });
@@ -98,31 +102,25 @@ public class BodyRecyclerViewAdapter extends RecyclerView.Adapter<BodyRecyclerVi
     @Override
     public int getItemCount() {
 
-        return (null != bdItems ? bdItems.size() : 0);
-    }
-
-    public void setBdItems (List<BdItem> bdItems1) {
-        bdItems.clear();
-        this.bdItems = bdItems1;
+        return (null != fmItems ? fmItems.size() : 0);
     }
     // inner class to hold a reference to each item of RecyclerView
     @Override
     public Filter getFilter() {
         if(userFilter == null)
-            userFilter = new UserFilter(this, bdItems);
+            userFilter = new UserFilter(this, userList);
         return userFilter;
     }
 
+    private static class UserFilter extends Filter {
 
-    private class UserFilter extends Filter {
+        MovieRecyclerViewAdapter adapter;
 
-        BodyRecyclerViewAdapter adapter;
+        private final List<FmItem> originalList;
 
-        private final List<BdItem> originalList;
+        private final List<FmItem> filteredList;
 
-        private final List<BdItem> filteredList;
-
-        private UserFilter(BodyRecyclerViewAdapter adapter, List<BdItem> originalList) {
+        private UserFilter(MovieRecyclerViewAdapter adapter, List<FmItem> originalList) {
             super();
             this.adapter = adapter;
             this.originalList = new LinkedList<>(originalList);
@@ -139,8 +137,8 @@ public class BodyRecyclerViewAdapter extends RecyclerView.Adapter<BodyRecyclerVi
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (final BdItem user : originalList) {
-                    if (user.getBd_Title().contains(filterPattern)) {
+                for (final FmItem user : originalList) {
+                    if (user.getFm_Title().contains(filterPattern)) {
                         filteredList.add(user);
                     }
                 }
@@ -153,10 +151,8 @@ public class BodyRecyclerViewAdapter extends RecyclerView.Adapter<BodyRecyclerVi
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             adapter.filteredUserList.clear();
-            adapter.filteredUserList.addAll((ArrayList<BdItem>) results.values);
+            adapter.filteredUserList.addAll((ArrayList<FmItem>) results.values);
             adapter.notifyDataSetChanged();
         }
     }
-
-
 }

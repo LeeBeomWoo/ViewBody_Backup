@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
+import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<MainTabItem> mainMenuItems = new ArrayList<>();
         mainMenuItems.add(new MainTabItem("몸과 운동", null, BodyTab_Sub.class));
         mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
+        mainMenuItems.add(new MainTabItem("동영상" + "\n" + "따라하기", null, MovieFragment.class));
+        mainMenuItems.add(new MainTabItem("트레이너와" + "\n" + "영양사", null, FoodTab_Sub.class));
 
         slidingTabLayout = (SlidingTabLayout) findViewById(R.id.main_TabLayout);
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);

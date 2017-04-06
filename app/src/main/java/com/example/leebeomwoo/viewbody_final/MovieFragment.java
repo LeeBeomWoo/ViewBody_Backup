@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.example.leebeomwoo.viewbody_final.Item.FmItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFm;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
-import com.example.leebeomwoo.viewbody_final.recyclerviewAdapter.MovieRecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Adapter.MovieRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -39,8 +39,8 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Se
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_detail_list, container, false);
-        final RecyclerView rv = (RecyclerView)view.findViewById(R.id.detail_list);
+        view = inflater.inflate(R.layout.fragment_movie_recyclelist, container, false);
+        final RecyclerView rv = (RecyclerView)view.findViewById(R.id.movie_list);
         setHasOptionsMenu(true);
         rv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();

@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.leebeomwoo.viewbody_final.Item.QItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseQ;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
-import com.example.leebeomwoo.viewbody_final.recyclerviewAdapter.MyQnARecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Adapter.MyQnARecyclerViewAdapter;
 
 import java.util.List;
 

@@ -1,11 +1,10 @@
-package com.example.leebeomwoo.viewbody_final.recyclerviewAdapter;
+package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.leebeomwoo.viewbody_final.Item.EcItem;
+
+import com.example.leebeomwoo.viewbody_final.Item.FdItem;
 import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
@@ -23,18 +23,17 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRecyclerViewAdapter.ViewHolder> implements Filterable{
+public class FoodRecyclerViewAdapter extends RecyclerView.Adapter<FoodRecyclerViewAdapter.ViewHolder> implements Filterable {
 
-    List<EcItem> ecItems;
-    Context eContext;
-    private final List<EcItem> userList;
-    private final List<EcItem> filteredUserList;
+    final List<FdItem> fdItems;
+    Context fContext;
+    private final List<FdItem> userList;
+    private final List<FdItem> filteredUserList;
     private UserFilter userFilter;
 
-    public ExerciseRecyclerViewAdapter(Context context, List<EcItem> ecItemList) {
-        this.eContext = context;
-        this.ecItems = ecItemList;
-
+    public FoodRecyclerViewAdapter(Context context, List<FdItem> fdItemList){
+        this.fdItems = fdItemList;
+        this.fContext = context;
         this.userList = new ArrayList<>();
         this.filteredUserList = new ArrayList<>();
     }
@@ -72,27 +71,22 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
         return new ViewHolder(view);
     }
 
-
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, int position) {
-        final EcItem ecItem = ecItems.get(position);
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+        final FdItem fdItem = fdItems.get(position);
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.txtViewTitle.setText(ecItem.getEc_Title());
-        viewHolder.txtViewContent.setText(ecItem.getEc_Content());
-        viewHolder.txtViewCategory.setText(ecItem.getEc_Category());
-        // viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ecItem.getEc_ImageUrl()); 실제 구동
-        //테스트
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + ecItem.getEc_ConectCode());
+        viewHolder.txtViewTitle.setText(fdItem.getFd_Title());
+        viewHolder.txtViewContent.setText(fdItem.getFd_Content());
+        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + fdItem.getFd_ImageUrl());
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, ItemViewActivity.class);
-                String viewurl = ConAdapter.SERVER_URL + "data_image/" + ecItem.getEc_ConectCode();
-                Log.d("exrecycler", viewurl);
-                String tr_id = ecItem.getEc_Id();
-                int q = 2;
+                String viewurl = ConAdapter.SERVER_URL + fdItem.getFd_ImageUrl();
+                String tr_id = fdItem.getFd_Id();
+                int q = 4;
                 //intent.putExtra("item_word", item_word);
                 intent.putExtra("itemUrl", viewurl);
                 intent.putExtra("trId", tr_id);
@@ -103,14 +97,10 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
     }
     @Override
     public int getItemCount() {
-        return (null != ecItems ? ecItems.size() : 0);
-    }
 
-    public void setEcItems (List<EcItem> ecItemList) {
-        ecItems.clear();
-        this.ecItems = ecItemList;
+        return (null != fdItems ? fdItems.size() : 0);
     }
-
+    // inner class to hold a reference to each item of RecyclerView
     @Override
     public Filter getFilter() {
         if(userFilter == null)
@@ -120,13 +110,13 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
 
     private static class UserFilter extends Filter {
 
-        ExerciseRecyclerViewAdapter adapter;
+        FoodRecyclerViewAdapter adapter;
 
-        private final List<EcItem> originalList;
+        private final List<FdItem> originalList;
 
-        private final List<EcItem> filteredList;
+        private final List<FdItem> filteredList;
 
-        private UserFilter(ExerciseRecyclerViewAdapter adapter, List<EcItem> originalList) {
+        private UserFilter(FoodRecyclerViewAdapter adapter, List<FdItem> originalList) {
             super();
             this.adapter = adapter;
             this.originalList = new LinkedList<>(originalList);
@@ -143,8 +133,8 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (final EcItem user : originalList) {
-                    if (user.getEc_Title().contains(filterPattern)) {
+                for (final FdItem user : originalList) {
+                    if (user.getFd_Title().contains(filterPattern)) {
                         filteredList.add(user);
                     }
                 }
@@ -157,9 +147,8 @@ public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRe
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             adapter.filteredUserList.clear();
-            adapter.filteredUserList.addAll((ArrayList<EcItem>) results.values);
+            adapter.filteredUserList.addAll((ArrayList<FdItem>) results.values);
             adapter.notifyDataSetChanged();
         }
     }
-
 }

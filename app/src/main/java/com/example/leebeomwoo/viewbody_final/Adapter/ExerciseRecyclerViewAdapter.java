@@ -1,10 +1,11 @@
-package com.example.leebeomwoo.viewbody_final.recyclerviewAdapter;
+package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.leebeomwoo.viewbody_final.Item.FmItem;
+import com.example.leebeomwoo.viewbody_final.Item.EcItem;
 import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
@@ -22,24 +23,21 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+public class ExerciseRecyclerViewAdapter extends RecyclerView.Adapter<ExerciseRecyclerViewAdapter.ViewHolder> implements Filterable{
 
-public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.ViewHolder> implements Filterable {
-
-
-    final List<FmItem> fmItems;
-    Context mContext;
-    private final List<FmItem> userList;
-    private final List<FmItem> filteredUserList;
+    List<EcItem> ecItems;
+    Context eContext;
+    private final List<EcItem> userList;
+    private final List<EcItem> filteredUserList;
     private UserFilter userFilter;
-    int view_category;
 
-    public MovieRecyclerViewAdapter(Context context, List<FmItem> fmItemList){
-        this.fmItems = fmItemList;
-        this.mContext = context;
+    public ExerciseRecyclerViewAdapter(Context context, List<EcItem> ecItemList) {
+        this.eContext = context;
+        this.ecItems = ecItemList;
+
         this.userList = new ArrayList<>();
         this.filteredUserList = new ArrayList<>();
     }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
         public final TextView txtViewTitle;
@@ -73,38 +71,46 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
                 .inflate(R.layout.fragment_detail, parent, false);
         return new ViewHolder(view);
     }
+
+
     @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        final FmItem fmItem = fmItems.get(position);
+    public void onBindViewHolder(final ViewHolder viewHolder, int position) {
+        final EcItem ecItem = ecItems.get(position);
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.txtViewTitle.setText(fmItem.getFm_Title());
-        viewHolder.txtViewContent.setText(fmItem.getFm_Content());
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + fmItem.getFm_ImageUrl());
+        viewHolder.txtViewTitle.setText(ecItem.getEc_Title());
+        viewHolder.txtViewContent.setText(ecItem.getEc_Content());
+        viewHolder.txtViewCategory.setText(ecItem.getEc_Category());
+        // viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ecItem.getEc_ImageUrl()); 실제 구동
+        //테스트
+        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + ecItem.getEc_ConectCode());
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, ItemViewActivity.class);
-                String viewurl = fmItem.getFm_ImageUrl();
-                String tr_id = fmItem.getFm_Id();
-                view_category = fmItem.getFm_Section();
-                int q= 3;
+                String viewurl = ConAdapter.SERVER_URL + "data_image/" + ecItem.getEc_ConectCode();
+                Log.d("exrecycler", viewurl);
+                String tr_id = ecItem.getEc_Id();
+                int q = 2;
                 //intent.putExtra("item_word", item_word);
-                intent.putExtra("page_num", q);
                 intent.putExtra("itemUrl", viewurl);
                 intent.putExtra("trId", tr_id);
-                intent.putExtra("section", view_category);
+                intent.putExtra("page_num", q);
                 context.startActivity(intent);
             }
         });
     }
     @Override
     public int getItemCount() {
-
-        return (null != fmItems ? fmItems.size() : 0);
+        return (null != ecItems ? ecItems.size() : 0);
     }
-    // inner class to hold a reference to each item of RecyclerView
+
+    public void setEcItems (List<EcItem> ecItemList) {
+        ecItems.clear();
+        this.ecItems = ecItemList;
+    }
+
     @Override
     public Filter getFilter() {
         if(userFilter == null)
@@ -114,13 +120,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
     private static class UserFilter extends Filter {
 
-        MovieRecyclerViewAdapter adapter;
+        ExerciseRecyclerViewAdapter adapter;
 
-        private final List<FmItem> originalList;
+        private final List<EcItem> originalList;
 
-        private final List<FmItem> filteredList;
+        private final List<EcItem> filteredList;
 
-        private UserFilter(MovieRecyclerViewAdapter adapter, List<FmItem> originalList) {
+        private UserFilter(ExerciseRecyclerViewAdapter adapter, List<EcItem> originalList) {
             super();
             this.adapter = adapter;
             this.originalList = new LinkedList<>(originalList);
@@ -137,8 +143,8 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (final FmItem user : originalList) {
-                    if (user.getFm_Title().contains(filterPattern)) {
+                for (final EcItem user : originalList) {
+                    if (user.getEc_Title().contains(filterPattern)) {
                         filteredList.add(user);
                     }
                 }
@@ -151,8 +157,9 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             adapter.filteredUserList.clear();
-            adapter.filteredUserList.addAll((ArrayList<FmItem>) results.values);
+            adapter.filteredUserList.addAll((ArrayList<EcItem>) results.values);
             adapter.notifyDataSetChanged();
         }
     }
+
 }
