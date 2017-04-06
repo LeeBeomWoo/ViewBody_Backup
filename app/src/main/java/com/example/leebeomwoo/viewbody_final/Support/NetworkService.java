@@ -6,7 +6,6 @@ import com.example.leebeomwoo.viewbody_final.Response.ResponseBd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCec;
-import com.example.leebeomwoo.viewbody_final.Response.ResponseEc;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFm;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseQ;
@@ -26,17 +25,35 @@ import retrofit2.http.POST;
 
 public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 합니다.
 
-    @GET("board/Food.jsp")
-    Call<ResponseFd> getResult_Fd();
+    @GET("board/Food_Diet.jsp")
+    Call<ResponseFd> getResult_Diet();
+
+    @GET("board/Food_Fat.jsp")
+    Call<ResponseFd> getResult_Fat();
+
+    @GET("board/Food_MuscleUp.jsp")
+    Call<ResponseFd> getResult_MuscleUp();
+
+    @GET("board/Food_PowerUp.jsp")
+    Call<ResponseFd> getResult_PowerUp();
+
+    @GET("board/Food_Metabolic.jsp")
+    Call<ResponseFd> getResult_Metabolic();
 
     @GET("board/Follow.jsp")
     Call<ResponseFm> getResult_Fm();
 
-    @GET("board/Body.jsp")
-    Call<ResponseBd> getResult_Bd();
+    @GET("board/Upper_Bone.jsp")
+    Call<ResponseBd> getResult_UpBone();
 
-    @GET("board/Exercise.jsp")
-    Call<ResponseEc> getResult_Ec();
+    @GET("board/Upper_Muscle.jsp")
+    Call<ResponseBd> getResult_UpMuscle();
+
+    @GET("board/Lower_Bone.jsp")
+    Call<ResponseBd> getResult_LoBone();
+
+    @GET("board/Lower_Muscle.jsp")
+    Call<ResponseBd> getResult_LoMuscle();
 
     @GET("board/QnA.jsp")
     Call<ResponseQ> getResult_Q();

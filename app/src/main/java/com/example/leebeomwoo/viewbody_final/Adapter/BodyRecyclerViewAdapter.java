@@ -75,25 +75,7 @@ public class BodyRecyclerViewAdapter extends RecyclerView.Adapter<BodyRecyclerVi
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
         viewHolder.txtViewTitle.setText(bdItem.getBd_Title());
-        viewHolder.txtViewContent.setText(bdItem.getBd_Content());
-        viewHolder.txtViewCategory.setText(bdItem.getBd_Category());
-       //  viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + bdItem.getBd_ImageUrl()); 실제 구동시
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + bdItem.getBd_ConectCode());
-        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Context context = v.getContext();
-                Intent intent = new Intent(context, ItemViewActivity.class);
-                String viewurl = ConAdapter.SERVER_URL + "data_image/" + bdItem.getBd_ConectCode();
-                String tr_id = bdItem.getBd_Id();
-                int q =1;
-                //intent.putExtra("item_word", item_word);
-                intent.putExtra("itemUrl", viewurl);
-                intent.putExtra("trId", tr_id);
-                intent.putExtra("page_num", q);
-                context.startActivity(intent);
-            }
-        });
+        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + bdItem.getBd_ImageUrl());
     }
     @Override
     public int getItemCount() {

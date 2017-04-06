@@ -16,11 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.leebeomwoo.viewbody_final.Adapter.BodyRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Item.BdItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseBd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
-import com.example.leebeomwoo.viewbody_final.Adapter.BodyRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BodyFragment extends android.support.v4.app.Fragment implements SearchView.OnQueryTextListener {
+public class Upper_MuscleFragment extends android.support.v4.app.Fragment implements SearchView.OnQueryTextListener {
 
     private View view;
     private static RecyclerView rv;
@@ -40,7 +40,7 @@ public class BodyFragment extends android.support.v4.app.Fragment implements Sea
     static BodyRecyclerViewAdapter bdadapter;
 
     String TAG = "BodyFragment";
-    public BodyFragment(){}
+    public Upper_MuscleFragment(){}
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -180,7 +180,7 @@ public class BodyFragment extends android.support.v4.app.Fragment implements Sea
     }
 
 
-    public static BodyFragment newInstance() {
-        return new BodyFragment();
+    public static Upper_MuscleFragment newInstance() {
+        return new Upper_MuscleFragment();
     }
 }
