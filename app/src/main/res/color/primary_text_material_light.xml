@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--suppress AndroidDomInspection -->
-    <item android:state_enabled="false" android:color="@color/cardview_light_background" />
+    <item android:state_enabled="false" android:color="@color/common_google_signin_btn_text_dark_default" />
     <!--suppress AndroidDomInspection -->
-    <item android:color="@color/cardview_dark_background" />
+    <item android:color="@color/common_google_signin_btn_text_light_default" />
 </selector>

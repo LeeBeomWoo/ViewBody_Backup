@@ -9,65 +9,80 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by LeeBeomWoo on 2017-04-05.
+ * Created by LBW on 2016-06-14.
  */
-
 public class ResponseCard {
+    @SerializedName("result")
+    @Expose
+    private String result;
+    @SerializedName("cdfItem")
+    @Expose
+    public List<CardItem> cdfItem = new ArrayList<>();
+
+    @SerializedName("cdbItem")
+    @Expose
+    public List<CardItem> cdbItem = new ArrayList<>();
+    /**
+     *
+     * @return
+     * The liItem
+     */
+    public List<CardItem> getbCardItem() {
+        return cdbItem;
+    }
 
     /**
-     * Created by LBW on 2016-06-14.
+     *
+     * @param cdbItem
+     * The LowerItem
      */
-        @SerializedName("result")
-        @Expose
-        private String result;
-        @SerializedName("bdItem")
-        @Expose
-        public List<CardItem> cardItem = new ArrayList<>();
-
-        /**
-         *
-         * @return
-         * The liItem
-         */
-        public List<CardItem> getCardItem() {
-            return cardItem;
-        }
-
-        /**
-         *
-         * @param cardItem
-         * The LowerItem
-         */
-        public void setCardItem(List<CardItem> cardItem) {
-            this.cardItem = cardItem;
-        }
-
-        public ResponseCard withLiItem(List<CardItem> cardItem) {
-            this.cardItem = cardItem;
-            return this;
-        }
-
-        /**
-         *
-         * @return
-         * The result
-         */
-        public String getResult() {
-            return result;
-        }
-
-        /**
-         *
-         * @param result
-         * The result
-         */
-        public void setResult(String result) {
-            this.result = result;
-        }
-
-        public ResponseCard withResult(String result) {
-            this.result = result;
-            return this;
-        }
-
+    public void setbCardItem(List<CardItem> cdbItem) {
+        this.cdbItem = cdbItem;
     }
+
+    public ResponseCard withbLiItem(List<CardItem> cdbItem) {
+        this.cdbItem = cdbItem;
+        return this;
+    }
+
+    public List<CardItem> getfCardItem() {
+        return cdfItem;
+    }
+
+    /**
+     *
+     * @param cdfItem
+     * The LowerItem
+     */
+    public void setfCardItem(List<CardItem> cdfItem) {
+        this.cdfItem = cdfItem;
+    }
+
+    public ResponseCard withfLiItem(List<CardItem> cdfItem) {
+        this.cdfItem = cdfItem;
+        return this;
+    }
+    /**
+     *
+     * @return
+     * The result
+     */
+    public String getResult() {
+        return result;
+    }
+
+    /**
+     *
+     * @param result
+     * The result
+     */
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public ResponseCard withResult(String result) {
+        this.result = result;
+        return this;
+    }
+
+}

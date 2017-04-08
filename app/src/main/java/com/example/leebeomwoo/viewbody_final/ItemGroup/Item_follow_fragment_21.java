@@ -10,8 +10,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.graphics.Matrix;
+import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -30,9 +30,11 @@ import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v13.app.ActivityCompat;
 import android.support.v13.app.FragmentCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -57,7 +59,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 /**
  * Created by LeeBeomWoo on 2017-02-15.
@@ -251,13 +253,14 @@ public class Item_follow_fragment_21 extends Fragment
     /**
      * In this sample, we choose a video size with 3x4 aspect ratio. Also, we don't use sizes
      * larger than 1080p, since MediaRecorder cannot handle such a high-resolution video.
-     *
+     * 이 샘플에서는 가로 세로 비율이 3x4 인 비디오 크기를 선택합니다. 또한 크기를 사용하지 않습니다.
+     * MediaRecorder가 이러한 고해상도 비디오를 처리 할 수 없기 때문에 1080p보다 큽니다.
      * @param choices The list of available sizes
      * @return The video size
      */
     private static Size chooseVideoSize(Size[] choices) {
         for (Size size : choices) {
-            if (1080 == size.getHeight() && size.getWidth() == 1920) {
+            if (size.getWidth() == size.getHeight() * 16 / 9 && size.getWidth() <= 1080) {
                 return size;
             }
         }
@@ -270,6 +273,7 @@ public class Item_follow_fragment_21 extends Fragment
      * width and height are at least as large as the respective requested values, and whose aspect
      * ratio matches with the specified value.
      *
+     * 녹화가 가능한 사이즈들 중에서 프리뷰로 보여줄 수 있는 사이즈를 선택한다.
      * @param choices     The list of sizes that the camera supports for the intended output class
      * @param width       The minimum desired width
      * @param height      The minimum desired height
@@ -281,20 +285,19 @@ public class Item_follow_fragment_21 extends Fragment
         List<Size> bigEnough = new ArrayList<Size>();
         int w = aspectRatio.getWidth();
         int h = aspectRatio.getHeight();
-        double ratio = (double) h / w;
         for (Size option : choices) {
-            double optionRatio = (double) option.getHeight() / option.getWidth();
-            if (ratio == optionRatio) {
+            if (option.getHeight() == option.getWidth() * h / w &&
+                    option.getWidth() >= width && option.getHeight() >= height) {
                 bigEnough.add(option);
             }
         }
 
         // Pick the smallest of those, assuming we found any
         if (bigEnough.size() > 0) {
-            return Collections.min(bigEnough, new CompareSizesByArea());
+            return Collections.max(bigEnough, new CompareSizesByArea());
         } else {
             Log.e(TAG, "Couldn't find any suitable preview size");
-            return choices[1];
+            return choices[0];
         }
     }
 
@@ -307,18 +310,20 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
-        startBackgroundThread();Configuration configuration = getActivity().getResources().getConfiguration();
-        int screenWidthDp = configuration.screenWidthDp;
-        int screenHeightDp = configuration.screenHeightDp;
-        openCamera(screenWidthDp, screenHeightDp);
+        startBackgroundThread();
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
         seekBar.setMax(100);
+        DisplayMetrics dm = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels; //320 dip
+        int height = dm.heightPixels; //533 dip
         webView = (WebView) view.findViewById(R.id.web_movie);
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
         webView.setWebViewClient(new WebViewClient());
         final WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setPluginState(WebSettings.PluginState.ON);
         settings.setLoadWithOverviewMode(true);
@@ -336,14 +341,10 @@ public class Item_follow_fragment_21 extends Fragment
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                        // 현재 UI 스레드가 아니기 때문에 메시지 큐에 Runnable을 등록 함
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
                                 // 메시지 큐에 저장될 메시지의 내용;
-                                /** String f = "0." + Integer.toHexString(progress).toUpperCase();
-                                Log.d("f:", f);
-                                float s = Float.parseFloat(f);
-                                Log.d("s : ", String.valueOf(s));
-                                **/
                                 double a = progress/100.0;
                                 float b = (float)a;
                                 webView.setAlpha(b);
@@ -506,13 +507,16 @@ public class Item_follow_fragment_21 extends Fragment
             mVideoSize = chooseVideoSize(map.getOutputSizes(MediaRecorder.class));
             mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class),
                     width, height, mVideoSize);
-
+/**
             int orientation = getResources().getConfiguration().orientation;
             if (orientation == ORIENTATION_LANDSCAPE) {
-                mTextureView.setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
-                //mTextureView.setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
-            } else {
                 mTextureView.setAspectRatio(mPreviewSize.getWidth(), mPreviewSize.getHeight());
+            } else {
+                mTextureView.setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
+            } **/
+            int orientation = getResources().getConfiguration().orientation;
+            if (orientation == ORIENTATION_PORTRAIT) {
+                mTextureView.setAspectRatio(mPreviewSize.getHeight(), mPreviewSize.getWidth());
             }
             configureTransform(width, height);
             mMediaRecorder = new MediaRecorder();
@@ -633,20 +637,34 @@ public class Item_follow_fragment_21 extends Fragment
         }
         int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         Matrix matrix = new Matrix();
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        RectF deviceRect = new RectF(0, 0, width, height);
         RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
-        RectF bufferRect = new RectF(0, 0, mPreviewSize.getHeight(), mPreviewSize.getWidth());
-        float centerX = viewRect.centerX();
-        float centerY = viewRect.centerY();
+        Log.d("viewRect :", String.valueOf(viewWidth) + "*" + String.valueOf(viewHeight));
+        RectF landRect = new RectF(0, 0, mPreviewSize.getWidth(), mPreviewSize.getHeight());
+        Log.d("bufferRect :", String.valueOf(mPreviewSize.getWidth()) + "*" + String.valueOf(mPreviewSize.getHeight()));
+        float centerX = deviceRect.centerX();
+        float centerY = deviceRect.centerY();
+        Log.d("center :", String.valueOf(centerX) + "*" + String.valueOf(centerY));
         if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
-            bufferRect.offset(centerX - bufferRect.centerX(), centerY - bufferRect.centerY());
-            matrix.setRectToRect(viewRect, bufferRect, Matrix.ScaleToFit.FILL);
+            Log.d("beforecenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerY()));
+            // deviceRect.offset(centerX - deviceRect.centerX(), centerY - deviceRect.centerY());
+            Log.d("aftercenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerX()));
+            matrix.setRectToRect(viewRect, deviceRect, Matrix.ScaleToFit.CENTER);
             float scale = Math.max(
-                    (float) viewHeight / mPreviewSize.getHeight(),
-                    (float) viewWidth / mPreviewSize.getWidth());
-            matrix.postScale(scale, scale, centerX, centerY);
+                    (float) viewHeight / height,
+                    (float) viewWidth / width);
+            Log.d("scale :", String.valueOf(scale));
+            matrix.postScale(scale, scale*2 , deviceRect.centerX(), deviceRect.centerY());
+            Log.d("postScale :", String.valueOf(scale*2) + ":" + String.valueOf(centerX) + ":" + String.valueOf(centerY));
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
         mTextureView.setTransform(matrix);
+        Log.d("mTextureView :", String.valueOf(mTextureView.getWidth()) + "*" + String.valueOf(mTextureView.getHeight()));
     }
 
     private void setUpMediaRecorder() throws IOException {
@@ -680,7 +698,7 @@ public class Item_follow_fragment_21 extends Fragment
 
     private String getVideoFilePath(Context context) {
         return context.getExternalFilesDir(null).getAbsolutePath() + "/"
-                + System.currentTimeMillis() + ".mp4";
+                + "ViewBody_" +System.currentTimeMillis() + ".mp4";
     }
 
     public void startRecordingVideo() {

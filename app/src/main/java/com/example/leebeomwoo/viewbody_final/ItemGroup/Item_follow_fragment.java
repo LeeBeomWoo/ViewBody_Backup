@@ -21,6 +21,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.SeekBar;
 
+
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
 import com.example.leebeomwoo.viewbody_final.R;
 
@@ -74,6 +75,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         webView.setWebViewClient(new WebViewClient());
         final WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setPluginState(WebSettings.PluginState.ON);
         settings.setLoadWithOverviewMode(true);
@@ -93,9 +95,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             // 메시지 큐에 저장될 메시지의 내용;
-                            double a = progress/100.0;
-                            float b = (float)a;
-                            webView.setAlpha(b);
+                            webView.setAlpha(progress);
                         }
                     });
                 }

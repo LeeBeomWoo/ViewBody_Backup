@@ -6,7 +6,6 @@
                 android:id="@+id/itemactivity_layout"
     tools:context="com.example.leebeomwoo.viewbody_final.ItemViewActivity"
                 xmlns:fab="http://schemas.android.com/apk/res-auto">
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card"
     android:layout_width="190dp"
-    android:layout_height="60dp"
+    android:id="@+id/card_Card"
+    android:layout_height="65dp"
     android:orientation="horizontal">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <WebView
         android:id="@+id/faceimage"
         android:layout_width="60dp"
@@ -23,7 +24,7 @@
         android:layout_toEndOf="@+id/nick_lbl"
         android:ems="10"
         android:padding="5dp"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/nickname_txtB"
@@ -38,7 +39,7 @@
 
     <TextView
         android:id="@+id/nick_lbl"
-        android:layout_width="60dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/nickname_txtB"
         android:layout_alignParentTop="true"
@@ -51,14 +52,15 @@
 
     <TextView
         android:id="@+id/category_lbl"
-        android:layout_width="60dp"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/category_txtB"
         android:layout_below="@+id/nick_lbl"
         android:layout_toEndOf="@+id/faceimage"
         android:padding="7dp"
         android:text="@string/expertpart"
         android:textAlignment="viewEnd"
         android:textAllCaps="false"
-        android:textSize="11sp"
-        tools:ignore="SmallSp" />
+        android:textSize="11sp" />
 </RelativeLayout>
+</android.support.v7.widget.CardView>

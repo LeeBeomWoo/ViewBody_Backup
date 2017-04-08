@@ -1,7 +1,7 @@
 package com.example.leebeomwoo.viewbody_final.ItemGroup;
 
+import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,9 +11,9 @@ import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.leebeomwoo.viewbody_final.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseTr;
+import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 
 import java.util.List;
 
@@ -78,7 +78,10 @@ public class TrainerInfoFragment extends Fragment {
 
             @Override
             public void onFailure(Call<ResponseTr> call, Throwable t) {
-                Toast toast = Toast.makeText(getContext(),"서버와의 연결이 안됬습니다.", Toast.LENGTH_SHORT);
+                Toast toast = null;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                    toast = Toast.makeText(getContext(),"서버와의 연결이 안됬습니다.", Toast.LENGTH_SHORT);
+                }
                 toast.show();
             }
         });

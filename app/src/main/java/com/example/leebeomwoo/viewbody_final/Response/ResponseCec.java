@@ -1,6 +1,5 @@
 package com.example.leebeomwoo.viewbody_final.Response;
 
-import com.example.leebeomwoo.viewbody_final.Item.EcItem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
