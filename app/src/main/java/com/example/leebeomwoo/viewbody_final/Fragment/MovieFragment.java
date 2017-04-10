@@ -1,4 +1,4 @@
-package com.example.leebeomwoo.viewbody_final;
+package com.example.leebeomwoo.viewbody_final.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 
 import com.example.leebeomwoo.viewbody_final.Item.FmItem;
+import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFm;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.MovieRecyclerViewAdapter;

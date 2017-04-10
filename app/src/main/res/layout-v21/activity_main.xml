@@ -16,7 +16,7 @@
         app:layout_constraintRight_toRightOf="parent">
 
     </com.example.leebeomwoo.viewbody_final.extra.SlidingTabLayout>
-    <com.support.v4.view.ViewPager
+    <android.support.v4.view.ViewPager
         android:id="@+id/main_viewPager"
         android:layout_width="0dp"
         android:layout_height="0dp"

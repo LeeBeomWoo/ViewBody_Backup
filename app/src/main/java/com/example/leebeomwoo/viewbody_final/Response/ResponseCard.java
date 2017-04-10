@@ -1,6 +1,5 @@
 package com.example.leebeomwoo.viewbody_final.Response;
 
-import com.example.leebeomwoo.viewbody_final.Item.BdItem;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

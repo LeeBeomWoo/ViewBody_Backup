@@ -1,5 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Response;
 
+import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,37 +8,36 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by root on 16. 8. 25.
+ * Created by LBW on 2016-06-14.
  */
-
-public class ResponseCec {
+public class ResponseLd {
     @SerializedName("result")
     @Expose
     private String result;
-    @SerializedName("cecItem")
+    @SerializedName("bdItem")
     @Expose
-    public List<EcItem> ecItem = new ArrayList<EcItem>();
+    public List<ListDummyItem> ldItem = new ArrayList<ListDummyItem>();
 
     /**
      *
      * @return
      * The liItem
      */
-    public List<EcItem> getEcItem() {
-        return ecItem;
+    public List<ListDummyItem> getLdItem() {
+        return ldItem;
     }
 
     /**
      *
-     * @param ecItem
+     * @param bdItem
      * The LowerItem
      */
-    public void setEcItem(List<EcItem> ecItem) {
-        this.ecItem = ecItem;
+    public void setLdItem(List<ListDummyItem> bdItem) {
+        this.ldItem = bdItem;
     }
 
-    public ResponseCec withLiItem_ex(List<EcItem> ecItem) {
-        this.ecItem = ecItem;
+    public ResponseLd withLiItem(List<ListDummyItem> bdItem) {
+        this.ldItem = bdItem;
         return this;
     }
 
@@ -59,8 +59,9 @@ public class ResponseCec {
         this.result = result;
     }
 
-    public ResponseCec withResult(String result) {
+    public ResponseLd withResult(String result) {
         this.result = result;
         return this;
     }
+
 }

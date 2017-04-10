@@ -10,6 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.leebeomwoo.viewbody_final.Fragment.Food_DietFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Food_FatFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Food_MetabolicFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Food_MuscleUpFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Food_PowerUpFragment;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
@@ -20,6 +25,7 @@ import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,8 +38,6 @@ import static android.content.ContentValues.TAG;
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
  * to handle interaction events.
- * Use the {@link FoodTab_Sub#newInstance} factory method to
- * create an instance of this fragment.
  */
 public class FoodTab_Sub extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -41,8 +45,6 @@ public class FoodTab_Sub extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "1";
     View view;
-    private SlidingTabLayout slidingTabLayout;
-    private ViewPager viewPager;
     private ArrayList<MainTabItem> items;
     private List<CardItem> cardItem;
     private ResponseCard responseCard;
@@ -53,11 +55,11 @@ public class FoodTab_Sub extends Fragment {
     public FoodTab_Sub() {
         // Required empty public constructor
         items = new ArrayList<>();
-        items.add(new MainTabItem("체지방" + "\n" + "감 소", mParam1, FoodFragment.class));
-        items.add(new MainTabItem("근력강화", mParam1, FoodFragment.class));
-        items.add(new MainTabItem("근육량" + "\n" + "증 대", mParam1, FoodFragment.class));
-        items.add(new MainTabItem("몸매관리", mParam1, FoodFragment.class));
-        items.add(new MainTabItem("대 사" + "\n" + "증후군", mParam1, FoodFragment.class));
+        items.add(new MainTabItem("체지방" + "\n" + "감 소", mParam1, Food_FatFragment.class));
+        items.add(new MainTabItem("근력강화", mParam1, Food_PowerUpFragment.class));
+        items.add(new MainTabItem("근육량" + "\n" + "증 대", mParam1, Food_MuscleUpFragment.class));
+        items.add(new MainTabItem("몸매관리", mParam1, Food_DietFragment.class));
+        items.add(new MainTabItem("대 사" + "\n" + "증후군", mParam1, Food_MetabolicFragment.class));
     }
 
     /**
@@ -91,11 +93,11 @@ public class FoodTab_Sub extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (mParam2 == "1") {
+        if (Objects.equals(mParam2, "1")) {
             view = inflater.inflate(R.layout.fragment_food_tab__sub, container, false);
 
-            slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.food_TabLayout);
-            viewPager = (ViewPager) view.findViewById(R.id.food_viewPager);
+            SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.food_TabLayout);
+            ViewPager viewPager = (ViewPager) view.findViewById(R.id.food_viewPager);
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);

@@ -1,4 +1,4 @@
-package com.example.leebeomwoo.viewbody_final;
+package com.example.leebeomwoo.viewbody_final.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.leebeomwoo.viewbody_final.Item.QItem;
+import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseQ;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.MyQnARecyclerViewAdapter;

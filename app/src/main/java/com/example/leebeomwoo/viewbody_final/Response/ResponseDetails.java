@@ -15,7 +15,7 @@ public class ResponseDetails {
         @SerializedName("result")
     @Expose
     private String result;
-        @SerializedName("bdItem")
+        @SerializedName("dItem")
         @Expose
         public List<DetailItem> dItem = new ArrayList<DetailItem>();
 

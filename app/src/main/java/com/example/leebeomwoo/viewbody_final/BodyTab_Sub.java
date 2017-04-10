@@ -10,6 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.leebeomwoo.viewbody_final.Fragment.Lower_BoneFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Lower_MuscleFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Upper_BoneFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Upper_MuscleFragment;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
@@ -20,6 +24,7 @@ import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,8 +45,6 @@ public class BodyTab_Sub extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "0";
     View view;
-    private SlidingTabLayout slidingTabLayout;
-    private ViewPager viewPager;
     private ArrayList<MainTabItem> items;
     private List<CardItem> cardItem;
     private ResponseCard responseCard;
@@ -52,10 +55,10 @@ public class BodyTab_Sub extends Fragment {
     public BodyTab_Sub() {
         // Required empty public constructor
         items = new ArrayList<>();
-        items.add(new MainTabItem("상체" + "\n" + "근육", mParam1, BodyFragment.class));
-        items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, ExerciseFragment.class));
-        items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, BodyFragment.class));
-        items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, ExerciseFragment.class));
+        items.add(new MainTabItem("상체" + "\n" + "근육", mParam1, Upper_BoneFragment.class));
+        items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, Upper_MuscleFragment.class));
+        items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, Lower_BoneFragment.class));
+        items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, Lower_MuscleFragment.class));
     }
 
     /**
@@ -89,12 +92,12 @@ public class BodyTab_Sub extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (mParam2 == "0") {
+        if (Objects.equals(mParam2, "0")) {
             Log.d("select", "0");
             view = inflater.inflate(R.layout.fragment_body_tab__sub, container, false);
 
-            slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
-            viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
+            SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
+            ViewPager viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);

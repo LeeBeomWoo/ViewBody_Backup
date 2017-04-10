@@ -1,6 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Response;
 
-import com.example.leebeomwoo.viewbody_final.Item.BdItem;
+import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -17,14 +17,14 @@ public class ResponseCbd {
     private String result;
     @SerializedName("cbdItem")
     @Expose
-    public List<BdItem> cbdItem = new ArrayList<BdItem>();
+    public List<ListDummyItem> cbdItem = new ArrayList<ListDummyItem>();
 
     /**
      *2
      * @return
      * The liItem
      */
-    public List<BdItem> getCbdItem() {
+    public List<ListDummyItem> getCbdItem() {
         return cbdItem;
     }
 
@@ -33,11 +33,11 @@ public class ResponseCbd {
      * @param cbdItem
      * The LowerItem
      */
-    public void setCbdItem(List<BdItem> cbdItem) {
+    public void setCbdItem(List<ListDummyItem> cbdItem) {
         this.cbdItem = cbdItem;
     }
 
-    public ResponseCbd withLiItem(List<BdItem> cbdItem) {
+    public ResponseCbd withLiItem(List<ListDummyItem> cbdItem) {
         this.cbdItem = cbdItem;
         return this;
     }

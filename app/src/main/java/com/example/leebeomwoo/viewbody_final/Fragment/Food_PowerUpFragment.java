@@ -1,4 +1,4 @@
-package com.example.leebeomwoo.viewbody_final;
+package com.example.leebeomwoo.viewbody_final.Fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.leebeomwoo.viewbody_final.Adapter.BodyRecyclerViewAdapter;
-import com.example.leebeomwoo.viewbody_final.Item.BdItem;
-import com.example.leebeomwoo.viewbody_final.Response.ResponseBd;
+import com.example.leebeomwoo.viewbody_final.Adapter.ListRecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
+import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
+import com.example.leebeomwoo.viewbody_final.Response.ResponseFd;
+import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 
 import java.util.List;
@@ -28,19 +30,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Upper_BoneFragment extends android.support.v4.app.Fragment implements SearchView.OnQueryTextListener {
+public class Food_PowerUpFragment extends android.support.v4.app.Fragment implements SearchView.OnQueryTextListener {
 
-    private View view;
-    private static RecyclerView rv;
-    ResponseBd responseBd;
+    private RecyclerView rv;
+    ResponseFd responseFd;
     ResponseCbd responseCbd;
 
-    private List<BdItem> bdItems;
+    private List<ListDummyItem> ldItems;
     @SuppressLint("StaticFieldLeak")
-    static BodyRecyclerViewAdapter bdadapter;
+    static ListRecyclerViewAdapter bdadapter;
 
     String TAG = "BodyFragment";
-    public Upper_BoneFragment(){}
+    public Food_PowerUpFragment(){}
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -50,7 +51,7 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment implemen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_detail_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail_list, container, false);
         rv = (RecyclerView) view.findViewById(R.id.detail_list);
         setHasOptionsMenu(true);
         rv.setHasFixedSize(true);
@@ -69,8 +70,8 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment implemen
             public void onResponse(Call<ResponseCbd> call, Response<ResponseCbd> response) {
                 responseCbd = response.body();
                 Log.d("response changed", response.body().toString());
-                bdItems = responseCbd.getCbdItem();
-                bdadapter.setBdItems(bdItems);
+                ldItems = responseCbd.getCbdItem();
+                bdadapter.setLdItems(ldItems);
             }
             @Override
             public void onFailure(Call<ResponseCbd> call, Throwable t) {
@@ -133,19 +134,19 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment implemen
 
     public void databinding ()
     {
-        Call<ResponseBd> call = ConAdapter.getInstance().getResult_UpBone();
-        call.enqueue(new Callback<ResponseBd>() {
+        Call<ResponseFd> call = ConAdapter.getInstance().getResult_PowerUp();
+        call.enqueue(new Callback<ResponseFd>() {
                @Override
-               public void onResponse(Call<ResponseBd> call, Response<ResponseBd> response) {
-                   responseBd = response.body();
+               public void onResponse(Call<ResponseFd> call, Response<ResponseFd> response) {
+                   responseFd = response.body();
                    Log.d(TAG,"서버와의 연결이 잘됐어요~.");
-                   bdItems = responseBd.getBdItem();
-                   bdadapter = new BodyRecyclerViewAdapter(getActivity(), bdItems);
-                   Log.d("response", bdItems.get(0).toString());
+                   ldItems = responseFd.getFdItem();
+                   bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+                   Log.d("response", ldItems.get(0).toString());
                    rv.setAdapter(bdadapter);
                }
                @Override
-               public void onFailure(Call<ResponseBd> call, Throwable t) {
+               public void onFailure(Call<ResponseFd> call, Throwable t) {
                     Log.d(TAG,t.getMessage());
                }
         });
@@ -180,7 +181,7 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment implemen
     }
 
 
-    public static Upper_BoneFragment newInstance() {
-        return new Upper_BoneFragment();
+    public static Food_PowerUpFragment newInstance() {
+        return new Food_PowerUpFragment();
     }
 }

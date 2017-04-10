@@ -1,6 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Response;
 
-import com.example.leebeomwoo.viewbody_final.Item.FdItem;
+import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -16,7 +16,7 @@ public class ResponseFd {
     private String result;
     @SerializedName("fdItem")
     @Expose
-    private List<FdItem> fdItem = new ArrayList<FdItem>();
+    private List<ListDummyItem> fdItem = new ArrayList<ListDummyItem>();
 
     /**
      *
@@ -46,7 +46,7 @@ public class ResponseFd {
      * @return
      * The fdItem
      */
-    public List<FdItem> getFdItem() {
+    public List<ListDummyItem> getFdItem() {
         return fdItem;
     }
 
@@ -55,11 +55,11 @@ public class ResponseFd {
      * @param fdItem
      * The FdItem
      */
-    public void setFdItem(List<FdItem> fdItem) {
+    public void setFdItem(List<ListDummyItem> fdItem) {
         this.fdItem = fdItem;
     }
 
-    public ResponseFd withFdItem(List<FdItem> fdItem) {
+    public ResponseFd withFdItem(List<ListDummyItem> fdItem) {
         this.fdItem = fdItem;
         return this;
     }

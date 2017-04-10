@@ -2,12 +2,11 @@ package com.example.leebeomwoo.viewbody_final.Support;
 
 import com.example.leebeomwoo.viewbody_final.QnA.QrItem;
 import com.example.leebeomwoo.viewbody_final.QnA.QwItem;
-import com.example.leebeomwoo.viewbody_final.Response.ResponseBd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
-import com.example.leebeomwoo.viewbody_final.Response.ResponseCec;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFm;
+import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseQ;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseQrp;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseTr;
@@ -44,16 +43,16 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
     Call<ResponseFm> getResult_Fm();
 
     @GET("board/Upper_Bone.jsp")
-    Call<ResponseBd> getResult_UpBone();
+    Call<ResponseLd> getResult_UpBone();
 
     @GET("board/Upper_Muscle.jsp")
-    Call<ResponseBd> getResult_UpMuscle();
+    Call<ResponseLd> getResult_UpMuscle();
 
     @GET("board/Lower_Bone.jsp")
-    Call<ResponseBd> getResult_LoBone();
+    Call<ResponseLd> getResult_LoBone();
 
     @GET("board/Lower_Muscle.jsp")
-    Call<ResponseBd> getResult_LoMuscle();
+    Call<ResponseLd> getResult_LoMuscle();
 
     @GET("board/QnA.jsp")
     Call<ResponseQ> getResult_Q();
@@ -64,10 +63,6 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
     @FormUrlEncoded
     @POST("board/Categorybody.jsp")
     Call<ResponseCbd> CATEGORY_BODY(@Field("category") String category);
-
-    @FormUrlEncoded
-    @POST("board/Categoryexercise.jsp")
-    Call<ResponseCec>  CATEGORY_EXERCISE(@Field("category") String category);
 
     @FormUrlEncoded
     @POST("board/trainerinfo.jsp")

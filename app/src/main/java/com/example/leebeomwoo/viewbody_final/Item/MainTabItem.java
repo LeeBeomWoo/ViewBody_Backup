@@ -2,8 +2,6 @@ package com.example.leebeomwoo.viewbody_final.Item;
 
 import android.support.v4.app.Fragment;
 
-import com.example.leebeomwoo.viewbody_final.ExerciseFragment;
-
 /**
  * Created by LeeBeomWoo on 2017-03-27.
  */

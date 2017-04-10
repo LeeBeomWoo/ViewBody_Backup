@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.leebeomwoo.viewbody_final.Fragment.MovieFragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
