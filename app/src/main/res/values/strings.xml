@@ -56,4 +56,15 @@
     <string name="upperbone">상체골격</string>
     <string name="lowerbone">하체골격</string>
     <string name="lowermuscle">하체근육</string>
+    <string name="upper_bone">상체골격</string>
+    <string name="upper_muscle">상체 근육</string>
+    <string name="lower_bone">하체 골격</string>
+    <string name="lower_muscle">하체근육</string>
+    <string name="food_fat">다이어트식단</string>
+    <string name="food_diet">몸매관리식단</string>
+    <string name="food_powerup">근력향상식단</string>
+    <string name="food_muscleup">근육증가식단</string>
+    <string name="food_metabolic">대사증후군 식단</string>
+    <string name="account">계정</string>
+    <string name="qna">묻고답하기</string>
 </resources>

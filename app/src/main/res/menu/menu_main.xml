@@ -10,8 +10,58 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:visible="true"/>
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/upper_bone"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/upper_bone"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/upper_muscle"
+        android:orderInCategory="100"
+        android:title="@string/upper_muscle"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/lower_bone"
+        android:orderInCategory="100"
+        android:title="@string/lower_bone"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/lower_muscle"
+        android:orderInCategory="100"
+        android:title="@string/lower_muscle"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/food_fat"
+        android:orderInCategory="100"
+        android:title="@string/food_fat"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/food_diet"
+        android:orderInCategory="100"
+        android:title="@string/food_diet"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/food_powerup"
+        android:orderInCategory="100"
+        android:title="@string/food_powerup"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/food_muscleup"
+        android:orderInCategory="100"
+        android:title="@string/food_muscleup"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/food_metabolic"
+        android:orderInCategory="100"
+        android:title="@string/food_metabolic"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/account"
+        android:orderInCategory="100"
+        android:title="@string/account"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/qna"
+        android:orderInCategory="100"
+        android:title="@string/qna"
         app:showAsAction="never" />
 </menu>
