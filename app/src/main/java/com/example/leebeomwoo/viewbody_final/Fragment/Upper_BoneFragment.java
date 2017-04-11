@@ -23,6 +23,7 @@ import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,17 +40,19 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment implemen
     @SuppressLint("StaticFieldLeak")
     static ListRecyclerViewAdapter bdadapter;
 
-    String TAG = "BodyFragment";
+    String TAG = "Upper_BoneFragment";
     public Upper_BoneFragment(){}
 
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
+        Log.d(TAG, "onCreate()");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView()");
         View view = inflater.inflate(R.layout.fragment_detail_list, container, false);
         rv = (RecyclerView) view.findViewById(R.id.detail_list);
         setHasOptionsMenu(true);
@@ -57,25 +60,7 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment implemen
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_UpBone();
-        call.enqueue(new Callback<ResponseLd>() {
-            @Override
-            public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
-                responseLd = response.body();
-                Log.d(TAG,"서버와의 연결이 잘됐어요~.");
-                Log.d(TAG, responseLd.toString());
-                ldItems = responseLd.getLdItem();
-                Log.d("response", ldItems.toString());
-            }
-            @Override
-            public void onFailure(Call<ResponseLd> call, Throwable t) {
-                Log.d(TAG,t.getMessage());
-            }
-        });
-        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-        Log.d("out", ldItems.toString());
-        rv.setAdapter(bdadapter);
-
+        listStart();
         return view;
     }
 
@@ -129,6 +114,30 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment implemen
             thread_two.start();
     }
 
+    private void listStart(){
+
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_UpBone();
+        call.enqueue(new Callback<ResponseLd>() {
+            @Override
+            public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
+                if(response.isSuccessful()) {
+                    responseLd = response.body();
+                    Log.d(TAG + "_1", "서버와의 연결이 잘됐어요~.");
+                    Log.d(TAG + "_1", responseLd.toString());
+                    ldItems = responseLd.getLdItem();
+                    bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+                    Log.d("response", ldItems.toString());
+                    rv.setAdapter(bdadapter);
+                }else{
+                    Log.d(TAG+ "_2", response.errorBody().toString());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseLd> call, Throwable t) {
+                Log.d(TAG+ "_3",t.getMessage());
+            }
+        });
+    }
 
     @Override
     public void onDestroy() {

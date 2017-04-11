@@ -20,12 +20,13 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConAdapter {
-    private static final int CONNECT_TIMEOUT = 30;
-    private static final int WRITE_TIMEOUT = 30;
-    private static final int READ_TIMEOUT = 30;
+    public static final int CONNECT_TIMEOUT = 30;
+    public static final int WRITE_TIMEOUT = 30;
+    public static final int READ_TIMEOUT = 30;
+    private static OkHttpClient client;
     private static NetworkService Interface;
 
-    public static final String SERVER_URL = "http://localhost:8080/BCNS_SERVER/";
+    public static final String SERVER_URL = "http://192.168.1.146:8080/BCNS_SERVER/";
 
     public synchronized static NetworkService getInstance() {
         if (Interface == null) {
@@ -34,11 +35,12 @@ public class ConAdapter {
             httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             //쿠키 메니저의 cookie policy를 변경 합니다.
+
             CookieManager cookieManager = new CookieManager();
             cookieManager.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
 
             //OkHttpClient를 생성합니다.
-            OkHttpClient client = configureClient(new OkHttpClient().newBuilder()) //인증서 무시
+            client = configureClient(new OkHttpClient().newBuilder()) //인증서 무시
                     .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS) //연결 타임아웃 시간 설정
                     .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS) //쓰기 타임아웃 시간 설정
                     .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS) //읽기 타임아웃 시간 설정
@@ -60,7 +62,7 @@ public class ConAdapter {
     /**
      * UnCertificated 허용
      */
-    private static OkHttpClient.Builder configureClient(final OkHttpClient.Builder builder) {
+    public static OkHttpClient.Builder configureClient(final OkHttpClient.Builder builder) {
         final TrustManager[] certs = new TrustManager[]{new X509TrustManager() {
 
             @Override

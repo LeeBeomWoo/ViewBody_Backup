@@ -103,22 +103,4 @@ public class FoodTab_Sub extends Fragment {
         return view;
     }
 
-    public List<CardItem> databinding ()
-    {
-        Call<ResponseCard> call = ConAdapter.getInstance().getResult_Card();
-        call.enqueue(new Callback<ResponseCard>() {
-            @Override
-            public void onResponse(Call<ResponseCard> call, Response<ResponseCard> response) {
-                responseCard = response.body();
-                Log.d(TAG,"서버와의 연결이 잘됐어요~.");
-                cardItem = responseCard.getfCardItem();
-                Log.d("food :", cardItem.toString());
-            }
-            @Override
-            public void onFailure(Call<ResponseCard> call, Throwable t) {
-                Log.d(TAG,t.getMessage());
-            }
-        });
-        return cardItem;
-    }
 }

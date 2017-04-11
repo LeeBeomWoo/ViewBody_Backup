@@ -74,7 +74,6 @@ public class Food_FatFragment extends android.support.v4.app.Fragment implements
             }
         });
         bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-        Log.d("out", ldItems.toString());
         rv.setAdapter(bdadapter);
 
         return view;

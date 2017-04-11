@@ -73,7 +73,6 @@ public class Lower_BoneFragment extends android.support.v4.app.Fragment implemen
             }
         });
         bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-        Log.d("out", ldItems.toString());
         rv.setAdapter(bdadapter);
         return view;
     }

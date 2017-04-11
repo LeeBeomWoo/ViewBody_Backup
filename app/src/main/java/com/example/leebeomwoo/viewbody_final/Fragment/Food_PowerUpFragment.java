@@ -73,7 +73,6 @@ public class Food_PowerUpFragment extends android.support.v4.app.Fragment implem
             }
         });
         bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-        Log.d("out", ldItems.toString());
         rv.setAdapter(bdadapter);
 
         return view;

@@ -75,7 +75,6 @@ public class Food_DietFragment extends android.support.v4.app.Fragment implement
             }
         });
         bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-        Log.d("out", ldItems.toString());
         rv.setAdapter(bdadapter);
 
         return view;
