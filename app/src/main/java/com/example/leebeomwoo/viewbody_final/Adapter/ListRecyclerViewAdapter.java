@@ -73,9 +73,9 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + ldItem.getLd_ImageUrl());
+        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
-        viewHolder.imgViewFace.loadUrl(ConAdapter.SERVER_URL + "data_image/" + ldItem.getLd_FaceUrl());
+        viewHolder.imgViewFace.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_FaceUrl());
     }
     @Override
     public int getItemCount() {
