@@ -57,8 +57,24 @@ public class Lower_MuscleFragment extends android.support.v4.app.Fragment implem
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
-        databinding();
 
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_LoMuscle();
+        call.enqueue(new Callback<ResponseLd>() {
+            @Override
+            public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
+                responseLd = response.body();
+                Log.d(TAG,"서버와의 연결이 잘됐어요~.");
+                ldItems = responseLd.getLdItem();
+                Log.d("response", ldItems.toString());
+            }
+            @Override
+            public void onFailure(Call<ResponseLd> call, Throwable t) {
+                Log.d(TAG,t.getMessage());
+            }
+        });
+        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+        Log.d("out", ldItems.toString());
+        rv.setAdapter(bdadapter);
         return view;
     }
 
@@ -130,27 +146,6 @@ public class Lower_MuscleFragment extends android.support.v4.app.Fragment implem
         super.onDetach();
         Log.d(TAG, "onDetach()");
     }
-
-    public void databinding ()
-    {
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_LoMuscle();
-        call.enqueue(new Callback<ResponseLd>() {
-               @Override
-               public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
-                   responseLd = response.body();
-                   Log.d(TAG,"서버와의 연결이 잘됐어요~.");
-                   ldItems = responseLd.getLdItem();
-                   bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-                   Log.d("response", ldItems.get(0).toString());
-                   rv.setAdapter(bdadapter);
-               }
-               @Override
-               public void onFailure(Call<ResponseLd> call, Throwable t) {
-                    Log.d(TAG,t.getMessage());
-               }
-        });
-    }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

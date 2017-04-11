@@ -2,16 +2,15 @@ package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
 
 import com.example.leebeomwoo.viewbody_final.Item.QItem;
 import com.example.leebeomwoo.viewbody_final.QnaActivity;
@@ -43,34 +42,19 @@ public class MyQnARecyclerViewAdapter extends RecyclerView.Adapter<MyQnARecycler
         public final CardView mView;
         public final TextView txtViewTitle;
         public final TextView txtViewContent;
-        public final TextView txtViewCategory;
-        public final WebView imgViewIcon;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            mView = (CardView) itemLayoutView.findViewById(R.id.cardView);
-            txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
-            txtViewContent = (TextView) itemLayoutView.findViewById(R.id.detile_Content);
-            txtViewCategory = (TextView) itemLayoutView.findViewById(R.id.detile_category);
-            imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
-            imgViewIcon.setFocusable(false);
-            imgViewIcon.getSettings().setJavaScriptEnabled(true);
-            imgViewIcon.getSettings().setDomStorageEnabled(true);
-            imgViewIcon.getSettings().setUseWideViewPort(true);
-            imgViewIcon.getSettings().setLoadWithOverviewMode(true);
-            if (Build.VERSION.SDK_INT >= 19) {
-                imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            }
-            else {
-                imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            }
+            mView = (CardView) itemLayoutView.findViewById(R.id.qna_Card);
+            txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.qna_title);
+            txtViewContent = (TextView) itemLayoutView.findViewById(R.id.qna_content);
         }
     }
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MyQnARecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_detail, parent, false);
-        return new ViewHolder(view);
+                .inflate(R.layout.fragment_qna, parent, false);
+        return new MyQnARecyclerViewAdapter.ViewHolder(view);
     }
 
     @Override

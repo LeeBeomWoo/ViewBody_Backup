@@ -24,6 +24,7 @@ import com.example.leebeomwoo.viewbody_final.Response.ResponseFd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -59,7 +60,23 @@ public class Food_DietFragment extends android.support.v4.app.Fragment implement
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
-        databinding();
+        Call<ResponseFd> call = ConAdapter.getInstance().getResult_Diet();
+        call.enqueue(new Callback<ResponseFd>() {
+            @Override
+            public void onResponse(Call<ResponseFd> call, Response<ResponseFd> response) {
+                responseFd = response.body();
+                Log.d(TAG,"서버와의 연결이 잘됐어요~.");
+                ldItems = responseFd.getFdItem();
+                Log.d("response", ldItems.toString());
+            }
+            @Override
+            public void onFailure(Call<ResponseFd> call, Throwable t) {
+                Log.d(TAG,t.getMessage());
+            }
+        });
+        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+        Log.d("out", ldItems.toString());
+        rv.setAdapter(bdadapter);
 
         return view;
     }
@@ -132,27 +149,6 @@ public class Food_DietFragment extends android.support.v4.app.Fragment implement
         super.onDetach();
         Log.d(TAG, "onDetach()");
     }
-
-    public void databinding ()
-    {
-        Call<ResponseFd> call = ConAdapter.getInstance().getResult_Diet();
-        call.enqueue(new Callback<ResponseFd>() {
-               @Override
-               public void onResponse(Call<ResponseFd> call, Response<ResponseFd> response) {
-                   responseFd = response.body();
-                   Log.d(TAG,"서버와의 연결이 잘됐어요~.");
-                   ldItems = responseFd.getFdItem();
-                   bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-                   Log.d("response", ldItems.get(0).toString());
-                   rv.setAdapter(bdadapter);
-               }
-               @Override
-               public void onFailure(Call<ResponseFd> call, Throwable t) {
-                    Log.d(TAG,t.getMessage());
-               }
-        });
-    }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

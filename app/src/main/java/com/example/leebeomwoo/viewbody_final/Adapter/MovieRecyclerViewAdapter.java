@@ -43,17 +43,13 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
         public final TextView txtViewTitle;
-        public final TextView txtViewContent;
-        public final TextView txtViewCategory;
         public final WebView imgViewIcon;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             mView = (CardView) itemLayoutView.findViewById(R.id.cardView);
-            txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
-            txtViewContent = (TextView) itemLayoutView.findViewById(R.id.detile_Content);
-            txtViewCategory = (TextView) itemLayoutView.findViewById(R.id.detile_category);
-            imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
+            txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.follow_Id);
+            imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.list_movie);
             imgViewIcon.setFocusable(false);
             imgViewIcon.getSettings().setJavaScriptEnabled(true);
             imgViewIcon.getSettings().setDomStorageEnabled(true);
@@ -70,7 +66,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_detail, parent, false);
+                .inflate(R.layout.fragment_follow, parent, false);
         return new ViewHolder(view);
     }
     @Override
@@ -79,7 +75,6 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
         viewHolder.txtViewTitle.setText(fmItem.getFm_Title());
-        viewHolder.txtViewContent.setText(fmItem.getFm_Content());
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + fmItem.getFm_ImageUrl());
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override

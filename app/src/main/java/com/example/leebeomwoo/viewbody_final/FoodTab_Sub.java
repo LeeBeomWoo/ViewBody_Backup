@@ -54,12 +54,6 @@ public class FoodTab_Sub extends Fragment {
 
     public FoodTab_Sub() {
         // Required empty public constructor
-        items = new ArrayList<>();
-        items.add(new MainTabItem("체지방" + "\n" + "감 소", mParam1, Food_FatFragment.class));
-        items.add(new MainTabItem("근력강화", mParam1, Food_PowerUpFragment.class));
-        items.add(new MainTabItem("근육량" + "\n" + "증 대", mParam1, Food_MuscleUpFragment.class));
-        items.add(new MainTabItem("몸매관리", mParam1, Food_DietFragment.class));
-        items.add(new MainTabItem("대 사" + "\n" + "증후군", mParam1, Food_MetabolicFragment.class));
     }
 
     /**
@@ -93,22 +87,19 @@ public class FoodTab_Sub extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (Objects.equals(mParam2, "1")) {
             view = inflater.inflate(R.layout.fragment_food_tab__sub, container, false);
 
+            items = new ArrayList<>();
+            items.add(new MainTabItem("체지방" + "\n" + "감 소", mParam1, Food_FatFragment.class));
+            items.add(new MainTabItem("근력강화", mParam1, Food_PowerUpFragment.class));
+            items.add(new MainTabItem("근육량" + "\n" + "증 대", mParam1, Food_MuscleUpFragment.class));
+            items.add(new MainTabItem("몸매관리", mParam1, Food_DietFragment.class));
+            items.add(new MainTabItem("대 사" + "\n" + "증후군", mParam1, Food_MetabolicFragment.class));
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.food_TabLayout);
             ViewPager viewPager = (ViewPager) view.findViewById(R.id.food_viewPager);
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
-        } else {
-            view = inflater.inflate(R.layout.fragment_card_list, container, false);
-            RecyclerView rv = (RecyclerView) view.findViewById(R.id.card_list);
-            setHasOptionsMenu(true);
-            rv.setHasFixedSize(true);
-            rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-            rv.setAdapter(new MyCardRecyclerViewAdapter(getActivity(), databinding()));
-        }
         return view;
     }
 

@@ -21,7 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerViewAdapter.ViewHolder> implements Filterable{
-    List<ListDummyItem> ldItems = new ArrayList<>();
+    private List<ListDummyItem> ldItems = new ArrayList<>();
     Context bContext;
     private final List<ListDummyItem> filteredUserList;
     private UserFilter userFilter;
@@ -36,17 +36,17 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
         public final TextView txtViewTitle;
-        public final TextView txtViewContent;
-        public final TextView txtViewCategory;
         public final WebView imgViewIcon;
+        public final TextView txtViewId;
+        public final WebView imgViewFace;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             mView = (CardView) itemLayoutView.findViewById(R.id.cardView);
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
-            txtViewContent = (TextView) itemLayoutView.findViewById(R.id.detile_Content);
-            txtViewCategory = (TextView) itemLayoutView.findViewById(R.id.detile_category);
             imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
+            imgViewFace = (WebView) itemLayoutView.findViewById(R.id.detile_face);
+            txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
             imgViewIcon.setFocusable(false);
             imgViewIcon.getSettings().setJavaScriptEnabled(true);
             imgViewIcon.getSettings().setDomStorageEnabled(true);
@@ -63,7 +63,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_card, parent, false);
+                .inflate(R.layout.fragment_detail, parent, false);
         return new ViewHolder(view);
     }
 
@@ -74,6 +74,8 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         // - replace the contents of the view with that itemsData
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + ldItem.getLd_ImageUrl());
+        viewHolder.txtViewId.setText(ldItem.getLd_Id());
+        viewHolder.imgViewFace.loadUrl(ConAdapter.SERVER_URL + "data_image/" + ldItem.getLd_FaceUrl());
     }
     @Override
     public int getItemCount() {

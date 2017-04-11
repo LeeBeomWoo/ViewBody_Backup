@@ -86,7 +86,7 @@ public class PersistentCookieStore implements CookieStore {
         prefsWriter.apply();
     }
 
-    protected String getCookieToken(URI uri, HttpCookie cookie) {
+    private String getCookieToken(URI uri, HttpCookie cookie) {
         return cookie.getName() + cookie.getDomain();
     }
 
@@ -156,7 +156,7 @@ public class PersistentCookieStore implements CookieStore {
      * @param cookie cookie to be encoded, can be null
      * @return cookie encoded as String
      */
-    protected String encodeCookie(SerializableHttpCookie cookie) {
+    private String encodeCookie(SerializableHttpCookie cookie) {
         if (cookie == null)
             return null;
         ByteArrayOutputStream os = new ByteArrayOutputStream();
@@ -177,7 +177,7 @@ public class PersistentCookieStore implements CookieStore {
      * @param cookieString string of cookie as returned from http request
      * @return decoded cookie or null if exception occured
      */
-    protected HttpCookie decodeCookie(String cookieString) {
+    private HttpCookie decodeCookie(String cookieString) {
         byte[] bytes = hexStringToByteArray(cookieString);
         ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
         HttpCookie cookie = null;
@@ -200,7 +200,7 @@ public class PersistentCookieStore implements CookieStore {
      * @param bytes byte array to be converted
      * @return string containing hex values
      */
-    protected String byteArrayToHexString(byte[] bytes) {
+    private String byteArrayToHexString(byte[] bytes) {
         StringBuilder sb = new StringBuilder(bytes.length * 2);
         for (byte element : bytes) {
             int v = element & 0xff;
@@ -218,7 +218,7 @@ public class PersistentCookieStore implements CookieStore {
      * @param hexString string of hex-encoded values
      * @return decoded byte array
      */
-    protected byte[] hexStringToByteArray(String hexString) {
+    private byte[] hexStringToByteArray(String hexString) {
         int len = hexString.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {

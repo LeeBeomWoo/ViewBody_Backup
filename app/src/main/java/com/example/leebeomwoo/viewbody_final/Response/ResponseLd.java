@@ -14,7 +14,7 @@ public class ResponseLd {
     @SerializedName("result")
     @Expose
     private String result;
-    @SerializedName("bdItem")
+    @SerializedName("ldItem")
     @Expose
     public List<ListDummyItem> ldItem = new ArrayList<ListDummyItem>();
 
@@ -29,15 +29,15 @@ public class ResponseLd {
 
     /**
      *
-     * @param bdItem
+     * @param ldItem
      * The LowerItem
      */
-    public void setLdItem(List<ListDummyItem> bdItem) {
-        this.ldItem = bdItem;
+    public void setLdItem(List<ListDummyItem> ldItem) {
+        this.ldItem = ldItem;
     }
 
-    public ResponseLd withLiItem(List<ListDummyItem> bdItem) {
-        this.ldItem = bdItem;
+    public ResponseLd withLiItem(List<ListDummyItem> ldItem) {
+        this.ldItem = ldItem;
         return this;
     }
 

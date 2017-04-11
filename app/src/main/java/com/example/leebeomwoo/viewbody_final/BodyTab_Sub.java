@@ -46,19 +46,12 @@ public class BodyTab_Sub extends Fragment {
     private static final String ARG_PARAM2 = "0";
     View view;
     private ArrayList<MainTabItem> items;
-    private List<CardItem> cardItem;
-    private ResponseCard responseCard;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     public BodyTab_Sub() {
         // Required empty public constructor
-        items = new ArrayList<>();
-        items.add(new MainTabItem("상체" + "\n" + "근육", mParam1, Upper_BoneFragment.class));
-        items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, Upper_MuscleFragment.class));
-        items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, Lower_BoneFragment.class));
-        items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, Lower_MuscleFragment.class));
     }
 
     /**
@@ -92,43 +85,19 @@ public class BodyTab_Sub extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        if (Objects.equals(mParam2, "0")) {
-            Log.d("select", "0");
             view = inflater.inflate(R.layout.fragment_body_tab__sub, container, false);
 
+            items = new ArrayList<>();
+            items.add(new MainTabItem("상체" + "\n" + "근육", mParam1, Upper_BoneFragment.class));
+            items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, Upper_MuscleFragment.class));
+            items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, Lower_BoneFragment.class));
+            items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, Lower_MuscleFragment.class));
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
             ViewPager viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
-        } else {
-            Log.d("tab", "null");
-            view = inflater.inflate(R.layout.fragment_card_list, container, false);
-            RecyclerView rv = (RecyclerView) view.findViewById(R.id.card_list);
-            setHasOptionsMenu(true);
-            rv.setHasFixedSize(true);
-            rv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-            rv.setAdapter(new MyCardRecyclerViewAdapter(getActivity() ,databinding()));
-        }
         return view;
-    }
-    public List<CardItem> databinding ()
-    {
-        Call<ResponseCard> call = ConAdapter.getInstance().getResult_Card();
-        call.enqueue(new Callback<ResponseCard>() {
-            @Override
-            public void onResponse(Call<ResponseCard> call, Response<ResponseCard> response) {
-                responseCard = response.body();
-                Log.d(TAG,"서버와의 연결이 잘됐어요~.");
-                cardItem = responseCard.getbCardItem();
-                Log.d("Body :", cardItem.toString());
-            }
-            @Override
-            public void onFailure(Call<ResponseCard> call, Throwable t) {
-                Log.d(TAG,t.getMessage());
-            }
-        });
-        return cardItem;
     }
 
 }

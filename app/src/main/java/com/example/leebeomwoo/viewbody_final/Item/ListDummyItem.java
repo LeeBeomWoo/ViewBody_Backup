@@ -7,12 +7,14 @@ public class ListDummyItem {
     private String ld_ImageUrl;
     private String ld_Id;
     private String ld_Title;
+    private String ld_FaceUrl;
 
 
-    public ListDummyItem(String ld_Id, String ld_Title, String ld_ImageUrl){
+    public ListDummyItem(String ld_Id, String ld_Title, String ld_ImageUrl, String ld_FaceUrl){
         this.ld_Id = ld_Id;
         this.ld_Title = ld_Title;
         this.ld_ImageUrl = ld_ImageUrl;
+        this.ld_FaceUrl = ld_FaceUrl;
 
     }
 
@@ -38,6 +40,14 @@ public class ListDummyItem {
 
     public void setLd_Title(String ld_Title) {
         this.ld_Title = ld_Title;
+    }
+
+    public String getLd_FaceUrl() {
+        return ld_FaceUrl;
+    }
+
+    public void setLd_FaceUrl(String ld_FaceUrl) {
+        this.ld_FaceUrl = ld_FaceUrl;
     }
 }
 

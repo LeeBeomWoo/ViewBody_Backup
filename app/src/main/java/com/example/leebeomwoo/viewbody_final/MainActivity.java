@@ -13,8 +13,6 @@ import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    private SlidingTabLayout slidingTabLayout;
-    private ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
         mainMenuItems.add(new MainTabItem("동영상" + "\n" + "따라하기", null, MovieFragment.class));
         mainMenuItems.add(new MainTabItem("트레이너와" + "\n" + "영양사", null, FoodTab_Sub.class));
 
-        slidingTabLayout = (SlidingTabLayout) findViewById(R.id.main_TabLayout);
-        viewPager = (ViewPager) findViewById(R.id.main_viewPager);
-
+        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.main_TabLayout);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.main_viewPager);
         viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), mainMenuItems));
+
         slidingTabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
