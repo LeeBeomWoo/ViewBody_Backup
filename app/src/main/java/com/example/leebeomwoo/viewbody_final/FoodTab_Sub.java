@@ -3,9 +3,6 @@ package com.example.leebeomwoo.viewbody_final;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,20 +15,11 @@ import com.example.leebeomwoo.viewbody_final.Fragment.Food_PowerUpFragment;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
-import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
-import com.example.leebeomwoo.viewbody_final.Adapter.MyCardRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 
 /**
@@ -87,7 +75,7 @@ public class FoodTab_Sub extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-            view = inflater.inflate(R.layout.fragment_food_tab__sub, container, false);
+            view = inflater.inflate(R.layout.fragment_food_tab_sub, container, false);
 
             items = new ArrayList<>();
             items.add(new MainTabItem("체지방" + "\n" + "감 소", mParam1, Food_FatFragment.class));

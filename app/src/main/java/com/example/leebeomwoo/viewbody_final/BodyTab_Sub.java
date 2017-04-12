@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.leebeomwoo.viewbody_final.Fragment.Lower_BoneFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Lower_MuscleFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.SelfMassageFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Upper_BoneFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Upper_MuscleFragment;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
@@ -92,6 +93,7 @@ public class BodyTab_Sub extends Fragment {
             items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, Upper_MuscleFragment.class));
             items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, Lower_BoneFragment.class));
             items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, Lower_MuscleFragment.class));
+            items.add(new MainTabItem("자가" + "\n" + "마사지", mParam1, SelfMassageFragment.class));
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
             ViewPager viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
 

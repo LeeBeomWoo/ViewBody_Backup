@@ -39,6 +39,21 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
     @GET("board/Food_Metabolic.jsp")
     Call<ResponseFd> getResult_Metabolic();
 
+    @GET("board/Follow_Stretching.jsp")
+    Call<ResponseLd> getResult_Follow_Stretching();
+
+    @GET("board/Follow_MuscleUp.jsp")
+    Call<ResponseLd> getResult_Follow_MuscleUp();
+
+    @GET("board/Follow_Core.jsp")
+    Call<ResponseLd> getResult_Follow_Core();
+
+    @GET("board/Follow_breth.jsp")
+    Call<ResponseLd> getResult_breth();
+
+    @GET("board/SelfMassage.jsp")
+    Call<ResponseLd> getResult_SelfMassage();
+
     @GET("board/Follow.jsp")
     Call<ResponseFm> getResult_Fm();
 
