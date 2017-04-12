@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Upper_MuscleFragment extends android.support.v4.app.Fragment implements SearchView.OnQueryTextListener {
+public class Upper_MuscleFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView rv;
     ResponseLd responseLd;
@@ -145,34 +145,6 @@ public class Upper_MuscleFragment extends android.support.v4.app.Fragment implem
         super.onDetach();
         Log.d(TAG, "onDetach()");
     }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-
-        final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
-    }
-
-    @Override
-    public boolean onQueryTextChange(String query) {
-        // Here is where we are going to implement our filter logic
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        bdadapter.getFilter().filter(query);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                bdadapter.notifyDataSetChanged();
-            }
-        });
-        return false;
-    }
-
 
     public static Upper_MuscleFragment newInstance() {
         return new Upper_MuscleFragment();

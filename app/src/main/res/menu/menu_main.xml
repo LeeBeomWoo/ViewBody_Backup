@@ -9,26 +9,34 @@
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:visible="true"/>
-    <item
-        android:id="@+id/upper_bone"
-        android:orderInCategory="100"
-        android:title="@string/upper_bone"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/upper_muscle"
-        android:orderInCategory="100"
-        android:title="@string/upper_muscle"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/lower_bone"
-        android:orderInCategory="100"
-        android:title="@string/lower_bone"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/lower_muscle"
-        android:orderInCategory="100"
-        android:title="@string/lower_muscle"
-        app:showAsAction="never" />
+    <item android:id="@+id/body"
+        android:title="@string/bodyinfocategory">
+        <menu>
+            <item
+                android:id="@+id/upper_bone"
+                android:orderInCategory="100"
+                android:title="@string/upper_bone"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/upper_muscle"
+                android:orderInCategory="100"
+                android:title="@string/upper_muscle"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/lower_bone"
+                android:orderInCategory="100"
+                android:title="@string/lower_bone"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/lower_muscle"
+                android:orderInCategory="100"
+                android:title="@string/lower_muscle"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+    <item android:id="@+id/food"
+        android:title="@string/foodcategory">
+    <menu>
     <item
         android:id="@+id/food_fat"
         android:orderInCategory="100"
@@ -54,6 +62,8 @@
         android:orderInCategory="100"
         android:title="@string/food_metabolic"
         app:showAsAction="never" />
+    </menu>
+    </item>
     <item
         android:id="@+id/account"
         android:orderInCategory="100"

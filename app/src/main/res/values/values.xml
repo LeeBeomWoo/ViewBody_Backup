@@ -5,6 +5,6 @@
     <color name="foreground_material_light" tools:ignore="PrivateResource">#fffefe</color>
     <color name="secondary_text_default_material_light" tools:ignore="PrivateResource">#000000</color>
     <color name="view_body_background_light" tools:ignore="PrivateResource">#fafafa</color>
-    <color name="background_material_light" tools:ignore="PrivateResource">#416e73</color>
+    <color name="background_material_light" tools:ignore="PrivateResource">#46676a</color>
     <color name="primary_text_default_material_dark" tools:ignore="PrivateResource">#7c7c7c</color>
 </resources>

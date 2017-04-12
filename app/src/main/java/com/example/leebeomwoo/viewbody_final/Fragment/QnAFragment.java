@@ -29,7 +29,7 @@ import retrofit2.Response;
  * A fragment representing a list of Items.
  * <p/>
  */
-public class QnAFragment extends android.support.v4.app.Fragment implements SearchView.OnQueryTextListener{
+public class QnAFragment extends android.support.v4.app.Fragment {
 
     ResponseQ responseQ;
     MyQnARecyclerViewAdapter adapter;
@@ -69,28 +69,6 @@ public class QnAFragment extends android.support.v4.app.Fragment implements Sear
             }
         });
         return view;
-    }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-
-        final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
-    }
-
-    @Override
-    public boolean onQueryTextChange(String query) {
-        // Here is where we are going to implement our filter logic
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        adapter.getFilter().filter(query);
-        return false;
     }
 
     public static QnAFragment newInstance() {

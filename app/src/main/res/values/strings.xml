@@ -11,8 +11,8 @@
     <string name="menu_night_mode_night">Night (always)</string>
     <string name="menu_night_mode_auto">Auto</string>
     <string name="trainer_info">내가 누구게?</string>
-    <string name="foodcategory">함께 하면 좋은 음식레시피</string>
-    <string name="bodyinfocategory">관련 인체정보</string>
+    <string name="foodcategory">음식에 대한</string>
+    <string name="bodyinfocategory">인체와 운동</string>
     <string name="exerciseinfocategory">관련 운동정보</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -73,7 +73,7 @@ import java.util.ArrayList;
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
-            view = inflater.inflate(R.layout.fragment_body_tab__sub, container, false);
+            view = inflater.inflate(R.layout.fragment_follow_tab_sub, container, false);
 
             items = new ArrayList<>();
             items.add(new MainTabItem("코어" + "\n" + "운동", mParam1, Follow_CoreFragment.class));

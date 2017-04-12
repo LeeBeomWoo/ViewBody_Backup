@@ -26,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieFragment extends android.support.v4.app.Fragment implements SearchView.OnQueryTextListener{
+public class MovieFragment extends android.support.v4.app.Fragment {
     ResponseFm responseFm;
     MovieRecyclerViewAdapter adapter;
     List<FmItem> fmItems;
@@ -68,27 +68,6 @@ public class MovieFragment extends android.support.v4.app.Fragment implements Se
         return view;
     }
 
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_main, menu);
-
-        final MenuItem item = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
-        searchView.setOnQueryTextListener(this);
-    }
-
-    @Override
-    public boolean onQueryTextChange(String query) {
-        // Here is where we are going to implement our filter logic
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        adapter.getFilter().filter(query);
-        return false;
-    }
 
     public static MovieFragment newInstance() {
     return new MovieFragment();
