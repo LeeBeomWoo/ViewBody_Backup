@@ -88,6 +88,7 @@ public class FoodTab_Sub extends Fragment {
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
+        setHasOptionsMenu(true);
         return view;
     }
 

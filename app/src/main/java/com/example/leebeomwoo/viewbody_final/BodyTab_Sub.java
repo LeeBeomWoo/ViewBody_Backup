@@ -3,9 +3,6 @@ package com.example.leebeomwoo.viewbody_final;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,23 +12,11 @@ import com.example.leebeomwoo.viewbody_final.Fragment.Lower_MuscleFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.SelfMassageFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Upper_BoneFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Upper_MuscleFragment;
-import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
-import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
-import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
-import com.example.leebeomwoo.viewbody_final.Adapter.MyCardRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static android.content.ContentValues.TAG;
 
 
 /**
@@ -87,21 +72,25 @@ public class BodyTab_Sub extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-            view = inflater.inflate(R.layout.fragment_body_tab__sub, container, false);
 
-            items = new ArrayList<>();
-            items.add(new MainTabItem("상체" + "\n" + "근육", mParam1, Upper_BoneFragment.class));
-            items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, Upper_MuscleFragment.class));
-            items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, Lower_BoneFragment.class));
-            items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, Lower_MuscleFragment.class));
-            items.add(new MainTabItem("자가" + "\n" + "마사지", mParam1, SelfMassageFragment.class));
-            slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
-            viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
-            viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
-            slidingTabLayout.setViewPager(viewPager);
+        view = inflater.inflate(R.layout.fragment_body_tab_sub, container, false);
+        items = new ArrayList<>();
+        items.add(new MainTabItem("상체" + "\n" + "근육", mParam1, Upper_BoneFragment.class));
+        items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, Upper_MuscleFragment.class));
+        items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, Lower_BoneFragment.class));
+        items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, Lower_MuscleFragment.class));
+        items.add(new MainTabItem("자가" + "\n" + "마사지", mParam1, SelfMassageFragment.class));
+        slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
+        viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
+        viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
+        slidingTabLayout.setViewPager(viewPager);
+        setHasOptionsMenu(true);
         return view;
     }
-public void changePage(int p){
-
-}
+    public void changePage(int p){
+        if(viewPager != null){
+        }else{
+        }
+        viewPager.setCurrentItem(p, true);
+    }
 }
