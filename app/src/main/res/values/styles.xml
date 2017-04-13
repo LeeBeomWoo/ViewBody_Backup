@@ -21,6 +21,7 @@
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:colorBackground" tools:ignore="PrivateResource">@color/background_material_light</item>
         <item name="android:textColorSecondary">@color/common_google_signin_btn_text_dark_focused</item>
+        <item name="android:colorForeground">@color/foreground_material_light</item>
     </style>
     <style name="ViewBody.main" parent="Theme.AppCompat.Light">>
         <item name="background">@drawable/background</item>

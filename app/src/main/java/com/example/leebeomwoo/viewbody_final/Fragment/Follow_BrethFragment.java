@@ -156,6 +156,7 @@ public class Follow_BrethFragment extends android.support.v4.app.Fragment {
         Log.d(TAG, "onDetach()");
     }
 
+
     public static Follow_BrethFragment newInstance() {
         return new Follow_BrethFragment();
     }

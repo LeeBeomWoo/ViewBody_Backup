@@ -50,7 +50,8 @@ public class BodyTab_Sub extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    ViewPager viewPager;
+    SlidingTabLayout slidingTabLayout;
     public BodyTab_Sub() {
         // Required empty public constructor
     }
@@ -94,12 +95,13 @@ public class BodyTab_Sub extends Fragment {
             items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, Lower_BoneFragment.class));
             items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, Lower_MuscleFragment.class));
             items.add(new MainTabItem("자가" + "\n" + "마사지", mParam1, SelfMassageFragment.class));
-            SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
-            ViewPager viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
-
+            slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
+            viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
         return view;
     }
+public void changePage(int p){
 
+}
 }

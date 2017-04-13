@@ -31,6 +31,7 @@ public class WriterTab_Sub extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "0";
     View view;
+    ViewPager viewPager;
     private ArrayList<MainTabItem> items;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -78,11 +79,14 @@ public class WriterTab_Sub extends Fragment {
             items.add(new MainTabItem("트레이너", mParam1, Upper_MuscleFragment.class));
 
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.writer_TabLayout);
-            ViewPager viewPager = (ViewPager) view.findViewById(R.id.writer_viewPager);
+            viewPager = (ViewPager) view.findViewById(R.id.writer_viewPager);
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
         return view;
     }
 
+    public void changePage(int p){
+        viewPager.setCurrentItem(p, true);
+    }
 }

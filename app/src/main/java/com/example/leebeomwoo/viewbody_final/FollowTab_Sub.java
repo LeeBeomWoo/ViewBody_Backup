@@ -37,7 +37,7 @@ import java.util.ArrayList;
         // TODO: Rename and change types of parameters
         private String mParam1;
         private String mParam2;
-
+        ViewPager viewPager;
         public FollowTab_Sub() {
             // Required empty public constructor
         }
@@ -82,12 +82,15 @@ import java.util.ArrayList;
             items.add(new MainTabItem("스트" + "\n" + "레칭", mParam1, Follow_StretchingFragment.class));
 
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.follow_TabLayout);
-            ViewPager viewPager = (ViewPager) view.findViewById(R.id.follow_viewPager);
+            viewPager = (ViewPager) view.findViewById(R.id.follow_viewPager);
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
             return view;
         }
+    public void changePage(int p){
+        viewPager.setCurrentItem(p, true);
+    }
 
     }
 

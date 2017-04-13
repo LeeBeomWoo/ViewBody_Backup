@@ -36,7 +36,7 @@ public class FoodTab_Sub extends Fragment {
     private ArrayList<MainTabItem> items;
     private List<CardItem> cardItem;
     private ResponseCard responseCard;
-
+    ViewPager viewPager;
     // TODO: Rename and change types of parameters
     private String mParam1, mParam2;
 
@@ -84,11 +84,14 @@ public class FoodTab_Sub extends Fragment {
             items.add(new MainTabItem("몸매" + "\n" + "관리", mParam1, Food_DietFragment.class));
             items.add(new MainTabItem("대 사" + "\n" + "증후군", mParam1, Food_MetabolicFragment.class));
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.food_TabLayout);
-            ViewPager viewPager = (ViewPager) view.findViewById(R.id.food_viewPager);
+             viewPager = (ViewPager) view.findViewById(R.id.food_viewPager);
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
         return view;
     }
 
+    public void changePage(int p){
+        viewPager.setCurrentItem(p, true);
+    }
 }

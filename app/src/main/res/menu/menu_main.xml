@@ -32,6 +32,11 @@
                 android:orderInCategory="100"
                 android:title="@string/lower_muscle"
                 app:showAsAction="never" />
+            <item
+                android:id="@+id/selfmassage"
+                android:orderInCategory="100"
+                android:title="@string/selfmassage"
+                app:showAsAction="never" />
         </menu>
     </item>
     <item android:id="@+id/food"
