@@ -1,6 +1,7 @@
 package com.example.leebeomwoo.viewbody_final;
 
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -63,13 +64,11 @@ public class MainActivity extends AppCompatActivity {
         mainMenuItems.add(new MainTabItem("동영상 따라하기", null, FollowTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
 
-        SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.main_TabLayout);
+        TabLayout slidingTabLayout = (TabLayout) findViewById(R.id.main_TabLayout);
         ViewPager viewPager = (ViewPager) findViewById(R.id.main_viewPager);
         viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), mainMenuItems));
 
-        slidingTabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        slidingTabLayout.setDistributeEvenly(true);
-        slidingTabLayout.setViewPager(viewPager);
+        slidingTabLayout.setupWithViewPager(viewPager);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
