@@ -115,7 +115,7 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment {
     }
 
     private void listStart(){
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Upper_Bone");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Upper_Bone");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {

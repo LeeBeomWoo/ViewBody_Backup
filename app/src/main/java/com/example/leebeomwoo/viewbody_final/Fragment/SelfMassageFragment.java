@@ -114,7 +114,7 @@ public class SelfMassageFragment extends android.support.v4.app.Fragment {
     }
 
     private void listStart(){
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("SelfMassage");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("SelfMassage");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {

@@ -57,7 +57,7 @@ public class Upper_MuscleFragment extends android.support.v4.app.Fragment {
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Upper_Muscle");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Upper_Muscle");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {

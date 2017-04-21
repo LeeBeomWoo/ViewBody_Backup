@@ -18,6 +18,7 @@ import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
+import com.example.leebeomwoo.viewbody_final.Support.ListSection;
 
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class Home_Tab extends Fragment {
         private List<ListDummyItem> nsldItems, psldItems;
         private List<CardItem> nwldItems, pwldItems;
         View view;
+        ListSection listSection;
         // TODO: Rename and change types of parameters
         private String mParam1;
         private String mParam2;
@@ -213,7 +215,6 @@ public class Home_Tab extends Fragment {
         rv.setLayoutManager(llm);
         listStart(rv);
     }
-
-    }
+}
 
 

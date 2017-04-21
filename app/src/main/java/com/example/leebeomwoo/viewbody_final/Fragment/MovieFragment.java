@@ -46,8 +46,8 @@ public class MovieFragment extends android.support.v4.app.Fragment {
         rv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        rv.setLayoutManager(llm);
-        Call<ResponseFm> call = ConAdapter.getInstance().getResult_Fm();
+        rv.setLayoutManager(llm);/**
+        Call<ResponseFm> call = ConAdapter.getInstance().getResult_List("LS");
         call.enqueue(new Callback<ResponseFm>() {
             @Override
             public void onResponse(Call<ResponseFm> call, Response<ResponseFm> response) {
@@ -64,7 +64,7 @@ public class MovieFragment extends android.support.v4.app.Fragment {
                 Toast toast = Toast.makeText(getContext(),"서버와의 연결이 안됬습니다.", Toast.LENGTH_SHORT);
                 toast.show();
             }
-        });
+        });**/
         return view;
     }
 

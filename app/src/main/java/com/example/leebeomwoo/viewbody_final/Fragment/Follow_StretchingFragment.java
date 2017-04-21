@@ -114,7 +114,7 @@ public class Follow_StretchingFragment extends android.support.v4.app.Fragment {
     }
 
     private void listStart(){
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Follow_Stretching");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Follow_Stretching");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {

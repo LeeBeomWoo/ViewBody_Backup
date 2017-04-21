@@ -27,6 +27,10 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
     @GET("board/QnA.jsp")
     Call<ResponseQ> getResult_Q();
 
+    @FormUrlEncoded
+    @POST("board/Detail_List.jsp")
+    Call<ResponseLd> getResult_Ld(@Field("table") String category);
+
     @GET("board/{id}.jsp")
     Call<ResponseCard> getResult_Card(@Path("id") String id);
 

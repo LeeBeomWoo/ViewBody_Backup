@@ -53,7 +53,7 @@ public class Food_MetabolicFragment extends android.support.v4.app.Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
 
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Food_Metabolic");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Food_Metabolic");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {

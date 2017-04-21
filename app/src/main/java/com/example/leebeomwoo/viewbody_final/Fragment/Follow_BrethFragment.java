@@ -132,6 +132,24 @@ public class Follow_BrethFragment extends android.support.v4.app.Fragment {
         rv.setAdapter(bdadapter);
     }
 
+    private void secondlistStart() {
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Follow_Breth");
+        call.enqueue(new Callback<ResponseLd>() {
+            @Override
+            public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
+                responseLd = response.body();
+                Log.d(TAG,"서버와의 연결이 잘됐어요~.");
+                ldItems = responseLd.getLdItem();
+                Log.d("response", ldItems.toString());
+            }
+            @Override
+            public void onFailure(Call<ResponseLd> call, Throwable t) {
+                Log.d(TAG,t.getMessage());
+            }
+        });
+        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+        rv.setAdapter(bdadapter);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

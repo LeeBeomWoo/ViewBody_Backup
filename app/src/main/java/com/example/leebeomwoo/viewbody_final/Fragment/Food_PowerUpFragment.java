@@ -52,7 +52,7 @@ public class Food_PowerUpFragment extends android.support.v4.app.Fragment {
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Food_PowerUp");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Food_PowerUp");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
