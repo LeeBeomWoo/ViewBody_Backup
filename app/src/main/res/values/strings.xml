@@ -68,4 +68,15 @@
     <string name="account">계정</string>
     <string name="qna">묻고답하기</string>
     <string name="selfmassage">자가마사지</string>
+    <string name="follow">동영상 따라하기</string>
+    <string name="writer_menu">운동 및 영양 선생님들</string>
+    <string name="follow_core">코어운동 따라하기</string>
+    <string name="follow_breth">유산소운동 따라하기</string>
+    <string name="follow_muscleup">근육증가 운동 따라하기</string>
+    <string name="follow_stretching">스트레칭 따라하기</string>
+    <string name="newsorce">금주의 새로운 자료</string>
+    <string name="new_writer">금주 새로 오신 선생님</string>
+    <string name="popular_writer">인기 선생님 Top 10</string>
+    <string name="popural_sorce">주목받는 자료 Top 10</string>
+    <string name="like">유용한 정보입니다. 추천드려요</string>
 </resources>

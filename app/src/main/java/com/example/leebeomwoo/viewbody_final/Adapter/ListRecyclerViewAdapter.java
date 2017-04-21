@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         public final WebView imgViewIcon;
         public final TextView txtViewId;
         public final WebView imgViewFace;
+        public final Button button;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
@@ -47,6 +49,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
             imgViewFace = (WebView) itemLayoutView.findViewById(R.id.detile_face);
             txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
+            button = (Button) itemLayoutView.findViewById(R.id.like_btn);
             imgViewIcon.setFocusable(false);
             imgViewIcon.getSettings().setJavaScriptEnabled(true);
             imgViewIcon.getSettings().setDomStorageEnabled(true);
@@ -76,6 +79,12 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
         viewHolder.imgViewFace.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_FaceUrl());
+        viewHolder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
     }
     @Override
     public int getItemCount() {

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/new_title_lbl"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:padding="5dp"
+            android:text="@string/newsorce"
+            android:textSize="24sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/new_list"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            tools:listitem="@layout/fragment_detail" />
+
+        <TextView
+            android:id="@+id/popular_title_lbl"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:padding="5dp"
+            android:text="@string/popural_sorce"
+            android:textSize="24sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/popular_list"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            tools:listitem="@layout/fragment_detail" />
+
+        <TextView
+            android:id="@+id/new_writer_lbl"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:padding="5dp"
+            android:text="@string/new_writer"
+            android:textSize="24sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/new_writer_list"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            tools:listitem="@layout/fragment_detail" />
+
+        <TextView
+            android:id="@+id/popular_writer_lbl"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:padding="5dp"
+            android:text="@string/popular_writer"
+            android:textSize="24sp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/popular_writer_list"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp"
+            tools:listitem="@layout/fragment_detail" />
+    </LinearLayout>
+</ScrollView>

@@ -11,7 +11,7 @@
         android:visible="true"/>
     <item android:id="@+id/body"
         android:title="@string/bodyinfocategory">
-        <menu>
+       <!-- <menu>
             <item
                 android:id="@+id/upper_bone"
                 android:orderInCategory="100"
@@ -37,38 +37,71 @@
                 android:orderInCategory="100"
                 android:title="@string/selfmassage"
                 app:showAsAction="never" />
-        </menu>
+        </menu> -->
     </item>
     <item android:id="@+id/food"
         android:title="@string/foodcategory">
-    <menu>
-    <item
-        android:id="@+id/food_fat"
-        android:orderInCategory="100"
-        android:title="@string/food_fat"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/food_diet"
-        android:orderInCategory="100"
-        android:title="@string/food_diet"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/food_powerup"
-        android:orderInCategory="100"
-        android:title="@string/food_powerup"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/food_muscleup"
-        android:orderInCategory="100"
-        android:title="@string/food_muscleup"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/food_metabolic"
-        android:orderInCategory="100"
-        android:title="@string/food_metabolic"
-        app:showAsAction="never" />
-    </menu>
+    <!--    <menu>
+            <item
+                android:id="@+id/food_fat"
+                android:orderInCategory="100"
+                android:title="@string/food_fat"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/food_diet"
+                android:orderInCategory="100"
+                android:title="@string/food_diet"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/food_powerup"
+                android:orderInCategory="100"
+                android:title="@string/food_powerup"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/food_muscleup"
+                android:orderInCategory="100"
+                android:title="@string/food_muscleup"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/food_metabolic"
+                android:orderInCategory="100"
+                android:title="@string/food_metabolic"
+                app:showAsAction="never" />
+        </menu> -->
     </item>
+    <item
+        android:id="@+id/follow"
+        android:orderInCategory="100"
+        android:title="@string/follow"
+        app:showAsAction="never" >
+    <!--    <menu>
+       <item
+           android:id="@+id/follow_core"
+           android:orderInCategory="100"
+           android:title="@string/follow_core"
+           app:showAsAction="never" />
+       <item
+           android:id="@+id/follow_breth"
+           android:orderInCategory="100"
+           android:title="@string/follow_breth"
+           app:showAsAction="never" />
+       <item
+           android:id="@+id/follow_muscleup"
+           android:orderInCategory="100"
+           android:title="@string/follow_muscleup"
+           app:showAsAction="never" />
+       <item
+           android:id="@+id/follow_stretching"
+           android:orderInCategory="100"
+           android:title="@string/follow_stretching"
+           app:showAsAction="never" />
+   </menu> -->
+    </item>
+    <item
+        android:id="@+id/writer"
+        android:orderInCategory="100"
+        android:title="@string/writer_menu"
+        app:showAsAction="never" />
     <item
         android:id="@+id/account"
         android:orderInCategory="100"

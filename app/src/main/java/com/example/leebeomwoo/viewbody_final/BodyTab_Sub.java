@@ -1,9 +1,13 @@
 package com.example.leebeomwoo.viewbody_final;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -30,7 +34,9 @@ public class BodyTab_Sub extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "0";
+    private static final String TAG = "BodyTab_Sub";
     View view;
+    TabsAdapter tabsAdapter;
     private ArrayList<MainTabItem> items;
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -74,23 +80,33 @@ public class BodyTab_Sub extends Fragment {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_body_tab_sub, container, false);
+        slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
+        viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
         items = new ArrayList<>();
         items.add(new MainTabItem("상체" + "\n" + "근육", mParam1, Upper_BoneFragment.class));
         items.add(new MainTabItem("상체" + "\n" + "골격", mParam1, Upper_MuscleFragment.class));
         items.add(new MainTabItem("하체" + "\n" + "근육", mParam1, Lower_BoneFragment.class));
         items.add(new MainTabItem("하체" + "\n" + "골격", mParam1, Lower_MuscleFragment.class));
         items.add(new MainTabItem("자가" + "\n" + "마사지", mParam1, SelfMassageFragment.class));
-        slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
-        viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
-        viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
+        tabsAdapter = new TabsAdapter(getChildFragmentManager(), items);
+        viewPager.setAdapter(tabsAdapter);
         slidingTabLayout.setViewPager(viewPager);
         setHasOptionsMenu(true);
         return view;
     }
-    public void changePage(int p){
-        if(viewPager != null){
-        }else{
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Activity a;
+        Log.d(TAG, "onAttach");
+        if (context instanceof Activity){
+            a=(Activity) context;
         }
-        viewPager.setCurrentItem(p, true);
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+    }
+
 }

@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.example.leebeomwoo.viewbody_final.Fragment.Upper_BoneFragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
@@ -24,9 +25,6 @@ public class MainActivity extends AppCompatActivity {
     MenuItem myActionMenuItem;
     TabLayout tabLayout;
     ViewPager viewPager;
-    BodyTab_Sub bodyTab_sub = new BodyTab_Sub();
-    FoodTab_Sub foodTab_sub = new FoodTab_Sub();
-    WriterTab_Sub writerTab_sub = new WriterTab_Sub();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ArrayList<MainTabItem> mainMenuItems = new ArrayList<>();
+        mainMenuItems.add(new MainTabItem("홈", null, Home_Tab.class));
         mainMenuItems.add(new MainTabItem("몸과 운동", null, BodyTab_Sub.class));
         mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("동영상 따라하기", null, FollowTab_Sub.class));
@@ -105,25 +104,32 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            case R.id.upper_bone:
+            /**
+            case R.id.body:
                 viewPager.setCurrentItem(0, true);
-                bodyTab_sub.changePage(0);
                 return true;
             case R.id.upper_muscle:
                 viewPager.setCurrentItem(0, true);
-                bodyTab_sub.changePage(1);
+                bodyTab_sub.viewPager.setCurrentItem(1);
                 return true;
             case R.id.lower_bone:
                 viewPager.setCurrentItem(0, true);
-                bodyTab_sub.changePage(2);
+                bodyTab_sub.onCreate(null);
+                bodyTab_sub.onCreateView(this.getLayoutInflater(), null, null);
+                bodyTab_sub.viewPager.setCurrentItem(2);
                 return true;
             case R.id.lower_muscle:
                 viewPager.setCurrentItem(0, true);
-                bodyTab_sub.changePage(3);
+                bodyTab_sub.onCreate(null);
+                bodyTab_sub.onAttach(this.getApplicationContext());
+                bodyTab_sub.onCreateView(this.getLayoutInflater(), null, null);
+                bodyTab_sub.viewPager.setCurrentItem(3);
                 return true;
             case R.id.selfmassage:
                 viewPager.setCurrentItem(0, true);
-                bodyTab_sub.changePage(4);
+                bodyTab_sub.onAttach(getApplicationContext());
+                bodyTab_sub.onCreateView(this.getLayoutInflater(), null, null);
+                bodyTab_sub.viewPager.setCurrentItem(4);
                 return true;
             case R.id.food_diet:
                 viewPager.setCurrentItem(1, true);
@@ -141,8 +147,17 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(1, true);
                 //foodTab_sub.changePage(2);
                 return true;
-            case R.id.food_powerup:
+             **/
+            case R.id.food:
                 viewPager.setCurrentItem(1, true);
+                // foodTab_sub.changePage(4);
+                return true;
+            case R.id.follow:
+                viewPager.setCurrentItem(2, true);
+                //foodTab_sub.changePage(2);
+                return true;
+            case R.id.writer:
+                viewPager.setCurrentItem(3, true);
                 //foodTab_sub.changePage(1);
                 return true;
             case R.id.account:

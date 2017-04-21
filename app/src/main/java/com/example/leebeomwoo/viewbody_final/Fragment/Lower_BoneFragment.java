@@ -39,7 +39,7 @@ public class Lower_BoneFragment extends android.support.v4.app.Fragment {
     @SuppressLint("StaticFieldLeak")
     static ListRecyclerViewAdapter bdadapter;
 
-    String TAG = "BodyFragment";
+    String TAG = "Lower_BoneFragment";
     public Lower_BoneFragment(){}
 
     @Override
@@ -57,8 +57,7 @@ public class Lower_BoneFragment extends android.support.v4.app.Fragment {
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
-
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_LoBone();
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Lower_Bone");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {

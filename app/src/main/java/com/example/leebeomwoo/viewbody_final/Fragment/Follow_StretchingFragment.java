@@ -39,7 +39,7 @@ public class Follow_StretchingFragment extends android.support.v4.app.Fragment {
     @SuppressLint("StaticFieldLeak")
     static ListRecyclerViewAdapter bdadapter;
 
-    String TAG = "Upper_BoneFragment";
+    String TAG = "Follow_Stretching";
     public Follow_StretchingFragment(){}
 
     @Override
@@ -114,28 +114,22 @@ public class Follow_StretchingFragment extends android.support.v4.app.Fragment {
     }
 
     private void listStart(){
-
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Follow_Stretching();
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Follow_Stretching");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
-                if(response.isSuccessful()) {
-                    responseLd = response.body();
-                    Log.d(TAG + "_1", "서버와의 연결이 잘됐어요~.");
-                    Log.d(TAG + "_1", responseLd.toString());
-                    ldItems = responseLd.getLdItem();
-                    bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-                    Log.d("response", ldItems.toString());
-                    rv.setAdapter(bdadapter);
-                }else{
-                    Log.d(TAG+ "_2", response.errorBody().toString());
-                }
+                responseLd = response.body();
+                Log.d(TAG,"서버와의 연결이 잘됐어요~.");
+                ldItems = responseLd.getLdItem();
+                Log.d("response", ldItems.toString());
             }
             @Override
             public void onFailure(Call<ResponseLd> call, Throwable t) {
-                Log.d(TAG+ "_3",t.getMessage());
+                Log.d(TAG,t.getMessage());
             }
         });
+        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+        rv.setAdapter(bdadapter);
     }
 
     @Override

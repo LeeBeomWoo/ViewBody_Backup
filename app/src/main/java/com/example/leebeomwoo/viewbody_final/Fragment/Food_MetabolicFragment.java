@@ -3,15 +3,10 @@ package com.example.leebeomwoo.viewbody_final.Fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -20,7 +15,6 @@ import com.example.leebeomwoo.viewbody_final.Adapter.ListRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
-import com.example.leebeomwoo.viewbody_final.Response.ResponseFd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 
@@ -33,14 +27,14 @@ import retrofit2.Response;
 public class Food_MetabolicFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView rv;
-    ResponseFd responseFd;
+    ResponseLd responseLd;
     ResponseCbd responseCbd;
 
     private List<ListDummyItem> ldItems;
     @SuppressLint("StaticFieldLeak")
     static ListRecyclerViewAdapter bdadapter;
 
-    String TAG = "BodyFragment";
+    String TAG = "Food_MetabolicFragment";
     public Food_MetabolicFragment(){}
 
     @Override
@@ -59,17 +53,17 @@ public class Food_MetabolicFragment extends android.support.v4.app.Fragment {
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
 
-        Call<ResponseFd> call = ConAdapter.getInstance().getResult_Metabolic();
-        call.enqueue(new Callback<ResponseFd>() {
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Food_Metabolic");
+        call.enqueue(new Callback<ResponseLd>() {
             @Override
-            public void onResponse(Call<ResponseFd> call, Response<ResponseFd> response) {
-                responseFd = response.body();
+            public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
+                responseLd = response.body();
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
-                ldItems = responseFd.getFdItem();
+                ldItems = responseLd.getLdItem();
                 Log.d("response", ldItems.toString());
             }
             @Override
-            public void onFailure(Call<ResponseFd> call, Throwable t) {
+            public void onFailure(Call<ResponseLd> call, Throwable t) {
                 Log.d(TAG,t.getMessage());
             }
         });
