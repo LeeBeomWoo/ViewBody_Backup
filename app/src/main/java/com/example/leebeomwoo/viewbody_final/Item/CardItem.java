@@ -7,11 +7,11 @@ package com.example.leebeomwoo.viewbody_final.Item;
     public class CardItem {
         private String ImageUrl;
         private String sEction;
-        private String Id;
+        private String ld_Id;
         private String Category;
 
         public CardItem(String Id, String ImageUrl, String Category){
-            this.Id = Id;
+            this.ld_Id = Id;
             this.ImageUrl = ImageUrl;
             this.Category = Category;
         }
@@ -24,12 +24,12 @@ package com.example.leebeomwoo.viewbody_final.Item;
         ImageUrl = imageUrl;
     }
 
-    public String getId() {
-        return Id;
+    public String getLd_Id() {
+        return ld_Id;
     }
 
-    public void setId(String id) {
-        Id = id;
+    public void setLd_Id(String ld_Id) {
+        this.ld_Id = ld_Id;
     }
 
     public String getCategory() {

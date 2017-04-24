@@ -28,14 +28,14 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
     Call<ResponseQ> getResult_Q();
 
     @FormUrlEncoded
-    @POST("board/Detail_List.jsp")
-    Call<ResponseLd> getResult_Ld(@Field("table") String category);
+    @POST("board/Like.jsp")
+    Call<ResponseLd> getResult_List(@Field("table") String table, @Field("Num") int Num, @Field("User") String User);
 
     @GET("board/{id}.jsp")
     Call<ResponseCard> getResult_Card(@Path("id") String id);
 
     @GET("board/{id}.jsp")
-    Call<ResponseLd> getResult_List(@Path("id") String id);
+    Call<ResponseLd> getResult_Ld(@Path("id") String id);
 
     @FormUrlEncoded
     @POST("board/Categorybody.jsp")

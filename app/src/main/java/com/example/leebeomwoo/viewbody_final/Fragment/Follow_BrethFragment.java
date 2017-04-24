@@ -114,13 +114,15 @@ public class Follow_BrethFragment extends android.support.v4.app.Fragment {
     }
 
     private void listStart(){
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Follow_breth");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Follow_breth");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
                 responseLd = response.body();
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
                 ldItems = responseLd.getLdItem();
+                bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+                rv.setAdapter(bdadapter);
                 Log.d("response", ldItems.toString());
             }
             @Override
@@ -128,8 +130,6 @@ public class Follow_BrethFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,t.getMessage());
             }
         });
-        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-        rv.setAdapter(bdadapter);
     }
 
     private void secondlistStart() {

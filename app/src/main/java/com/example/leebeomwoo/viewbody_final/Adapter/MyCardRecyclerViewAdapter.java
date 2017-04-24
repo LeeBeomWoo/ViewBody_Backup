@@ -2,8 +2,6 @@ package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,8 +10,6 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.example.leebeomwoo.viewbody_final.BodyTab_Sub;
-import com.example.leebeomwoo.viewbody_final.FoodTab_Sub;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
@@ -72,7 +68,7 @@ public class MyCardRecyclerViewAdapter extends RecyclerView.Adapter<MyCardRecycl
         final CardItem cardItem = cardItems.get(position);
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.txtNick.setText(cardItem.getId());
+        viewHolder.txtNick.setText(cardItem.getLd_Id());
         viewHolder.txtViewCategory.setText(cardItem.getCategory());
         //  viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + bdItem.getBd_ImageUrl()); 실제 구동시
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + "data_image/" + cardItem.getImageUrl());

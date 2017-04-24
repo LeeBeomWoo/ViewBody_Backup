@@ -122,14 +122,14 @@ public class SelfMassageFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
                 ldItems = responseLd.getLdItem();
                 Log.d("response", ldItems.toString());
+                bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+                rv.setAdapter(bdadapter);
             }
             @Override
             public void onFailure(Call<ResponseLd> call, Throwable t) {
                 Log.d(TAG,t.getMessage());
             }
         });
-        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-        rv.setAdapter(bdadapter);
     }
 
     @Override

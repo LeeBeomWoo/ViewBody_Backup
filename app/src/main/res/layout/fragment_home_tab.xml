@@ -7,13 +7,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/new_title_lbl"
             android:layout_width="match_parent"
             android:layout_height="35dp"
             android:padding="5dp"
             android:text="@string/newsorce"
-            android:textSize="24sp" />
+            android:textAlignment="viewStart"
+            android:textSize="20sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/new_list"
@@ -29,7 +31,8 @@
             android:layout_height="35dp"
             android:padding="5dp"
             android:text="@string/popural_sorce"
-            android:textSize="24sp" />
+            android:textAlignment="viewStart"
+            android:textSize="20sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/popular_list"
@@ -45,7 +48,8 @@
             android:layout_height="35dp"
             android:padding="5dp"
             android:text="@string/new_writer"
-            android:textSize="24sp" />
+            android:textAlignment="viewStart"
+            android:textSize="20sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/new_writer_list"
@@ -61,7 +65,8 @@
             android:layout_height="35dp"
             android:padding="5dp"
             android:text="@string/popular_writer"
-            android:textSize="24sp" />
+            android:textAlignment="viewStart"
+            android:textSize="20sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/popular_writer_list"

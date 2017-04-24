@@ -79,4 +79,7 @@
     <string name="popular_writer">인기 선생님 Top 10</string>
     <string name="popural_sorce">주목받는 자료 Top 10</string>
     <string name="like">유용한 정보입니다. 추천드려요</string>
+    <string name="facebook">페이스북 계정으로 로그인</string>
+    <string name="googleaccount">구글계정으로 로그인</string>
+    <string name="kakao">카카오계정으로 로그인</string>
 </resources>

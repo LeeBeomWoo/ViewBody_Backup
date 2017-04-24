@@ -114,7 +114,7 @@ public class Follow_CoreFragment extends android.support.v4.app.Fragment {
     }
 
     private void listStart(){
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Follow_Core");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Follow_Core");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
@@ -122,14 +122,14 @@ public class Follow_CoreFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
                 ldItems = responseLd.getLdItem();
                 Log.d("response", ldItems.toString());
+                bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+                rv.setAdapter(bdadapter);
             }
             @Override
             public void onFailure(Call<ResponseLd> call, Throwable t) {
                 Log.d(TAG,t.getMessage());
             }
         });
-        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
-        rv.setAdapter(bdadapter);
     }
     private void secondlistStart() {
         Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Follow_Core");

@@ -1,5 +1,6 @@
 package com.example.leebeomwoo.viewbody_final;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -161,6 +162,10 @@ public class MainActivity extends AppCompatActivity {
                 //foodTab_sub.changePage(1);
                 return true;
             case R.id.account:
+                Intent intent = new Intent(this, AccountActivity.class);
+                String message = editText.getText().toString();
+                intent.putExtra(EXTRA_MESSAGE, message);
+                startActivity(intent);
                 return true;
             case R.id.qna:
                 return true;

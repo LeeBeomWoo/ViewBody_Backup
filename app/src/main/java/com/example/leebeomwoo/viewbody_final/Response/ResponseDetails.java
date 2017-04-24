@@ -15,9 +15,9 @@ public class ResponseDetails {
         @SerializedName("result")
     @Expose
     private String result;
-        @SerializedName("dItem")
+        @SerializedName("ldItem")
         @Expose
-        public List<DetailItem> dItem = new ArrayList<DetailItem>();
+        public List<DetailItem> ldItem = new ArrayList<DetailItem>();
 
         /**
          *
@@ -25,20 +25,20 @@ public class ResponseDetails {
          * The liItem
          */
         public List<DetailItem> getDtailItem() {
-            return dItem;
+            return ldItem;
         }
 
         /**
          *
-         * @param dItem
+         * @param ldItem
          * The LowerItem
          */
-        public void setBdItem(List<DetailItem> dItem) {
-            this.dItem = dItem;
+        public void setBdItem(List<DetailItem> ldItem) {
+            this.ldItem = ldItem;
         }
 
-        public ResponseDetails withLiItem(List<DetailItem> dItem) {
-            this.dItem = dItem;
+        public ResponseDetails withLiItem(List<DetailItem> ldItem) {
+            this.ldItem = ldItem;
             return this;
         }
 

@@ -26,7 +26,7 @@ public class ConAdapter {
     private static OkHttpClient client;
     private static NetworkService Interface;
 
-    public static final String SERVER_URL = "http://192.168.0.103:8080/BCNS_SERVER/";
+    public static final String SERVER_URL = "http://192.168.1.146:8080/BCNS_SERVER/";
 
     public synchronized static NetworkService getInstance() {
         if (Interface == null) {
