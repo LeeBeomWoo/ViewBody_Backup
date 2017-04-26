@@ -115,7 +115,7 @@ public class Home_Tab extends Fragment {
         Call<ResponseCard> cardcall;
         switch (rv.getId()){
             case R.id.new_list:
-                call = ConAdapter.getInstance().getResult_List("New_Source");
+                call = ConAdapter.getInstance().getResult_Ld("New_Source");
                 call.enqueue(new Callback<ResponseLd>() {
                     @Override
                     public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
