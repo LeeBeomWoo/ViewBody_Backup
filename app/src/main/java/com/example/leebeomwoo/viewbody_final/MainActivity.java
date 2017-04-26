@@ -163,8 +163,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.account:
                 Intent intent = new Intent(this, AccountActivity.class);
-                String message = editText.getText().toString();
-                intent.putExtra(EXTRA_MESSAGE, message);
                 startActivity(intent);
                 return true;
             case R.id.qna:

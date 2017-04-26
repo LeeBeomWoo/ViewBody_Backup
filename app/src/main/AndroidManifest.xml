@@ -43,6 +43,10 @@
         <activity android:name=".ItemViewActivity"
             android:theme="@style/ViewBody">
         </activity>
+        <activity android:name=".AccountActivity"
+        android:theme="@style/ViewBody"
+        android:windowSoftInputMode="adjustPan">
+    </activity>
     </application>
 
 </manifest>

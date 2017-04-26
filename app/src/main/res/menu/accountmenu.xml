@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainList.AccountActivity">
+    <item
+        android:id="@+id/body"
+        android:title="@string/bodyinfocategory"
+        app:showAsAction="never" />
+    <item android:id="@+id/food"
+        android:title="@string/foodcategory"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/follow"
+        android:title="@string/follow"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/writer"
+        android:title="@string/writer_menu"
+        app:showAsAction="never" />
+    <item android:id="@+id/out"
+        android:title="@string/join_out"
+        app:showAsAction="never"/>
+    <item android:id="@+id/join"
+        android:title="@string/join"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/information"
+        android:title="@string/user_information"
+        app:showAsAction="never" />
+</menu>

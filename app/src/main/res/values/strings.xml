@@ -82,4 +82,7 @@
     <string name="facebook">페이스북 계정으로 로그인</string>
     <string name="googleaccount">구글계정으로 로그인</string>
     <string name="kakao">카카오계정으로 로그인</string>
+    <string name="join_out">탈퇴신청</string>
+    <string name="join">가입신청</string>
+    <string name="user_information">나의 정보</string>
 </resources>

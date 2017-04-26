@@ -93,7 +93,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             @Override
             public void onClick(View v) {
                 //좋아요 클릭했을 시 계정이 있는 지 확인 후 계정별로 하나의 게시물에 한번만 좋아요가 눌려지게 하고 기존에 눌렀던 적이 있다면 해당 좋아요를 취소하는 걸로 코딩
-                   Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Like", ldItem.getLd_Id(), ldItem.getLd_Num(), "UserId");
+                   Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Like", ldItem.getLd_Num(), "UserId");
                    call.enqueue(new Callback<ResponseLd>() {
                        @Override
                        public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
