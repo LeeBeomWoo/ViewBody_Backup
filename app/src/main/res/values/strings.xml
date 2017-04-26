@@ -85,4 +85,6 @@
     <string name="join_out">탈퇴신청</string>
     <string name="join">가입신청</string>
     <string name="user_information">나의 정보</string>
+    <string name="id_user">ID</string>
+    <string name="password">비밀번호</string>
 </resources>

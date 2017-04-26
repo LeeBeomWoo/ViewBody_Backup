@@ -3,16 +3,62 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:ems="10"
+            android:hint="@string/id_user"
+            android:textAlignment="center" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/editText"
+            android:layout_below="@+id/editText"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:textAlignment="center" />
+
+        <Button
+            android:id="@+id/join_btn"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/editText2"
+            android:layout_marginBottom="11dp"
+            android:text="@string/join" />
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/join_btn"
+            android:layout_alignBottom="@+id/join_btn"
+            android:layout_alignEnd="@+id/editText2"
+            android:text="Button" />
+    </RelativeLayout>
+
     <Button
         android:id="@+id/kakao_Btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:text="@string/kakao"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/googleaccount_Btn"
@@ -22,7 +68,7 @@
         android:layout_margin="5dp"
         android:text="@string/googleaccount"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="30sp" />
 
     <Button
         android:id="@+id/facebook_Btn"
@@ -32,5 +78,5 @@
         android:layout_margin="5dp"
         android:text="@string/facebook"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="30sp" />
 </LinearLayout>
