@@ -63,10 +63,14 @@ public class Join_Fragment extends Fragment {
                         @Override
                         public void onResponse(Call<UserInformationItem> call, Response<UserInformationItem> response) {
                             item = response.body();
+                            if(item.getId() == "ok"){
+                                //성공적으로 회원가입이 이루어 졌을 경우 가입이 완료되었다는 메시지를 출력한다.
+                            }
                         }
 
                         @Override
                         public void onFailure(Call<UserInformationItem> call, Throwable t) {
+                            // 가입실패메세지를 보내고 실패가 반복 될 경우 개발자에게 연락을 할것을 추천한다.
                             Log.d(TAG, t.toString());
                         }
                     });
