@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     MenuItem myActionMenuItem;
     TabLayout tabLayout;
     ViewPager viewPager;
+    int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayShowTitleEnabled(false);
         ab.setDisplayShowCustomEnabled(true);
+        if(getIntent() != null) {
+            Bundle bundle = getIntent().getExtras();
+            i = bundle.getInt("message");
+        }
         // Get access to the custom title view
         ImageView mTitle = (ImageView) findViewById(R.id.toolbar_title);
         ImageView mToolImage = (ImageView) findViewById(R.id.toolbar_image);
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
         viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), mainMenuItems));
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.setCurrentItem(i, true);
     }
 
     private void setupDrawerContent(NavigationView navigationView) {

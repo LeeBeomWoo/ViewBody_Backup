@@ -15,12 +15,12 @@
             android:padding="5dp"
             android:text="@string/newsorce"
             android:textAlignment="viewStart"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/new_list"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal"
             tools:listitem="@layout/fragment_detail" />
@@ -32,12 +32,12 @@
             android:padding="5dp"
             android:text="@string/popural_sorce"
             android:textAlignment="viewStart"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/popular_list"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="200dp"
             android:layout_marginBottom="5dp"
             android:orientation="horizontal"
             tools:listitem="@layout/fragment_detail" />
@@ -49,14 +49,14 @@
             android:padding="5dp"
             android:text="@string/new_writer"
             android:textAlignment="viewStart"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/new_writer_list"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:orientation="horizontal"
+            android:layout_height="100dp"
             android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
             tools:listitem="@layout/fragment_detail" />
 
         <TextView
@@ -66,14 +66,14 @@
             android:padding="5dp"
             android:text="@string/popular_writer"
             android:textAlignment="viewStart"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/popular_writer_list"
             android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:orientation="horizontal"
+            android:layout_height="100dp"
             android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
             tools:listitem="@layout/fragment_detail" />
     </LinearLayout>
 </ScrollView>

@@ -1,5 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Support;
 
+import com.example.leebeomwoo.viewbody_final.Item.UserInformationItem;
 import com.example.leebeomwoo.viewbody_final.QnA.QrItem;
 import com.example.leebeomwoo.viewbody_final.QnA.QwItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
@@ -11,6 +12,7 @@ import com.example.leebeomwoo.viewbody_final.Response.ResponseQrp;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseTr;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -53,6 +55,10 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
     @FormUrlEncoded
     @POST("board/QnaRead.jsp")
     Call<QrItem> QrPost(@Field("pagenum") String pagenum);
+
+    @FormUrlEncoded
+    @POST("board/UserJoin.jsp")
+    Call<UserInformationItem> joinpush(@Body UserInformationItem item);
 
 
     @FormUrlEncoded

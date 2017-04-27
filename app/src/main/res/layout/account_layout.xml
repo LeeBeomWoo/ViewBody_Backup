@@ -32,7 +32,7 @@
 
         <Button
             android:id="@+id/join_btn"
-            android:layout_width="130dp"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/editText2"
@@ -40,13 +40,22 @@
             android:text="@string/join" />
 
         <Button
-            android:id="@+id/login_btn"
-            android:layout_width="130dp"
+            android:id="@+id/out_btn"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@+id/join_btn"
             android:layout_alignBottom="@+id/join_btn"
             android:layout_alignEnd="@+id/editText2"
-            android:text="@string/login" />
+            android:text="@string/join_out" />
+
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:layout_alignBaseline="@+id/out_btn"
+            android:layout_alignBottom="@+id/out_btn"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
     <Button
