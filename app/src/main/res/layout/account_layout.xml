@@ -46,7 +46,7 @@
             android:layout_alignBaseline="@+id/join_btn"
             android:layout_alignBottom="@+id/join_btn"
             android:layout_alignEnd="@+id/editText2"
-            android:text="Button" />
+            android:text="@string/login" />
     </RelativeLayout>
 
     <Button
