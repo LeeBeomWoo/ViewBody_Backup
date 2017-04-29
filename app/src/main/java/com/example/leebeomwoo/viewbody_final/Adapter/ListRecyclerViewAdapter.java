@@ -14,7 +14,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.leebeomwoo.viewbody_final.Fragment.Follow_BrethFragment;
+import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
 import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
@@ -23,7 +23,6 @@ import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +30,7 @@ import retrofit2.Response;
 
 public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerViewAdapter.ViewHolder> implements Filterable{
     private List<ListDummyItem> ldItems = new ArrayList<>();
+    private LikeItem lkItems;
     Context bContext;
     ResponseLd responseLd;
     private final static String TAG = "ListRecyclerViewAdapter";
@@ -93,18 +93,17 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             @Override
             public void onClick(View v) {
                 //좋아요 클릭했을 시 계정이 있는 지 확인 후 계정별로 하나의 게시물에 한번만 좋아요가 눌려지게 하고 기존에 눌렀던 적이 있다면 해당 좋아요를 취소하는 걸로 코딩
-                   Call<ResponseLd> call = ConAdapter.getInstance().getResult_List("Like", ldItem.getLd_Num(), "UserId");
-                   call.enqueue(new Callback<ResponseLd>() {
+                   Call<LikeItem> call = ConAdapter.getInstance().getResult_List("Like", ldItem.getLd_Num(), "UserId");
+                   call.enqueue(new Callback<LikeItem>() {
                        @Override
-                       public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
-                           responseLd = response.body();
+                       public void onResponse(Call<LikeItem> call, Response<LikeItem> response) {
+                           lkItems = response.body();
                            Log.d(TAG, "서버와의 연결이 잘됐어요~.");
-                           ldItems = responseLd.getLdItem();
-                           Log.d("response", ldItems.toString());
+                           Log.d("response", lkItems.toString());
                        }
 
                        @Override
-                       public void onFailure(Call<ResponseLd> call, Throwable t) {
+                       public void onFailure(Call<LikeItem> call, Throwable t) {
                            Log.d(TAG, t.getMessage());
                        }
                    });
@@ -126,7 +125,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         return (null != ldItems ? ldItems.size() : 0);
     }
 
-    public void setLdItems(List<ListDummyItem> bdItems1) {
+    public void setLkItems(List<ListDummyItem> bdItems1) {
         ldItems.clear();
         this.ldItems = bdItems1;
     }

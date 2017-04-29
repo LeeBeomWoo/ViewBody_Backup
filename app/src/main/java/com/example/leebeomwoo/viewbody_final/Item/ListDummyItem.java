@@ -9,16 +9,18 @@ public class ListDummyItem {
     private String ld_Title;
     private String ld_FaceUrl;
     private String ld_Section;
+    private int ld_Pop;
     private int ld_Num;
 
 
-    public ListDummyItem(String ld_Id, String ld_Title, String ld_ImageUrl, String ld_FaceUrl, String ld_Section, int ld_Num){
+    public ListDummyItem(String ld_Id, String ld_Title, String ld_ImageUrl, String ld_FaceUrl, String ld_Section, int ld_Num, int ld_Pop){
         this.ld_Id = ld_Id;
         this.ld_Title = ld_Title;
         this.ld_ImageUrl = ld_ImageUrl;
         this.ld_FaceUrl = ld_FaceUrl;
         this.ld_Section = ld_Section;
         this.ld_Num = ld_Num;
+        this.ld_Pop = ld_Pop;
     }
 
     public String getLd_ImageUrl(){
@@ -67,6 +69,14 @@ public class ListDummyItem {
 
     public void setLd_Num(int ld_Num) {
         this.ld_Num = ld_Num;
+    }
+
+    public int getLd_Pop() {
+        return ld_Pop;
+    }
+
+    public void setLd_Pop(int ld_Pop) {
+        this.ld_Pop = ld_Pop;
     }
 }
 

@@ -1,35 +1,24 @@
 package com.example.leebeomwoo.viewbody_final.Fragment;
 
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
-import com.example.leebeomwoo.viewbody_final.Item.FmItem;
+import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseFm;
-import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.MovieRecyclerViewAdapter;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class MovieFragment extends android.support.v4.app.Fragment {
     ResponseFm responseFm;
     MovieRecyclerViewAdapter adapter;
-    List<FmItem> fmItems;
+    List<LikeItem> likeItems;
     private View view;
     public MovieFragment(){}
     @Override
@@ -54,8 +43,8 @@ public class MovieFragment extends android.support.v4.app.Fragment {
                 responseFm = response.body();
                 Toast toast = Toast.makeText(getContext(), responseFm.getResult(), Toast.LENGTH_SHORT);
                 toast.show();
-                fmItems = responseFm.getFmItem();
-                adapter = new MovieRecyclerViewAdapter(getActivity(), fmItems);
+                likeItems = responseFm.getLikeItem();
+                adapter = new MovieRecyclerViewAdapter(getActivity(), likeItems);
                 rv.setAdapter(adapter);
             }
 

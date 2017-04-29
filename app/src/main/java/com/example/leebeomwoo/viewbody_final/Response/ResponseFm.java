@@ -1,6 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Response;
 
-import com.example.leebeomwoo.viewbody_final.Item.FmItem;
+import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -14,9 +14,9 @@ public class ResponseFm {
     @SerializedName("result")
     @Expose
     private String result;
-    @SerializedName("fmItem")
+    @SerializedName("likeItem")
     @Expose
-    private List<FmItem> fmItem = new ArrayList<FmItem>();
+    private List<LikeItem> likeItem = new ArrayList<LikeItem>();
 
     /**
      *
@@ -44,23 +44,23 @@ public class ResponseFm {
     /**
      *
      * @return
-     * The fmItem
+     * The likeItem
      */
-    public List<FmItem> getFmItem() {
-        return fmItem;
+    public List<LikeItem> getLikeItem() {
+        return likeItem;
     }
 
     /**
      *
-     * @param fmItem
-     * The FmItem
+     * @param likeItem
+     * The LikeItem
      */
-    public void setFmItem(List<FmItem> fmItem) {
-        this.fmItem = fmItem;
+    public void setLikeItem(List<LikeItem> likeItem) {
+        this.likeItem = likeItem;
     }
 
-    public ResponseFm withFmItem(List<FmItem> fmItem) {
-        this.fmItem = fmItem;
+    public ResponseFm withFmItem(List<LikeItem> likeItem) {
+        this.likeItem = likeItem;
         return this;
     }
 

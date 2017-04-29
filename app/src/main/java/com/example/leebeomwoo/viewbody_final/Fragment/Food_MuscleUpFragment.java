@@ -80,7 +80,7 @@ public class Food_MuscleUpFragment extends android.support.v4.app.Fragment {
                 responseCbd = response.body();
                 Log.d("response changed", response.body().toString());
                 ldItems = responseCbd.getCbdItem();
-                bdadapter.setLdItems(ldItems);
+                bdadapter.setLkItems(ldItems);
             }
             @Override
             public void onFailure(Call<ResponseCbd> call, Throwable t) {

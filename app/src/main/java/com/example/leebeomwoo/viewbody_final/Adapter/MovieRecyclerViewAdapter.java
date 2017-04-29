@@ -13,7 +13,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.example.leebeomwoo.viewbody_final.Item.FmItem;
+import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
 import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
@@ -26,15 +26,15 @@ import java.util.List;
 public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecyclerViewAdapter.ViewHolder> implements Filterable {
 
 
-    final List<FmItem> fmItems;
+    final List<LikeItem> likeItems;
     Context mContext;
-    private final List<FmItem> userList;
-    private final List<FmItem> filteredUserList;
+    private final List<LikeItem> userList;
+    private final List<LikeItem> filteredUserList;
     private UserFilter userFilter;
     int view_category;
 
-    public MovieRecyclerViewAdapter(Context context, List<FmItem> fmItemList){
-        this.fmItems = fmItemList;
+    public MovieRecyclerViewAdapter(Context context, List<LikeItem> likeItemList){
+        this.likeItems = likeItemList;
         this.mContext = context;
         this.userList = new ArrayList<>();
         this.filteredUserList = new ArrayList<>();
@@ -71,19 +71,19 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     }
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        final FmItem fmItem = fmItems.get(position);
+        final LikeItem likeItem = likeItems.get(position);
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.txtViewTitle.setText(fmItem.getFm_Title());
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + fmItem.getFm_ImageUrl());
+        viewHolder.txtViewTitle.setText(likeItem.getFm_Title());
+        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + likeItem.getSource());
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, ItemViewActivity.class);
-                String viewurl = fmItem.getFm_ImageUrl();
-                String tr_id = fmItem.getFm_Id();
-                view_category = fmItem.getFm_Section();
+                String viewurl = likeItem.getSource();
+                String tr_id = likeItem.getFm_Id();
+                view_category = likeItem.getFm_Section();
                 int q= 3;
                 //intent.putExtra("item_word", item_word);
                 intent.putExtra("page_num", q);
@@ -97,7 +97,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
     @Override
     public int getItemCount() {
 
-        return (null != fmItems ? fmItems.size() : 0);
+        return (null != likeItems ? likeItems.size() : 0);
     }
     // inner class to hold a reference to each item of RecyclerView
     @Override
@@ -111,11 +111,11 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
 
         MovieRecyclerViewAdapter adapter;
 
-        private final List<FmItem> originalList;
+        private final List<LikeItem> originalList;
 
-        private final List<FmItem> filteredList;
+        private final List<LikeItem> filteredList;
 
-        private UserFilter(MovieRecyclerViewAdapter adapter, List<FmItem> originalList) {
+        private UserFilter(MovieRecyclerViewAdapter adapter, List<LikeItem> originalList) {
             super();
             this.adapter = adapter;
             this.originalList = new LinkedList<>(originalList);
@@ -132,7 +132,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
             } else {
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (final FmItem user : originalList) {
+                for (final LikeItem user : originalList) {
                     if (user.getFm_Title().contains(filterPattern)) {
                         filteredList.add(user);
                     }
@@ -146,7 +146,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             adapter.filteredUserList.clear();
-            adapter.filteredUserList.addAll((ArrayList<FmItem>) results.values);
+            adapter.filteredUserList.addAll((ArrayList<LikeItem>) results.values);
             adapter.notifyDataSetChanged();
         }
     }

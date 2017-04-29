@@ -1,5 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Support;
 
+import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
 import com.example.leebeomwoo.viewbody_final.Item.UserInformationItem;
 import com.example.leebeomwoo.viewbody_final.QnA.QrItem;
 import com.example.leebeomwoo.viewbody_final.QnA.QwItem;
@@ -31,7 +32,7 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
 
     @FormUrlEncoded
     @POST("board/Like.jsp")
-    Call<ResponseLd> getResult_List(@Field("table") String table, @Field("Num") int Num, @Field("User") String User);
+    Call<LikeItem> getResult_List(@Field("table") String table, @Field("sourcid") int sourcid, @Field("userid") String userid);
 
     @GET("board/{id}.jsp")
     Call<ResponseCard> getResult_Card(@Path("id") String id);
