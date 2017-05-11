@@ -31,12 +31,14 @@ public class Account_Fragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.account_layout, container, false);
         setHasOptionsMenu(true);
+        Log.d(TAG, "onCreateView");
         getActivity().invalidateOptionsMenu();
         kakao = (Button) view.findViewById(R.id.kakao_Btn);
         google = (Button) view.findViewById(R.id.googleaccount_Btn);

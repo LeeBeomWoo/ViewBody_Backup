@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayShowTitleEnabled(false);
         ab.setDisplayShowCustomEnabled(true);
-        if(getIntent() != null) {
+        if(getIntent().hasExtra("message")) {
             Bundle bundle = getIntent().getExtras();
             i = bundle.getInt("message");
         }
