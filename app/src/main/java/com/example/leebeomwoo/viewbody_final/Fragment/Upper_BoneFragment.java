@@ -3,15 +3,10 @@ package com.example.leebeomwoo.viewbody_final.Fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -23,7 +18,6 @@ import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -72,7 +66,7 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment {
                 responseCbd = response.body();
                 Log.d("response changed", response.body().toString());
                 ldItems = responseCbd.getCbdItem();
-                bdadapter.setLdItems(ldItems);
+                bdadapter.setLkItems(ldItems);
             }
             @Override
             public void onFailure(Call<ResponseCbd> call, Throwable t) {
