@@ -78,7 +78,7 @@ public class ReadFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_read, container, false);
         qnaTitle = (TextView) view.findViewById(R.id.qna_read_title);
         qnaContent = (TextView) view.findViewById(R.id.qna_read_text);
-
+        /**
         upfab_open = AnimationUtils.loadAnimation(getActivity(), R.anim.upfab_open);
         upfab_close = AnimationUtils.loadAnimation(getActivity(), R.anim.upfab_close);
         lofab_open = AnimationUtils.loadAnimation(getActivity(), R.anim.lofab_open);
@@ -156,7 +156,7 @@ public class ReadFragment extends Fragment {
             }
         });
 
-
+        **/
         return view;
     }
 

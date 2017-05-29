@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
-import com.example.leebeomwoo.viewbody_final.Fragment.Upper_BoneFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.QnAFragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("동영상 따라하기", null, FollowTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
+        mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
 
         tabLayout = (TabLayout) findViewById(R.id.main_TabLayout);
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
@@ -111,10 +112,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-            /**
             case R.id.body:
-                viewPager.setCurrentItem(0, true);
+                viewPager.setCurrentItem(1, true);
                 return true;
+            /**
             case R.id.upper_muscle:
                 viewPager.setCurrentItem(0, true);
                 bodyTab_sub.viewPager.setCurrentItem(1);
@@ -156,15 +157,15 @@ public class MainActivity extends AppCompatActivity {
                 return true;
              **/
             case R.id.food:
-                viewPager.setCurrentItem(1, true);
+                viewPager.setCurrentItem(2, true);
                 // foodTab_sub.changePage(4);
                 return true;
             case R.id.follow:
-                viewPager.setCurrentItem(2, true);
+                viewPager.setCurrentItem(3, true);
                 //foodTab_sub.changePage(2);
                 return true;
             case R.id.writer:
-                viewPager.setCurrentItem(3, true);
+                viewPager.setCurrentItem(4, true);
                 //foodTab_sub.changePage(1);
                 return true;
             case R.id.account:

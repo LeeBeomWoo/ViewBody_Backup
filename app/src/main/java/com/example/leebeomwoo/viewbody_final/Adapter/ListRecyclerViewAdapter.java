@@ -3,6 +3,7 @@ package com.example.leebeomwoo.viewbody_final.Adapter;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,6 +51,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         public final WebView imgViewIcon;
         public final TextView txtViewId;
         public final WebView imgViewFace;
+        public final WebView videoView;
         public final Button button;
 
         public ViewHolder(View itemLayoutView) {
@@ -60,16 +62,39 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             imgViewFace = (WebView) itemLayoutView.findViewById(R.id.detile_face);
             txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
             button = (Button) itemLayoutView.findViewById(R.id.like_btn);
+            videoView = (WebView) itemLayoutView.findViewById(R.id.video_view);
             imgViewIcon.setFocusable(false);
             imgViewIcon.getSettings().setJavaScriptEnabled(true);
             imgViewIcon.getSettings().setDomStorageEnabled(true);
             imgViewIcon.getSettings().setUseWideViewPort(true);
             imgViewIcon.getSettings().setLoadWithOverviewMode(true);
+            imgViewFace.setFocusable(false);
+            imgViewFace.getSettings().setJavaScriptEnabled(true);
+            imgViewFace.getSettings().setDomStorageEnabled(true);
+            imgViewFace.getSettings().setUseWideViewPort(true);
+            imgViewFace.getSettings().setLoadWithOverviewMode(true);
+            videoView.setFocusable(false);
+            videoView.getSettings().setJavaScriptEnabled(true);
+            videoView.getSettings().setDomStorageEnabled(true);
+            videoView.getSettings().setUseWideViewPort(true);
+            videoView.getSettings().setLoadWithOverviewMode(true);
             if (Build.VERSION.SDK_INT >= 19) {
                 imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             }
             else {
                 imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                videoView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            }
+            else {
+                videoView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
+            if (Build.VERSION.SDK_INT >= 19) {
+                imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+            }
+            else {
+                imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
         }
     }
@@ -88,7 +113,9 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
-        viewHolder.imgViewFace.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_FaceUrl());
+        if(ldItem.getLd_Video() != null) {
+            viewHolder.videoView.loadUrl(ldItem.getLd_Video());
+        }
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +143,12 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                if (ldItem.getLd_Section() == "Follow"){
 
                }
+            }
+        });
+        viewHolder.imgViewFace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
     }

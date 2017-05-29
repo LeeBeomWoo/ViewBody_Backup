@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
-import com.example.leebeomwoo.viewbody_final.Fragment.Lower_BoneFragment;
-import com.example.leebeomwoo.viewbody_final.Fragment.Lower_MuscleFragment;
-import com.example.leebeomwoo.viewbody_final.Fragment.SelfMassageFragment;
-import com.example.leebeomwoo.viewbody_final.Fragment.Upper_BoneFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Upper_ExerFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Upper_MuscleFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.Writer_Fragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
 
@@ -75,8 +73,8 @@ public class WriterTab_Sub extends Fragment {
             view = inflater.inflate(R.layout.fragment_writer_tab_sub, container, false);
 
             items = new ArrayList<>();
-            items.add(new MainTabItem("영양사", mParam1, Upper_BoneFragment.class));
-            items.add(new MainTabItem("트레이너", mParam1, Upper_MuscleFragment.class));
+            items.add(new MainTabItem("영양사", mParam1, Writer_Fragment.class));
+            items.add(new MainTabItem("트레이너", mParam1, Writer_Fragment.class));
 
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.writer_TabLayout);
             viewPager = (ViewPager) view.findViewById(R.id.writer_viewPager);

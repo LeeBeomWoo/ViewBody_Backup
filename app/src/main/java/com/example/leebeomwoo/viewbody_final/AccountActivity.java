@@ -25,7 +25,6 @@ public class AccountActivity extends AppCompatActivity {
     DrawerLayout mDrawerLayout;
     Fragment joinFragment = new Join_Fragment();
     String TAG = "AccountActivity";
-    MenuItem menuItem;
     Fragment accountFragment = new Account_Fragment();
     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
     @Override
@@ -81,22 +80,22 @@ public class AccountActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.body: //문서정보로 이동
                  intent = new Intent(this, MainActivity.class);
-                intent.putExtra("message", 0);
+                intent.putExtra("message", 1);
                 startActivity(intent);
                 return true;
             case R.id.food: // 음식정보로 이동
                 intent = new Intent(this, MainActivity.class);
-                intent.putExtra("message", 1);
+                intent.putExtra("message", 2);
                 startActivity(intent);
                 return true;
             case R.id.follow: // 동영상 따라하는 것으로 이동
                 intent = new Intent(this, MainActivity.class);
-                intent.putExtra("message", 2);
+                intent.putExtra("message", 3);
                 startActivity(intent);
                 return true;
             case R.id.writer: // 작가텝으로 이동
                 intent = new Intent(this, MainActivity.class);
-                intent.putExtra("message", 3);
+                intent.putExtra("message", 4);
                 startActivity(intent);
                 return true;
             case R.id.join: // 현재 액티비티에 회원가입 신청프레그먼트를 출력

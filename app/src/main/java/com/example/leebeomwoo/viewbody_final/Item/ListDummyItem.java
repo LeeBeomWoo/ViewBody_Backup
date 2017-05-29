@@ -9,18 +9,28 @@ public class ListDummyItem {
     private String ld_Title;
     private String ld_FaceUrl;
     private String ld_Section;
+    private String ld_Video;
     private int ld_Pop;
     private int ld_Num;
 
 
-    public ListDummyItem(String ld_Id, String ld_Title, String ld_ImageUrl, String ld_FaceUrl, String ld_Section, int ld_Num, int ld_Pop){
+    public ListDummyItem(String ld_Id, String ld_Title, String ld_ImageUrl, String ld_FaceUrl, String ld_Section, String ld_video, int ld_Num, int ld_Pop){
         this.ld_Id = ld_Id;
         this.ld_Title = ld_Title;
         this.ld_ImageUrl = ld_ImageUrl;
         this.ld_FaceUrl = ld_FaceUrl;
         this.ld_Section = ld_Section;
+        this.ld_Video = ld_video;
         this.ld_Num = ld_Num;
         this.ld_Pop = ld_Pop;
+    }
+
+    public String getLd_Video() {
+        return ld_Video;
+    }
+
+    public void setLd_Video(String ld_Video) {
+        this.ld_Video = ld_Video;
     }
 
     public String getLd_ImageUrl(){

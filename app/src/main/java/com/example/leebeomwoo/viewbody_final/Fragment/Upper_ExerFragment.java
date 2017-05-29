@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Upper_BoneFragment extends android.support.v4.app.Fragment {
+public class Upper_ExerFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView rv;
     ResponseLd responseLd;
@@ -34,8 +34,8 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment {
     @SuppressLint("StaticFieldLeak")
     static ListRecyclerViewAdapter bdadapter;
 
-    String TAG = "Upper_BoneFragment";
-    public Upper_BoneFragment(){}
+    String TAG = "Upper_ExerFragment";
+    public Upper_ExerFragment(){}
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -109,7 +109,7 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment {
     }
 
     private void listStart(){
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Upper_Bone");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Upper_Exer");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
@@ -145,7 +145,7 @@ public class Upper_BoneFragment extends android.support.v4.app.Fragment {
         Log.d(TAG, "onDetach()");
     }
 
-    public static Upper_BoneFragment newInstance() {
-        return new Upper_BoneFragment();
+    public static Upper_ExerFragment newInstance() {
+        return new Upper_ExerFragment();
     }
 }

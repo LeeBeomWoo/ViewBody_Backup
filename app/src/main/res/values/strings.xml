@@ -29,8 +29,8 @@
     <string name="awarddata">수상 및 입상 자료</string>
     <string name="email">이메일</string>
     <string name="messenger">메신저</string>
-    <string name="licensename">자격증 명</string>
-    <string name="licencecheck">검증과정</string>
+    <string name="licensename">자격증명 :</string>
+    <string name="licencecheck">검증여부 :</string>
     <string name="awardname">입상 및 수상 명</string>
     <string name="awardcheck">검증과정</string>
     <string name="upper">상체</string>

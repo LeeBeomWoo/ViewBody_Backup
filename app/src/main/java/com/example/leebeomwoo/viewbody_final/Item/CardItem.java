@@ -9,12 +9,22 @@ package com.example.leebeomwoo.viewbody_final.Item;
         private String sEction;
         private String ld_Id;
         private String Category;
+        private String Introduce;
 
-        public CardItem(String Id, String ImageUrl, String Category){
+        public CardItem(String Id, String ImageUrl, String Category, String introduce){
             this.ld_Id = Id;
             this.ImageUrl = ImageUrl;
             this.Category = Category;
+            Introduce = introduce;
         }
+
+    public String getIntroduce() {
+        return Introduce;
+    }
+
+    public void setIntroduce(String introduce) {
+        Introduce = introduce;
+    }
 
     public String getImageUrl() {
         return ImageUrl;

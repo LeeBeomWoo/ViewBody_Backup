@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SelfMassageFragment extends android.support.v4.app.Fragment {
+public class StretchingFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView rv;
     ResponseLd responseLd;
@@ -34,8 +34,8 @@ public class SelfMassageFragment extends android.support.v4.app.Fragment {
     @SuppressLint("StaticFieldLeak")
     static ListRecyclerViewAdapter bdadapter;
 
-    String TAG = "Upper_BoneFragment";
-    public SelfMassageFragment(){}
+    String TAG = "StretchingFragment";
+    public StretchingFragment(){}
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -109,7 +109,7 @@ public class SelfMassageFragment extends android.support.v4.app.Fragment {
     }
 
     private void listStart(){
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("SelfMassage");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Stretching");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
@@ -145,7 +145,7 @@ public class SelfMassageFragment extends android.support.v4.app.Fragment {
         Log.d(TAG, "onDetach()");
     }
 
-    public static SelfMassageFragment newInstance() {
-        return new SelfMassageFragment();
+    public static StretchingFragment newInstance() {
+        return new StretchingFragment();
     }
 }

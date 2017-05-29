@@ -76,10 +76,10 @@ import java.util.ArrayList;
             view = inflater.inflate(R.layout.fragment_follow_tab_sub, container, false);
 
             items = new ArrayList<>();
-            items.add(new MainTabItem("코어" + "\n" + "운동", mParam1, Follow_CoreFragment.class));
-            items.add(new MainTabItem("유산소" + "\n" + "운동", mParam1, Follow_BrethFragment.class));
-            items.add(new MainTabItem("근력" + "\n" + "운동", mParam1, Follow_MuscleUpFragment.class));
-            items.add(new MainTabItem("스트" + "\n" + "레칭", mParam1, Follow_StretchingFragment.class));
+            // items.add(new MainTabItem("코어" + "\n" + "운동", mParam1, Follow_CoreFragment.class));
+            // items.add(new MainTabItem("유산소" + "\n" + "운동", mParam1, Follow_BrethFragment.class));
+            // items.add(new MainTabItem("근력" + "\n" + "운동", mParam1, Follow_MuscleUpFragment.class));
+            // items.add(new MainTabItem("스트" + "\n" + "레칭", mParam1, Follow_StretchingFragment.class));
 
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.follow_TabLayout);
             viewPager = (ViewPager) view.findViewById(R.id.follow_viewPager);

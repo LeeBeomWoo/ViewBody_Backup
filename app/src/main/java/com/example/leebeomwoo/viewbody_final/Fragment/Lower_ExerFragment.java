@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Lower_BoneFragment extends android.support.v4.app.Fragment {
+public class Lower_ExerFragment extends android.support.v4.app.Fragment {
 
     private RecyclerView rv;
     ResponseLd responseLd;
@@ -34,8 +34,8 @@ public class Lower_BoneFragment extends android.support.v4.app.Fragment {
     @SuppressLint("StaticFieldLeak")
     static ListRecyclerViewAdapter bdadapter;
 
-    String TAG = "Lower_BoneFragment";
-    public Lower_BoneFragment(){}
+    String TAG = "Lower_ExerFragment";
+    public Lower_ExerFragment(){}
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -52,7 +52,7 @@ public class Lower_BoneFragment extends android.support.v4.app.Fragment {
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
-        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Lower_Bone");
+        Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Lower_Exer");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
@@ -140,7 +140,7 @@ public class Lower_BoneFragment extends android.support.v4.app.Fragment {
         Log.d(TAG, "onDetach()");
     }
 
-    public static Lower_BoneFragment newInstance() {
-        return new Lower_BoneFragment();
+    public static Lower_ExerFragment newInstance() {
+        return new Lower_ExerFragment();
     }
 }

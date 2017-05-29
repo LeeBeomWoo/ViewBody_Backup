@@ -74,21 +74,19 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
         final LikeItem likeItem = likeItems.get(position);
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.txtViewTitle.setText(likeItem.getFm_Title());
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + likeItem.getSource());
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, ItemViewActivity.class);
                 String viewurl = likeItem.getSource();
-                String tr_id = likeItem.getFm_Id();
+                // String tr_id = likeItem.get();
                 view_category = likeItem.getFm_Section();
                 int q= 3;
                 //intent.putExtra("item_word", item_word);
                 intent.putExtra("page_num", q);
                 intent.putExtra("itemUrl", viewurl);
-                intent.putExtra("trId", tr_id);
+                // intent.putExtra("trId", tr_id);
                 intent.putExtra("section", view_category);
                 context.startActivity(intent);
             }
@@ -133,7 +131,7 @@ public class MovieRecyclerViewAdapter extends RecyclerView.Adapter<MovieRecycler
                 final String filterPattern = constraint.toString().toLowerCase().trim();
 
                 for (final LikeItem user : originalList) {
-                    if (user.getFm_Title().contains(filterPattern)) {
+                    if (user.getResult().contains(filterPattern)) {
                         filteredList.add(user);
                     }
                 }

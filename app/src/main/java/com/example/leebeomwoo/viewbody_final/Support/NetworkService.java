@@ -2,11 +2,11 @@ package com.example.leebeomwoo.viewbody_final.Support;
 
 import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
 import com.example.leebeomwoo.viewbody_final.Item.UserInformationItem;
+import com.example.leebeomwoo.viewbody_final.Item.WriterFirstItem;
 import com.example.leebeomwoo.viewbody_final.QnA.QrItem;
 import com.example.leebeomwoo.viewbody_final.QnA.QwItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
-import com.example.leebeomwoo.viewbody_final.Response.ResponseFm;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseQ;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseQrp;
@@ -29,6 +29,9 @@ public interface NetworkService { //retrofit2부터 url뒤에 /를 입력해야 
 
     @GET("board/QnA.jsp")
     Call<ResponseQ> getResult_Q();
+
+    @GET("board/trainerinfo.jsp")
+    Call<WriterFirstItem> getResult_Writer();
 
     @FormUrlEncoded
     @POST("board/Like.jsp")
