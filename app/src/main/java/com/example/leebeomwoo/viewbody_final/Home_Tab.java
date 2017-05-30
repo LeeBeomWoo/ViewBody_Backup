@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.ListRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.MyCardRecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Adapter.TrainerRecyclerView;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
@@ -40,7 +41,7 @@ public class Home_Tab extends Fragment {
         ResponseCard responseCd;
         private RecyclerView nw, pw, ns, ps;
         private static ListRecyclerViewAdapter nsa, psa;
-        private static MyCardRecyclerViewAdapter nwa, pwa;
+        private static TrainerRecyclerView nwa, pwa;
         private List<ListDummyItem> nsldItems, psldItems;
         private List<CardItem> nwldItems, pwldItems;
         View view;
@@ -170,7 +171,7 @@ public class Home_Tab extends Fragment {
                             Log.d(TAG + "_1", "서버와의 연결이 잘됐어요~.");
                             Log.d(TAG + "_1", responseCd.toString());
                             nwldItems = responseCd.getbCardItem();
-                            nwa = new MyCardRecyclerViewAdapter(getActivity(), nwldItems);
+                            nwa = new TrainerRecyclerView(getActivity(), nwldItems);
                             Log.d("response", nwldItems.toString());
                             rv.setAdapter(nwa);
                         }else{
@@ -193,7 +194,7 @@ public class Home_Tab extends Fragment {
                             Log.d(TAG + "_1", "서버와의 연결이 잘됐어요~.");
                             Log.d(TAG + "_1", responseCd.toString());
                             pwldItems = responseCd.getbCardItem();
-                            pwa = new MyCardRecyclerViewAdapter(getActivity(), pwldItems);
+                            pwa = new TrainerRecyclerView(getActivity(), pwldItems);
                             Log.d("response", pwldItems.toString());
                             rv.setAdapter(pwa);
                         }else{

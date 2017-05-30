@@ -48,39 +48,39 @@
         android:textAlignment="center"
         android:id="@+id/qna_write_title" />
 
-    <!--
-       <com.getbase.floatingactionbutton.FloatingActionButton
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:clickable="true"
-           app:fabSize="mini"
-           android:id="@+id/qna_write_camera"
-           android:src="@android:drawable/ic_menu_camera"
-           android:background="@color/nocolor"
-           android:layout_above="@+id/qna_write_main"
-           android:layout_alignParentEnd="true"
-           android:visibility="invisible" />
 
-       <com.getbase.floatingactionbutton.FloatingActionButton
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:clickable="true"
-           app:fabSize="mini"
-           android:id="@+id/qna_write_add"
-           android:src="@android:drawable/ic_menu_gallery"
-           android:background="@color/nocolor"
-           android:visibility="invisible"
-           android:layout_above="@+id/qna_write_camera"
-           android:layout_alignParentEnd="true" />
-           -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/qna_write_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/qna_write_add"
+        android:layout_alignStart="@+id/qna_write_add"
+        android:layout_marginStart="8dp"
+        android:background="@color/nocolor"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_camera"
+        android:visibility="invisible"
+        app:fabSize="mini" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/qna_write_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/qna_write_camera"
+        android:layout_alignStart="@+id/qna_write_camera"
+        android:background="@color/nocolor"
+        android:clickable="true"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:visibility="invisible"
+        app:fabSize="mini" />
 
 
-    <!--  비밀번호 입력하게 되면 오픈
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="@string/name"
+        android:inputType="textPassword"
+        android:hint="@string/password"
         android:ems="10"
         android:id="@+id/qna_write_password"
         android:textAlignment="center"
@@ -96,7 +96,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignBottom="@+id/qna_write_password"
         android:layout_below="@+id/textView3" />
-    -->
+
 
     <EditText
         android:layout_width="wrap_content"
@@ -119,5 +119,40 @@
         android:layout_below="@+id/qna_write_writer"
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/qna_write_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:clickable="true"
+        app:fabSize="normal"
+        app:srcCompat="@drawable/plus" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/qna_write_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/qna_write_main"
+        android:layout_toStartOf="@+id/qna_write_main"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/close" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/qna_write_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/qna_write_add"
+        android:layout_marginBottom="7dp"
+        android:layout_toStartOf="@+id/qna_write_add"
+        android:clickable="true"
+        android:visibility="invisible"
+        app:fabSize="mini"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
 
 </RelativeLayout>

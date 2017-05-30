@@ -74,11 +74,10 @@ public class WriteFragment extends Fragment {
         title = (EditText)view.findViewById(R.id.qna_write_title);
         writer = (EditText)view.findViewById(R.id.qna_write_writer);
         // password = (EditText) view.findViewById(R.id.qna_write_password);
-
-        main = (FloatingActionButton)view.findViewById(R.id.qna_write_main);
+        main = (FloatingActionButton)view.findViewById(R.id.qna_write_add);
         upload = (FloatingActionButton)view.findViewById(R.id.qna_write_upload);
-       // add = (FloatingActionButton)view.findViewById(R.id.qna_write_add);
-        // camera = (FloatingActionButton)view.findViewById(R.id.qna_write_camera);
+        add = (FloatingActionButton)view.findViewById(R.id.qna_write_main);
+        camera = (FloatingActionButton)view.findViewById(R.id.qna_write_camera);
         cancel = (FloatingActionButton)view.findViewById(R.id.qna_write_cancel);
         main.setFocusableInTouchMode(true);
         upload.setFocusableInTouchMode(true);
@@ -90,7 +89,6 @@ public class WriteFragment extends Fragment {
         add_close = AnimationUtils.loadAnimation(getActivity(), R.anim.add_close);
         rotate_forward = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_forward);
         rotate_backward = AnimationUtils.loadAnimation(getActivity(), R.anim.rotate_backward);
-
         main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
