@@ -1,7 +1,7 @@
 package com.example.leebeomwoo.viewbody_final.ItemGroup;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.leebeomwoo.viewbody_final.Item.WriterItem;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseTr;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
@@ -26,8 +27,8 @@ public class TrainerInfoFragment extends Fragment {
     private View view;
     private String tr_id;
     int q;
-    List<License> licenses;
-    List<Award> awards;
+    List<WriterItem> licenses;
+    List<WriterItem> awards;
     public TrainerInfoFragment() {
         // Required empty public constructor
     }

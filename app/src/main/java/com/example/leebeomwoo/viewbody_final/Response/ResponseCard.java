@@ -14,16 +14,20 @@ public class ResponseCard {
     @SerializedName("result")
     @Expose
     private String result;
-    @SerializedName("cdItem")
+    @SerializedName("cdbItem")
     @Expose
-    public List<CardItem> cdItem = new ArrayList<>();
+    public List<CardItem> cdbItem = new ArrayList<>();
+
+    @SerializedName("cdfItem")
+    @Expose
+    public List<CardItem> cdfItem = new ArrayList<>();
     /**
      *
      * @return
      * The liItem
      */
     public List<CardItem> getbCardItem() {
-        return cdItem;
+        return cdbItem;
     }
 
     /**
@@ -32,11 +36,24 @@ public class ResponseCard {
      * The LowerItem
      */
     public void setbCardItem(List<CardItem> cdbItem) {
-        this.cdItem = cdItem;
+        this.cdbItem = cdbItem;
     }
 
-    public ResponseCard withbLiItem(List<CardItem> cdItem) {
-        this.cdItem = cdItem;
+    public ResponseCard withbLiItem(List<CardItem> cdbItem) {
+        this.cdbItem = cdbItem;
+        return this;
+    }
+    /**
+     *
+     * @param cdfItem
+     * The LowerItem
+     */
+    public void setfCardItem(List<CardItem> cdfItem) {
+        this.cdfItem = cdfItem;
+    }
+
+    public ResponseCard withfLiItem(List<CardItem> cdfItem) {
+        this.cdbItem = cdbItem;
         return this;
     }
     /**

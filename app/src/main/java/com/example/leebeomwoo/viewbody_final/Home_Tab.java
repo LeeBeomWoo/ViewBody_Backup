@@ -44,6 +44,7 @@ public class Home_Tab extends Fragment {
         private static TrainerRecyclerView nwa, pwa;
         private List<ListDummyItem> nsldItems, psldItems;
         private List<CardItem> nwldItems, pwldItems;
+
         View view;
         ListSection listSection;
         // TODO: Rename and change types of parameters

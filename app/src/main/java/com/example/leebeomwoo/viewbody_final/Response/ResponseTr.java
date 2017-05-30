@@ -1,5 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Response;
 
+import com.example.leebeomwoo.viewbody_final.Item.WriterItem;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Award;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.License;
 import com.google.gson.annotations.Expose;
@@ -19,11 +20,11 @@ public class ResponseTr {
     private String association;
     @SerializedName("license")
     @Expose
-    private List<License> licenses = new ArrayList<License>();
+    private List<WriterItem> licenses = new ArrayList<WriterItem>();
 
     @SerializedName("award")
     @Expose
-    private List<Award> awards = new ArrayList<Award>();
+    private List<WriterItem> awards = new ArrayList<WriterItem>();
 
     public String getNickName(){
         return nickName;
@@ -65,29 +66,29 @@ public class ResponseTr {
         this.association = association;
     }
 
-    public List<License> getLicense() {
+    public List<WriterItem> getLicense() {
         return licenses;
     }
 
-    public void setLicense(List<License> licenses) {
+    public void setLicense(List<WriterItem> licenses) {
         this.licenses = licenses;
     }
 
-    public ResponseTr withLicense(List<License> licenses) {
+    public ResponseTr withLicense(List<WriterItem> licenses) {
         this.licenses = licenses;
         return this;
     }
 
-    public List<Award> getAward() {
+    public List<WriterItem> getAward() {
         return awards;
     }
 
 
-    public void setAward(List<Award> awards) {
+    public void setAward(List<WriterItem> awards) {
         this.awards = awards;
     }
 
-    public ResponseTr withAward(List<Award> awards) {
+    public ResponseTr withAward(List<WriterItem> awards) {
         this.awards = awards;
         return this;
     }

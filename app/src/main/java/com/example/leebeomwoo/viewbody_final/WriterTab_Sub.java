@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 import com.example.leebeomwoo.viewbody_final.Fragment.Upper_ExerFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Upper_MuscleFragment;
+import com.example.leebeomwoo.viewbody_final.Fragment.WriterListFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Writer_Fragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
@@ -28,6 +29,7 @@ public class WriterTab_Sub extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "0";
+    private static final String TAG = "WriterTab_Sub";
     View view;
     ViewPager viewPager;
     private ArrayList<MainTabItem> items;
@@ -73,8 +75,8 @@ public class WriterTab_Sub extends Fragment {
             view = inflater.inflate(R.layout.fragment_writer_tab_sub, container, false);
 
             items = new ArrayList<>();
-            items.add(new MainTabItem("영양사", mParam1, Writer_Fragment.class));
-            items.add(new MainTabItem("트레이너", mParam1, Writer_Fragment.class));
+            items.add(new MainTabItem("영양사", mParam1, WriterListFragment.class));
+            items.add(new MainTabItem("트레이너", mParam1, WriterListFragment.class));
 
             SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.writer_TabLayout);
             viewPager = (ViewPager) view.findViewById(R.id.writer_viewPager);

@@ -18,11 +18,12 @@ import android.view.animation.AnimationUtils;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.ItemFragment;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment_21;
+import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
 
 /**
  * Created by LBW on 2016-06-30.
  */
-public class ItemViewActivity extends AppCompatActivity {
+public class ItemViewActivity extends AppCompatActivity implements View.OnClickListener {
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -76,7 +77,13 @@ public class ItemViewActivity extends AppCompatActivity {
             }
         }
             // Now later we can lookup the fragment by tag
-/**
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+        fab4 = (FloatingActionButton) findViewById(R.id.fab4);
+        fab5 = (FloatingActionButton) findViewById(R.id.fab5);
+
         fab1.setSize(FloatingActionButton.SIZE_MINI);
         fab2.setSize(FloatingActionButton.SIZE_MINI);
         fab3.setSize(FloatingActionButton.SIZE_MINI);
@@ -93,9 +100,9 @@ public class ItemViewActivity extends AppCompatActivity {
         fab3.setOnClickListener(this);
         fab4.setOnClickListener(this);
         fab5.setOnClickListener(this);
- **/
+
     }
-    /**
+
     @Override
     public void onClick(View v){
 
@@ -103,7 +110,7 @@ public class ItemViewActivity extends AppCompatActivity {
             case R.id.fab :
                 animateFAB();
                 break;
-            case R.id.fab1 :
+            case R.id.fab1:
                 switch (fragment) {
                     case 1:
                         Intent intent_1 = new Intent(ItemViewActivity.this, MainActivity.class);
@@ -139,7 +146,7 @@ public class ItemViewActivity extends AppCompatActivity {
                             }
                             finalFollow_fragment.mediaRecorder.start();
                         }
-                        fab1.setIcon(R.drawable.playbutton);
+                        fab1.setImageResource(R.drawable.playbutton);
                         fab.startAnimation(rotate_backward);
                         fab1.startAnimation(fab_close);
                         fab2.startAnimation(fab_close);
@@ -190,11 +197,11 @@ public class ItemViewActivity extends AppCompatActivity {
                             } else{
                                 finalFollow_fragment.mediaRecorder.start();
                                 recording = true;
-                                fab1.setIcon(R.drawable.record);
+                                fab1.setImageResource(R.drawable.record);
                             }
                             finalFollow_fragment.mediaRecorder.start();
                         }
-                        fab1.setIcon(R.drawable.record);
+                        fab1.setImageResource(R.drawable.record);
                 }
                 fab.startAnimation(rotate_backward);
                 fab1.startAnimation(fab_close);
@@ -258,6 +265,7 @@ public class ItemViewActivity extends AppCompatActivity {
                 isFabOpen = false;
                 fab.setVisibility(View.INVISIBLE);
                 break;
+            /**
             case R.id.fab4 :
                 timetreck timetreck = new timetreck();
                 FragmentManager fragmentManager_1 = getFragmentManager();
@@ -278,13 +286,13 @@ public class ItemViewActivity extends AppCompatActivity {
                 isFabOpen = false;
                 fab.setVisibility(View.INVISIBLE);
                 break;
+             **/
             case R.id.fab5 :
                 TrainerInfoFragment fragment3 = new TrainerInfoFragment();
-                FragmentManager fragmentManager = getFragmentManager();
                 Bundle bundle = new Bundle();
                 bundle.putString("tr_id", tr_id);
                 fragment3.setArguments(bundle);
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.fragment, fragment3).commit();
                 fab.startAnimation(rotate_backward);
                 fab1.startAnimation(fab_close);
@@ -303,7 +311,7 @@ public class ItemViewActivity extends AppCompatActivity {
                 break;
         }
     }
-    **/
+
     public static void setCameraDisplayOrientation(Activity activity,
                                                    int cameraId, Camera camera) {
         Camera.CameraInfo info =
@@ -363,31 +371,31 @@ public class ItemViewActivity extends AppCompatActivity {
             Log.d("Raj", "open");
         }
     }
-/**
+
     private void fabImageset (int i) {
         switch (i){
             case 1:
-                fab1.setIcon(R.drawable.followmelogo);
-                fab2.setIcon(R.drawable.exerciselogo);
-                fab3.setIcon(R.drawable.foodlogo);
+                fab1.setImageResource(R.drawable.followmelogo);
+                fab2.setImageResource(R.drawable.exerciselogo);
+                fab3.setImageResource(R.drawable.foodlogo);
                 break;
             case 2:
-                fab1.setIcon(R.drawable.followmelogo);
-                fab2.setIcon(R.drawable.bodyinfologo);
-                fab3.setIcon(R.drawable.foodlogo);
+                fab1.setImageResource(R.drawable.followmelogo);
+                fab2.setImageResource(R.drawable.bodyinfologo);
+                fab3.setImageResource(R.drawable.foodlogo);
                 break;
             case 3:
-                fab1.setIcon(R.drawable.next);
-                fab2.setIcon(R.drawable.record);
+                fab1.setImageResource(R.drawable.next);
+                fab2.setImageResource(R.drawable.record);
                 fab3.setImageResource(R.drawable.switch_camera);
                 break;
             case 4:
-                fab1.setIcon(R.drawable.bodyinfologo);
-                fab2.setIcon(R.drawable.exerciselogo);
-                fab3.setIcon(R.drawable.followmelogo);
+                fab1.setImageResource(R.drawable.bodyinfologo);
+                fab2.setImageResource(R.drawable.exerciselogo);
+                fab3.setImageResource(R.drawable.followmelogo);
                 break;
 
         }
     }
- **/
+
 }

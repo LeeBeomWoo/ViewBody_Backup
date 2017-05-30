@@ -1,8 +1,10 @@
 package com.example.leebeomwoo.viewbody_final.Fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +31,12 @@ import retrofit2.Response;
 public class WriterListFragment extends android.support.v4.app.Fragment {
     ResponseCard responseCd;
     TrainerRecyclerView adapter;
-    List<CardItem> likeItems;
+    private static final String TAG = "WriterListFragment";
+    List<CardItem> trlikeItems, fdlikeItems;
     private View view;
-    RecyclerView rv;
+    RecyclerView trrv, fdrv;
     public WriterListFragment(){}
+    FragmentManager fragmentManager;
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -42,22 +46,24 @@ public class WriterListFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_card_list, container, false);
-        rv = (RecyclerView)view.findViewById(R.id.card_list);
+        trrv = (RecyclerView)view.findViewById(R.id.card_list);
         setHasOptionsMenu(true);
-        rv.setHasFixedSize(true);
+        trrv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        rv.setLayoutManager(llm);
-        Call<ResponseCard> call = ConAdapter.getInstance().getResult_Card("Person,jsp");
+        trrv.setLayoutManager(llm);
+        Call<ResponseCard> call = ConAdapter.getInstance().getResult_Card("Person");
         call.enqueue(new Callback<ResponseCard>() {
             @Override
             public void onResponse(Call<ResponseCard> call, Response<ResponseCard> response) {
                 responseCd = response.body();
+                Log.d(TAG, responseCd.toString());
                 Toast toast = Toast.makeText(getContext(), responseCd.getResult(), Toast.LENGTH_SHORT);
                 toast.show();
-                likeItems = responseCd.getbCardItem();
-                adapter = new TrainerRecyclerView(getActivity(), likeItems);
-                rv.setAdapter(adapter);
+                trlikeItems = responseCd.getbCardItem();
+
+                adapter = new TrainerRecyclerView(getActivity(), trlikeItems);
+                trrv.setAdapter(adapter);
             }
 
             @Override
