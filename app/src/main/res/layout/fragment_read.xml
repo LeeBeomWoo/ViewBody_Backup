@@ -39,20 +39,20 @@
             android:layout_below="@+id/qna_read_title"
             android:layout_alignParentStart="true" />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            app:fabSize="mini"
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/reply_add_btn"
-            android:background="@android:drawable/ic_input_add"
-            android:src="@android:drawable/ic_input_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_marginStart="300dp"
             android:layout_marginTop="400dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:background="@android:drawable/ic_input_add"
+            android:clickable="true"
+            android:src="@drawable/plus"
+            app:fabSize="normal" />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -64,7 +64,7 @@
             android:visibility="invisible"
             android:src="@android:drawable/ic_menu_edit" />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
+        <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"

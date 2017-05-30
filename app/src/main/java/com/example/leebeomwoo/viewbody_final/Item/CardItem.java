@@ -6,17 +6,27 @@ package com.example.leebeomwoo.viewbody_final.Item;
 
     public class CardItem {
         private String ImageUrl;
-        private String sEction;
         private String ld_Id;
+        private String nickName;
         private String Category;
         private String Introduce;
 
-        public CardItem(String Id, String ImageUrl, String Category, String introduce){
+
+        public CardItem(String Id, String ImageUrl, String nickName, String Category, String introduce){
             this.ld_Id = Id;
             this.ImageUrl = ImageUrl;
+            this.nickName = nickName;
             this.Category = Category;
-            Introduce = introduce;
+            this.Introduce = introduce;
         }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
 
     public String getIntroduce() {
         return Introduce;
@@ -50,11 +60,4 @@ package com.example.leebeomwoo.viewbody_final.Item;
         Category = category;
     }
 
-    public String getsEction() {
-        return sEction;
-    }
-
-    public void setsEction(String sEction) {
-        this.sEction = sEction;
-    }
 }

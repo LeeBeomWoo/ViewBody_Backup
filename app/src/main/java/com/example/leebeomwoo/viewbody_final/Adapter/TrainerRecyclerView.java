@@ -58,7 +58,7 @@ public class TrainerRecyclerView extends RecyclerView.Adapter<TrainerRecyclerVie
         final CardItem cardItem = cardItems.get(position);
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
-        viewHolder.category.setText(cardItem.getsEction());
+        viewHolder.category.setText(cardItem.getCategory());
         viewHolder.nickname.setText(cardItem.getLd_Id());
         viewHolder.writer_selfintrd.setText(cardItem.getIntroduce());
         viewHolder.faceimage.loadUrl(ConAdapter.SERVER_URL + cardItem.getImageUrl()); //실제 구동시

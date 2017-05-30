@@ -78,7 +78,7 @@ public class ReadFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_read, container, false);
         qnaTitle = (TextView) view.findViewById(R.id.qna_read_title);
         qnaContent = (TextView) view.findViewById(R.id.qna_read_text);
-        /**
+
         upfab_open = AnimationUtils.loadAnimation(getActivity(), R.anim.upfab_open);
         upfab_close = AnimationUtils.loadAnimation(getActivity(), R.anim.upfab_close);
         lofab_open = AnimationUtils.loadAnimation(getActivity(), R.anim.lofab_open);
@@ -155,8 +155,6 @@ public class ReadFragment extends Fragment {
             public void onFailure(Call<QrItem> call, Throwable t) {
             }
         });
-
-        **/
         return view;
     }
 
@@ -174,13 +172,11 @@ public class ReadFragment extends Fragment {
     public void animateFAB() {
 
         if (isFabOpen) {
-
             add.startAnimation(rotate_backward);
             update.startAnimation(upfab_close);
             cancel.startAnimation(lofab_close);
             update.setClickable(false);
             cancel.setClickable(false);
-
             isFabOpen = false;
             Log.d("Raj", "close");
         } else {
@@ -189,7 +185,6 @@ public class ReadFragment extends Fragment {
             cancel.startAnimation(lofab_open);
             update.setClickable(true);
             cancel.setClickable(true);
-
             isFabOpen = true;
             Log.d("Raj", "open");
         }
