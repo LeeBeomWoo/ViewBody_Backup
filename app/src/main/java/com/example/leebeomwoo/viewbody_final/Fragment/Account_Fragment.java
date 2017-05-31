@@ -27,10 +27,16 @@ public class Account_Fragment extends Fragment {
     Button kakao, google, facebook, join, login, out;
     EditText id, pw;
     UserInformationItem item;
+    String user_id, user_pass;
     String TAG = "Account_Fragment";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            user_id = getArguments().getString("user_id");
+            user_pass = getArguments().getString("user_pass");
+        }
         Log.d(TAG, "onCreate");
     }
 
