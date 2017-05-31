@@ -2,13 +2,13 @@ package com.example.leebeomwoo.viewbody_final.ItemGroup;
 
 
 import android.annotation.TargetApi;
-import android.app.Fragment;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
@@ -45,10 +45,10 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     WebView webView;
     public MediaRecorder mediaRecorder;
     public SurfaceHolder surfaceHolder;
-    int section, witch;
+    int page_num, witch;
     Calendar c = Calendar.getInstance();
     private static TextureView textureView;
-    String tr_id, imageUrl, tr_password, URL;
+    String tr_id, imageUrl, tr_password, URL, section;
     String testUrl = "<html><body><iframe width=\"1280\" height=\"720\" src=\"https://www.youtube.com/embed/Pu3k3Pn2eqQ\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
 
     @Override
@@ -57,7 +57,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         if (getArguments() != null) {
             tr_id = getArguments().getString("tr_Id");
             imageUrl = getArguments().getString("itemUrl");
-            section = getArguments().getInt("section");
+            page_num = getArguments().getInt("page_num");
         }
     }
     @Override

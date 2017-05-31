@@ -1,6 +1,7 @@
 package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
 import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
+import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
@@ -141,14 +143,26 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             public void onClick(View v) {
                 //동영상을 따라하는 경우엔 itemActivity로 이동되어 지고 그 외에는 아무 일이 일어나지 않도록 만듬.
                if (ldItem.getLd_Section() == "Follow"){
-
+                   Intent intent_1 = new Intent(bContext, ItemViewActivity.class);
+                   intent_1.putExtra("itemUrl", ldItem.getLd_ImageUrl());
+                   intent_1.putExtra("tr_Id", ldItem.getLd_Id());
+                   intent_1.putExtra("section", ldItem.getLd_Section());
+                   intent_1.putExtra("page_num", ldItem.getLd_Num());
+                   intent_1.putExtra("fragment", 2);
+                   bContext.startActivity(intent_1);
                }
             }
         });
         viewHolder.imgViewFace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent_2 = new Intent(bContext, ItemViewActivity.class);
+                intent_2.putExtra("itemUrl", "trainer");
+                intent_2.putExtra("tr_Id", ldItem.getLd_Id());
+                intent_2.putExtra("section", ldItem.getLd_Section());
+                //intent_2.putExtra("item_word", item_word);
+                intent_2.putExtra("fragment", 1);
+                bContext.startActivity(intent_2);
             }
         });
     }

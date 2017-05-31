@@ -25,8 +25,7 @@ import retrofit2.Response;
 public class TrainerInfoFragment extends Fragment {
     ResponseTr responseTr;
     private View view;
-    private String tr_id;
-    int q;
+    String tr_id, section;
     List<WriterItem> licenses;
     List<WriterItem> awards;
     public TrainerInfoFragment() {
@@ -37,7 +36,7 @@ public class TrainerInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         tr_id = getArguments().getString("tr_id");
-        q = getArguments().getInt("page_num");
+        section = getArguments().getString("section");
     }
 //넘겨받은 작성자값을 인자(tr_id)로 조회하여 해당 트레이너의 정보를 출력
     @Override

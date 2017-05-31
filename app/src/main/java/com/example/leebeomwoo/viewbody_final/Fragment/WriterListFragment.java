@@ -61,7 +61,6 @@ public class WriterListFragment extends android.support.v4.app.Fragment {
                 Toast toast = Toast.makeText(getContext(), responseCd.getResult(), Toast.LENGTH_SHORT);
                 toast.show();
                 trlikeItems = responseCd.getbCardItem();
-
                 adapter = new TrainerRecyclerView(getActivity(), trlikeItems);
                 trrv.setAdapter(adapter);
             }

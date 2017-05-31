@@ -3,10 +3,7 @@ package com.example.leebeomwoo.viewbody_final.ItemGroup;
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
@@ -30,6 +27,9 @@ import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v13.app.ActivityCompat;
 import android.support.v13.app.FragmentCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
@@ -76,7 +76,7 @@ public class Item_follow_fragment_21 extends Fragment
     private static final String TAG = "Camera2VideoFragment";
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
-    int section;
+    int page_num;
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
 
@@ -160,9 +160,9 @@ public class Item_follow_fragment_21 extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(getArguments() !=null){
-            imageUrl = getArguments().getString("imageUrl");
-            tr_id = getArguments().getString("tr_id");
-            section = getArguments().getInt("section");
+            tr_id = getArguments().getString("tr_Id");
+            imageUrl = getArguments().getString("itemUrl");
+            page_num = getArguments().getInt("page_num");
             Log.d("프래그먼트 생성:", imageUrl);
         }
     }
@@ -430,7 +430,7 @@ public class Item_follow_fragment_21 extends Fragment
      */
     private boolean shouldShowRequestPermissionRationale(String[] permissions) {
         for (String permission : permissions) {
-            if (FragmentCompat.shouldShowRequestPermissionRationale(this, permission)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permission)) {
                 return true;
             }
         }
@@ -442,9 +442,9 @@ public class Item_follow_fragment_21 extends Fragment
      */
     private void requestVideoPermissions() {
         if (shouldShowRequestPermissionRationale(VIDEO_PERMISSIONS)) {
-            new ConfirmationDialog().show(getChildFragmentManager(), FRAGMENT_DIALOG);
+            new ConfirmationDialog().show(getActivity().getSupportFragmentManager(), FRAGMENT_DIALOG);
         } else {
-            FragmentCompat.requestPermissions(this, VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
+            ActivityCompat.requestPermissions(getActivity(), VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
         }
     }
 
@@ -538,7 +538,7 @@ public class Item_follow_fragment_21 extends Fragment
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
             ErrorDialog.newInstance(getString(R.string.camera_error))
-                    .show(getChildFragmentManager(), FRAGMENT_DIALOG);
+                    .show(getActivity().getSupportFragmentManager(), FRAGMENT_DIALOG);
         } catch (InterruptedException e) {
             throw new RuntimeException("Interrupted while trying to lock camera opening.");
         }

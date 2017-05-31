@@ -2,6 +2,8 @@ package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.Item.WriterItem;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
 import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
+import com.example.leebeomwoo.viewbody_final.MainActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 
@@ -69,11 +72,12 @@ public class TrainerRecyclerView extends RecyclerView.Adapter<TrainerRecyclerVie
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TrainerInfoFragment timetreck = new TrainerInfoFragment();
-                ItemViewActivity manager = (ItemViewActivity)v.getContext();
-                manager.getSupportFragmentManager().beginTransaction().replace(R.id.fragment, timetreck);
-                manager.getSupportFragmentManager().beginTransaction().addToBackStack(null);
-                manager.getSupportFragmentManager().beginTransaction().commit();
+                Intent intent_2 = new Intent(bContext, ItemViewActivity.class);
+                intent_2.putExtra("itemUrl", "trainer");
+                intent_2.putExtra("tr_Id", cardItem.getLd_Id());
+                intent_2.putExtra("section", cardItem.getCategory());
+                intent_2.putExtra("fragment", 1);
+                bContext.startActivity(intent_2);
             }
         });
     }
