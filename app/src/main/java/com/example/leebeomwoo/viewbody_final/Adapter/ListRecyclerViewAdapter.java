@@ -40,7 +40,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     private final List<ListDummyItem> filteredUserList;
     private UserFilter userFilter;
     private String callClass;
-
+    Intent intent = new Intent(bContext, ItemViewActivity.class);
 
     public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
         this.ldItems = ldItemList;
@@ -53,7 +53,9 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         public final WebView imgViewIcon;
         public final TextView txtViewId;
         public final WebView imgViewFace;
-        public final WebView videoView;
+        public final WebView videoView_1;
+        public final WebView videoView_2;
+        public final WebView videoView_3;
         public final Button button;
 
         public ViewHolder(View itemLayoutView) {
@@ -62,9 +64,11 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
             imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
             imgViewFace = (WebView) itemLayoutView.findViewById(R.id.detile_face);
+            videoView_1 = (WebView) itemLayoutView.findViewById(R.id.videoView_1);
+            videoView_2 = (WebView) itemLayoutView.findViewById(R.id.detile_face);
             txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
             button = (Button) itemLayoutView.findViewById(R.id.like_btn);
-            videoView = (WebView) itemLayoutView.findViewById(R.id.video_view);
+            videoView_3 = (WebView) itemLayoutView.findViewById(R.id.video_view);
             imgViewIcon.setFocusable(false);
             imgViewIcon.getSettings().setJavaScriptEnabled(true);
             imgViewIcon.getSettings().setDomStorageEnabled(true);
@@ -143,26 +147,24 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             public void onClick(View v) {
                 //동영상을 따라하는 경우엔 itemActivity로 이동되어 지고 그 외에는 아무 일이 일어나지 않도록 만듬.
                if (ldItem.getLd_Section() == "Follow"){
-                   Intent intent_1 = new Intent(bContext, ItemViewActivity.class);
-                   intent_1.putExtra("itemUrl", ldItem.getLd_ImageUrl());
-                   intent_1.putExtra("tr_Id", ldItem.getLd_Id());
-                   intent_1.putExtra("section", ldItem.getLd_Section());
-                   intent_1.putExtra("page_num", ldItem.getLd_Num());
-                   intent_1.putExtra("fragment", 2);
-                   bContext.startActivity(intent_1);
+                   intent.putExtra("itemUrl", ldItem.getLd_ImageUrl());
+                   intent.putExtra("tr_Id", ldItem.getLd_Id());
+                   intent.putExtra("section", ldItem.getLd_Section());
+                   intent.putExtra("page_num", ldItem.getLd_Num());
+                   intent.putExtra("fragment", 2);
+                   bContext.startActivity(intent);
                }
             }
         });
         viewHolder.imgViewFace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent_2 = new Intent(bContext, ItemViewActivity.class);
-                intent_2.putExtra("itemUrl", "trainer");
-                intent_2.putExtra("tr_Id", ldItem.getLd_Id());
-                intent_2.putExtra("section", ldItem.getLd_Section());
+                intent.putExtra("itemUrl", "trainer");
+                intent.putExtra("tr_Id", ldItem.getLd_Id());
+                intent.putExtra("section", ldItem.getLd_Section());
                 //intent_2.putExtra("item_word", item_word);
-                intent_2.putExtra("fragment", 1);
-                bContext.startActivity(intent_2);
+                intent.putExtra("fragment", 1);
+                bContext.startActivity(intent);
             }
         });
     }
