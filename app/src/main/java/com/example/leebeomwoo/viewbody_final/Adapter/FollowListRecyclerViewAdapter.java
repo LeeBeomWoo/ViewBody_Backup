@@ -90,7 +90,7 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_detail, parent, false);
+                .inflate(R.layout.fragment_follow, parent, false);
         return new ViewHolder(view);
     }
 
