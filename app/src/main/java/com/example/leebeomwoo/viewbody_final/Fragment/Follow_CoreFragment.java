@@ -48,8 +48,8 @@ public class Follow_CoreFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView()");
-        View view = inflater.inflate(R.layout.fragment_detail_list, container, false);
-        rv = (RecyclerView) view.findViewById(R.id.detail_list);
+        View view = inflater.inflate(R.layout.fragment_follow_list, container, false);
+        rv = (RecyclerView) view.findViewById(R.id.follow_recycler);
         setHasOptionsMenu(true);
         rv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();
