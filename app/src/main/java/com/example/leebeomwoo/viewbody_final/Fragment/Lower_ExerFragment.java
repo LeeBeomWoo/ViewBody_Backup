@@ -52,6 +52,11 @@ public class Lower_ExerFragment extends android.support.v4.app.Fragment {
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
+        listStart();
+        return view;
+    }
+
+    private void listStart(){
         Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Lower_Exer");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
@@ -68,9 +73,7 @@ public class Lower_ExerFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,t.getMessage());
             }
         });
-        return view;
     }
-
     public void datachanged(String category) {
         Call<ResponseCbd> call = ConAdapter.getInstance().CATEGORY_BODY(category);
         call.enqueue(new Callback<ResponseCbd>() {
