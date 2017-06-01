@@ -35,6 +35,7 @@ public class QnAFragment extends android.support.v4.app.Fragment {
     MyQnARecyclerViewAdapter adapter;
     List<QItem> qItems;
     private View view;
+    private RecyclerView rv;
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -44,12 +45,16 @@ public class QnAFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_qna_list, container, false);
-        final RecyclerView rv = (RecyclerView)view.findViewById(R.id.qna_list);
+        rv = (RecyclerView)view.findViewById(R.id.qna_list);
         setHasOptionsMenu(true);
         rv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
+        listup();
+        return view;
+    }
+    private void listup(){
         Call<ResponseQ> call = ConAdapter.getInstance().getResult_Q();
         call.enqueue(new Callback<ResponseQ>() {
             @Override
@@ -68,9 +73,7 @@ public class QnAFragment extends android.support.v4.app.Fragment {
                 toast.show();
             }
         });
-        return view;
     }
-
     public static QnAFragment newInstance() {
         return new QnAFragment();
     }

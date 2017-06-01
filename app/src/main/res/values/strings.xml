@@ -67,6 +67,7 @@
     <string name="food_metabolic">대사증후군 식단</string>
     <string name="account">계정</string>
     <string name="qna">묻고답하기</string>
+    <string name="qna_write">질문하기</string>
     <string name="selfmassage">자가마사지</string>
     <string name="follow">동영상 따라하기</string>
     <string name="writer_menu">운동 및 영양 선생님들</string>
@@ -98,4 +99,5 @@
         있으며 본 프로그램은 이러한 \n정보를 사용자들에게 전달할 수 있는 하나의 수단 일 \n뿐입니다.
     그리고 우리의 자료는 2차, 3차로 각 분야의 \n전문가들이 검토 후 업로드 되는 방식이므로 혹시나 \n오류가
     있거나 문제가 있는 자료들은 즉시 연락을 주시면 자문위원단의 검토 후 수정을 하거나 \n답변을 드리도록 하겠습니다.</string>
+    <string name="follow_media">따라하기</string>
 </resources>

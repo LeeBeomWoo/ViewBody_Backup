@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
     @Override
     public boolean onCreateOptionsMenu( Menu menu) {
         getMenuInflater().inflate( R.menu.menu_main, menu);
@@ -115,47 +114,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.body:
                 viewPager.setCurrentItem(1, true);
                 return true;
-            /**
-            case R.id.upper_muscle:
-                viewPager.setCurrentItem(0, true);
-                bodyTab_sub.viewPager.setCurrentItem(1);
-                return true;
-            case R.id.lower_bone:
-                viewPager.setCurrentItem(0, true);
-                bodyTab_sub.onCreate(null);
-                bodyTab_sub.onCreateView(this.getLayoutInflater(), null, null);
-                bodyTab_sub.viewPager.setCurrentItem(2);
-                return true;
-            case R.id.lower_muscle:
-                viewPager.setCurrentItem(0, true);
-                bodyTab_sub.onCreate(null);
-                bodyTab_sub.onAttach(this.getApplicationContext());
-                bodyTab_sub.onCreateView(this.getLayoutInflater(), null, null);
-                bodyTab_sub.viewPager.setCurrentItem(3);
-                return true;
-            case R.id.selfmassage:
-                viewPager.setCurrentItem(0, true);
-                bodyTab_sub.onAttach(getApplicationContext());
-                bodyTab_sub.onCreateView(this.getLayoutInflater(), null, null);
-                bodyTab_sub.viewPager.setCurrentItem(4);
-                return true;
-            case R.id.food_diet:
-                viewPager.setCurrentItem(1, true);
-               // foodTab_sub.changePage(3);
-                return true;
-            case R.id.food_fat:
-                viewPager.setCurrentItem(1, true);
-               // foodTab_sub.changePage(0);
-                return true;
-            case R.id.food_metabolic:
-                viewPager.setCurrentItem(1, true);
-               // foodTab_sub.changePage(4);
-                return true;
-            case R.id.food_muscleup:
-                viewPager.setCurrentItem(1, true);
-                //foodTab_sub.changePage(2);
-                return true;
-             **/
             case R.id.food:
                 viewPager.setCurrentItem(2, true);
                 // foodTab_sub.changePage(4);
@@ -173,6 +131,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.qna:
+                Intent qintent = new Intent(this, QnaActivity.class);
+                startActivity(qintent);
+                return true;
+            case R.id.qna_write:
+                Intent qwintent = new Intent(this, QnaActivity.class);
+                qwintent.putExtra("pagenum", "write");
+                startActivity(qwintent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

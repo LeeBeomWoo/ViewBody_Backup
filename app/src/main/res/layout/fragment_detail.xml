@@ -20,7 +20,7 @@
             android:layout_height="40dp"
             android:background="@drawable/fablabel_bacground"
             android:textAlignment="center"
-            android:textSize="24sp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
         <WebView
@@ -57,23 +57,24 @@
             <TextView
                 android:id="@+id/detile_Id"
                 android:layout_width="80dp"
-                android:layout_height="35dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/like_btn"
-                android:layout_toRightOf="@+id/detile_face"
-                android:padding="5dp"
+                android:layout_toEndOf="@+id/detile_face"
                 android:textAlignment="center"
+                android:textSize="20sp"
                 tools:ignore="RtlHardcoded" />
 
             <Button
                 android:id="@+id/like_btn"
                 android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/detile_Id"
+                android:layout_toEndOf="@+id/detile_face"
                 android:text="@string/like"
                 android:textAlignment="center"
-                android:textSize="18sp" />
+                android:textSize="20sp" />
 
         </RelativeLayout>
 

@@ -3,15 +3,12 @@ package com.example.leebeomwoo.viewbody_final.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Debug;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -35,80 +32,48 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerViewAdapter.ViewHolder> implements Filterable{
+public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowListRecyclerViewAdapter.ViewHolder> implements Filterable{
     private List<ListDummyItem> ldItems = new ArrayList<>();
     private LikeItem lkItems;
     Context bContext;
     ResponseLd responseLd;
-    private final static String TAG = "ListRecyclerViewAdapter";
+    private final static String TAG = "FollowViewAdapter";
     private final static String FURL = "<html><body><iframe width=\"1080\" height=\"720\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
     private final List<ListDummyItem> filteredUserList;
     private UserFilter userFilter;
-    private String callClass, URL1, URL2, URL3, change;
+    private String callClass, URL, change;
     Intent intent;
 
-    public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
+    public FollowListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
         this.ldItems = ldItemList;
         this.bContext = context;
         this.filteredUserList = new ArrayList<>();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
-        public final TextView txtViewTitle;
-        public final WebView imgViewIcon;
-        public final TextView txtViewId;
-        public final WebView imgViewFace;
-        public final WebView videoView_1;
-        public final WebView videoView_2;
-        public final WebView videoView_3;
-        public final Button button;
+        public final TextView txtViewTitle, txtViewId;
+        public final WebView imgView;
+        public final Button likebutton, followbuttonn;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
-            mView = (CardView) itemLayoutView.findViewById(R.id.cardView);
-            txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
-            imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
-            imgViewFace = (WebView) itemLayoutView.findViewById(R.id.detile_face);
-            videoView_1 = (WebView) itemLayoutView.findViewById(R.id.video_view_1);
-            videoView_2 = (WebView) itemLayoutView.findViewById(R.id.video_view_2);
-            txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
-            button = (Button) itemLayoutView.findViewById(R.id.like_btn);
-            videoView_3 = (WebView) itemLayoutView.findViewById(R.id.video_view_3);
-            imgViewIcon.setFocusable(false);
-            imgViewIcon.getSettings().setJavaScriptEnabled(true);
-            imgViewIcon.getSettings().setDomStorageEnabled(true);
-            imgViewIcon.getSettings().setUseWideViewPort(true);
-            imgViewIcon.getSettings().setLoadWithOverviewMode(true);
-            imgViewFace.setFocusable(false);
-            imgViewFace.getSettings().setJavaScriptEnabled(true);
-            imgViewFace.getSettings().setDomStorageEnabled(true);
-            imgViewFace.getSettings().setUseWideViewPort(true);
-            imgViewFace.getSettings().setLoadWithOverviewMode(true);
-            videoView_1.setFocusable(false);
-            videoView_1.setWebViewClient(new WebViewClient());
-            WebviewSet(videoView_1);
-            videoView_2.setFocusable(false);
-            videoView_2.setWebViewClient(new WebViewClient());
-            WebviewSet(videoView_2);
-            videoView_3.setFocusable(false);
-            videoView_3.setWebViewClient(new WebViewClient());
-            WebviewSet(videoView_3);
+            mView = (CardView) itemLayoutView.findViewById(R.id.followCard);
+            txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.follow_Title);
+            imgView = (WebView) itemLayoutView.findViewById(R.id.list_movie);
+            txtViewId = (TextView) itemLayoutView.findViewById(R.id.follow_Id);
+            likebutton = (Button) itemLayoutView.findViewById(R.id.follow_Like);
+            followbuttonn = (Button) itemLayoutView.findViewById(R.id.follow_Btn);
+            imgView.setFocusable(false);
+            imgView.setWebViewClient(new WebViewClient());
+            WebviewSet(imgView);
 
             if (Build.VERSION.SDK_INT >= 19) {
-                imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                videoView_1.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                videoView_2.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                videoView_3.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                imgView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             }
             else {
-                imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                videoView_1.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                videoView_2.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                videoView_3.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                imgView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
         }
     }
@@ -135,50 +100,15 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
         intent = new Intent(bContext, ItemViewActivity.class);
         if(ldItem.getLd_Video() != null) {
-            String[] animalsArray = ldItem.getLd_Video().split(",");
-            switch (animalsArray.length){
-                case 1:
-                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
-                    URL1 = FURL + change + BURL;
-                    Log.d(TAG, URL1);
-                    viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
-
-                    break;
-                case 2:
-                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
-                    URL1 = FURL + change + BURL;
-                    Log.d(TAG, URL1);
-                    viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
-
-                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
-                    URL2 = FURL + change + BURL;
-                    Log.d(TAG, URL2);
-                    viewHolder.videoView_2.loadData(URL2, "text/html", "utf-8");
-
-                    break;
-                case 3:
-                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
-                    URL1 = FURL + change + BURL;
-                    Log.d(TAG, URL1);
-                    viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
-
-                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
-                    URL2 = FURL + change + BURL;
-                    Log.d(TAG, URL2);
-                    viewHolder.videoView_2.loadData(URL2, "text/html", "utf-8");
-
-                    change = animalsArray[2].replace("https://youtu.be", CHANGE);
-                    URL3 = FURL + change + BURL;
-                    Log.d(TAG, URL3);
-                    viewHolder.videoView_3.loadData(URL3, "text/html", "utf-8");
-                    break;
-            }
+            change = ldItem.getLd_Video().replace("https://youtu.be", CHANGE);
+            URL = FURL + change + BURL;
+            Log.d(TAG, URL);
+            viewHolder.imgView.loadData(URL, "text/html", "utf-8");
         }
-        viewHolder.button.setOnClickListener(new View.OnClickListener() {
+        viewHolder.likebutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //좋아요 클릭했을 시 계정이 있는 지 확인 후 계정별로 하나의 게시물에 한번만 좋아요가 눌려지게 하고 기존에 눌렀던 적이 있다면 해당 좋아요를 취소하는 걸로 코딩
@@ -198,14 +128,14 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                    });
             }
         });
-        viewHolder.imgViewFace.setOnClickListener(new View.OnClickListener() {
+        viewHolder.followbuttonn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent.putExtra("itemUrl", "trainer");
+                intent.putExtra("itemUrl", ldItem.getLd_ImageUrl());
                 intent.putExtra("tr_Id", ldItem.getLd_Id());
                 intent.putExtra("section", ldItem.getLd_Section());
-                //intent_2.putExtra("item_word", item_word);
-                intent.putExtra("fragment", 1);
+                intent.putExtra("page_num", ldItem.getLd_Num());
+                intent.putExtra("fragment", 2);
                 bContext.startActivity(intent);
             }
         });
@@ -231,13 +161,13 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
 
     private class UserFilter extends Filter {
 
-        ListRecyclerViewAdapter adapter;
+        FollowListRecyclerViewAdapter adapter;
 
         private final List<ListDummyItem> originalList;
 
         private final List<ListDummyItem> filteredList;
 
-        private UserFilter(ListRecyclerViewAdapter adapter, List<ListDummyItem> originalList) {
+        private UserFilter(FollowListRecyclerViewAdapter adapter, List<ListDummyItem> originalList) {
             super();
             this.adapter = adapter;
             this.originalList = new LinkedList<>(originalList);

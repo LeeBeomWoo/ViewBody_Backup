@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.leebeomwoo.viewbody_final.Adapter.FollowListRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.ListRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.example.leebeomwoo.viewbody_final.R;
@@ -32,7 +33,7 @@ public class Follow_CoreFragment extends android.support.v4.app.Fragment {
 
     private List<ListDummyItem> ldItems;
     @SuppressLint("StaticFieldLeak")
-    static ListRecyclerViewAdapter bdadapter;
+    static FollowListRecyclerViewAdapter bdadapter;
 
     String TAG = "Follow_CoreFragment";
     public Follow_CoreFragment(){}
@@ -117,7 +118,7 @@ public class Follow_CoreFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
                 ldItems = responseLd.getLdItem();
                 Log.d("response", ldItems.toString());
-                bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+                bdadapter = new FollowListRecyclerViewAdapter(getActivity(), ldItems);
                 rv.setAdapter(bdadapter);
             }
             @Override
@@ -141,7 +142,7 @@ public class Follow_CoreFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,t.getMessage());
             }
         });
-        bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+        bdadapter = new FollowListRecyclerViewAdapter(getActivity(), ldItems);
         rv.setAdapter(bdadapter);
     }
 
