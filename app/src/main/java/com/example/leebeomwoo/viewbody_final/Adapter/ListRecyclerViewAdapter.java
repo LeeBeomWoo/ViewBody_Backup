@@ -3,6 +3,7 @@ package com.example.leebeomwoo.viewbody_final.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Debug;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -37,10 +41,13 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     Context bContext;
     ResponseLd responseLd;
     private final static String TAG = "ListRecyclerViewAdapter";
+    private final static String FURL = "<html><body><iframe width=\"1080\" height=\"720\" src=\"";
+    private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
+    private final static String CHANGE = "https://www.youtube.com/embed";
     private final List<ListDummyItem> filteredUserList;
     private UserFilter userFilter;
-    private String callClass, URL1, URL2, URL3;
-    Intent intent = new Intent(bContext, ItemViewActivity.class);
+    private String callClass, URL1, URL2, URL3, change;
+    Intent intent;
 
     public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
         this.ldItems = ldItemList;
@@ -80,20 +87,15 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             imgViewFace.getSettings().setUseWideViewPort(true);
             imgViewFace.getSettings().setLoadWithOverviewMode(true);
             videoView_1.setFocusable(false);
-            videoView_1.getSettings().setJavaScriptEnabled(true);
-            videoView_1.getSettings().setDomStorageEnabled(true);
-            videoView_1.getSettings().setUseWideViewPort(true);
-            videoView_1.getSettings().setLoadWithOverviewMode(true);
+            videoView_1.setWebViewClient(new WebViewClient());
+            WebviewSet(videoView_1);
             videoView_2.setFocusable(false);
-            videoView_2.getSettings().setJavaScriptEnabled(true);
-            videoView_2.getSettings().setDomStorageEnabled(true);
-            videoView_2.getSettings().setUseWideViewPort(true);
-            videoView_2.getSettings().setLoadWithOverviewMode(true);
+            videoView_2.setWebViewClient(new WebViewClient());
+            WebviewSet(videoView_2);
             videoView_3.setFocusable(false);
-            videoView_3.getSettings().setJavaScriptEnabled(true);
-            videoView_3.getSettings().setDomStorageEnabled(true);
-            videoView_3.getSettings().setUseWideViewPort(true);
-            videoView_3.getSettings().setLoadWithOverviewMode(true);
+            videoView_3.setWebViewClient(new WebViewClient());
+            WebviewSet(videoView_3);
+
             if (Build.VERSION.SDK_INT >= 19) {
                 imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                 imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -110,6 +112,15 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             }
         }
     }
+    private void WebviewSet (WebView view){
+        WebSettings settings = view.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setPluginState(WebSettings.PluginState.ON);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -125,32 +136,46 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
+        intent = new Intent(bContext, ItemViewActivity.class);
         if(ldItem.getLd_Video() != null) {
             String[] animalsArray = ldItem.getLd_Video().split(",");
             switch (animalsArray.length){
                 case 1:
-                    URL1 = "<html><body>" + animalsArray[0] + "</html></body>";
-                    viewHolder.videoView_1.loadData(URL1, "text/html", "charset=utf-8");
+                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
+                    URL1 = FURL + change + BURL;
+                    Log.d(TAG, URL1);
+                    viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
+
                     break;
                 case 2:
-                    URL1 = "<html><body>" + animalsArray[0] + "</html></body>";
-                    viewHolder.videoView_1.loadData(URL1, "text/html", "charset=utf-8");
-                    URL2 = "<html><body>" + animalsArray[1] + "</html></body>";
-                    viewHolder.videoView_2.loadData(URL2, "text/html", "charset=utf-8");
+                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
+                    URL1 = FURL + change + BURL;
+                    Log.d(TAG, URL1);
+                    viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
+
+                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                    URL2 = FURL + change + BURL;
+                    Log.d(TAG, URL2);
+                    viewHolder.videoView_2.loadData(URL2, "text/html", "utf-8");
+
                     break;
                 case 3:
-                    URL1 = "<html><body>" + animalsArray[0] + "</html></body>";
-                    viewHolder.videoView_1.loadData(URL1, "text/html", "charset=utf-8");
-                    URL2 = "<html><body>" + animalsArray[1] + "</html></body>";
-                    viewHolder.videoView_2.loadData(URL2, "text/html", "charset=utf-8");
-                    URL3 = "<html><body>" + animalsArray[2] + "</html></body>";
-                    viewHolder.videoView_3.loadData(URL3, "text/html", "charset=utf-8");
+                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
+                    URL1 = FURL + change + BURL;
+                    Log.d(TAG, URL1);
+                    viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
+
+                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                    URL2 = FURL + change + BURL;
+                    Log.d(TAG, URL2);
+                    viewHolder.videoView_2.loadData(URL2, "text/html", "utf-8");
+
+                    change = animalsArray[2].replace("https://youtu.be", CHANGE);
+                    URL3 = FURL + change + BURL;
+                    Log.d(TAG, URL3);
+                    viewHolder.videoView_3.loadData(URL3, "text/html", "utf-8");
                     break;
             }
-        } else{
-            viewHolder.videoView_1.setVisibility(View.INVISIBLE);
-            viewHolder.videoView_2.setVisibility(View.INVISIBLE);
-            viewHolder.videoView_3.setVisibility(View.INVISIBLE);
         }
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
