@@ -39,7 +39,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     private final static String TAG = "ListRecyclerViewAdapter";
     private final List<ListDummyItem> filteredUserList;
     private UserFilter userFilter;
-    private String callClass;
+    private String callClass, URL1, URL2, URL3;
     Intent intent = new Intent(bContext, ItemViewActivity.class);
 
     public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
@@ -64,11 +64,11 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
             imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
             imgViewFace = (WebView) itemLayoutView.findViewById(R.id.detile_face);
-            videoView_1 = (WebView) itemLayoutView.findViewById(R.id.videoView_1);
-            videoView_2 = (WebView) itemLayoutView.findViewById(R.id.detile_face);
+            videoView_1 = (WebView) itemLayoutView.findViewById(R.id.video_view_1);
+            videoView_2 = (WebView) itemLayoutView.findViewById(R.id.video_view_2);
             txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
             button = (Button) itemLayoutView.findViewById(R.id.like_btn);
-            videoView_3 = (WebView) itemLayoutView.findViewById(R.id.video_view);
+            videoView_3 = (WebView) itemLayoutView.findViewById(R.id.video_view_3);
             imgViewIcon.setFocusable(false);
             imgViewIcon.getSettings().setJavaScriptEnabled(true);
             imgViewIcon.getSettings().setDomStorageEnabled(true);
@@ -79,28 +79,34 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             imgViewFace.getSettings().setDomStorageEnabled(true);
             imgViewFace.getSettings().setUseWideViewPort(true);
             imgViewFace.getSettings().setLoadWithOverviewMode(true);
-            videoView.setFocusable(false);
-            videoView.getSettings().setJavaScriptEnabled(true);
-            videoView.getSettings().setDomStorageEnabled(true);
-            videoView.getSettings().setUseWideViewPort(true);
-            videoView.getSettings().setLoadWithOverviewMode(true);
+            videoView_1.setFocusable(false);
+            videoView_1.getSettings().setJavaScriptEnabled(true);
+            videoView_1.getSettings().setDomStorageEnabled(true);
+            videoView_1.getSettings().setUseWideViewPort(true);
+            videoView_1.getSettings().setLoadWithOverviewMode(true);
+            videoView_2.setFocusable(false);
+            videoView_2.getSettings().setJavaScriptEnabled(true);
+            videoView_2.getSettings().setDomStorageEnabled(true);
+            videoView_2.getSettings().setUseWideViewPort(true);
+            videoView_2.getSettings().setLoadWithOverviewMode(true);
+            videoView_3.setFocusable(false);
+            videoView_3.getSettings().setJavaScriptEnabled(true);
+            videoView_3.getSettings().setDomStorageEnabled(true);
+            videoView_3.getSettings().setUseWideViewPort(true);
+            videoView_3.getSettings().setLoadWithOverviewMode(true);
             if (Build.VERSION.SDK_INT >= 19) {
                 imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                videoView_1.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                videoView_2.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                videoView_3.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             }
             else {
                 imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            }
-            if (Build.VERSION.SDK_INT >= 19) {
-                videoView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            }
-            else {
-                videoView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            }
-            if (Build.VERSION.SDK_INT >= 19) {
-                imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            }
-            else {
                 imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                videoView_1.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                videoView_2.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                videoView_3.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
         }
     }
@@ -120,7 +126,31 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
         if(ldItem.getLd_Video() != null) {
-            viewHolder.videoView.loadUrl(ldItem.getLd_Video());
+            String[] animalsArray = ldItem.getLd_Video().split(",");
+            switch (animalsArray.length){
+                case 1:
+                    URL1 = "<html><body>" + animalsArray[0] + "</html></body>";
+                    viewHolder.videoView_1.loadData(URL1, "text/html", "charset=utf-8");
+                    break;
+                case 2:
+                    URL1 = "<html><body>" + animalsArray[0] + "</html></body>";
+                    viewHolder.videoView_1.loadData(URL1, "text/html", "charset=utf-8");
+                    URL2 = "<html><body>" + animalsArray[1] + "</html></body>";
+                    viewHolder.videoView_2.loadData(URL2, "text/html", "charset=utf-8");
+                    break;
+                case 3:
+                    URL1 = "<html><body>" + animalsArray[0] + "</html></body>";
+                    viewHolder.videoView_1.loadData(URL1, "text/html", "charset=utf-8");
+                    URL2 = "<html><body>" + animalsArray[1] + "</html></body>";
+                    viewHolder.videoView_2.loadData(URL2, "text/html", "charset=utf-8");
+                    URL3 = "<html><body>" + animalsArray[2] + "</html></body>";
+                    viewHolder.videoView_3.loadData(URL3, "text/html", "charset=utf-8");
+                    break;
+            }
+        } else{
+            viewHolder.videoView_1.setVisibility(View.INVISIBLE);
+            viewHolder.videoView_2.setVisibility(View.INVISIBLE);
+            viewHolder.videoView_3.setVisibility(View.INVISIBLE);
         }
         viewHolder.button.setOnClickListener(new View.OnClickListener() {
             @Override
