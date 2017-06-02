@@ -1,13 +1,12 @@
 package com.example.leebeomwoo.viewbody_final;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
@@ -15,7 +14,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.example.leebeomwoo.viewbody_final.ItemGroup.ItemFragment;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment_21;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
@@ -31,12 +29,13 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
 
     public static final int REQUEST_CAMERA = 1;
     private Boolean isFabOpen = false;
+    private static String TAG = "ItemViewActivity";
     FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
-    String tr_id, item_word, section;
+    String tr_id, item_word, section, video;
     final Item_follow_fragment finalFollow_fragment = new Item_follow_fragment();
     final Item_follow_fragment_21 Follow_fragment = new Item_follow_fragment_21();
-    int fragment, q, currentCameraId, page_num;
+    int category, q, currentCameraId, page_num;
     boolean previewing = false;;
     public boolean recording, pausing, inPreview;
     @Override
@@ -45,15 +44,13 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_item);
         Intent intent = getIntent();
         item_word = intent.getStringExtra("itemUrl");
-        fragment = intent.getIntExtra("fragment", 10);
+        category = intent.getIntExtra("fragment", 10);
         page_num = intent.getIntExtra("page_num", 0);
+        video = intent.getStringExtra("video");
         tr_id = intent.getStringExtra("tr_Id");
         section = intent.getStringExtra("section");
+        Log.d(TAG, "item_word : " + item_word + "," + "video : " + video + "," + "tr_id : " + tr_id + "," + "section : " + section );
         // item_word = intent.getStringExtra("item_word");
-        Bundle bundle = new Bundle();
-        bundle.putString("itemUrl", item_word);
-        bundle.putString("tr_Id", tr_id);
-        bundle.putString("section", section);
 
             // Now later we can lookup the fragment by tag
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -73,25 +70,64 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         fab3.setOnClickListener(this);
         fab4.setOnClickListener(this);
         fab5.setOnClickListener(this);
-
+        pageSel(category);
     }
-
+    private void pageSel(int sec){
+        Log.d(TAG, "pagesel");
+        Bundle fbundle = new Bundle();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        switch (sec){
+            case 1:
+                TrainerInfoFragment timetreck = new TrainerInfoFragment();
+                fbundle.putString("tr_Id", tr_id);
+                fbundle.putString("section", section);
+                timetreck.setArguments(fbundle);
+                transaction.replace(R.id.fragment_container, timetreck);
+                transaction.addToBackStack(null);
+                transaction.commit();
+                break;
+            case 2:
+                if (Build.VERSION.SDK_INT >= 21 ) {
+                    Item_follow_fragment_21 follow = new Item_follow_fragment_21();
+                    fbundle.putString("tr_Id", tr_id);
+                    fbundle.putString("section", section);
+                    fbundle.putInt("page_num", page_num);
+                    fbundle.putString("video", video);
+                    follow.setArguments(fbundle);
+                    transaction.replace(R.id.fragment_container, follow);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                } else {
+                    Item_follow_fragment follow = new Item_follow_fragment();
+                    fbundle.putString("tr_Id", tr_id);
+                    fbundle.putString("section", section);
+                    fbundle.putInt("page_num", page_num);
+                    fbundle.putString("video", video);
+                    follow.setArguments(fbundle);
+                    transaction.replace(R.id.fragment_container, follow);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+                break;
+        }
+    }
     @Override
     public void onClick(View v){
-
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (v.getId()){
             case R.id.fab :
                 animateFAB();
                 break;
             case R.id.fab1:
-                switch (fragment) {
+                switch (category) {
                     case 1:
                         TrainerInfoFragment timetreck = new TrainerInfoFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("tr_Id", tr_id);
                         bundle.putString("section", section);
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, timetreck).commit();
-                        getSupportFragmentManager().beginTransaction().addToBackStack(null).commit();
+                        transaction.replace(R.id.fragment_container, timetreck);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
                         break;
                     case 2:
                         if (Build.VERSION.SDK_INT >= 21 ) {
@@ -100,16 +136,18 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                             fbundle.putString("tr_Id", tr_id);
                             fbundle.putString("section", section);
                             fbundle.putInt("page_num", page_num);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment, follow).commit();
-                            getSupportFragmentManager().beginTransaction().addToBackStack(null).commit();
+                            transaction.replace(R.id.fragment_container, follow);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
                         } else {
                             Item_follow_fragment follow = new Item_follow_fragment();
                             Bundle fbundle = new Bundle();
                             fbundle.putString("tr_Id", tr_id);
                             fbundle.putString("section", section);
                             fbundle.putInt("page_num", page_num);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.fragment, follow).commit();
-                            getSupportFragmentManager().beginTransaction().addToBackStack(null).commit();
+                            transaction.replace(R.id.fragment_container, follow);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
                         }
                         break;
                     case 3:
@@ -150,7 +188,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 }
                 break;
             case R.id.fab2 :
-                switch (fragment) {
+                switch (category) {
                     case 1:
                         Intent intent_1 = new Intent(ItemViewActivity.this, MainActivity.class);
                         q = 2;
@@ -203,7 +241,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 isFabOpen = false;
                 break;
             case R.id.fab3 :
-                switch (fragment) {
+                switch (category) {
                     case 1:
                         Intent intent_1 = new Intent(ItemViewActivity.this, MainActivity.class);
                         q = 3;
@@ -274,8 +312,9 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 Bundle bundle = new Bundle();
                 bundle.putString("tr_id", tr_id);
                 fragment3.setArguments(bundle);
-                android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.fragment, fragment3).commit();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.replace(R.id.fragment_container, fragment3).commit();
                 fab.startAnimation(rotate_backward);
                 fab1.startAnimation(fab_close);
                 fab2.startAnimation(fab_close);

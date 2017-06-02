@@ -4,6 +4,7 @@
     android:id="@+id/followCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,7 +15,8 @@
         <TextView
             android:id="@+id/follow_Title"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="40dp"
+            android:layout_marginBottom="2dp" />
 
         <WebView
             android:id="@+id/list_movie"
@@ -24,28 +26,29 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="80dp"
+            android:layout_marginTop="3dp">
 
             <TextView
                 android:id="@+id/follow_Id"
                 android:layout_width="200dp"
-                android:layout_height="30dp"
-                android:layout_alignParentTop="true"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/follow_Id_lbl" />
 
             <Button
                 android:id="@+id/follow_Btn"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:text="@string/follow_media"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentEnd="true"
+                android:text="@string/follow_media" />
 
             <TextView
                 android:id="@+id/follow_Id_lbl"
                 android:layout_width="80dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:paddingStart="3dp"
@@ -56,7 +59,7 @@
             <Button
                 android:id="@+id/follow_Like"
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentStart="true"
                 android:layout_toStartOf="@+id/follow_Btn"

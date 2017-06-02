@@ -38,7 +38,7 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
     Context bContext;
     ResponseLd responseLd;
     private final static String TAG = "FollowViewAdapter";
-    private final static String FURL = "<html><body><iframe width=\"1080\" height=\"720\" src=\"";
+    private final static String FURL = "<html><body><iframe width=\"800\" height=\"600\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
     private final List<ListDummyItem> filteredUserList;
@@ -135,8 +135,10 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
                 intent.putExtra("tr_Id", ldItem.getLd_Id());
                 intent.putExtra("section", ldItem.getLd_Section());
                 intent.putExtra("page_num", ldItem.getLd_Num());
+                intent.putExtra("video", ldItem.getLd_Video());
                 intent.putExtra("fragment", 2);
                 bContext.startActivity(intent);
+                Log.d(TAG, ldItem.toString());
             }
         });
     }

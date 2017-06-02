@@ -44,6 +44,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Toast;
 
@@ -73,13 +74,18 @@ public class Item_follow_fragment_21 extends Fragment
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
     private static final SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
 
-    private static final String TAG = "Camera2VideoFragment";
+    Button play, record, load, camerachange;
+    private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
+    private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
+    private final static String CHANGE = "https://www.youtube.com/embed";
+
+    private static final String TAG = "Item_follow_fragment_21";
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
     int page_num;
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
-
+    String change, temp;
     private String cameraId = CAMERA_FRONT;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -163,7 +169,11 @@ public class Item_follow_fragment_21 extends Fragment
             tr_id = getArguments().getString("tr_Id");
             imageUrl = getArguments().getString("itemUrl");
             page_num = getArguments().getInt("page_num");
-            Log.d("프래그먼트 생성:", imageUrl);
+            temp = getArguments().getString("video");
+            if(imageUrl != null){
+                Log.d("프래그먼트 생성:", imageUrl);
+            }
+            Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
         }
     }
     /**
@@ -304,13 +314,10 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_follow_itemview, container, false);
-    }
-
-    @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         startBackgroundThread();
+
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
         seekBar.setMax(100);
         DisplayMetrics dm = new DisplayMetrics();
@@ -328,11 +335,17 @@ public class Item_follow_fragment_21 extends Fragment
         settings.setPluginState(WebSettings.PluginState.ON);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
-        Log.d("프래그먼트 표현:", imageUrl);
-        startPreview();
-        URL = "<html><body>" + imageUrl + "</html></body>";
+        change = temp.replace("https://youtu.be", CHANGE);
+        URL = FURL + change + BURL;
+        Log.d("프래그먼트 표현:", URL);
         webView.loadData(URL, "text/html", "charset=utf-8");
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
+        startPreview();
     }
 
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {

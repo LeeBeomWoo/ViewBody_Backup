@@ -40,7 +40,10 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     private File mOutputFile;
 
     private boolean isRecording = false;
-    private static final String TAG = "Recorder";
+    private static final String TAG = "Item_follow_fragment";
+    private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
+    private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
+    private final static String CHANGE = "https://www.youtube.com/embed";
 
     WebView webView;
     public MediaRecorder mediaRecorder;
@@ -48,8 +51,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     int page_num, witch;
     Calendar c = Calendar.getInstance();
     private static TextureView textureView;
-    String tr_id, imageUrl, tr_password, URL, section;
-    String testUrl = "<html><body><iframe width=\"1280\" height=\"720\" src=\"https://www.youtube.com/embed/Pu3k3Pn2eqQ\" frameborder=\"0\" allowfullscreen></iframe></body></html>";
+    String tr_id, imageUrl, tr_password, URL, section, change, temp;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,32 +60,38 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             tr_id = getArguments().getString("tr_Id");
             imageUrl = getArguments().getString("itemUrl");
             page_num = getArguments().getInt("page_num");
+            temp = getArguments().getString("video");
+            Log.d(TAG, "imageUrl : " + "temp : " + temp + "," + "tr_id : " + tr_id + "," + "section : " + section );
         }
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_follow_itemview, container, false);
+        View view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
+            textureView = (TextureView) view.findViewById(R.id.capturview);
+            webView = (WebView) view.findViewById(R.id.web_movie);
+            SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
+            seekBar.setMax(100);
+            webView.setWebChromeClient(new WebChromeClient());
+            webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
+            webView.setWebViewClient(new WebViewClient());
+            final WebSettings settings = webView.getSettings();
+            settings.setJavaScriptEnabled(true);
+            settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+            settings.setJavaScriptCanOpenWindowsAutomatically(true);
+            settings.setPluginState(WebSettings.PluginState.ON);
+            settings.setLoadWithOverviewMode(true);
+            settings.setUseWideViewPort(true);
+            change = temp.replace("https://youtu.be", CHANGE);
+            URL = FURL + change + BURL;
+            Log.d(TAG, URL);
+            webView.loadData(URL, "text/html", "charset=utf-8");
+            seekBar.setOnSeekBarChangeListener(alphaChangListener);
+        return view;
     }
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
-        textureView = (TextureView) view.findViewById(R.id.capturview);
-        webView = (WebView) view.findViewById(R.id.web_movie); SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
-        seekBar.setMax(100);
-        webView.setWebChromeClient(new WebChromeClient());
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
-        webView.setWebViewClient(new WebViewClient());
-        final WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        settings.setJavaScriptCanOpenWindowsAutomatically(true);
-        settings.setPluginState(WebSettings.PluginState.ON);
-        settings.setLoadWithOverviewMode(true);
-        settings.setUseWideViewPort(true);
-        URL = "<html><body>" + imageUrl + "</html></body>";
-        webView.loadData(URL, "text/html", "charset=utf-8");
         mCamera.startPreview();
-        seekBar.setOnSeekBarChangeListener(alphaChangListener);
     }
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
         @Override

@@ -26,6 +26,7 @@ import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
+import com.example.leebeomwoo.viewbody_final.Support.HelpWebView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -57,7 +58,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
         public final TextView txtViewTitle;
-        public final WebView imgViewIcon;
+        public final HelpWebView imgViewIcon;
         public final TextView txtViewId;
         public final WebView imgViewFace;
         public final WebView videoView_1;
@@ -69,14 +70,15 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             super(itemLayoutView);
             mView = (CardView) itemLayoutView.findViewById(R.id.cardView);
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
-            imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
+            imgViewIcon = (HelpWebView) itemLayoutView.findViewById(R.id.detile_Image);
             imgViewFace = (WebView) itemLayoutView.findViewById(R.id.detile_face);
             videoView_1 = (WebView) itemLayoutView.findViewById(R.id.video_view_1);
             videoView_2 = (WebView) itemLayoutView.findViewById(R.id.video_view_2);
             txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
             button = (Button) itemLayoutView.findViewById(R.id.like_btn);
             videoView_3 = (WebView) itemLayoutView.findViewById(R.id.video_view_3);
-            imgViewIcon.setFocusable(false);
+            imgViewIcon.setFocusable(true);
+            imgViewIcon.setClickable(true);
             imgViewIcon.getSettings().setJavaScriptEnabled(true);
             imgViewIcon.getSettings().setDomStorageEnabled(true);
             imgViewIcon.getSettings().setUseWideViewPort(true);

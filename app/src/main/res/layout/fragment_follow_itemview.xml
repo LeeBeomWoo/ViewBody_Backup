@@ -1,44 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ItemGroup.Item_follow_fragment">
-
-    <SeekBar
-        style="@android:style/Widget.DeviceDefault.Light.SeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:id="@+id/alpha_control"
-        android:visibility="invisible"
-        android:focusableInTouchMode="false"/>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1.2">
-
-            <TextureView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/capturview"/>
-        </FrameLayout>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:id="@+id/relativeLayout2">
+        android:layout_height="50dp"
+        android:layout_weight="1.2">
+
+        <Button
+            android:id="@+id/record_Btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/viewChange_Btn"
+            android:background="@drawable/record" />
+
+        <Button
+            android:id="@+id/play_Btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="26dp"
+            android:layout_toEndOf="@+id/record_Btn"
+            android:background="@drawable/playbutton" />
+
+        <Button
+            android:id="@+id/load_Btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="24dp"
+            android:layout_toStartOf="@+id/viewChange_Btn"
+            android:background="@drawable/plus" />
+
+        <Button
+            android:id="@+id/viewChange_Btn"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/switch_camera" />
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="1.2">
+
+        <TextureView
+            android:id="@+id/capturview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <VideoView
+            android:id="@+id/videoView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
+    </FrameLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_weight="2">
 
         <WebView
             android:id="@+id/web_movie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:alpha="1"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:alpha="1" />
     </RelativeLayout>
+
+    <SeekBar
+        android:id="@+id/alpha_control"
+        style="@android:style/Widget.DeviceDefault.Light.SeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:focusableInTouchMode="false"
+        android:visibility="invisible" />
 
 </LinearLayout>
