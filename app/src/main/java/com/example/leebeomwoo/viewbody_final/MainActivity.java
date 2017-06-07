@@ -5,22 +5,29 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
+import com.example.leebeomwoo.viewbody_final.Adapter.ListRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Fragment.QnAFragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     DrawerLayout mDrawerLayout;
     SearchView mSearchView;
     MenuItem myActionMenuItem;
@@ -138,4 +145,5 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
 }

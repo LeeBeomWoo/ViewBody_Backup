@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -19,6 +20,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
@@ -50,7 +52,6 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     private UserFilter userFilter;
     private String callClass, URL1, URL2, URL3, change;
     Intent intent;
-
     public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
         this.ldItems = ldItemList;
         this.bContext = context;
@@ -77,8 +78,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
             button = (Button) itemLayoutView.findViewById(R.id.like_btn);
             videoView_3 = (WebView) itemLayoutView.findViewById(R.id.video_view_3);
-            imgViewIcon.setFocusable(true);
-            imgViewIcon.setClickable(true);
+            imgViewIcon.setFocusable(false);
             imgViewIcon.getSettings().setJavaScriptEnabled(true);
             imgViewIcon.getSettings().setDomStorageEnabled(true);
             imgViewIcon.getSettings().setUseWideViewPort(true);
@@ -142,9 +142,9 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Dialog dialog = new Dialog(bContext, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                Dialog dialog = new Dialog(bContext);
                 dialog.setContentView(R.layout.fragment_detail);
-                CardView card = (CardView) dialog.findViewById(R.id.cardView);
+                dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
                 TextView txtViewTitle = (TextView) dialog.findViewById(R.id.detile_Title);
                 HelpWebView imgViewIcon = (HelpWebView) dialog.findViewById(R.id.detile_Image);
                 TextView video_title_1 = (TextView) dialog.findViewById(R.id.video_title_1);
@@ -159,8 +159,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                 txtViewTitle.setText(ldItem.getLd_Title());
                 imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
                 txtViewId.setText(ldItem.getLd_Id());
-                imgViewIcon.setFocusable(true);
-                imgViewIcon.setClickable(true);
+                imgViewIcon.setFocusable(false);
                 imgViewIcon.getSettings().setJavaScriptEnabled(true);
                 imgViewIcon.getSettings().setDomStorageEnabled(true);
                 imgViewIcon.getSettings().setUseWideViewPort(true);
@@ -180,7 +179,6 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                 videoView_3.setFocusable(false);
                 videoView_3.setWebViewClient(new WebViewClient());
                 WebviewSet(videoView_3);
-
                 if (Build.VERSION.SDK_INT >= 19) {
                     imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                     imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);

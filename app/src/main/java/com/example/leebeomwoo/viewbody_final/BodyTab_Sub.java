@@ -82,10 +82,10 @@ public class BodyTab_Sub extends Fragment {
         slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
         viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
         items = new ArrayList<>();
-        items.add(new MainTabItem("상체" + "\n" + "운동", mParam1, Upper_ExerFragment.class));
-        items.add(new MainTabItem("상체" + "\n" + "정보", mParam1, Upper_MuscleFragment.class));
-        items.add(new MainTabItem("하체" + "\n" + "운동", mParam1, Lower_ExerFragment.class));
-        items.add(new MainTabItem("하체" + "\n" + "정보", mParam1, Lower_MuscleFragment.class));
+        items.add(new MainTabItem("상체 운동", mParam1, Upper_ExerFragment.class));
+        items.add(new MainTabItem("상체 정보", mParam1, Upper_MuscleFragment.class));
+        items.add(new MainTabItem("하체 운동", mParam1, Lower_ExerFragment.class));
+        items.add(new MainTabItem("하체 정보", mParam1, Lower_MuscleFragment.class));
         items.add(new MainTabItem("스트레칭", mParam1, StretchingFragment.class));
         tabsAdapter = new TabsAdapter(getChildFragmentManager(), items);
         viewPager.setAdapter(tabsAdapter);

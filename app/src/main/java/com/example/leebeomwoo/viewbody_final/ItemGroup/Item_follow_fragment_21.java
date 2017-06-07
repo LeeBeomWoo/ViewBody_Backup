@@ -73,7 +73,8 @@ public class Item_follow_fragment_21 extends Fragment
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
     private static final SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
-
+    Boolean record_plag = false;
+    Boolean play_plag = false;
     Button play, record, load, camerachange;
     private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
@@ -318,6 +319,26 @@ public class Item_follow_fragment_21 extends Fragment
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         startBackgroundThread();
 
+        record = (Button) view.findViewById(R.id.record_Btn);
+        play = (Button) view.findViewById(R.id.play_Btn);
+        load = (Button) view.findViewById(R.id.load_Btn);
+        camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(record_plag) {
+                    stopRecordingVideo();
+                } else{
+                    startRecordingVideo();
+                }
+            }
+        });
+        camerachange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchCamera();
+            }
+        });
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
         seekBar.setMax(100);
         DisplayMetrics dm = new DisplayMetrics();
