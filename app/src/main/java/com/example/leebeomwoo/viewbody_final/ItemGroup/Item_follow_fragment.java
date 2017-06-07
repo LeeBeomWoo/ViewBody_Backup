@@ -82,6 +82,9 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             settings.setPluginState(WebSettings.PluginState.ON);
             settings.setLoadWithOverviewMode(true);
             settings.setUseWideViewPort(true);
+            double d = 0.5;
+            float f = (float)d;
+            webView.setAlpha(f);
             change = temp.replace("https://youtu.be", CHANGE);
             URL = FURL + change + BURL;
             Log.d(TAG, URL);

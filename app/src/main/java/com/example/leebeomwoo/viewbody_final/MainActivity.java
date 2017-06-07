@@ -134,11 +134,6 @@ public class MainActivity extends AppCompatActivity {
                 Intent qintent = new Intent(this, QnaActivity.class);
                 startActivity(qintent);
                 return true;
-            case R.id.qna_write:
-                Intent qwintent = new Intent(this, QnaActivity.class);
-                qwintent.putExtra("pagenum", "write");
-                startActivity(qwintent);
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

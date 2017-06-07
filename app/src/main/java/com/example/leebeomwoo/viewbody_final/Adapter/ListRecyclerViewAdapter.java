@@ -1,5 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -57,13 +58,9 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
-        public final TextView txtViewTitle;
+        public final TextView txtViewTitle, txtViewId, video_title_1, video_title_2, video_title_3;
         public final HelpWebView imgViewIcon;
-        public final TextView txtViewId;
-        public final WebView imgViewFace;
-        public final WebView videoView_1;
-        public final WebView videoView_2;
-        public final WebView videoView_3;
+        public final WebView imgViewFace, videoView_1, videoView_2, videoView_3;
         public final Button button;
 
         public ViewHolder(View itemLayoutView) {
@@ -71,6 +68,9 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             mView = (CardView) itemLayoutView.findViewById(R.id.cardView);
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
             imgViewIcon = (HelpWebView) itemLayoutView.findViewById(R.id.detile_Image);
+            video_title_1 = (TextView) itemLayoutView.findViewById(R.id.video_title_1);
+            video_title_2 = (TextView) itemLayoutView.findViewById(R.id.video_title_2);
+            video_title_3 = (TextView) itemLayoutView.findViewById(R.id.video_title_3);
             imgViewFace = (WebView) itemLayoutView.findViewById(R.id.detile_face);
             videoView_1 = (WebView) itemLayoutView.findViewById(R.id.video_view_1);
             videoView_2 = (WebView) itemLayoutView.findViewById(R.id.video_view_2);
@@ -139,43 +139,180 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
+        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Dialog dialog = new Dialog(bContext, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                dialog.setContentView(R.layout.fragment_detail);
+                CardView card = (CardView) dialog.findViewById(R.id.cardView);
+                TextView txtViewTitle = (TextView) dialog.findViewById(R.id.detile_Title);
+                HelpWebView imgViewIcon = (HelpWebView) dialog.findViewById(R.id.detile_Image);
+                TextView video_title_1 = (TextView) dialog.findViewById(R.id.video_title_1);
+                TextView video_title_2 = (TextView) dialog.findViewById(R.id.video_title_2);
+                TextView video_title_3 = (TextView) dialog.findViewById(R.id.video_title_3);
+                WebView imgViewFace = (WebView) dialog.findViewById(R.id.detile_face);
+                WebView videoView_1 = (WebView) dialog.findViewById(R.id.video_view_1);
+                WebView videoView_2 = (WebView) dialog.findViewById(R.id.video_view_2);
+                TextView txtViewId = (TextView) dialog.findViewById(R.id.detile_Id);
+                Button button = (Button) dialog.findViewById(R.id.like_btn);
+                WebView videoView_3 = (WebView) dialog.findViewById(R.id.video_view_3);
+                txtViewTitle.setText(ldItem.getLd_Title());
+                imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
+                txtViewId.setText(ldItem.getLd_Id());
+                imgViewIcon.setFocusable(true);
+                imgViewIcon.setClickable(true);
+                imgViewIcon.getSettings().setJavaScriptEnabled(true);
+                imgViewIcon.getSettings().setDomStorageEnabled(true);
+                imgViewIcon.getSettings().setUseWideViewPort(true);
+                imgViewIcon.getSettings().setLoadWithOverviewMode(true);
+                imgViewIcon.getSettings().setBuiltInZoomControls(true);
+                imgViewFace.setFocusable(false);
+                imgViewFace.getSettings().setJavaScriptEnabled(true);
+                imgViewFace.getSettings().setDomStorageEnabled(true);
+                imgViewFace.getSettings().setUseWideViewPort(true);
+                imgViewFace.getSettings().setLoadWithOverviewMode(true);
+                videoView_1.setFocusable(false);
+                videoView_1.setWebViewClient(new WebViewClient());
+                WebviewSet(videoView_1);
+                videoView_2.setFocusable(false);
+                videoView_2.setWebViewClient(new WebViewClient());
+                WebviewSet(videoView_2);
+                videoView_3.setFocusable(false);
+                videoView_3.setWebViewClient(new WebViewClient());
+                WebviewSet(videoView_3);
+
+                if (Build.VERSION.SDK_INT >= 19) {
+                    imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                    imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                    videoView_1.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                    videoView_2.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                    videoView_3.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                }
+                else {
+                    imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    videoView_1.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    videoView_2.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    videoView_3.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                }
+                if(ldItem.getLd_Video() != null) {
+                    String[] animalsArray = ldItem.getLd_Video().split(",");
+                    for (int i = 0; i < animalsArray.length; i++) {
+                        Log.d(TAG + "animalsArray_" + i, animalsArray[i]);
+                    }
+                    switch (animalsArray.length) {
+                        case 2:
+                            video_title_1.setVisibility(View.VISIBLE);
+                            video_title_1.setText(animalsArray[0]);
+                            change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                            URL1 = FURL + change + BURL;
+                            Log.d(TAG, URL1);
+                            videoView_1.setVisibility(View.VISIBLE);
+                            videoView_1.loadData(URL1, "text/html", "utf-8");
+                            break;
+                        case 4:
+                            video_title_1.setVisibility(View.VISIBLE);
+                            video_title_1.setText(animalsArray[0]);
+                            change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                            URL1 = FURL + change + BURL;
+                            Log.d(TAG, URL1);
+                            videoView_1.setVisibility(View.VISIBLE);
+                            videoView_1.loadData(URL1, "text/html", "utf-8");
+
+                            video_title_2.setVisibility(View.VISIBLE);
+                            video_title_2.setText(animalsArray[2]);
+                            change = animalsArray[3].replace("https://youtu.be", CHANGE);
+                            URL2 = FURL + change + BURL;
+                            Log.d(TAG, URL2);
+                            videoView_2.setVisibility(View.VISIBLE);
+                            videoView_2.loadData(URL2, "text/html", "utf-8");
+                            break;
+                        case 6:
+                            video_title_1.setVisibility(View.VISIBLE);
+                            video_title_1.setText(animalsArray[0]);
+                            change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                            URL1 = FURL + change + BURL;
+                            Log.d(TAG, URL1);
+                            videoView_1.setVisibility(View.VISIBLE);
+                            videoView_1.loadData(URL1, "text/html", "utf-8");
+
+                            video_title_2.setVisibility(View.VISIBLE);
+                            video_title_2.setText(animalsArray[2]);
+                            change = animalsArray[3].replace("https://youtu.be", CHANGE);
+                            URL2 = FURL + change + BURL;
+                            Log.d(TAG, URL2);
+                            videoView_2.setVisibility(View.VISIBLE);
+                            videoView_2.loadData(URL2, "text/html", "utf-8");
+
+                            video_title_3.setVisibility(View.VISIBLE);
+                            video_title_3.setText(animalsArray[4]);
+                            change = animalsArray[5].replace("https://youtu.be", CHANGE);
+                            URL3 = FURL + change + BURL;
+                            Log.d(TAG, URL3);
+                            videoView_3.setVisibility(View.VISIBLE);
+                            videoView_3.loadData(URL3, "text/html", "utf-8");
+                            break;
+                    }
+                }
+                dialog.show();
+            }
+        });
         intent = new Intent(bContext, ItemViewActivity.class);
         if(ldItem.getLd_Video() != null) {
             String[] animalsArray = ldItem.getLd_Video().split(",");
+            for(int i = 0; i < animalsArray.length; i++) {
+                Log.d(TAG + "animalsArray_" + i, animalsArray[i]);
+            }
             switch (animalsArray.length){
-                case 1:
-                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
-                    URL1 = FURL + change + BURL;
-                    Log.d(TAG, URL1);
-                    viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
-
-                    break;
                 case 2:
-                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
+                    viewHolder.video_title_1.setVisibility(View.VISIBLE);
+                    viewHolder.video_title_1.setText(animalsArray[0]);
+                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
                     URL1 = FURL + change + BURL;
                     Log.d(TAG, URL1);
+                    viewHolder.videoView_1.setVisibility(View.VISIBLE);
                     viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
-
-                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
-                    URL2 = FURL + change + BURL;
-                    Log.d(TAG, URL2);
-                    viewHolder.videoView_2.loadData(URL2, "text/html", "utf-8");
-
                     break;
-                case 3:
-                    change = animalsArray[0].replace("https://youtu.be", CHANGE);
+                case 4:
+                    viewHolder.video_title_1.setVisibility(View.VISIBLE);
+                    viewHolder.video_title_1.setText(animalsArray[0]);
+                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
                     URL1 = FURL + change + BURL;
                     Log.d(TAG, URL1);
+                    viewHolder.videoView_1.setVisibility(View.VISIBLE);
                     viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
 
-                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                    viewHolder.video_title_2.setVisibility(View.VISIBLE);
+                    viewHolder.video_title_2.setText(animalsArray[2]);
+                    change = animalsArray[3].replace("https://youtu.be", CHANGE);
                     URL2 = FURL + change + BURL;
                     Log.d(TAG, URL2);
+                    viewHolder.videoView_2.setVisibility(View.VISIBLE);
+                    viewHolder.videoView_2.loadData(URL2, "text/html", "utf-8");
+                    break;
+                case 6:
+                    viewHolder.video_title_1.setVisibility(View.VISIBLE);
+                    viewHolder.video_title_1.setText(animalsArray[0]);
+                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                    URL1 = FURL + change + BURL;
+                    Log.d(TAG, URL1);
+                    viewHolder.videoView_1.setVisibility(View.VISIBLE);
+                    viewHolder.videoView_1.loadData(URL1, "text/html", "utf-8");
+
+                    viewHolder.video_title_2.setVisibility(View.VISIBLE);
+                    viewHolder.video_title_2.setText(animalsArray[2]);
+                    change = animalsArray[3].replace("https://youtu.be", CHANGE);
+                    URL2 = FURL + change + BURL;
+                    Log.d(TAG, URL2);
+                    viewHolder.videoView_2.setVisibility(View.VISIBLE);
                     viewHolder.videoView_2.loadData(URL2, "text/html", "utf-8");
 
-                    change = animalsArray[2].replace("https://youtu.be", CHANGE);
+                    viewHolder.video_title_3.setVisibility(View.VISIBLE);
+                    viewHolder.video_title_3.setText(animalsArray[4]);
+                    change = animalsArray[5].replace("https://youtu.be", CHANGE);
                     URL3 = FURL + change + BURL;
                     Log.d(TAG, URL3);
+                    viewHolder.videoView_3.setVisibility(View.VISIBLE);
                     viewHolder.videoView_3.loadData(URL3, "text/html", "utf-8");
                     break;
             }

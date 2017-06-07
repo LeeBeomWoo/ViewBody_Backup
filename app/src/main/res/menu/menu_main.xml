@@ -33,9 +33,4 @@
         android:orderInCategory="100"
         android:title="@string/qna"
         app:showAsAction="never" />
-    <item
-        android:id="@+id/qna_write"
-        android:orderInCategory="100"
-        android:title="@string/qna_write"
-        app:showAsAction="never" />
 </menu>

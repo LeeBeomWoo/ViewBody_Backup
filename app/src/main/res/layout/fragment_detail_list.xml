@@ -6,6 +6,6 @@
     android:name="com.example.leebeomwoo.viewbody_final.DetailFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     tools:listitem="@layout/fragment_detail" />
