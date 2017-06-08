@@ -38,7 +38,7 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
     Context bContext;
     ResponseLd responseLd;
     private final static String TAG = "FollowViewAdapter";
-    private final static String FURL = "<html><body><iframe width=\"800\" height=\"600\" src=\"";
+    private final static String FURL = "<html><body><iframe width=\"960\" height=\"600\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
     private final List<ListDummyItem> filteredUserList;

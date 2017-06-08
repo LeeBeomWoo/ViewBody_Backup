@@ -2,8 +2,12 @@ package com.example.leebeomwoo.viewbody_final.ItemGroup;
 
 
 import android.annotation.TargetApi;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -19,7 +23,11 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.SeekBar;
+import android.widget.Toast;
+import android.widget.VideoView;
 
 
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
@@ -34,7 +42,7 @@ import java.util.List;
  * Created by LeeBeomWoo on 2017-02-13.
  */
 
-public class Item_follow_fragment extends Fragment implements Camera.PreviewCallback {
+public class Item_follow_fragment extends Fragment implements Camera.PreviewCallback, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener  {
     public Camera mCamera;
     private MediaRecorder mMediaRecorder;
     private File mOutputFile;
@@ -45,14 +53,19 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
 
+    Boolean record_plag = false;
+    Boolean play_plag = false;
+    Button play, record, load, camerachange;
     WebView webView;
+    private final int SELECT_MOVIE = 2;
     public MediaRecorder mediaRecorder;
     public SurfaceHolder surfaceHolder;
     int page_num, witch;
     Calendar c = Calendar.getInstance();
     private static TextureView textureView;
     String tr_id, imageUrl, tr_password, URL, section, change, temp;
-
+    public VideoView videoView;
+    private MediaController mc;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +82,12 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
             textureView = (TextureView) view.findViewById(R.id.capturview);
+        mc = new MediaController(getActivity());
+        videoView = (VideoView) view.findViewById(R.id.videoView);
+        videoView.setOnPreparedListener(this);
+        videoView.setOnCompletionListener(this);
+        videoView.setMediaController(mc);
+        videoView.setKeepScreenOn(true);
             webView = (WebView) view.findViewById(R.id.web_movie);
             SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
             seekBar.setMax(100);
@@ -90,12 +109,56 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             Log.d(TAG, URL);
             webView.loadData(URL, "text/html", "charset=utf-8");
             seekBar.setOnSeekBarChangeListener(alphaChangListener);
+        record = (Button) view.findViewById(R.id.record_Btn);
+        play = (Button) view.findViewById(R.id.play_Btn);
+        load = (Button) view.findViewById(R.id.load_Btn);
+        camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCaptureClick(videoView);
+            }
+        });
+        load.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("video/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                getActivity().startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
+                mc = new MediaController(getActivity());
+                videoView.setMediaController(mc);
+                videoView.requestFocus();
+                videoView.setVideoPath("videoPath");
+            }
+        });
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(play_plag){
+                    videoView.stopPlayback();
+                    videoView.setVisibility(View.VISIBLE);
+                    play_plag = false;
+                }else {
+                    videoView.setVisibility(View.GONE);
+                    videoView.start();
+                    play_plag = true;
+                }
+            }
+        });
+        camerachange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipit();
+            }
+        });
         return view;
     }
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         mCamera.startPreview();
     }
+
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
@@ -138,7 +201,8 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     public void onCaptureClick(View view) {
         if (isRecording) {
             // BEGIN_INCLUDE(stop_release_media_recorder)
-
+            releaseMediaRecorder();
+            releaseCamera();
             // stop recording and release camera
             try {
                 mMediaRecorder.stop();  // stop the recording
@@ -151,20 +215,16 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             }
             releaseMediaRecorder(); // release the MediaRecorder object
             mCamera.lock();         // take camera access back from MediaRecorder
-
             // inform the user that recording has stopped
             isRecording = false;
             releaseCamera();
             // END_INCLUDE(stop_release_media_recorder)
 
         } else {
-
             // BEGIN_INCLUDE(prepare_start_media_recorder)
-
+            prepareVideoRecorder();
             new MediaPrepareTask().execute(null, null, null);
-
             // END_INCLUDE(prepare_start_media_recorder)
-
         }
     }
     public void flipit() {
@@ -268,7 +328,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         mMediaRecorder.setCamera(mCamera);
 
         // Step 2: Set sources
-        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT );
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC );
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
@@ -334,5 +394,22 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
 
         }
     }
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        // Don't start until ready to play.  The arg of seekTo(arg) is the start point in
+        // milliseconds from the beginning. Normally we would start at the beginning but,
+        // for purposes of illustration, in this example we start playing 1/5 of
+        // the way through the video if the player can do forward seeks on the video.
 
+        if(videoView.canSeekForward()) videoView.seekTo(videoView.getDuration()/5);
+        videoView.start();
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        // Statements to be executed when the video finishes.
+        videoView.stopPlayback();
+        play_plag = false;mCamera.startPreview();
+        videoView.setVisibility(View.INVISIBLE);
+    }
 }

@@ -1,22 +1,39 @@
 package com.example.leebeomwoo.viewbody_final;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.hardware.Camera;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment_21;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+
+import static android.R.attr.path;
 
 /**
  * Created by LBW on 2016-06-30.
@@ -26,8 +43,10 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-
     public static final int REQUEST_CAMERA = 1;
+    private final int SELECT_PICTURE = 1;
+    private final int SELECT_MOVIE = 2;
+    private String selectedImagePath;
     private Boolean isFabOpen = false;
     private static String TAG = "ItemViewActivity";
     FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
@@ -38,6 +57,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     int category, q, currentCameraId, page_num;
     boolean previewing = false;;
     public boolean recording, pausing, inPreview;
+
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -71,6 +91,38 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         fab4.setOnClickListener(this);
         fab5.setOnClickListener(this);
         pageSel(category);
+    }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_MOVIE) {
+                Uri selectedImageUri = data.getData();
+                selectedImagePath = getPath(selectedImageUri);
+                if(Follow_fragment != null && Follow_fragment.isVisible()){
+                    Follow_fragment.videoView.requestFocus();
+                    Follow_fragment.videoView.setVideoPath(selectedImagePath);
+                } else if(finalFollow_fragment != null && finalFollow_fragment.isVisible()){
+                    finalFollow_fragment.videoView.requestFocus();
+                    finalFollow_fragment.videoView.setVideoPath(selectedImagePath);
+                }
+            }
+        }
+    }
+    public String getPath(Uri uri) {
+        // uri가 null일경우 null반환
+        if( uri == null ) {
+            return null;
+        }
+        // 미디어스토어에서 유저가 선택한 사진의 URI를 받아온다.
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        if( cursor != null ){
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        }
+        // URI경로를 반환한다.
+        return uri.getPath();
     }
     private void pageSel(int sec){
         Log.d(TAG, "pagesel");
@@ -391,4 +443,12 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        // Otherwise defer to system default behavior.
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
 }

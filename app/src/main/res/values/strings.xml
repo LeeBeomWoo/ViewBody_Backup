@@ -11,8 +11,8 @@
     <string name="menu_night_mode_night">Night (always)</string>
     <string name="menu_night_mode_auto">Auto</string>
     <string name="trainer_info">내가 누구게?</string>
-    <string name="foodcategory">음식에 대한</string>
-    <string name="bodyinfocategory">인체와 운동</string>
+    <string name="foodcategory">음식과 영양</string>
+    <string name="bodyinfocategory">몸과 운동</string>
     <string name="exerciseinfocategory">관련 운동정보</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -70,7 +70,7 @@
     <string name="qna_write">질문하기</string>
     <string name="selfmassage">자가마사지</string>
     <string name="follow">동영상 따라하기</string>
-    <string name="writer_menu">운동 및 영양 선생님들</string>
+    <string name="writer_menu">트레이너와 영양사</string>
     <string name="follow_core">코어운동 따라하기</string>
     <string name="follow_breth">유산소운동 따라하기</string>
     <string name="follow_muscleup">근육증가 운동 따라하기</string>
@@ -100,4 +100,6 @@
     그리고 우리의 자료는 2차, 3차로 각 분야의 \n전문가들이 검토 후 업로드 되는 방식이므로 혹시나 \n오류가
     있거나 문제가 있는 자료들은 즉시 연락을 주시면 자문위원단의 검토 후 수정을 하거나 \n답변을 드리도록 하겠습니다.</string>
     <string name="follow_media">따라하기</string>
+    <string name="internal_storage">내부 저장소</string>
+    <string name="chooser_title">동영상 불러오기</string>
 </resources>

@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Matrix;
 import android.graphics.Point;
@@ -19,11 +20,13 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v13.app.ActivityCompat;
 import android.support.v13.app.FragmentCompat;
@@ -45,10 +48,13 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
+import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
 import com.example.leebeomwoo.viewbody_final.R;
 
 import java.io.IOException;
@@ -68,7 +74,7 @@ import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Item_follow_fragment_21 extends Fragment
-        implements FragmentCompat.OnRequestPermissionsResultCallback {
+        implements FragmentCompat.OnRequestPermissionsResultCallback, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
@@ -79,6 +85,7 @@ public class Item_follow_fragment_21 extends Fragment
     private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
+    private final int SELECT_MOVIE = 2;
 
     private static final String TAG = "Item_follow_fragment_21";
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
@@ -87,6 +94,8 @@ public class Item_follow_fragment_21 extends Fragment
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
     String change, temp;
+    private MediaStore.Video.Media mc;
+    public VideoView videoView;
     private String cameraId = CAMERA_FRONT;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -250,6 +259,7 @@ public class Item_follow_fragment_21 extends Fragment
     private String mNextVideoAbsolutePath;
     private CaptureRequest.Builder mPreviewBuilder;
     private Surface mRecorderSurface;
+    private MediaController mediaController;
     public static Item_follow_fragment_21 newInstance(String tr_id, String imageUrl, int section) {
         Item_follow_fragment_21 item_follow_fragment_21 = new Item_follow_fragment_21();
         Bundle bundle = new Bundle();
@@ -318,7 +328,8 @@ public class Item_follow_fragment_21 extends Fragment
         view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         startBackgroundThread();
-
+        mediaController = new MediaController(getActivity());
+        videoView = (VideoView) view.findViewById(R.id.videoView);
         record = (Button) view.findViewById(R.id.record_Btn);
         play = (Button) view.findViewById(R.id.play_Btn);
         load = (Button) view.findViewById(R.id.load_Btn);
@@ -328,11 +339,41 @@ public class Item_follow_fragment_21 extends Fragment
             public void onClick(View v) {
                 if(record_plag) {
                     stopRecordingVideo();
+                    record_plag = false;
                 } else{
                     startRecordingVideo();
+                    record_plag = true;
                 }
             }
         });
+        load.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("video/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                getActivity().startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
+            }
+        });
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(play_plag){
+                    videoView.stopPlayback();
+                    play_plag = false;
+                    startPreview();
+                    videoView.setVisibility(View.INVISIBLE);
+                }else {
+                    videoView.setVisibility(View.VISIBLE);
+                    videoView.start();
+                    play_plag = true;
+                }
+            }
+        });
+        videoView.setOnPreparedListener(this);
+        videoView.setOnCompletionListener(this);
+        videoView.setMediaController(mediaController);
+        videoView.setKeepScreenOn(true);
         camerachange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -363,7 +404,6 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
-
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         startPreview();
@@ -807,6 +847,7 @@ public class Item_follow_fragment_21 extends Fragment
         // Stop recording
         mMediaRecorder.stop();
         mMediaRecorder.reset();
+        CameraHelper.getOutputMediaFile(2);
 
         Activity activity = getActivity();
         if (null != activity) {
@@ -816,6 +857,26 @@ public class Item_follow_fragment_21 extends Fragment
         }
         mNextVideoAbsolutePath = null;
         startPreview();
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        // Don't start until ready to play.  The arg of seekTo(arg) is the start point in
+        // milliseconds from the beginning. Normally we would start at the beginning but,
+        // for purposes of illustration, in this example we start playing 1/5 of
+        // the way through the video if the player can do forward seeks on the video.
+
+        if(videoView.canSeekForward()) videoView.seekTo(videoView.getDuration()/5);
+        videoView.start();
+    }
+
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        // Statements to be executed when the video finishes.
+        videoView.stopPlayback();
+        play_plag = false;
+        startPreview();
+        videoView.setVisibility(View.INVISIBLE);
     }
 
     /**
