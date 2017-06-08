@@ -24,6 +24,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
@@ -56,6 +57,7 @@ import android.widget.VideoView;
 import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
 import com.example.leebeomwoo.viewbody_final.R;
+import com.example.leebeomwoo.viewbody_final.Support.VideoViewCustom;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -95,7 +97,7 @@ public class Item_follow_fragment_21 extends Fragment
     public static final String CAMERA_BACK = "0";
     String change, temp;
     private MediaStore.Video.Media mc;
-    public VideoView videoView;
+    public VideoViewCustom videoView;
     private String cameraId = CAMERA_FRONT;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -329,7 +331,7 @@ public class Item_follow_fragment_21 extends Fragment
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         startBackgroundThread();
         mediaController = new MediaController(getActivity());
-        videoView = (VideoView) view.findViewById(R.id.videoView);
+        videoView = (VideoViewCustom) view.findViewById(R.id.videoView);
         record = (Button) view.findViewById(R.id.record_Btn);
         play = (Button) view.findViewById(R.id.play_Btn);
         load = (Button) view.findViewById(R.id.load_Btn);
@@ -370,6 +372,8 @@ public class Item_follow_fragment_21 extends Fragment
                 }
             }
         });
+
+        mediaController.setAnchorView(videoView);
         videoView.setOnPreparedListener(this);
         videoView.setOnCompletionListener(this);
         videoView.setMediaController(mediaController);
@@ -771,7 +775,8 @@ public class Item_follow_fragment_21 extends Fragment
     }
 
     private String getVideoFilePath(Context context) {
-        return context.getExternalFilesDir(null).getAbsolutePath() + "/"
+        return context.getExternalFilesDir(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM).getPath()) + "/"
                 + "ViewBody_" +System.currentTimeMillis() + ".mp4";
     }
 

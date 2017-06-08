@@ -52,7 +52,7 @@
         android:layout_height="200dp"
         android:layout_weight="1.2">
 
-        <VideoView
+        <com.example.leebeomwoo.viewbody_final.Support.VideoViewCustom
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -98,7 +98,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             videoView_3.setWebViewClient(new WebViewClient());
             WebviewSet(videoView_3);
 
-            if (Build.VERSION.SDK_INT >= 19) {
+            if (Build.VERSION.SDK_INT >= 21) {
                 imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                 imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                 videoView_1.setLayerType(View.LAYER_TYPE_HARDWARE, null);

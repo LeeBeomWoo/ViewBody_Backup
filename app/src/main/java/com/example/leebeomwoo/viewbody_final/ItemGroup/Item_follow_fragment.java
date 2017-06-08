@@ -32,6 +32,7 @@ import android.widget.VideoView;
 
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
 import com.example.leebeomwoo.viewbody_final.R;
+import com.example.leebeomwoo.viewbody_final.Support.VideoViewCustom;
 
 import java.io.File;
 import java.io.IOException;
@@ -64,7 +65,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     Calendar c = Calendar.getInstance();
     private static TextureView textureView;
     String tr_id, imageUrl, tr_password, URL, section, change, temp;
-    public VideoView videoView;
+    public VideoViewCustom videoView;
     private MediaController mc;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         View view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
             textureView = (TextureView) view.findViewById(R.id.capturview);
         mc = new MediaController(getActivity());
-        videoView = (VideoView) view.findViewById(R.id.videoView);
+        videoView = (VideoViewCustom) view.findViewById(R.id.videoView);
         videoView.setOnPreparedListener(this);
         videoView.setOnCompletionListener(this);
         videoView.setMediaController(mc);

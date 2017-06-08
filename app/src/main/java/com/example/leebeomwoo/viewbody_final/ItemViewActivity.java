@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -451,4 +453,33 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+    /**
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+            if(Follow_fragment != null && Follow_fragment.isVisible()){
+                Follow_fragment.videoView.setDimensions(displayHeight, displayWidth);
+                Follow_fragment.videoView.getHolder().setFixedSize(displayHeight, displayWidth);
+            } else if(finalFollow_fragment != null && finalFollow_fragment.isVisible()){
+                finalFollow_fragment.videoView.setDimensions(displayHeight, displayWidth);
+                finalFollow_fragment.videoView.getHolder().setFixedSize(displayHeight, displayWidth);
+            }
+
+        } else {
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+            if(Follow_fragment != null && Follow_fragment.isVisible()){
+                Follow_fragment.videoView.setDimensions(displayWidth, smallHeight);
+                Follow_fragment.videoView.getHolder().setFixedSize(displayWidth, smallHeight);
+            } else if(finalFollow_fragment != null && finalFollow_fragment.isVisible()){
+                finalFollow_fragment.videoView.setDimensions(displayWidth, smallHeight);
+                finalFollow_fragment.videoView.getHolder().setFixedSize(displayWidth, smallHeight);
+            }
+
+        }
+    }
+    **/
 }
