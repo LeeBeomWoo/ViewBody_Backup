@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.AssetFileDescriptor;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -52,7 +53,6 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.Toast;
-import android.widget.VideoView;
 
 import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
@@ -76,14 +76,15 @@ import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Item_follow_fragment_21 extends Fragment
-        implements FragmentCompat.OnRequestPermissionsResultCallback, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+        implements FragmentCompat.OnRequestPermissionsResultCallback {
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
     private static final SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
-    Boolean record_plag = false;
-    Boolean play_plag = false;
-    Button play, record, load, camerachange;
+    Boolean record_plag = false; // true = 녹화중, false = 정지
+    Boolean play_plag = false; //true = 재생, false = 정지
+    Boolean play_record = false; //true = 촬영, false = 재생
+    Button play, record, load, camerachange, play_recordBtn;
     private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
@@ -95,9 +96,9 @@ public class Item_follow_fragment_21 extends Fragment
     int page_num;
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
+    public AssetFileDescriptor afd;
     String change, temp;
-    private MediaStore.Video.Media mc;
-    public VideoViewCustom videoView;
+    MediaPlayer mMediaPlayer;
     private String cameraId = CAMERA_FRONT;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -121,7 +122,7 @@ public class Item_follow_fragment_21 extends Fragment
     /**
      * An {@link AutoFitTextureView} for camera preview.
      */
-    private static AutoFitTextureView mTextureView;
+    public static AutoFitTextureView mTextureView;
     private WebView webView;
     View view;
 
@@ -151,8 +152,39 @@ public class Item_follow_fragment_21 extends Fragment
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture,
                                               int width, int height) {
-            openCamera(width, height);
+            if (play_record) {
+                Surface surface = new Surface(surfaceTexture);
+
+                try {
+                    mMediaPlayer = new MediaPlayer();
+                    mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+                    mMediaPlayer.setSurface(surface);
+                    mMediaPlayer.setLooping(true);
+                    mMediaPlayer.prepareAsync();
+
+                    // Play video when the media source is ready for playback.
+                    mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                        @Override
+                        public void onPrepared(MediaPlayer mediaPlayer) {
+                            mediaPlayer.start();
+                        }
+                    });
+
+                } catch (IllegalArgumentException e) {
+                    Log.d(TAG, e.getMessage());
+                } catch (SecurityException e) {
+                    Log.d(TAG, e.getMessage());
+                } catch (IllegalStateException e) {
+                    Log.d(TAG, e.getMessage());
+                } catch (IOException e) {
+                    Log.d(TAG, e.getMessage());
+                }
+            } else {
+                openCamera(width, height);
+                startPreview();
+            }
         }
+
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture,
@@ -167,6 +199,7 @@ public class Item_follow_fragment_21 extends Fragment
 
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
+            updatePreview();
         }
 
     };
@@ -261,7 +294,6 @@ public class Item_follow_fragment_21 extends Fragment
     private String mNextVideoAbsolutePath;
     private CaptureRequest.Builder mPreviewBuilder;
     private Surface mRecorderSurface;
-    private MediaController mediaController;
     public static Item_follow_fragment_21 newInstance(String tr_id, String imageUrl, int section) {
         Item_follow_fragment_21 item_follow_fragment_21 = new Item_follow_fragment_21();
         Bundle bundle = new Bundle();
@@ -329,12 +361,12 @@ public class Item_follow_fragment_21 extends Fragment
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
+        mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         startBackgroundThread();
-        mediaController = new MediaController(getActivity());
-        videoView = (VideoViewCustom) view.findViewById(R.id.videoView);
         record = (Button) view.findViewById(R.id.record_Btn);
         play = (Button) view.findViewById(R.id.play_Btn);
         load = (Button) view.findViewById(R.id.load_Btn);
+        play_recordBtn = (Button) view.findViewById(R.id.play_record);
         camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
         record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -343,7 +375,13 @@ public class Item_follow_fragment_21 extends Fragment
                     stopRecordingVideo();
                     record_plag = false;
                 } else{
-                    startRecordingVideo();
+                    if(play_record) {
+                        startRecordingVideo();
+                    }else{
+                        closeCamera();
+                        stopRecordingVideo();
+                        play_record =true;
+                    }
                     record_plag = true;
                 }
             }
@@ -361,23 +399,39 @@ public class Item_follow_fragment_21 extends Fragment
             @Override
             public void onClick(View v) {
                 if(play_plag){
-                    videoView.stopPlayback();
                     play_plag = false;
-                    startPreview();
-                    videoView.setVisibility(View.INVISIBLE);
+                    play.setBackgroundResource(R.drawable.playbutton);
+                    mMediaPlayer.start();
+                    Log.d(TAG, "video stop");
                 }else {
-                    videoView.setVisibility(View.VISIBLE);
-                    videoView.start();
                     play_plag = true;
+                    if(play_record){
+                        closeCamera();
+                        play_record = false;
+                    }
+                    play.setBackgroundResource(R.drawable.pause);
+                    Log.d(TAG, "video play");
+                    mMediaPlayer.pause();
                 }
             }
         });
-
-        mediaController.setAnchorView(videoView);
-        videoView.setOnPreparedListener(this);
-        videoView.setOnCompletionListener(this);
-        videoView.setMediaController(mediaController);
-        videoView.setKeepScreenOn(true);
+        play_recordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(play_record){
+                    play_record = false;
+                    if(record_plag){
+                        stopRecordingVideo();
+                        record_plag = false;
+                    }
+                    closeCamera();
+                } else {
+                    play_record = true;
+                    openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+                    startPreview();
+                }
+            }
+        });
         camerachange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -862,26 +916,6 @@ public class Item_follow_fragment_21 extends Fragment
         }
         mNextVideoAbsolutePath = null;
         startPreview();
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mp) {
-        // Don't start until ready to play.  The arg of seekTo(arg) is the start point in
-        // milliseconds from the beginning. Normally we would start at the beginning but,
-        // for purposes of illustration, in this example we start playing 1/5 of
-        // the way through the video if the player can do forward seeks on the video.
-
-        if(videoView.canSeekForward()) videoView.seekTo(videoView.getDuration()/5);
-        videoView.start();
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        // Statements to be executed when the video finishes.
-        videoView.stopPlayback();
-        play_plag = false;
-        startPreview();
-        videoView.setVisibility(View.INVISIBLE);
     }
 
     /**

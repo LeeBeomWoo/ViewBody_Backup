@@ -33,6 +33,7 @@ import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import static android.R.attr.path;
@@ -59,6 +60,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     int category, q, currentCameraId, page_num;
     boolean previewing = false;;
     public boolean recording, pausing, inPreview;
+
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -100,11 +102,16 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 Uri selectedImageUri = data.getData();
                 selectedImagePath = getPath(selectedImageUri);
                 if(Follow_fragment != null && Follow_fragment.isVisible()){
-                    Follow_fragment.videoView.requestFocus();
-                    Follow_fragment.videoView.setVideoPath(selectedImagePath);
-                } else if(finalFollow_fragment != null && finalFollow_fragment.isVisible()){
-                    finalFollow_fragment.videoView.requestFocus();
-                    finalFollow_fragment.videoView.setVideoPath(selectedImagePath);
+                    try {
+                        Follow_fragment.afd = getAssets().openFd(selectedImagePath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else if(finalFollow_fragment != null && finalFollow_fragment.isVisible()){ try {
+                    finalFollow_fragment.afd = getAssets().openFd(selectedImagePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 }
             }
         }
