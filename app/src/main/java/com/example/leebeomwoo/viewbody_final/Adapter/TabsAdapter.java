@@ -32,6 +32,7 @@ public class TabsAdapter
         return items.size();
     }
 
+
     @Override
     public CharSequence getPageTitle(int position) {
         return items.get(position).getTitle();

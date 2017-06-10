@@ -2,6 +2,7 @@ package com.example.leebeomwoo.viewbody_final;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -65,8 +66,8 @@ public class MainActivity extends AppCompatActivity{
         }
 
         ArrayList<MainTabItem> mainMenuItems = new ArrayList<>();
-        mainMenuItems.add(new MainTabItem("홈", null, Home_Tab.class, Color.alpha(R.color.newtoolbar)));
-        mainMenuItems.add(new MainTabItem("몸과 운동", null, BodyTab_Sub.class, Color.));
+        mainMenuItems.add(new MainTabItem("홈", null, Home_Tab.class));
+        mainMenuItems.add(new MainTabItem("몸과 운동", null, BodyTab_Sub.class));
         mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("동영상 따라하기", null, FollowTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
@@ -76,6 +77,41 @@ public class MainActivity extends AppCompatActivity{
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
         viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), mainMenuItems));
         tabLayout.setupWithViewPager(viewPager);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        tabLayout.setBackgroundResource(R.color.newtoolbar);
+                        break;
+                    case 1:
+                        tabLayout.setBackgroundResource(R.color.body_toolbar);
+                        break;
+                    case 2:
+                        tabLayout.setBackgroundResource(R.color.foodtoolbar);
+                        break;
+                    case 3:
+                        tabLayout.setBackgroundResource(R.color.followtoolbar);
+                        break;
+                    case 4:
+                        tabLayout.setBackgroundResource(R.color.writertoolbar);
+                        break;
+                    case 5:
+                        tabLayout.setBackgroundResource(R.color.qnatoolbar);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         viewPager.setCurrentItem(i, true);
     }
 

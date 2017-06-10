@@ -10,13 +10,11 @@ import android.support.v4.app.Fragment;
 public class MainTabItem {
     private String title, id;
     private Class fragmentClass;
-    private Color color;
 
-    public MainTabItem(String title, String Id, Class fragmentClass, Color color) {
+    public MainTabItem(String title, String Id, Class fragmentClass) {
         this.title = title;
         this.id = Id;
         this.fragmentClass = fragmentClass;
-        this.color = color;
     }
 
     public Fragment getFragment(){
@@ -54,11 +52,4 @@ public class MainTabItem {
         this.id = id;
     }
 
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
 }

@@ -124,8 +124,8 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                     if(play_record) {
                         mMediaRecorder.start();
                     }else{
-                        closeCamera();
-                        startRecordingVideo();
+                        //closeCamera();
+                        //startRecordingVideo();
                         play_record =true;
                     }
                     record_plag = true;
