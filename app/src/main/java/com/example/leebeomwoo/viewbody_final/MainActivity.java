@@ -1,6 +1,7 @@
 package com.example.leebeomwoo.viewbody_final;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -64,8 +65,8 @@ public class MainActivity extends AppCompatActivity{
         }
 
         ArrayList<MainTabItem> mainMenuItems = new ArrayList<>();
-        mainMenuItems.add(new MainTabItem("홈", null, Home_Tab.class));
-        mainMenuItems.add(new MainTabItem("몸과 운동", null, BodyTab_Sub.class));
+        mainMenuItems.add(new MainTabItem("홈", null, Home_Tab.class, Color.alpha(R.color.newtoolbar)));
+        mainMenuItems.add(new MainTabItem("몸과 운동", null, BodyTab_Sub.class, Color.));
         mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("동영상 따라하기", null, FollowTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));

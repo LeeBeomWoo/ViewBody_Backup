@@ -1,5 +1,6 @@
 package com.example.leebeomwoo.viewbody_final.Item;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 
 /**
@@ -9,11 +10,13 @@ import android.support.v4.app.Fragment;
 public class MainTabItem {
     private String title, id;
     private Class fragmentClass;
+    private Color color;
 
-    public MainTabItem(String title, String Id, Class fragmentClass) {
+    public MainTabItem(String title, String Id, Class fragmentClass, Color color) {
         this.title = title;
         this.id = Id;
         this.fragmentClass = fragmentClass;
+        this.color = color;
     }
 
     public Fragment getFragment(){
@@ -49,5 +52,13 @@ public class MainTabItem {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

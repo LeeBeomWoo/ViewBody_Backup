@@ -18,5 +18,11 @@
     <color name="common_google_signin_btn_text_light_focused">#1c5c43</color>
     <color name="common_google_signin_btn_text_light_default">#06150f</color>
     <color name="common_google_signin_btn_text_dark_default">#070808</color>
+    <color name="body_toolbar">#ac67eb</color>
+    <color name="followtoolbar">#31cbc5</color>
+    <color name="foodtoolbar">#f87d73</color>
+    <color name="writertoolbar">#83a5f6</color>
+    <color name="qnatoolbar">#ffb5af</color>
+    <color name="newtoolbar">#f6c120</color>
 
 </resources>
