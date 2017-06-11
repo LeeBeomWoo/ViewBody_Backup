@@ -5,12 +5,12 @@
     <color name="colorAccent">#fcf79f</color>
     <color name="primary_material_light_1">#447ad2</color>
     <color name="primary_text_material_dark">#adadad</color>
-    <color name="viewstatusbarcolor">#0e474d</color>
+    <color name="viewstatusbarcolor">#cc605c62</color>
     <color name="viewbodyhombar">#0e474d</color>
     <color name="viewbodyappbarcolor">#cedf95</color>
     <color name="viewstatusbarcolor_main">#0e474d</color>
     <color name="viewbodyhombar_main">#cadd97</color>
-    <color name="viewbodyappbarcolor_main">#17737c</color>
+    <color name="viewbodyappbarcolor_main">#ffffff</color>
     <color name="semplecolor">#da7a3e</color>
     <color name="nocolor">#00ff0000</color>
     <color name="common_google_signin_btn_text_light_disabled">#19231f</color>
@@ -18,11 +18,14 @@
     <color name="common_google_signin_btn_text_light_focused">#1c5c43</color>
     <color name="common_google_signin_btn_text_light_default">#06150f</color>
     <color name="common_google_signin_btn_text_dark_default">#070808</color>
-    <color name="body_toolbar">#ac67eb</color>
-    <color name="followtoolbar">#31cbc5</color>
-    <color name="foodtoolbar">#f87d73</color>
-    <color name="writertoolbar">#83a5f6</color>
+    <color name="body_toolbar">#6c5382</color>
+    <color name="bodysubtabcolor">#ac67eb</color>
+    <color name="followtoolbar">#2ab0aa</color>
+    <color name="followsubtabcolor">#31cbc5</color>
+    <color name="foodtoolbar">#ff857b</color>
+    <color name="foodsubtabcolor">#ffb5af</color>
+    <color name="writertoolbar">#5c69d0</color>
+    <color name="writersubtabcolor">#83a5f6</color>
     <color name="qnatoolbar">#ffb5af</color>
     <color name="newtoolbar">#f6c120</color>
-
 </resources>

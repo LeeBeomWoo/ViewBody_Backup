@@ -17,8 +17,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity{
     MenuItem myActionMenuItem;
     TabLayout tabLayout;
     ViewPager viewPager;
+    RelativeLayout maintab;
+    Button back, menu;
     int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +76,11 @@ public class MainActivity extends AppCompatActivity{
         mainMenuItems.add(new MainTabItem("동영상 따라하기", null, FollowTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
         mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
-
+        back = (Button) findViewById(R.id.tabbackBtn);
+        menu = (Button) findViewById(R.id.tabmenuBtn);
         tabLayout = (TabLayout) findViewById(R.id.main_TabLayout);
+        maintab = (RelativeLayout) findViewById(R.id.maintablayout);
+        tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
         viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), mainMenuItems));
         tabLayout.setupWithViewPager(viewPager);
@@ -87,22 +94,22 @@ public class MainActivity extends AppCompatActivity{
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        tabLayout.setBackgroundResource(R.color.newtoolbar);
+                        maintab.setBackgroundResource(R.color.newtoolbar);
                         break;
                     case 1:
-                        tabLayout.setBackgroundResource(R.color.body_toolbar);
+                        maintab.setBackgroundResource(R.color.body_toolbar);
                         break;
                     case 2:
-                        tabLayout.setBackgroundResource(R.color.foodtoolbar);
+                        maintab.setBackgroundResource(R.color.foodtoolbar);
                         break;
                     case 3:
-                        tabLayout.setBackgroundResource(R.color.followtoolbar);
+                        maintab.setBackgroundResource(R.color.followtoolbar);
                         break;
                     case 4:
-                        tabLayout.setBackgroundResource(R.color.writertoolbar);
+                        maintab.setBackgroundResource(R.color.writertoolbar);
                         break;
                     case 5:
-                        tabLayout.setBackgroundResource(R.color.qnatoolbar);
+                        maintab.setBackgroundResource(R.color.qnatoolbar);
                         break;
                 }
             }
@@ -112,6 +119,26 @@ public class MainActivity extends AppCompatActivity{
 
             }
         });
+        switch (i){
+            case 0:
+                maintab.setBackgroundResource(R.color.newtoolbar);
+                break;
+            case 1:
+                maintab.setBackgroundResource(R.color.body_toolbar);
+                break;
+            case 2:
+                maintab.setBackgroundResource(R.color.foodtoolbar);
+                break;
+            case 3:
+                maintab.setBackgroundResource(R.color.followtoolbar);
+                break;
+            case 4:
+                maintab.setBackgroundResource(R.color.writertoolbar);
+                break;
+            case 5:
+                maintab.setBackgroundResource(R.color.qnatoolbar);
+                break;
+        }
         viewPager.setCurrentItem(i, true);
     }
 
