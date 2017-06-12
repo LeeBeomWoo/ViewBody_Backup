@@ -2,18 +2,14 @@ package com.example.leebeomwoo.viewbody_final;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.Rect;
+import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.PopupWindowCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,21 +19,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.leebeomwoo.viewbody_final.Adapter.ListRecyclerViewAdapter;
+import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 import com.example.leebeomwoo.viewbody_final.Fragment.QnAFragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
-import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
+import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
+import com.example.leebeomwoo.viewbody_final.Support.SlidingTabStrip;
 
 import java.util.ArrayList;
 
@@ -48,7 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TabLayout tabLayout;
     ViewPager viewPager;
     RelativeLayout maintab;
+    SlidingTabStrip mTabStrip;
     Button back, menu;
+    private int mScrollState;
     int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +103,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         back = (Button) findViewById(R.id.tabbackBtn);
         menu = (Button) findViewById(R.id.tabmenuBtn);
         tabLayout = (TabLayout) findViewById(R.id.main_TabLayout);
+        tabLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View lastSelectedView = null;
+                int selectedViewIndex = 0;
+
+                for (int i = 1; i < mTabStrip.getChildCount() - 1; i++) {
+                    View currentViewInLoop = mTabStrip.getChildAt(i);
+                    if (currentViewInLoop.isSelected()) {
+                        lastSelectedView = currentViewInLoop;
+                    }
+
+                    if (v == currentViewInLoop) {
+                        selectedViewIndex = i - 1;
+                    }
+
+                    if (lastSelectedView != null && selectedViewIndex != 0)
+                        break;
+                }
+
+                Rect tabContainerRect = new Rect();
+                Rect lastSelectedTabRect = new Rect();
+
+                v.getDrawingRect(tabContainerRect);
+                lastSelectedView.getHitRect(lastSelectedTabRect);
+
+                if (Rect.intersects(tabContainerRect, lastSelectedTabRect))
+                    viewPager.setCurrentItem(selectedViewIndex);
+                else
+                    viewPager.setCurrentItem(selectedViewIndex, false);
+            }
+        });
         maintab = (RelativeLayout) findViewById(R.id.maintablayout);
         tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
@@ -178,8 +204,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         TextView editText = (TextView) view.findViewById(R.id.menu_testtxt);
 
         popupWindow.setFocusable(true);
-        popupWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
-        popupWindow.setHeight(WindowManager.LayoutParams.MATCH_PARENT);
+        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.setContentView(view);
 
 

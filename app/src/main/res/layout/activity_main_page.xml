@@ -45,8 +45,9 @@
                 app:tabGravity="center"
                 app:tabMaxWidth="0dp"
                 app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/cardview_light_background"
                 app:tabTextAppearance="@style/maintabtextsize"
-                app:tabTextColor="@color/cardview_light_background" />
+                app:tabTextColor="@color/nocolor" />
 
             <Button
                 android:id="@+id/tabmenuBtn"

@@ -83,6 +83,7 @@ public class WriterTab_Sub extends Fragment {
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
+        slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.writertoolbar));
         return view;
     }
 

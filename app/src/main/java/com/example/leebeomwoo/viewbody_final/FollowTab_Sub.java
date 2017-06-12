@@ -86,6 +86,7 @@ import java.util.ArrayList;
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
+            slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.followtoolbar));
             return view;
         }
     public void changePage(int p){

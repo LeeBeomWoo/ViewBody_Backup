@@ -90,6 +90,7 @@ public class BodyTab_Sub extends Fragment {
         tabsAdapter = new TabsAdapter(getChildFragmentManager(), items);
         viewPager.setAdapter(tabsAdapter);
         slidingTabLayout.setViewPager(viewPager);
+        slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.body_toolbar));
         setHasOptionsMenu(true);
         return view;
     }
