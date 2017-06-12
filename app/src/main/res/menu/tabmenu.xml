@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/top"
+        android:menuCategory="container"/>
+
+    <item
+        android:id="@+id/body"
+        android:title="@string/bodyinfocategory" />
+    <item
+        android:id="@+id/food"
+        android:title="@string/foodcategory" />
+    <item
+        android:id="@+id/follow"
+        android:orderInCategory="100"
+        android:title="@string/follow"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/writer"
+        android:orderInCategory="100"
+        android:title="@string/writer_menu"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/account"
+        android:orderInCategory="100"
+        android:title="@string/account"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/qna"
+        android:orderInCategory="100"
+        android:title="@string/qna"
+        app:showAsAction="never" />
+</menu>

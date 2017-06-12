@@ -9,28 +9,4 @@
         app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="android.support.v7.widget.SearchView"
         android:visible="true"/>
-    <item android:id="@+id/body"
-        android:title="@string/bodyinfocategory"/>
-    <item android:id="@+id/food"
-        android:title="@string/foodcategory"/>
-    <item
-        android:id="@+id/follow"
-        android:orderInCategory="100"
-        android:title="@string/follow"
-        app:showAsAction="never"/>
-    <item
-        android:id="@+id/writer"
-        android:orderInCategory="100"
-        android:title="@string/writer_menu"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/account"
-        android:orderInCategory="100"
-        android:title="@string/account"
-        app:showAsAction="never" />
-    <item
-        android:id="@+id/qna"
-        android:orderInCategory="100"
-        android:title="@string/qna"
-        app:showAsAction="never" />
 </menu>

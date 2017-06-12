@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="200dp"
+    android:layout_height="400dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <ImageButton
+            android:id="@+id/cancel_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/close"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/home_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows2"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/indi_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/home_menuBtn"
+            android:background="?android:attr/actionModePasteDrawable"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/menu_testtxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout5"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text="@string/apptest"
+        android:textSize="10sp"
+        tools:ignore="LabelFor" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/menu_testtxt"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/body_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/bodymain"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/food_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/foodmain"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/follow_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/followmain"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/writer_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows2"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/qna_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/qna_main"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/account_menuBtn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows2"
+            tools:ignore="ContentDescription" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_menu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/menu_testtxt"
+        android:layout_toEndOf="@+id/linearLayout" />
+
+</LinearLayout>

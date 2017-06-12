@@ -102,4 +102,5 @@
     <string name="follow_media">따라하기</string>
     <string name="internal_storage">내부 저장소</string>
     <string name="chooser_title">동영상 불러오기</string>
+    <string name="apptest">  현재 이 앱은 테스트 중에 있습니다. 아직 개발과 수정이 이루어 지고 있으니 \n 정식버전이 출시되기 전까지 많은 관심과 피드백을 부탁드리며  \n 주변분들에게 널리 알려주시기 바랍니다.</string>
 </resources>

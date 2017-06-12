@@ -1,5 +1,6 @@
 package com.example.leebeomwoo.viewbody_final;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,17 +13,26 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.ListRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Fragment.QnAFragment;
@@ -31,7 +41,7 @@ import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     DrawerLayout mDrawerLayout;
     SearchView mSearchView;
     MenuItem myActionMenuItem;
@@ -51,19 +61,39 @@ public class MainActivity extends AppCompatActivity{
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayShowTitleEnabled(false);
         ab.setDisplayShowCustomEnabled(true);
+        ab.setDisplayShowCustomEnabled(true);
+        ab.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
+        ab.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
+        ab.setDisplayShowHomeEnabled(false);            //홈 아이콘을 숨김처리합니다.
+
+
+        //layout을 가지고 와서 actionbar에 포팅을 시킵니다.
+        ab.setCustomView(R.layout.toolbar);
+
         if(getIntent().hasExtra("message")) {
             Bundle bundle = getIntent().getExtras();
             i = bundle.getInt("message");
         }
         // Get access to the custom title view
-        ImageView mTitle = (ImageView) findViewById(R.id.toolbar_title);
-        ImageView mToolImage = (ImageView) findViewById(R.id.toolbar_image);
         // Display icon in the toolbar
         // toolbar.inflateMenu(R.menu.menu_main);
         // mSearchView = (SearchView) toolbar.getMenu().findItem(R.id.action_search).getActionView();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
+        back = (Button) findViewById(R.id.tabbackBtn);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        menu = (Button) findViewById(R.id.tabmenuBtn);
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupWindow popupwindow_obj = popupDisplay();
+                popupwindow_obj.showAsDropDown(menu, 1, 18);
+            }
+        });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -87,38 +117,24 @@ public class MainActivity extends AppCompatActivity{
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+            Log.d("Scrolled position :", String.valueOf(position));
+                Log.d("positionOffset :", String.valueOf(positionOffset));
+                Log.d("positionOffsetPixels :", String.valueOf(positionOffsetPixels));
             }
 
             @Override
             public void onPageSelected(int position) {
-                switch (position){
-                    case 0:
-                        maintab.setBackgroundResource(R.color.newtoolbar);
-                        break;
-                    case 1:
-                        maintab.setBackgroundResource(R.color.body_toolbar);
-                        break;
-                    case 2:
-                        maintab.setBackgroundResource(R.color.foodtoolbar);
-                        break;
-                    case 3:
-                        maintab.setBackgroundResource(R.color.followtoolbar);
-                        break;
-                    case 4:
-                        maintab.setBackgroundResource(R.color.writertoolbar);
-                        break;
-                    case 5:
-                        maintab.setBackgroundResource(R.color.qnatoolbar);
-                        break;
-                }
+                tabColor(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
+        tabColor(i);
+        viewPager.setCurrentItem(i, true);
+    }
+    private void tabColor(int i){
         switch (i){
             case 0:
                 maintab.setBackgroundResource(R.color.newtoolbar);
@@ -139,9 +155,37 @@ public class MainActivity extends AppCompatActivity{
                 maintab.setBackgroundResource(R.color.qnatoolbar);
                 break;
         }
-        viewPager.setCurrentItem(i, true);
     }
+    public PopupWindow popupDisplay()
+    {
+        final PopupWindow popupWindow = new PopupWindow(this);
 
+        // inflate your layout or dynamically add view
+        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        View view = inflater.inflate(R.layout.menu, null);
+
+        ImageButton cancel_menuBtn = (ImageButton) view.findViewById(R.id.cancel_menuBtn);
+        ImageButton home_menuBtn = (ImageButton) view.findViewById(R.id.home_menuBtn);
+        ImageButton indi_menuBtn = (ImageButton) view.findViewById(R.id.indi_menuBtn);
+        ImageButton body_menuBtn = (ImageButton) view.findViewById(R.id.body_menuBtn);
+        ImageButton food_menuBtn = (ImageButton) view.findViewById(R.id.food_menuBtn);
+        ImageButton follow_menuBtn = (ImageButton) view.findViewById(R.id.follow_menuBtn);
+        ImageButton writer_menuBtn = (ImageButton) view.findViewById(R.id.writer_menuBtn);
+        ImageButton qna_menuBtn = (ImageButton) view.findViewById(R.id.qna_menuBtn);
+        ImageButton account_menuBtn = (ImageButton) view.findViewById(R.id.account_menuBtn);
+        ListView listView = (ListView) view.findViewById(R.id.list_menu);
+        TextView editText = (TextView) view.findViewById(R.id.menu_testtxt);
+
+        popupWindow.setFocusable(true);
+        popupWindow.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(WindowManager.LayoutParams.MATCH_PARENT);
+        popupWindow.setContentView(view);
+
+
+
+        return popupWindow;
+    }
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -156,7 +200,6 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onCreateOptionsMenu( Menu menu) {
         getMenuInflater().inflate( R.menu.menu_main, menu);
-
         myActionMenuItem = menu.findItem( R.id.action_search);
         mSearchView = (SearchView) myActionMenuItem.getActionView();
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -178,36 +221,52 @@ public class MainActivity extends AppCompatActivity{
         });
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.body:
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.cancel_menuBtn:
                 viewPager.setCurrentItem(1, true);
-                return true;
-            case R.id.food:
-                viewPager.setCurrentItem(2, true);
-                // foodTab_sub.changePage(4);
-                return true;
-            case R.id.follow:
+                break;
+            case R.id.account_menuBtn:
+                Intent intent = new Intent(MainActivity.this, AccountActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.body_menuBtn:
                 viewPager.setCurrentItem(3, true);
                 //foodTab_sub.changePage(2);
-                return true;
-            case R.id.writer:
+                break;
+            case R.id.follow_menuBtn:
                 viewPager.setCurrentItem(4, true);
                 //foodTab_sub.changePage(1);
-                return true;
-            case R.id.account:
-                Intent intent = new Intent(this, AccountActivity.class);
-                startActivity(intent);
-                return true;
-            case R.id.qna:
-                Intent qintent = new Intent(this, QnaActivity.class);
+                break;
+            case R.id.food_menuBtn:
+                break;
+            case R.id.home_menuBtn:
+                break;
+            case R.id.qna_menuBtn:
+                Intent qintent = new Intent(MainActivity.this, QnaActivity.class);
                 startActivity(qintent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                break;
+            case R.id.writer_menuBtn:
+                viewPager.setCurrentItem(4, true);
+                // foodTab_sub.changePage(4);
+                break;
+            case R.id.body:
+                viewPager.setCurrentItem(1, true);
+                break;
+            case R.id.food:
+                viewPager.setCurrentItem(2, true);
+                break;
+                // foodTab_sub.changePage(4);
+            case R.id.follow:
+                viewPager.setCurrentItem(3, true);
+                break;
+                //foodTab_sub.changePage(2);
+            case R.id.writer:
+                viewPager.setCurrentItem(4, true);
+                break;
+                //foodTab_sub.changePage(1);
         }
     }
-
 }

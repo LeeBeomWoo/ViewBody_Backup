@@ -7,28 +7,37 @@
     tools:context="com.example.leebeomwoo.viewbody_final.FoodTab_Sub">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/writertab"
-        android:layout_width="344dp"
+        android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@color/writersubtabcolor"
+        android:background="@color/foodsubtabcolor"
         android:orientation="horizontal"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"
-        tools:ignore="MissingConstraints">
-    <com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout
-        android:id="@+id/writer_TabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        app:tabGravity="center"
-        android:fillViewport="true"
-        android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints" />
-</LinearLayout>
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="8dp">
+
+        <com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout
+            android:id="@+id/writer_TabLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:background="@color/bodysubtabcolor"
+            android:fillViewport="true"
+            android:textAlignment="center"
+            app:tabTextAppearance="@style/subtabtextsize"
+            app:tabTextColor="@color/cardview_light_background"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="0dp"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"  />
+    </android.support.constraint.ConstraintLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/writer_viewPager"
         android:layout_width="0dp"
