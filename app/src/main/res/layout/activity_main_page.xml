@@ -20,6 +20,35 @@
             android:weightSum="1"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:divider="@drawable/divider"
+                android:dividerPadding="4dp"
+                android:orientation="horizontal"
+                android:showDividers="middle|end">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:srcCompat="@drawable/logomain"
+                    tools:ignore="ContentDescription"
+                    tools:layout_editor_absoluteY="5dp" />
+
+                <ImageView
+                    android:id="@+id/toolbartextimage"
+                    android:layout_width="180dp"
+                    android:layout_height="50dp"
+                    android:padding="5dp"
+                    android:textAlignment="center"
+                    app:layout_constraintLeft_toRightOf="@+id/imageView2"
+                    app:srcCompat="@drawable/toolbartext"
+                    tools:ignore="ContentDescription"
+                    tools:layout_editor_absoluteY="0dp" />
+            </LinearLayout>
         </android.support.v7.widget.Toolbar>
 
         <RelativeLayout
@@ -34,7 +63,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/tabback" />
 
-            <android.support.design.widget.TabLayout
+            <com.example.leebeomwoo.viewbody_final.Support.CenteringTabLayout
                 android:id="@+id/main_TabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

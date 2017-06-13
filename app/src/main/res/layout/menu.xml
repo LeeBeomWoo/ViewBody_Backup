@@ -2,152 +2,132 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="200dp"
-    android:layout_height="400dp"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/backline"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout5"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/cancel_menuBtn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/close"
-            tools:ignore="ContentDescription" />
+            android:id="@+id/qna_menuBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignStart="@+id/writer_menuBtn"
+            android:layout_below="@+id/writer_menuBtn"
+            android:layout_margin="3dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/qna_main" />
+
+        <ImageButton
+            android:id="@+id/account_menuBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/qna_menuBtn"
+            android:layout_margin="3dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows2" />
 
         <ImageButton
             android:id="@+id/home_menuBtn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="3dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:srcCompat="@drawable/arrows2"
-            tools:ignore="ContentDescription" />
+            tools:layout_editor_absoluteY="0dp" />
 
         <ImageButton
-            android:id="@+id/indi_menuBtn"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/home_menuBtn"
-            android:background="?android:attr/actionModePasteDrawable"
-            tools:ignore="ContentDescription" />
-
-    </RelativeLayout>
+            android:id="@+id/cancel_menuBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:layout_constraintRight_toRightOf="parent"
+            app:srcCompat="@drawable/close"
+            tools:ignore="ContentDescription"
+            tools:layout_editor_absoluteY="0dp" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/menu_testtxt"
+        android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativeLayout5"
-        android:ems="10"
-        android:inputType="textMultiLine"
+        android:layout_weight="1"
         android:text="@string/apptest"
-        android:textSize="10sp"
-        tools:ignore="LabelFor" />
+        android:textSize="10sp" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="200dp">
 
-        <ListView
-            android:id="@+id/list_menu"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/menu_testtxt"
-            android:layout_toEndOf="@+id/linearLayout" />
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/menu_testtxt"
-            android:orientation="vertical">
+            <ListView
+                android:id="@+id/menu_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:layout_toEndOf="@+id/body_menuBtn"
+                tools:listitem="@layout/menulist"/>
 
             <ImageButton
                 android:id="@+id/body_menuBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
                 android:background="@color/nocolor"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/bodymain"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/food_menuBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/nocolor"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/foodmain"
-                tools:ignore="ContentDescription" />
-
-            <ImageButton
-                android:id="@+id/follow_menuBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
-                android:background="@color/nocolor"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/followmain"
-                tools:ignore="ContentDescription" />
+                app:srcCompat="@drawable/body_with_text" />
 
             <ImageButton
                 android:id="@+id/writer_menuBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/food_menuBtn"
+                android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="2dp"
                 android:background="@color/nocolor"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/arrows2"
-                tools:ignore="ContentDescription" />
+                app:srcCompat="@drawable/arrows2" />
 
             <ImageButton
-                android:id="@+id/qna_menuBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
+                android:id="@+id/food_menuBtn"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/writer_menuBtn"
+                android:layout_below="@+id/follow_menuBtn"
                 android:background="@color/nocolor"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/qna_main"
-                tools:ignore="ContentDescription" />
+                app:srcCompat="@drawable/food_with_text" />
 
             <ImageButton
-                android:id="@+id/account_menuBtn"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="4dp"
+                android:id="@+id/follow_menuBtn"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
+                android:layout_alignStart="@+id/food_menuBtn"
+                android:layout_below="@+id/body_menuBtn"
                 android:background="@color/nocolor"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/arrows2"
-                tools:ignore="ContentDescription" />
-        </LinearLayout>
-    </RelativeLayout>
+                app:srcCompat="@drawable/follow_with_text" />
+        </RelativeLayout>
+    </ScrollView>
 
 </LinearLayout>

@@ -11,6 +11,10 @@
         <item name="android:colorForeground" tools:ignore="PrivateResource">@color/foreground_material_light</item>
         <item name="android:textColorPrimary">@color/viewbody_primary_text</item>
     </style>
+    <style name="MyActionButtonStyle" parent="AppTheme">
+        <item name="android:minWidth">5dip</item>
+        <item name="android:padding">0dip</item>
+    </style>
     <style name="maintabtextsize" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">22sp</item>
     </style>

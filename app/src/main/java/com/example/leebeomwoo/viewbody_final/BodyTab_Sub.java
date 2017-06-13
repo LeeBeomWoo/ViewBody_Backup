@@ -2,6 +2,8 @@ package com.example.leebeomwoo.viewbody_final;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.Fragment.Lower_ExerFragment;
 import com.example.leebeomwoo.viewbody_final.Fragment.Lower_MuscleFragment;
@@ -20,6 +23,8 @@ import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 
 import java.util.ArrayList;
+
+import static android.graphics.Paint.Style.STROKE;
 
 
 /**

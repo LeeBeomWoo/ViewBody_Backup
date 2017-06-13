@@ -78,7 +78,7 @@ public class FoodTab_Sub extends Fragment {
             view = inflater.inflate(R.layout.fragment_food_tab_sub, container, false);
 
             items = new ArrayList<>();
-           // items.add(new MainTabItem("체지방 감 소", mParam1, Food_FatFragment.class));
+           // items.add(new MainTabItem("체지방 감소", mParam1, Food_FatFragment.class));
            // items.add(new MainTabItem("근력 강화", mParam1, Food_PowerUpFragment.class));
            // items.add(new MainTabItem("근육량 증 대", mParam1, Food_MuscleUpFragment.class));
            // items.add(new MainTabItem("몸매 관리", mParam1, Food_DietFragment.class));

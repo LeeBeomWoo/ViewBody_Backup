@@ -66,7 +66,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private static final int TAB_VIEW_PADDING_DIPS = 16;
     private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
 
-    private static int mTitleOffset;
+    private int mTitleOffset;
 
     private int mTabViewLayoutId;
     private int mTabViewTextViewId;
@@ -76,7 +76,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     public ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
 
-    private static SlidingTabStrip mTabStrip;
+    private SlidingTabStrip mTabStrip;
 
     public SlidingTabLayout(Context context) {
         this(context, null);

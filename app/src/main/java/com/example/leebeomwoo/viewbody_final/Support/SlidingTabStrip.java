@@ -46,6 +46,7 @@ public class SlidingTabStrip extends LinearLayout {
     private float mSelectionOffset;
 
     private SlidingTabLayout.TabColorizer mCustomTabColorizer;
+    private CenterSlidingTabLayout.TabColorizer mTabCustomColorizer;
     private final SimpleTabColorizer mDefaultTabColorizer;
 
     SlidingTabStrip(Context context) {
@@ -155,7 +156,7 @@ public class SlidingTabStrip extends LinearLayout {
     }
 
     public void setCustomTabColorizer(CenterSlidingTabLayout.TabColorizer tabColorizer) {
-        mCustomTabColorizer = tabColorizer;
+        mTabCustomColorizer = tabColorizer;
         invalidate();
     }
 

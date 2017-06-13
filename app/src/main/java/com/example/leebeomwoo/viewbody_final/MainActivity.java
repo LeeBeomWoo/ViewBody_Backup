@@ -10,11 +10,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,20 +31,24 @@ import android.widget.TextView;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 import com.example.leebeomwoo.viewbody_final.Fragment.QnAFragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
+import com.example.leebeomwoo.viewbody_final.Support.CenteringTabLayout;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabStrip;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     DrawerLayout mDrawerLayout;
     SearchView mSearchView;
     MenuItem myActionMenuItem;
-    TabLayout tabLayout;
+    CenteringTabLayout tabLayout;
     ViewPager viewPager;
     RelativeLayout maintab;
-    SlidingTabStrip mTabStrip;
+    PopupWindow mPopupWindow;
     Button back, menu;
+    Context context;
+    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn;
     private int mScrollState;
     int i = 0;
     @Override
@@ -60,14 +67,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ab.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
         ab.setDisplayShowHomeEnabled(false);            //홈 아이콘을 숨김처리합니다.
 
-
-        //layout을 가지고 와서 actionbar에 포팅을 시킵니다.
-        ab.setCustomView(R.layout.toolbar);
-
         if(getIntent().hasExtra("message")) {
             Bundle bundle = getIntent().getExtras();
             i = bundle.getInt("message");
         }
+        context = this;
         // Get access to the custom title view
         // Display icon in the toolbar
         // toolbar.inflateMenu(R.menu.menu_main);
@@ -84,8 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupWindow popupwindow_obj = popupDisplay();
-                popupwindow_obj.showAsDropDown(menu, 1, 18);
+                popupDisplay(v);
             }
         });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -102,39 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
         back = (Button) findViewById(R.id.tabbackBtn);
         menu = (Button) findViewById(R.id.tabmenuBtn);
-        tabLayout = (TabLayout) findViewById(R.id.main_TabLayout);
-        tabLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View lastSelectedView = null;
-                int selectedViewIndex = 0;
-
-                for (int i = 1; i < mTabStrip.getChildCount() - 1; i++) {
-                    View currentViewInLoop = mTabStrip.getChildAt(i);
-                    if (currentViewInLoop.isSelected()) {
-                        lastSelectedView = currentViewInLoop;
-                    }
-
-                    if (v == currentViewInLoop) {
-                        selectedViewIndex = i - 1;
-                    }
-
-                    if (lastSelectedView != null && selectedViewIndex != 0)
-                        break;
-                }
-
-                Rect tabContainerRect = new Rect();
-                Rect lastSelectedTabRect = new Rect();
-
-                v.getDrawingRect(tabContainerRect);
-                lastSelectedView.getHitRect(lastSelectedTabRect);
-
-                if (Rect.intersects(tabContainerRect, lastSelectedTabRect))
-                    viewPager.setCurrentItem(selectedViewIndex);
-                else
-                    viewPager.setCurrentItem(selectedViewIndex, false);
-            }
-        });
+        tabLayout = (CenteringTabLayout) findViewById(R.id.main_TabLayout);
+        tabLayout.setClickable(false);
         maintab = (RelativeLayout) findViewById(R.id.maintablayout);
         tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
@@ -182,35 +154,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-    public PopupWindow popupDisplay()
+
+    public PopupWindow popupDisplay(View v)
     {
-        final PopupWindow popupWindow = new PopupWindow(this);
+        View popupView = getLayoutInflater().inflate(R.layout.menu, null);
+        /**
+         * LayoutParams WRAP_CONTENT를 주면 inflate된 View의 사이즈 만큼의
+         * PopupWinidow를 생성한다.
+         */
+        mPopupWindow = new PopupWindow(popupView,
+                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.showAsDropDown(v, 0, 0);
+        cancel_menuBtn = (ImageButton) popupView.findViewById(R.id.cancel_menuBtn);
+        account_menuBtn = (ImageButton) popupView.findViewById(R.id.account_menuBtn);
+        body_menuBtn = (ImageButton) popupView.findViewById(R.id.body_menuBtn);
+        follow_menuBtn = (ImageButton) popupView.findViewById(R.id.follow_menuBtn);
+        food_menuBtn = (ImageButton) popupView.findViewById(R.id.food_menuBtn);
+        home_menuBtn = (ImageButton) popupView.findViewById(R.id.home_menuBtn);
+        qna_menuBtn = (ImageButton) popupView.findViewById(R.id.qna_menuBtn);
+        writer_menuBtn = (ImageButton) popupView.findViewById(R.id.writer_menuBtn);
+        ListView menu_list = (ListView) popupView.findViewById(R.id.menu_list);
+        String[] body, follow, food, trainer;
+        body = new String[]{"상체 운동", "상체 정보", "하체 운동", "하체 정보","스트레칭"};
+        follow = new String[] {"코어 운동", "유산소운동", "근력운동", }
+        body = new String[]{"상체 운동", "상체 정보", "하체 운동", "하체 정보","스트레칭"};
+        body = new String[]{"상체 운동", "상체 정보", "하체 운동", "하체 정보","스트레칭"};
+        /**
+         * @View anchor : anchor View를 기준으로 바로 아래 왼쪽에 표시.
+         * @예외 : 하지만 anchor View가 화면에 가장 하단 View라면 시스템이
+         * 자동으로 위쪽으로 표시되게 한다.
+         * xoff, yoff : anchor View를 기준으로 PopupWindow가 xoff는 x좌표,
+         * yoff는 y좌표 만큼 이동된 위치에 표시되게 한다.
+         * @int xoff : -숫자(화면 왼쪽으로 이동), +숫자(화면 오른쪽으로 이동)
+         * @int yoff : -숫자(화면 위쪽으로 이동), +숫자(화면 아래쪽으로 이동)
+         * achor View 를 덮는 것도 가능.
+         * 화면바깥 좌우, 위아래로 이동 가능. (짤린 상태로 표시됨)
+         * mPopupWindow.showAsDropDown(btn_Popup, 50, 50);
+         */
+            mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
 
-        // inflate your layout or dynamically add view
-        LayoutInflater inflater = (LayoutInflater) getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        View view = inflater.inflate(R.layout.menu, null);
-
-        ImageButton cancel_menuBtn = (ImageButton) view.findViewById(R.id.cancel_menuBtn);
-        ImageButton home_menuBtn = (ImageButton) view.findViewById(R.id.home_menuBtn);
-        ImageButton indi_menuBtn = (ImageButton) view.findViewById(R.id.indi_menuBtn);
-        ImageButton body_menuBtn = (ImageButton) view.findViewById(R.id.body_menuBtn);
-        ImageButton food_menuBtn = (ImageButton) view.findViewById(R.id.food_menuBtn);
-        ImageButton follow_menuBtn = (ImageButton) view.findViewById(R.id.follow_menuBtn);
-        ImageButton writer_menuBtn = (ImageButton) view.findViewById(R.id.writer_menuBtn);
-        ImageButton qna_menuBtn = (ImageButton) view.findViewById(R.id.qna_menuBtn);
-        ImageButton account_menuBtn = (ImageButton) view.findViewById(R.id.account_menuBtn);
-        ListView listView = (ListView) view.findViewById(R.id.list_menu);
-        TextView editText = (TextView) view.findViewById(R.id.menu_testtxt);
-
-        popupWindow.setFocusable(true);
-        popupWindow.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popupWindow.setContentView(view);
-
-
-
-        return popupWindow;
+        /**
+         * showAtLocation(parent, gravity, x, y)
+         * @praent : PopupWindow가 생성될 parent View 지정
+         * View v = (View) findViewById(R.id.btn_click)의 형태로 parent 생성
+         * @gravity : parent View의 Gravity 속성 지정 Popupwindow 위치에 영향을 줌.
+         * @x : PopupWindow를 (-x, +x) 만큼 좌,우 이동된 위치에 생성
+         * @y : PopupWindow를 (-y, +y) 만큼 상,하 이동된 위치에 생성
+         * mPopupWindow.showAtLocation(popupView, Gravity.NO_GRAVITY, 0, 0);
+         * */
+         mPopupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+        /**
+         * update() 메서드를 통해 PopupWindow의 좌우 사이즈, x좌표, y좌표
+         * anchor View까지 재설정 해줄수 있습니다.
+         * mPopupWindow.update(anchor, xoff, yoff, width, height)(width, height);
+         */
+        return mPopupWindow;
     }
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -252,7 +251,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cancel_menuBtn:
-                viewPager.setCurrentItem(1, true);
+                mPopupWindow.dismiss();
                 break;
             case R.id.account_menuBtn:
                 Intent intent = new Intent(MainActivity.this, AccountActivity.class);
