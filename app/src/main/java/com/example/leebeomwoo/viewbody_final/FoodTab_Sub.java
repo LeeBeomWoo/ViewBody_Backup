@@ -36,7 +36,7 @@ public class FoodTab_Sub extends Fragment {
     private ArrayList<MainTabItem> items;
     private List<CardItem> cardItem;
     private ResponseCard responseCard;
-    ViewPager viewPager;
+    static ViewPager viewPager;
     // TODO: Rename and change types of parameters
     private String mParam1, mParam2;
 
@@ -70,25 +70,34 @@ public class FoodTab_Sub extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+    private void pageSetup(){
+        items = new ArrayList<>();
+        /**
+        items.add(new MainTabItem("체지방 감소", mParam1, Food_FatFragment.class));
+        items.add(new MainTabItem("근력 강화", mParam1, Food_PowerUpFragment.class));
+        items.add(new MainTabItem("근육량 증 대", mParam1, Food_MuscleUpFragment.class));
+        items.add(new MainTabItem("몸매 관리", mParam1, Food_DietFragment.class));
+        items.add(new MainTabItem("대사 증후군", mParam1, Food_MetabolicFragment.class));
+         **/
+       final SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.food_TabLayout);
+        viewPager = (ViewPager) view.findViewById(R.id.food_viewPager);
 
+        viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
+        slidingTabLayout.setViewPager(viewPager);
+        slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.foodtoolbar));
+    }
+    public void setTabitemSelected(int i){
+        if(viewPager == null){
+            pageSetup();
+        }
+        viewPager.setCurrentItem(i, true);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-            view = inflater.inflate(R.layout.fragment_food_tab_sub, container, false);
-
-            items = new ArrayList<>();
-           // items.add(new MainTabItem("체지방 감소", mParam1, Food_FatFragment.class));
-           // items.add(new MainTabItem("근력 강화", mParam1, Food_PowerUpFragment.class));
-           // items.add(new MainTabItem("근육량 증 대", mParam1, Food_MuscleUpFragment.class));
-           // items.add(new MainTabItem("몸매 관리", mParam1, Food_DietFragment.class));
-           // items.add(new MainTabItem("대사 증후군", mParam1, Food_MetabolicFragment.class));
-            SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.food_TabLayout);
-             viewPager = (ViewPager) view.findViewById(R.id.food_viewPager);
-
-            viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
-            slidingTabLayout.setViewPager(viewPager);
-            slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.foodtoolbar));
+        view = inflater.inflate(R.layout.fragment_food_tab_sub, container, false);
+        pageSetup();
         setHasOptionsMenu(true);
         return view;
     }

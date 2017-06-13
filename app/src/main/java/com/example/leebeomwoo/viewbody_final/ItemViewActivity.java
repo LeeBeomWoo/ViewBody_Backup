@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment_21;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -60,7 +61,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     int category, q, currentCameraId, page_num;
     boolean previewing = false;;
     public boolean recording, pausing, inPreview;
-
+    private static final int REQUEST_CODE = 6384; // onActivityResult request
 
     @Override
     protected void onCreate(Bundle saveInstanceState) {
@@ -96,25 +97,33 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         fab5.setOnClickListener(this);
         pageSel(category);
     }
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_MOVIE) {
-                Uri selectedImageUri = data.getData();
-                selectedImagePath = getPath(selectedImageUri);
-                if(Follow_fragment != null && Follow_fragment.isVisible()){
-                    try {
-                        Follow_fragment.afd = getAssets().openFd(selectedImagePath);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE:
+                // If the file selection was successful
+                if (resultCode == RESULT_OK) {
+                    if (data != null) {
+                        // Get the URI of the selected file
+                        final Uri uri = data.getData();
+                        Log.i(TAG, "Uri = " + uri.toString());
+                        try {
+                            // Get the file path from the URI
+                            final String path = FileUtils.getPath(this, uri);
+                            if(Follow_fragment.isVisible() && Follow_fragment !=null) {
+                                Follow_fragment.mMediaPlayer.setDataSource(path);
+                            }else if(finalFollow_fragment.isVisible() && finalFollow_fragment !=null) {
+                                finalFollow_fragment.mMediaPlayer.setDataSource(path);
+                            }
+                        } catch (Exception e) {
+                            Log.e("FileActivity", e.toString());
+                        }
                     }
-                } else if(finalFollow_fragment != null && finalFollow_fragment.isVisible()){ try {
-                    finalFollow_fragment.afd = getAssets().openFd(selectedImagePath);
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-                }
-            }
+                break;
         }
+        super.onActivityResult(requestCode, resultCode, data);
     }
     public String getPath(Uri uri) {
         // uri가 null일경우 null반환

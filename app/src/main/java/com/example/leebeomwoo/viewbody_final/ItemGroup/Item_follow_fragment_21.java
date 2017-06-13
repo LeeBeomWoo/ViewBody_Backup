@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,8 +22,10 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -58,6 +61,7 @@ import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.VideoViewCustom;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -68,6 +72,7 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import static android.app.Activity.RESULT_OK;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 /**
@@ -89,7 +94,7 @@ public class Item_follow_fragment_21 extends Fragment
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
     private final int SELECT_MOVIE = 2;
-
+    private static final int REQUEST_CODE = 6384; // onActivityResult request
     private static final String TAG = "Item_follow_fragment_21";
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
@@ -97,8 +102,8 @@ public class Item_follow_fragment_21 extends Fragment
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
     public AssetFileDescriptor afd;
-    String change, temp;
-    MediaPlayer mMediaPlayer;
+    String change, temp, FILE_NAME;
+    public MediaPlayer mMediaPlayer;
     private String cameraId = CAMERA_FRONT;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -360,8 +365,7 @@ public class Item_follow_fragment_21 extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
-        mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
-        mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+        initView();
         startBackgroundThread();
         record = (Button) view.findViewById(R.id.record_Btn);
         play = (Button) view.findViewById(R.id.play_Btn);
@@ -462,11 +466,27 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         startPreview();
     }
-
+    private void showChooser() {
+        // Use the GET_CONTENT intent from the utility class
+        Intent target = FileUtils.createGetContentIntent();
+        // Create the chooser Intent
+        Intent intent = Intent.createChooser(
+                target, getString(R.string.chooser_title));
+        try {
+            startActivityForResult(intent, REQUEST_CODE);
+        } catch (ActivityNotFoundException e) {
+            // The reason for the existence of aFileChooser
+        }
+    }
+    private void initView() {
+        mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
+        mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+    }
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {

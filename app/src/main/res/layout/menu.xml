@@ -68,66 +68,60 @@
         android:text="@string/apptest"
         android:textSize="10sp" />
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="185dp">
 
-        <RelativeLayout
+        <ListView
+            android:id="@+id/menu_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_toEndOf="@+id/body_menuBtn"
+            tools:listitem="@layout/menulist" />
 
-            <ListView
-                android:id="@+id/menu_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:layout_toEndOf="@+id/body_menuBtn"
-                tools:listitem="@layout/menulist"/>
+        <ImageButton
+            android:id="@+id/body_menuBtn"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/body_with_text" />
 
-            <ImageButton
-                android:id="@+id/body_menuBtn"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/nocolor"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/body_with_text" />
+        <ImageButton
+            android:id="@+id/writer_menuBtn"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/food_menuBtn"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/arrows2" />
 
-            <ImageButton
-                android:id="@+id/writer_menuBtn"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/food_menuBtn"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="2dp"
-                android:background="@color/nocolor"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/arrows2" />
+        <ImageButton
+            android:id="@+id/food_menuBtn"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/follow_menuBtn"
+            android:layout_margin="5dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/food_with_text" />
 
-            <ImageButton
-                android:id="@+id/food_menuBtn"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_alignStart="@+id/writer_menuBtn"
-                android:layout_below="@+id/follow_menuBtn"
-                android:background="@color/nocolor"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/food_with_text" />
-
-            <ImageButton
-                android:id="@+id/follow_menuBtn"
-                android:layout_width="30dp"
-                android:layout_height="40dp"
-                android:layout_alignStart="@+id/food_menuBtn"
-                android:layout_below="@+id/body_menuBtn"
-                android:background="@color/nocolor"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/follow_with_text" />
-        </RelativeLayout>
-    </ScrollView>
-
+        <ImageButton
+            android:id="@+id/follow_menuBtn"
+            android:layout_width="30dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/body_menuBtn"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@color/nocolor"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/follow_with_text" />
+    </RelativeLayout>
 </LinearLayout>

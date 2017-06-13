@@ -37,7 +37,7 @@ import java.util.ArrayList;
         // TODO: Rename and change types of parameters
         private String mParam1;
         private String mParam2;
-        ViewPager viewPager;
+        static ViewPager viewPager;
         public FollowTab_Sub() {
             // Required empty public constructor
         }
@@ -74,25 +74,30 @@ import java.util.ArrayList;
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
             view = inflater.inflate(R.layout.fragment_follow_tab_sub, container, false);
-
+            pageSetup();
+            setHasOptionsMenu(true);
+            return view;
+        }
+        private void pageSetup(){
             items = new ArrayList<>();
             items.add(new MainTabItem("코어 운동", mParam1, Follow_CoreFragment.class));
             items.add(new MainTabItem("유산소 운동", mParam1, Follow_BrethFragment.class));
             items.add(new MainTabItem("근력 운동", mParam1, Follow_MuscleUpFragment.class));
-            items.add(new MainTabItem("스트레칭", mParam1, Follow_StretchingFragment.class));
+            items.add(new MainTabItem("스트레칭 따라하기", mParam1, Follow_StretchingFragment.class));
 
-            SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.follow_TabLayout);
+            final SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.follow_TabLayout);
             viewPager = (ViewPager) view.findViewById(R.id.follow_viewPager);
 
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
             slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.followtoolbar));
-            return view;
         }
-    public void changePage(int p){
-        viewPager.setCurrentItem(p, true);
+    public void setTabitemSelected(int i){
+        if(viewPager == null){
+            pageSetup();
+        }
+        viewPager.setCurrentItem(i, true);
     }
-
     }
 
 

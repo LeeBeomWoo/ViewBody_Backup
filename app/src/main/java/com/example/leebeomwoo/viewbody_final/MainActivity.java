@@ -21,6 +21,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -36,6 +38,9 @@ import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabStrip;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -49,7 +54,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button back, menu;
     Context context;
     ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn;
-    private int mScrollState;
+    BodyTab_Sub bodyTab_sub;
+    FollowTab_Sub followTab_sub;
+    FoodTab_Sub foodTab_sub;
+    WriterTab_Sub writerTab_sub;
+    ListView menu_list;
+
+    String[] body, follow, food, trainer;
+
     int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,12 +107,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
-
         ArrayList<MainTabItem> mainMenuItems = new ArrayList<>();
         mainMenuItems.add(new MainTabItem("홈", null, Home_Tab.class));
         mainMenuItems.add(new MainTabItem("몸과 운동", null, BodyTab_Sub.class));
-        mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("동영상 따라하기", null, FollowTab_Sub.class));
+        mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
         mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
         back = (Button) findViewById(R.id.tabbackBtn);
@@ -157,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public PopupWindow popupDisplay(View v)
     {
-        View popupView = getLayoutInflater().inflate(R.layout.menu, null);
+        final View popupView = getLayoutInflater().inflate(R.layout.menu, null);
         /**
          * LayoutParams WRAP_CONTENT를 주면 inflate된 View의 사이즈 만큼의
          * PopupWinidow를 생성한다.
@@ -174,12 +185,108 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         home_menuBtn = (ImageButton) popupView.findViewById(R.id.home_menuBtn);
         qna_menuBtn = (ImageButton) popupView.findViewById(R.id.qna_menuBtn);
         writer_menuBtn = (ImageButton) popupView.findViewById(R.id.writer_menuBtn);
-        ListView menu_list = (ListView) popupView.findViewById(R.id.menu_list);
-        String[] body, follow, food, trainer;
-        body = new String[]{"상체 운동", "상체 정보", "하체 운동", "하체 정보","스트레칭"};
-        follow = new String[] {"코어 운동", "유산소운동", "근력운동", }
-        body = new String[]{"상체 운동", "상체 정보", "하체 운동", "하체 정보","스트레칭"};
-        body = new String[]{"상체 운동", "상체 정보", "하체 운동", "하체 정보","스트레칭"};
+        menu_list = (ListView) popupView.findViewById(R.id.menu_list);
+        cancel_menuBtn.setOnClickListener(this);
+        account_menuBtn.setOnClickListener(this);
+        body_menuBtn.setOnClickListener(this);
+        follow_menuBtn.setOnClickListener(this);
+        food_menuBtn.setOnClickListener(this);
+        home_menuBtn.setOnClickListener(this);
+        qna_menuBtn.setOnClickListener(this);
+        writer_menuBtn.setOnClickListener(this);
+
+        menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                final String item = (String) parent.getItemAtPosition(position);
+               switch (item){
+                   case "상체 운동":
+                       bodyTab_sub = new BodyTab_Sub();
+                       bodyTab_sub.setTabitemSelected(0);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "상체 정보":
+                       bodyTab_sub = new BodyTab_Sub();
+                       bodyTab_sub.setTabitemSelected(1);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "하체 운동":
+                       bodyTab_sub = new BodyTab_Sub();
+                       bodyTab_sub.setTabitemSelected(2);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "하체 정보":
+                       bodyTab_sub = new BodyTab_Sub();
+                       bodyTab_sub.setTabitemSelected(3);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "스트레칭":
+                       bodyTab_sub = new BodyTab_Sub();
+                       bodyTab_sub.setTabitemSelected(4);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "코어 운동":
+                       followTab_sub = new FollowTab_Sub();
+                       followTab_sub.setTabitemSelected(0);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "유산소운동":
+                       followTab_sub = new FollowTab_Sub();
+                       followTab_sub.setTabitemSelected(1);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "근력운동":
+                       followTab_sub = new FollowTab_Sub();
+                       followTab_sub.setTabitemSelected(2);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "스트레칭 따라하기":
+                       followTab_sub = new FollowTab_Sub();
+                       followTab_sub.setTabitemSelected(3);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "체지방감소":
+                       foodTab_sub = new FoodTab_Sub();
+                       foodTab_sub.setTabitemSelected(0);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "근력강화":
+                       foodTab_sub = new FoodTab_Sub();
+                       foodTab_sub.setTabitemSelected(1);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "근육량증대":
+                       foodTab_sub = new FoodTab_Sub();
+                       foodTab_sub.setTabitemSelected(2);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "몸매관리":
+                       foodTab_sub = new FoodTab_Sub();
+                       foodTab_sub.setTabitemSelected(3);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "대사증후군":
+                       foodTab_sub = new FoodTab_Sub();
+                       foodTab_sub.setTabitemSelected(4);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "트레이너":
+                       writerTab_sub = new WriterTab_Sub();
+                       writerTab_sub.setTabitemSelected(0);
+                       mPopupWindow.dismiss();
+                       break;
+                   case "영양사":
+                       writerTab_sub = new WriterTab_Sub();
+                       writerTab_sub.setTabitemSelected(1);
+                       mPopupWindow.dismiss();
+                       break;
+
+               }
+            }
+
+        });
         /**
          * @View anchor : anchor View를 기준으로 바로 아래 왼쪽에 표시.
          * @예외 : 하지만 anchor View가 화면에 가장 하단 View라면 시스템이
@@ -246,9 +353,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         return true;
     }
-
+private void menu_listSet(String[] values){
+    final ArrayList<String> list = new ArrayList<String>();
+    //Log.d("menu_listSet list:", ArrayList.(list));
+    Log.d("menu_listSet values:", Arrays.toString(values));
+    for (int i = 0; i < values.length; ++i) {
+        list.add(values[i]);
+        Log.d("menu_listSet list:", values[i]);
+    }
+    final StableArrayAdapter adapter = new StableArrayAdapter(this,
+            android.R.layout.simple_list_item_1, list);
+    menu_list.setAdapter(adapter);
+    adapter.notifyDataSetChanged();
+    //foodTab_sub.changePage(2);
+}
     @Override
     public void onClick(View v) {
+
+        body = new String[]{"상체 운동", "상체 정보", "하체 운동", "하체 정보","스트레칭"};
+        follow = new String[] {"코어 운동", "유산소운동", "근력운동", "스트레칭 따라하기"};
+        food = new String[]{"체지방감소", "근력강화", "근육량증대", "몸매관리", "대사증후군"};
+        trainer = new String[]{"트레이너", "영양사"};
+        Log.d("main :", Arrays.toString(trainer) + Arrays.toString(body));
         switch (v.getId()) {
             case R.id.cancel_menuBtn:
                 mPopupWindow.dismiss();
@@ -258,14 +384,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.body_menuBtn:
-                viewPager.setCurrentItem(3, true);
-                //foodTab_sub.changePage(2);
+                viewPager.setCurrentItem(1, true);
+                menu_listSet(body);
                 break;
             case R.id.follow_menuBtn:
-                viewPager.setCurrentItem(4, true);
+                viewPager.setCurrentItem(2, true);
+                menu_listSet(follow);
                 //foodTab_sub.changePage(1);
                 break;
             case R.id.food_menuBtn:
+                viewPager.setCurrentItem(3, true);
+                menu_listSet(food);
                 break;
             case R.id.home_menuBtn:
                 break;
@@ -275,23 +404,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.writer_menuBtn:
                 viewPager.setCurrentItem(4, true);
+                menu_listSet(trainer);
                 // foodTab_sub.changePage(4);
                 break;
-            case R.id.body:
-                viewPager.setCurrentItem(1, true);
-                break;
-            case R.id.food:
-                viewPager.setCurrentItem(2, true);
-                break;
-                // foodTab_sub.changePage(4);
-            case R.id.follow:
-                viewPager.setCurrentItem(3, true);
-                break;
-                //foodTab_sub.changePage(2);
-            case R.id.writer:
-                viewPager.setCurrentItem(4, true);
-                break;
-                //foodTab_sub.changePage(1);
+
         }
+    }
+    private class StableArrayAdapter extends ArrayAdapter<String> {
+
+        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+
+        public StableArrayAdapter(Context context, int textViewResourceId,
+                                  ArrayList<String> objects) {
+            super(context, textViewResourceId, objects);
+            for (int i = 0; i < objects.size(); ++i) {
+                mIdMap.put(objects.get(i), i);
+            }
+        }
+
+        @Override
+        public long getItemId(int position) {
+            String item = getItem(position);
+            return mIdMap.get(item);
+        }
+
+        @Override
+        public boolean hasStableIds() {
+            return true;
+        }
+
     }
 }

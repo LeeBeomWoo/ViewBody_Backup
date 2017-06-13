@@ -45,8 +45,8 @@ public class BodyTab_Sub extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    ViewPager viewPager;
-    SlidingTabLayout slidingTabLayout;
+    static ViewPager viewPager;
+    static SlidingTabLayout slidingTabLayout;
     public BodyTab_Sub() {
         // Required empty public constructor
     }
@@ -84,6 +84,11 @@ public class BodyTab_Sub extends Fragment {
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_body_tab_sub, container, false);
+        pageSetup();
+        setHasOptionsMenu(true);
+        return view;
+    }
+    private void pageSetup(){
         slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.body_TabLayout);
         viewPager = (ViewPager) view.findViewById(R.id.body_viewPager);
         items = new ArrayList<>();
@@ -96,8 +101,12 @@ public class BodyTab_Sub extends Fragment {
         viewPager.setAdapter(tabsAdapter);
         slidingTabLayout.setViewPager(viewPager);
         slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.body_toolbar));
-        setHasOptionsMenu(true);
-        return view;
+    }
+    public void setTabitemSelected(int i){
+        if(viewPager == null){
+            pageSetup();
+        }
+        viewPager.setCurrentItem(i, true);
     }
     @Override
     public void onAttach(Context context) {

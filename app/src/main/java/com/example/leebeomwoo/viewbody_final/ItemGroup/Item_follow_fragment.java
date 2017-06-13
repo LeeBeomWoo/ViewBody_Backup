@@ -49,7 +49,7 @@ import java.util.List;
 public class Item_follow_fragment extends Fragment implements Camera.PreviewCallback {
     public Camera mCamera;
     private MediaRecorder mMediaRecorder;
-    MediaPlayer mMediaPlayer;
+   public MediaPlayer mMediaPlayer;
     private File mOutputFile;
 
     private boolean isRecording = false;
@@ -153,10 +153,12 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                 if(play_plag){
                     play_plag = false;
                     Log.d(TAG, "video stop");
-                    play.setBackgroundResource(R.drawable.record);
+                    play.setBackgroundResource(R.drawable.playbutton);
+                    mMediaPlayer.stop();
                 }else {
                     play_plag = true;
                     Log.d(TAG, "video play");
+                    mMediaPlayer.start();
                     play.setBackgroundResource(R.drawable.pause);
                 }
             }
