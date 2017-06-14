@@ -1,16 +1,12 @@
 package com.example.leebeomwoo.viewbody_final;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
-import android.media.MediaPlayer;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
@@ -20,16 +16,23 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Surface;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.MediaController;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
+import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment_21;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
-import com.ipaulpro.afilechooser.utils.FileUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by LBW on 2016-06-30.
@@ -50,7 +53,59 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     int category, q, currentCameraId, page_num;
     public boolean recording, pausing;
     private static final int REQUEST_CODE = 6384; // onActivityResult request
-    Context context;
+    public Context context = this;
+
+    public PopupWindow popupDisplay(View v)
+    {
+        final String[] projection = { MediaStore.Video.VideoColumns.DATA };
+        Log.d("projection :", projection[0]);
+        final View popupView = getLayoutInflater().inflate(R.layout.videolist, null);
+        final PopupWindow mPopupWindow = new PopupWindow(popupView, 700, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setFocusable(true);
+        mPopupWindow.showAsDropDown(v, 0, 0);
+        mPopupWindow.setOutsideTouchable(true);
+        videoList = (ListView) popupView.findViewById(R.id.videolist);
+        mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
+        menu_listSet(projection);
+        videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(Follow_fragment.isVisible() && Follow_fragment !=null) {
+                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(projection[position],
+                            MediaStore.Images.Thumbnails.MINI_KIND);
+                    BitmapDrawable bitmapDrawable = new BitmapDrawable(thumbnail);
+                    Follow_fragment.videoView.setBackgroundDrawable(bitmapDrawable);
+                    Follow_fragment.videoView.setVideoPath(projection[position]);
+                }else if(finalFollow_fragment.isVisible() && finalFollow_fragment !=null) {
+                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(projection[position],
+                            MediaStore.Images.Thumbnails.MINI_KIND);
+                    BitmapDrawable bitmapDrawable = new BitmapDrawable(thumbnail);
+                    finalFollow_fragment.videoView.setBackgroundDrawable(bitmapDrawable);
+                    finalFollow_fragment.videoView.setVideoPath(projection[position]);
+                }
+                mPopupWindow.dismiss();
+            }
+        });
+        mPopupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+        return mPopupWindow;
+    }
+
+    private void menu_listSet(String[] values){
+        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> filname = new ArrayList<String>();
+        //Log.d("menu_listSet list:", ArrayList.(list));
+        Log.d("menu_listSet values:", Arrays.toString(values));
+        for (int i = 0; i < values.length; ++i) {
+            list.add(values[i]);
+            filname.add(values[i].substring(values[i].lastIndexOf("/")+1));
+            Log.d("menu_listSet list:", values[i]);
+        }
+        final StableArrayAdapter vdadapter = new StableArrayAdapter(this,
+                R.layout.menulistitem, filname);
+        videoList.setAdapter(vdadapter);
+        vdadapter.notifyDataSetChanged();
+        //foodTab_sub.changePage(2);
+    }
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -85,60 +140,20 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         fab5.setOnClickListener(this);
         pageSel(category);
     }
-/**
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        switch (requestCode) {
-            case REQUEST_CODE:
-                // If the file selection was successful
-                Log.d("onActivityResult", "REQUEST_CODE" + String.valueOf(requestCode));
-                Log.d("onActivityResult", "REQUEST_CODE" + String.valueOf(resultCode));
-                if (resultCode == RESULT_OK) {
-                    Log.d("onActivityResult", "RESULT_OK" + String.valueOf(resultCode));
-                    if (data != null) {
-                        // Get the URI of the selected file
-                        final Uri uri = data.getData();
-                        Log.i(TAG, "Uri = " + uri.toString());
-                        try {
-                            // Get the file path from the URI
-                            final String path = FileUtils.getPath(this, uri);
-                            if(Follow_fragment.isVisible() && Follow_fragment !=null) {
-                                Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path,
-                                        MediaStore.Images.Thumbnails.MINI_KIND);
-                                BitmapDrawable bitmapDrawable = new BitmapDrawable(thumbnail);
-                                Follow_fragment.videoView.setBackgroundDrawable(bitmapDrawable);
-                                Follow_fragment.videoView.setVideoURI(uri);
-                                Follow_fragment.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                    @Override
-                                    public void onPrepared(MediaPlayer mp) {
-                                        mp.setLooping(true);
-                                        Follow_fragment.videoView.start();
-                                    }
-                                });
-                            }else if(finalFollow_fragment.isVisible() && finalFollow_fragment !=null) {
-                                Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path,
-                                        MediaStore.Images.Thumbnails.MINI_KIND);
-                                BitmapDrawable bitmapDrawable = new BitmapDrawable(thumbnail);
-                                finalFollow_fragment.videoView.setBackgroundDrawable(bitmapDrawable);
-                                finalFollow_fragment.videoView.setVideoURI(uri);
-                                finalFollow_fragment.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                    @Override
-                                    public void onPrepared(MediaPlayer mp) {
-                                        mp.setLooping(true);
-                                        finalFollow_fragment.videoView.start();
-                                    }
-                                });
-                            }
-                        } catch (Exception e) {
-                            Log.e("FileActivity", e.toString());
-                        }
-                    }
-                }
-                break;
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        super.onActivityResult(requestCode, resultCode, data);
-    } **/
+    }
     public String getPath(Uri uri) {
         // uri가 null일경우 null반환
         if( uri == null ) {

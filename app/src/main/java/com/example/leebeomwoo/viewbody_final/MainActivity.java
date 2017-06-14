@@ -30,6 +30,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 import com.example.leebeomwoo.viewbody_final.Fragment.QnAFragment;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
          */
         mPopupWindow = new PopupWindow(popupView,
-                700, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                900, RelativeLayout.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setFocusable(true);
         mPopupWindow.showAsDropDown(v, 0, 0);
         mPopupWindow.setOutsideTouchable(true);
@@ -355,20 +356,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         return true;
     }
-private void menu_listSet(String[] values){
-    final ArrayList<String> list = new ArrayList<String>();
-    //Log.d("menu_listSet list:", ArrayList.(list));
-    Log.d("menu_listSet values:", Arrays.toString(values));
-    for (int i = 0; i < values.length; ++i) {
-        list.add(values[i]);
-        Log.d("menu_listSet list:", values[i]);
+    private void menu_listSet(String[] values){
+        final ArrayList<String> list = new ArrayList<String>();
+        //Log.d("menu_listSet list:", ArrayList.(list));
+        Log.d("menu_listSet values:", Arrays.toString(values));
+        for (int i = 0; i < values.length; ++i) {
+            list.add(values[i]);
+            Log.d("menu_listSet list:", values[i]);
+        }
+        final StableArrayAdapter adapter = new StableArrayAdapter(this,
+                R.layout.menulistitem, list);
+        menu_list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        //foodTab_sub.changePage(2);
     }
-    final StableArrayAdapter adapter = new StableArrayAdapter(this,
-            R.layout.menulistitem, list);
-    menu_list.setAdapter(adapter);
-    adapter.notifyDataSetChanged();
-    //foodTab_sub.changePage(2);
-}
     @Override
     public void onClick(View v) {
 
@@ -409,29 +410,5 @@ private void menu_listSet(String[] values){
                 break;
 
         }
-    }
-    private class StableArrayAdapter extends ArrayAdapter<String> {
-
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-        public StableArrayAdapter(Context context, int textViewResourceId,
-                                  ArrayList<String> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
-            }
-        }
-
-        @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.get(item);
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
     }
 }

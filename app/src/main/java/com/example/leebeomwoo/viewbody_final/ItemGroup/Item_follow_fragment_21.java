@@ -4,12 +4,9 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.AssetFileDescriptor;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -22,10 +19,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -43,6 +37,7 @@ import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.TextureView;
@@ -52,17 +47,20 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.MediaController;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
 import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
+import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
-import com.example.leebeomwoo.viewbody_final.Support.VideoViewCustom;
-import com.ipaulpro.afilechooser.utils.FileUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -73,7 +71,6 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import static android.app.Activity.RESULT_OK;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import static android.view.View.GONE;
 
@@ -84,6 +81,7 @@ import static android.view.View.GONE;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Item_follow_fragment_21 extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
+    ListView videoList;
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
@@ -104,9 +102,12 @@ public class Item_follow_fragment_21 extends Fragment
     String change, temp, FILE_NAME;
     private String cameraId = CAMERA_FRONT;
     public VideoView videoView;
+    ItemViewActivity viewActivity;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
 
     static {
@@ -339,6 +340,8 @@ public class Item_follow_fragment_21 extends Fragment
         play = (Button) view.findViewById(R.id.play_Btn);
         load = (Button) view.findViewById(R.id.load_Btn);
         videoView = (VideoView) view.findViewById(R.id.videoView);
+        videoView.setMinimumHeight(videoView.getHeight());
+        videoView.setMinimumWidth(videoView.getWidth());
         play_recordBtn = (Button) view.findViewById(R.id.play_record);
         camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
         record.setOnClickListener(new View.OnClickListener() {
@@ -361,10 +364,7 @@ public class Item_follow_fragment_21 extends Fragment
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType("video/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                getActivity().startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
+                viewActivity.popupDisplay(v);
                 videoView.setVisibility(View.VISIBLE);
                 mTextureView.setVisibility(GONE);
             }
@@ -372,17 +372,10 @@ public class Item_follow_fragment_21 extends Fragment
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(videoView.getVisibility() == GONE){
-                    videoView.setVisibility(View.VISIBLE);
-                }
-                if(videoView != null) {
-                    if (videoView.isPlaying()) {
-                        videoView.stopPlayback();
-                        play.setBackgroundResource(R.drawable.playbutton);
-                    } else {
-                        videoView.start();
-                        play.setBackgroundResource(R.drawable.pause);
-                    }
+                if(videoView.isPlaying()){
+                    videoView.pause();
+                }else {
+                    videoView.start();
                 }
             }
         });
@@ -434,22 +427,13 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
-    @Override
+
+
+        @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         startPreview();
     }
-    private void showChooser() {
-        // Use the GET_CONTENT intent from the utility class
-        Intent target = FileUtils.createGetContentIntent();
-        // Create the chooser Intent
-        Intent intent = Intent.createChooser(
-                target, getString(R.string.chooser_title));
-        try {
-            startActivityForResult(intent, REQUEST_CODE);
-        } catch (ActivityNotFoundException e) {
-            // The reason for the existence of aFileChooser
-        }
-    }
+
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {
