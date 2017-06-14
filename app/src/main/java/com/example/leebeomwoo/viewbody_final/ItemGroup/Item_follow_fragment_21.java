@@ -6,11 +6,15 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -20,6 +24,8 @@ import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -72,7 +78,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
-import static android.view.View.GONE;
+
 
 /**
  * Created by LeeBeomWoo on 2017-02-15.
@@ -81,7 +87,6 @@ import static android.view.View.GONE;
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Item_follow_fragment_21 extends Fragment
         implements FragmentCompat.OnRequestPermissionsResultCallback {
-    ListView videoList;
     private static final int SENSOR_ORIENTATION_DEFAULT_DEGREES = 90;
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
@@ -99,13 +104,14 @@ public class Item_follow_fragment_21 extends Fragment
     Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
-    String change, temp, FILE_NAME;
+    String change, temp;
     private String cameraId = CAMERA_FRONT;
     public VideoView videoView;
-    ItemViewActivity viewActivity;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO,
+    };
+    private static final String[] FILE_ACCESSPERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
@@ -333,6 +339,12 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(!hasPermissionsGranted(FILE_ACCESSPERMISSIONS)){
+            requestFilePermissions();
+        }
+        if(!hasPermissionsGranted(VIDEO_PERMISSIONS)){
+            requestVideoPermissions();
+        }
         view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         startBackgroundThread();
@@ -347,7 +359,7 @@ public class Item_follow_fragment_21 extends Fragment
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mTextureView.getVisibility() == GONE){
+                if(mTextureView.getVisibility() == View.GONE){
                     mTextureView.setVisibility(View.VISIBLE);
                 }
                 if(mTextureView != null){
@@ -364,9 +376,13 @@ public class Item_follow_fragment_21 extends Fragment
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewActivity.popupDisplay(v);
+                Log.d(TAG, "load click");
+                Intent intent = new Intent();
+                intent.setType("video/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                getActivity().startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
                 videoView.setVisibility(View.VISIBLE);
-                mTextureView.setVisibility(GONE);
+                mTextureView.setVisibility(View.GONE);
             }
         });
         play.setOnClickListener(new View.OnClickListener() {
@@ -427,8 +443,6 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
-
-
         @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         startPreview();
@@ -546,6 +560,13 @@ public class Item_follow_fragment_21 extends Fragment
             ActivityCompat.requestPermissions(getActivity(), VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
         }
     }
+    private void requestFilePermissions(){
+        if (shouldShowRequestPermissionRationale(FILE_ACCESSPERMISSIONS)) {
+            new ConfirmationDialog().show(getActivity().getSupportFragmentManager(), FRAGMENT_DIALOG);
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), FILE_ACCESSPERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
+        }
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -553,6 +574,22 @@ public class Item_follow_fragment_21 extends Fragment
         Log.d(TAG, "onRequestPermissionsResult");
         if (requestCode == REQUEST_VIDEO_PERMISSIONS) {
             if (grantResults.length == VIDEO_PERMISSIONS.length) {
+                for (int result : grantResults) {
+                    if (result != PackageManager.PERMISSION_GRANTED) {
+                        ErrorDialog.newInstance(getString(R.string.permission_request))
+                                .show(getChildFragmentManager(), FRAGMENT_DIALOG);
+                        break;
+                    }
+                }
+            } else {
+                ErrorDialog.newInstance(getString(R.string.permission_request))
+                        .show(getChildFragmentManager(), FRAGMENT_DIALOG);
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+        if (requestCode == REQUEST_VIDEO_PERMISSIONS) {
+            if (grantResults.length == FILE_ACCESSPERMISSIONS.length) {
                 for (int result : grantResults) {
                     if (result != PackageManager.PERMISSION_GRANTED) {
                         ErrorDialog.newInstance(getString(R.string.permission_request))

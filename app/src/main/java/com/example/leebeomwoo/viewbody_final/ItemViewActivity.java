@@ -25,6 +25,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.VideoView;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment;
@@ -54,58 +55,8 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     public boolean recording, pausing;
     private static final int REQUEST_CODE = 6384; // onActivityResult request
     public Context context = this;
+    ListView videoList;
 
-    public PopupWindow popupDisplay(View v)
-    {
-        final String[] projection = { MediaStore.Video.VideoColumns.DATA };
-        Log.d("projection :", projection[0]);
-        final View popupView = getLayoutInflater().inflate(R.layout.videolist, null);
-        final PopupWindow mPopupWindow = new PopupWindow(popupView, 700, RelativeLayout.LayoutParams.WRAP_CONTENT);
-        mPopupWindow.setFocusable(true);
-        mPopupWindow.showAsDropDown(v, 0, 0);
-        mPopupWindow.setOutsideTouchable(true);
-        videoList = (ListView) popupView.findViewById(R.id.videolist);
-        mPopupWindow.setAnimationStyle(-1); // 애니메이션 설정(-1:설정, 0:설정안함)
-        menu_listSet(projection);
-        videoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(Follow_fragment.isVisible() && Follow_fragment !=null) {
-                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(projection[position],
-                            MediaStore.Images.Thumbnails.MINI_KIND);
-                    BitmapDrawable bitmapDrawable = new BitmapDrawable(thumbnail);
-                    Follow_fragment.videoView.setBackgroundDrawable(bitmapDrawable);
-                    Follow_fragment.videoView.setVideoPath(projection[position]);
-                }else if(finalFollow_fragment.isVisible() && finalFollow_fragment !=null) {
-                    Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(projection[position],
-                            MediaStore.Images.Thumbnails.MINI_KIND);
-                    BitmapDrawable bitmapDrawable = new BitmapDrawable(thumbnail);
-                    finalFollow_fragment.videoView.setBackgroundDrawable(bitmapDrawable);
-                    finalFollow_fragment.videoView.setVideoPath(projection[position]);
-                }
-                mPopupWindow.dismiss();
-            }
-        });
-        mPopupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
-        return mPopupWindow;
-    }
-
-    private void menu_listSet(String[] values){
-        final ArrayList<String> list = new ArrayList<String>();
-        final ArrayList<String> filname = new ArrayList<String>();
-        //Log.d("menu_listSet list:", ArrayList.(list));
-        Log.d("menu_listSet values:", Arrays.toString(values));
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-            filname.add(values[i].substring(values[i].lastIndexOf("/")+1));
-            Log.d("menu_listSet list:", values[i]);
-        }
-        final StableArrayAdapter vdadapter = new StableArrayAdapter(this,
-                R.layout.menulistitem, filname);
-        videoList.setAdapter(vdadapter);
-        vdadapter.notifyDataSetChanged();
-        //foodTab_sub.changePage(2);
-    }
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -140,36 +91,37 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         fab5.setOnClickListener(this);
         pageSel(category);
     }
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+    private String getPath(String column_Name,Uri uri) {
+
+        String[] projection = {column_Name};
+        String path = "";
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        int column_index_data;
+        if (cursor != null) {
+            column_index_data = cursor.getColumnIndexOrThrow(column_Name);
             cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
+            path = cursor.getString(column_index_data);
+            cursor.close();
+        }
+        return path;
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("requestCode", String.valueOf(requestCode));
+        String column_Name= MediaStore.Video.Media.DATA;
+        Log.d("resultCode", String.valueOf(resultCode));
+        if (resultCode != RESULT_OK)
+            Log.d("onActivityResult", "onActivityResult");
+        if (requestCode == 2) {
+            Uri mVideoURI = data.getData();
+            Log.d("onActivityResult", getPath(column_Name, mVideoURI));
+            if(Follow_fragment.isVisible() && Follow_fragment.videoView != null){
+                Follow_fragment.videoView.setVideoPath(getPath(column_Name, mVideoURI));
+            }else if(finalFollow_fragment.isVisible() && finalFollow_fragment.videoView != null){
+                finalFollow_fragment.videoView.setVideoPath(getPath(column_Name, mVideoURI));
             }
         }
-    }
-    public String getPath(Uri uri) {
-        // uri가 null일경우 null반환
-        if( uri == null ) {
-            return null;
-        }
-        // 미디어스토어에서 유저가 선택한 사진의 URI를 받아온다.
-        String[] projection = { MediaStore.Images.Media.DATA };
-        Cursor cursor = managedQuery(uri, projection, null, null, null);
-        if( cursor != null ){
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        }
-        // URI경로를 반환한다.
-        return uri.getPath();
     }
     private void pageSel(int sec){
         Log.d(TAG, "pagesel");
