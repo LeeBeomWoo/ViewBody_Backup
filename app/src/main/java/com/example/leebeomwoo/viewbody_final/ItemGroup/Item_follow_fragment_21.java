@@ -56,6 +56,7 @@ import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
@@ -74,6 +75,7 @@ import java.util.concurrent.TimeUnit;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+import static android.view.View.GONE;
 
 /**
  * Created by LeeBeomWoo on 2017-02-15.
@@ -86,9 +88,6 @@ public class Item_follow_fragment_21 extends Fragment
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
     private static final SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
-    Boolean record_plag = false; // true = 녹화중, false = 정지
-    Boolean play_plag = false; //true = 재생, false = 정지
-    Boolean play_record = false; //true = 촬영, false = 재생
     Button play, record, load, camerachange, play_recordBtn;
     private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
@@ -99,12 +98,12 @@ public class Item_follow_fragment_21 extends Fragment
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
     int page_num;
+    Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
-    public AssetFileDescriptor afd;
     String change, temp, FILE_NAME;
-    public MediaPlayer mMediaPlayer;
     private String cameraId = CAMERA_FRONT;
+    public VideoView videoView;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO,
@@ -157,39 +156,8 @@ public class Item_follow_fragment_21 extends Fragment
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture,
                                               int width, int height) {
-            if (play_record) {
-                Surface surface = new Surface(surfaceTexture);
-
-                try {
-                    mMediaPlayer = new MediaPlayer();
-                    mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    mMediaPlayer.setSurface(surface);
-                    mMediaPlayer.setLooping(true);
-                    mMediaPlayer.prepareAsync();
-
-                    // Play video when the media source is ready for playback.
-                    mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mediaPlayer) {
-                            mediaPlayer.start();
-                        }
-                    });
-
-                } catch (IllegalArgumentException e) {
-                    Log.d(TAG, e.getMessage());
-                } catch (SecurityException e) {
-                    Log.d(TAG, e.getMessage());
-                } catch (IllegalStateException e) {
-                    Log.d(TAG, e.getMessage());
-                } catch (IOException e) {
-                    Log.d(TAG, e.getMessage());
-                }
-            } else {
-                openCamera(width, height);
-                startPreview();
-            }
+            openCamera(width, height);
         }
-
 
         @Override
         public void onSurfaceTextureSizeChanged(SurfaceTexture surfaceTexture,
@@ -204,7 +172,7 @@ public class Item_follow_fragment_21 extends Fragment
 
         @Override
         public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-            updatePreview();
+
         }
 
     };
@@ -365,28 +333,28 @@ public class Item_follow_fragment_21 extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
-        initView();
+        mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         startBackgroundThread();
         record = (Button) view.findViewById(R.id.record_Btn);
         play = (Button) view.findViewById(R.id.play_Btn);
         load = (Button) view.findViewById(R.id.load_Btn);
+        videoView = (VideoView) view.findViewById(R.id.videoView);
         play_recordBtn = (Button) view.findViewById(R.id.play_record);
         camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(record_plag) {
-                    stopRecordingVideo();
-                    record_plag = false;
-                } else{
-                    if(play_record) {
-                        startRecordingVideo();
-                    }else{
-                        closeCamera();
+                if(mTextureView.getVisibility() == GONE){
+                    mTextureView.setVisibility(View.VISIBLE);
+                }
+                if(mTextureView != null){
+                    if(mIsRecordingVideo){
                         stopRecordingVideo();
-                        play_record =true;
+                        record.setBackgroundResource(R.drawable.record);
+                    } else{
+                        startRecordingVideo();
+                        record.setBackgroundResource(R.drawable.stop);
                     }
-                    record_plag = true;
                 }
             }
         });
@@ -397,25 +365,24 @@ public class Item_follow_fragment_21 extends Fragment
                 intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 getActivity().startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
+                videoView.setVisibility(View.VISIBLE);
+                mTextureView.setVisibility(GONE);
             }
         });
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(play_plag){
-                    play_plag = false;
-                    play.setBackgroundResource(R.drawable.playbutton);
-                    mMediaPlayer.start();
-                    Log.d(TAG, "video stop");
-                }else {
-                    play_plag = true;
-                    if(play_record){
-                        closeCamera();
-                        play_record = false;
+                if(videoView.getVisibility() == GONE){
+                    videoView.setVisibility(View.VISIBLE);
+                }
+                if(videoView != null) {
+                    if (videoView.isPlaying()) {
+                        videoView.stopPlayback();
+                        play.setBackgroundResource(R.drawable.playbutton);
+                    } else {
+                        videoView.start();
+                        play.setBackgroundResource(R.drawable.pause);
                     }
-                    play.setBackgroundResource(R.drawable.pause);
-                    Log.d(TAG, "video play");
-                    mMediaPlayer.pause();
                 }
             }
         });
@@ -423,16 +390,17 @@ public class Item_follow_fragment_21 extends Fragment
             @Override
             public void onClick(View v) {
                 if(play_record){
-                    play_record = false;
-                    if(record_plag){
+                    if(mIsRecordingVideo){
                         stopRecordingVideo();
-                        record_plag = false;
                     }
                     closeCamera();
+                    mTextureView.setVisibility(View.GONE);
+                    videoView.setVisibility(View.VISIBLE);
                 } else {
-                    play_record = true;
-                    openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+                    startBackgroundThread();
                     startPreview();
+                    mTextureView.setVisibility(View.VISIBLE);
+                    videoView.setVisibility(View.GONE);
                 }
             }
         });
@@ -466,7 +434,6 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
-
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         startPreview();
@@ -482,10 +449,6 @@ public class Item_follow_fragment_21 extends Fragment
         } catch (ActivityNotFoundException e) {
             // The reason for the existence of aFileChooser
         }
-    }
-    private void initView() {
-        mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
-        mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
     }
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
         @Override

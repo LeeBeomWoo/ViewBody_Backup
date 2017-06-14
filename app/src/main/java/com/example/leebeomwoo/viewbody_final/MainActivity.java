@@ -152,10 +152,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 maintab.setBackgroundResource(R.color.body_toolbar);
                 break;
             case 2:
-                maintab.setBackgroundResource(R.color.foodtoolbar);
+                maintab.setBackgroundResource(R.color.followtoolbar);
                 break;
             case 3:
-                maintab.setBackgroundResource(R.color.followtoolbar);
+                maintab.setBackgroundResource(R.color.foodtoolbar);
                 break;
             case 4:
                 maintab.setBackgroundResource(R.color.writertoolbar);
@@ -172,17 +172,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         /**
          * LayoutParams WRAP_CONTENT를 주면 inflate된 View의 사이즈 만큼의
          * PopupWinidow를 생성한다.
+         *
+         mPopupWindow = new PopupWindow(popupView,
+         RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
          */
         mPopupWindow = new PopupWindow(popupView,
-                RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                700, RelativeLayout.LayoutParams.WRAP_CONTENT);
         mPopupWindow.setFocusable(true);
         mPopupWindow.showAsDropDown(v, 0, 0);
+        mPopupWindow.setOutsideTouchable(true);
         cancel_menuBtn = (ImageButton) popupView.findViewById(R.id.cancel_menuBtn);
         account_menuBtn = (ImageButton) popupView.findViewById(R.id.account_menuBtn);
         body_menuBtn = (ImageButton) popupView.findViewById(R.id.body_menuBtn);
         follow_menuBtn = (ImageButton) popupView.findViewById(R.id.follow_menuBtn);
         food_menuBtn = (ImageButton) popupView.findViewById(R.id.food_menuBtn);
-        home_menuBtn = (ImageButton) popupView.findViewById(R.id.home_menuBtn);
         qna_menuBtn = (ImageButton) popupView.findViewById(R.id.qna_menuBtn);
         writer_menuBtn = (ImageButton) popupView.findViewById(R.id.writer_menuBtn);
         menu_list = (ListView) popupView.findViewById(R.id.menu_list);
@@ -191,7 +194,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         body_menuBtn.setOnClickListener(this);
         follow_menuBtn.setOnClickListener(this);
         food_menuBtn.setOnClickListener(this);
-        home_menuBtn.setOnClickListener(this);
         qna_menuBtn.setOnClickListener(this);
         writer_menuBtn.setOnClickListener(this);
 
@@ -362,7 +364,7 @@ private void menu_listSet(String[] values){
         Log.d("menu_listSet list:", values[i]);
     }
     final StableArrayAdapter adapter = new StableArrayAdapter(this,
-            android.R.layout.simple_list_item_1, list);
+            R.layout.menulistitem, list);
     menu_list.setAdapter(adapter);
     adapter.notifyDataSetChanged();
     //foodTab_sub.changePage(2);
@@ -395,8 +397,6 @@ private void menu_listSet(String[] values){
             case R.id.food_menuBtn:
                 viewPager.setCurrentItem(3, true);
                 menu_listSet(food);
-                break;
-            case R.id.home_menuBtn:
                 break;
             case R.id.qna_menuBtn:
                 Intent qintent = new Intent(MainActivity.this, QnaActivity.class);

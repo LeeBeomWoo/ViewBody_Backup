@@ -2,126 +2,145 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="150dp"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:background="@drawable/backline"
-    android:orientation="vertical">
+    android:divider="@drawable/underline"
+    android:dividerPadding="2dp"
+    android:orientation="vertical"
+    android:showDividers="beginning|middle|end">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="3dp"
+        android:background="@color/cardview_shadow_start_color"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/qna_menuBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignStart="@+id/writer_menuBtn"
-            android:layout_below="@+id/writer_menuBtn"
-            android:layout_margin="3dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="2dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/qna_main" />
 
         <ImageButton
             android:id="@+id/account_menuBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/qna_menuBtn"
-            android:layout_margin="3dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignTop="@+id/qna_menuBtn"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_toEndOf="@+id/qna_menuBtn"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/arrows2" />
 
         <ImageButton
-            android:id="@+id/home_menuBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="3dp"
-            android:background="@color/nocolor"
-            android:scaleType="fitCenter"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:srcCompat="@drawable/arrows2"
-            tools:layout_editor_absoluteY="0dp" />
-
-        <ImageButton
             android:id="@+id/cancel_menuBtn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="3dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/qna_menuBtn"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            app:layout_constraintRight_toRightOf="parent"
             app:srcCompat="@drawable/close"
             tools:ignore="ContentDescription"
             tools:layout_editor_absoluteY="0dp" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
         android:layout_weight="1"
+        android:background="?attr/colorButtonNormal"
         android:text="@string/apptest"
         android:textSize="10sp" />
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="185dp">
+        android:layout_height="wrap_content">
 
-        <ListView
-            android:id="@+id/menu_list"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_toEndOf="@+id/body_menuBtn"
-            tools:listitem="@layout/menulist" />
+            android:layout_height="wrap_content">
 
-        <ImageButton
-            android:id="@+id/body_menuBtn"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:background="@color/nocolor"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/body_with_text" />
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:background="?attr/colorButtonNormal"
+                android:divider="@drawable/underline"
+                android:dividerPadding="2dp"
+                android:orientation="vertical"
+                android:showDividers="middle|end">
 
-        <ImageButton
-            android:id="@+id/writer_menuBtn"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/food_menuBtn"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@color/nocolor"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arrows2" />
+                <ImageButton
+                    android:id="@+id/food_menuBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/follow_menuBtn"
+                    android:layout_margin="5dp"
+                    android:background="@color/nocolor"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/food_with_text" />
 
-        <ImageButton
-            android:id="@+id/food_menuBtn"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/follow_menuBtn"
-            android:layout_margin="5dp"
-            android:background="@color/nocolor"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/food_with_text" />
+                <ImageButton
+                    android:id="@+id/body_menuBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/nocolor"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/body_with_text" />
 
-        <ImageButton
-            android:id="@+id/follow_menuBtn"
-            android:layout_width="30dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/body_menuBtn"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@color/nocolor"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/follow_with_text" />
-    </RelativeLayout>
+                <ImageButton
+                    android:id="@+id/follow_menuBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/body_menuBtn"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/nocolor"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/follow_with_text" />
+
+                <ImageButton
+                    android:id="@+id/writer_menuBtn"
+                    android:layout_width="60dp"
+                    android:layout_height="70dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/food_menuBtn"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@color/nocolor"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/arrows2" />
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/menu_list"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_alignParentBottom="false"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="3dp"
+                android:layout_toEndOf="@+id/linearLayout"
+                android:background="#ededed"
+                android:divider="@drawable/underline"
+                android:dividerHeight="2dp"
+                tools:listfooter="@drawable/underline"
+                tools:listitem="@layout/menulistitem" />
+
+        </RelativeLayout>
+    </ScrollView>
+
 </LinearLayout>

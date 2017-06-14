@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
@@ -14,14 +15,31 @@
         android:background="@drawable/backline"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/detile_Title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/fablabel_bacground"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:background="@color/cardview_light_background"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/itemtitle_image"
+                srcCompat="@drawable/logomain"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@color/body_toolbar"
+                app:srcCompat="@drawable/logomain" />
+
+            <TextView
+                android:id="@+id/detile_Title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@drawable/fablabel_bacground"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <com.example.leebeomwoo.viewbody_final.Support.HelpWebView
             android:id="@+id/detile_Image"
@@ -32,6 +50,7 @@
             android:id="@+id/video_title_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:paddingStart="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
@@ -47,6 +66,7 @@
             android:id="@+id/video_title_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:paddingStart="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
@@ -62,6 +82,7 @@
             android:id="@+id/video_title_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background"
             android:paddingStart="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
@@ -76,7 +97,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/fablabel_bacground">
+            android:background="@color/cardview_light_background">
 
             <WebView
                 android:id="@+id/detile_face"
@@ -93,6 +114,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
                 android:layout_toEndOf="@+id/detile_face"
+                android:background="@color/cardview_light_background"
                 android:textAlignment="center"
                 android:textSize="20sp"
                 tools:ignore="RtlHardcoded" />

@@ -33,6 +33,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 
+import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.VideoViewCustom;
@@ -49,9 +50,8 @@ import java.util.List;
 public class Item_follow_fragment extends Fragment implements Camera.PreviewCallback {
     public Camera mCamera;
     private MediaRecorder mMediaRecorder;
-   public MediaPlayer mMediaPlayer;
     private File mOutputFile;
-
+    public VideoView videoView;
     private boolean isRecording = false;
     private static final String TAG = "Item_follow_fragment";
     private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
@@ -60,17 +60,15 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
 
     Boolean record_plag = false; // true = 녹화중, false = 정지
     Boolean play_plag = false; //true = 재생, false = 정지
-    Boolean play_record = false; //true = 촬영, false = 재생
+    Boolean play_record = true; //true = 촬영, false = 재생
     Button play, record, load, camerachange, play_recordBtn;
     WebView webView;
     private final int SELECT_MOVIE = 2;
     public MediaRecorder mediaRecorder;
     public SurfaceHolder surfaceHolder;
     int page_num, witch;
-    public AssetFileDescriptor afd;
-    public static TextureView textureView;
+    public static AutoFitTextureView textureView;
     String tr_id, imageUrl, tr_password, URL, section, change, temp;
-    private MediaController mc;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +84,10 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
-            textureView = (TextureView) view.findViewById(R.id.capturview);
+            textureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
             textureView.setSurfaceTextureListener(mSurfaceTextureListener);
             webView = (WebView) view.findViewById(R.id.web_movie);
+            videoView = (VideoView) view.findViewById(R.id.videoView);
             SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
             seekBar.setMax(100);
             webView.setWebChromeClient(new WebChromeClient());
@@ -109,6 +108,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             Log.d(TAG, URL);
             webView.loadData(URL, "text/html", "charset=utf-8");
             seekBar.setOnSeekBarChangeListener(alphaChangListener);
+        mCamera.startPreview();
         record = (Button) view.findViewById(R.id.record_Btn);
         play = (Button) view.findViewById(R.id.play_Btn);
         load = (Button) view.findViewById(R.id.load_Btn);
@@ -144,7 +144,6 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                 intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 getActivity().startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
-                mc = new MediaController(getActivity());
             }
         });
         play.setOnClickListener(new View.OnClickListener() {
@@ -154,11 +153,11 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                     play_plag = false;
                     Log.d(TAG, "video stop");
                     play.setBackgroundResource(R.drawable.playbutton);
-                    mMediaPlayer.stop();
+                    videoView.pause();
                 }else {
                     play_plag = true;
                     Log.d(TAG, "video play");
-                    mMediaPlayer.start();
+                    videoView.start();
                     play.setBackgroundResource(R.drawable.pause);
                 }
             }
@@ -169,6 +168,18 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                 flipit();
             }
         });
+        play_recordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(play_record){
+                    videoView.setVisibility(View.VISIBLE);
+                    textureView.setVisibility(View.GONE);
+                } else{
+                    videoView.setVisibility(View.GONE);
+                    textureView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         return view;
     }
     private TextureView.SurfaceTextureListener mSurfaceTextureListener
@@ -176,38 +187,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
 
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture,
-                                              int width, int height) {
-            if (play_record) {
-                Surface surface = new Surface(surfaceTexture);
-
-                try {
-                    mMediaPlayer = new MediaPlayer();
-                    mMediaPlayer.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
-                    mMediaPlayer.setSurface(surface);
-                    mMediaPlayer.setLooping(true);
-                    mMediaPlayer.prepareAsync();
-
-                    // Play video when the media source is ready for playback.
-                    mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mediaPlayer) {
-                            mediaPlayer.start();
-                        }
-                    });
-
-                } catch (IllegalArgumentException e) {
-                    Log.d(TAG, e.getMessage());
-                } catch (SecurityException e) {
-                    Log.d(TAG, e.getMessage());
-                } catch (IllegalStateException e) {
-                    Log.d(TAG, e.getMessage());
-                } catch (IOException e) {
-                    Log.d(TAG, e.getMessage());
-                }
-            } else {
-                mCamera.startPreview();
-            }
-        }
+                                              int width, int height) {        }
 
 
         @Override

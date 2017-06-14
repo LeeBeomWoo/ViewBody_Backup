@@ -2,42 +2,34 @@ package com.example.leebeomwoo.viewbody_final;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Surface;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.TextView;
+import android.widget.MediaController;
 
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.Item_follow_fragment_21;
 import com.example.leebeomwoo.viewbody_final.ItemGroup.TrainerInfoFragment;
 import com.ipaulpro.afilechooser.utils.FileUtils;
-
-import java.io.File;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import static android.R.attr.path;
 
 /**
  * Created by LBW on 2016-06-30.
@@ -48,9 +40,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     public static final int REQUEST_CAMERA = 1;
-    private final int SELECT_PICTURE = 1;
-    private final int SELECT_MOVIE = 2;
-    private String selectedImagePath;
     private Boolean isFabOpen = false;
     private static String TAG = "ItemViewActivity";
     FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
@@ -59,10 +48,9 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     final Item_follow_fragment finalFollow_fragment = new Item_follow_fragment();
     final Item_follow_fragment_21 Follow_fragment = new Item_follow_fragment_21();
     int category, q, currentCameraId, page_num;
-    boolean previewing = false;;
-    public boolean recording, pausing, inPreview;
+    public boolean recording, pausing;
     private static final int REQUEST_CODE = 6384; // onActivityResult request
-
+    Context context;
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -97,13 +85,17 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         fab5.setOnClickListener(this);
         pageSel(category);
     }
-
+/**
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         switch (requestCode) {
             case REQUEST_CODE:
                 // If the file selection was successful
+                Log.d("onActivityResult", "REQUEST_CODE" + String.valueOf(requestCode));
+                Log.d("onActivityResult", "REQUEST_CODE" + String.valueOf(resultCode));
                 if (resultCode == RESULT_OK) {
+                    Log.d("onActivityResult", "RESULT_OK" + String.valueOf(resultCode));
                     if (data != null) {
                         // Get the URI of the selected file
                         final Uri uri = data.getData();
@@ -112,9 +104,31 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                             // Get the file path from the URI
                             final String path = FileUtils.getPath(this, uri);
                             if(Follow_fragment.isVisible() && Follow_fragment !=null) {
-                                Follow_fragment.mMediaPlayer.setDataSource(path);
+                                Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path,
+                                        MediaStore.Images.Thumbnails.MINI_KIND);
+                                BitmapDrawable bitmapDrawable = new BitmapDrawable(thumbnail);
+                                Follow_fragment.videoView.setBackgroundDrawable(bitmapDrawable);
+                                Follow_fragment.videoView.setVideoURI(uri);
+                                Follow_fragment.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                    @Override
+                                    public void onPrepared(MediaPlayer mp) {
+                                        mp.setLooping(true);
+                                        Follow_fragment.videoView.start();
+                                    }
+                                });
                             }else if(finalFollow_fragment.isVisible() && finalFollow_fragment !=null) {
-                                finalFollow_fragment.mMediaPlayer.setDataSource(path);
+                                Bitmap thumbnail = ThumbnailUtils.createVideoThumbnail(path,
+                                        MediaStore.Images.Thumbnails.MINI_KIND);
+                                BitmapDrawable bitmapDrawable = new BitmapDrawable(thumbnail);
+                                finalFollow_fragment.videoView.setBackgroundDrawable(bitmapDrawable);
+                                finalFollow_fragment.videoView.setVideoURI(uri);
+                                finalFollow_fragment.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                    @Override
+                                    public void onPrepared(MediaPlayer mp) {
+                                        mp.setLooping(true);
+                                        finalFollow_fragment.videoView.start();
+                                    }
+                                });
                             }
                         } catch (Exception e) {
                             Log.e("FileActivity", e.toString());
@@ -124,7 +138,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    } **/
     public String getPath(Uri uri) {
         // uri가 null일경우 null반환
         if( uri == null ) {

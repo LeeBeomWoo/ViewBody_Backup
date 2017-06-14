@@ -18,10 +18,18 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentTop="true">
 
+            <VideoView
+                android:id="@+id/videoView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+
             <com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView
                 android:id="@+id/AutoView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="visible" />
+
         </FrameLayout>
 
         <Button

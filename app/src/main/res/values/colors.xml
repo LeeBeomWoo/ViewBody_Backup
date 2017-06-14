@@ -12,7 +12,7 @@
     <color name="viewbodyhombar_main">#cadd97</color>
     <color name="viewbodyappbarcolor_main">#ffffff</color>
     <color name="semplecolor">#da7a3e</color>
-    <color name="nocolor">#00ff0000</color>
+    <color name="nocolor">#00ffffff</color>
     <color name="common_google_signin_btn_text_light_disabled">#19231f</color>
     <color name="common_google_signin_btn_text_dark_focused">#124e36</color>
     <color name="common_google_signin_btn_text_light_focused">#1c5c43</color>

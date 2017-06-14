@@ -156,12 +156,12 @@ public class CameraHelper {
     public  static File getOutputMediaFile(int type){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
-        if (!Environment.getExternalStorageState().equalsIgnoreCase(Environment.DIRECTORY_DCIM)) {
+        if (!Environment.getExternalStorageState().equalsIgnoreCase(Environment.DIRECTORY_MOVIES)) {
             return  null;
         }
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), "ViewBody");
+                Environment.DIRECTORY_MOVIES), "ViewBody");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 

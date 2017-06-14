@@ -10,17 +10,23 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="7.65">
-
         <FrameLayout
-            android:layout_width="250dp"
-            android:layout_height="200dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentTop="true">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toStartOf="@+id/play_record">
 
             <com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView
                 android:id="@+id/AutoView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/play_record"
+                android:visibility="visible" />
+
+            <VideoView
+                 android:id="@+id/videoView"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:visibility="gone" />
         </FrameLayout>
 
         <Button
@@ -30,6 +36,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/record_Btn"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="8dp" />
 
         <Button
@@ -39,6 +46,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/load_Btn"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/record" />
 
@@ -49,6 +57,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/viewChange_Btn"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/plus"
             tools:ignore="RtlHardcoded" />
@@ -60,6 +69,7 @@
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/play_record"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/playbutton" />
 
@@ -70,37 +80,38 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="25dp"
+            android:layout_marginStart="3dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/switch_camera" />
-    </RelativeLayout>
+</RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:layout_weight="2">
+<RelativeLayout
+ android:id="@+id/relativeLayout2"
+ android:layout_width="match_parent"
+ android:layout_height="270dp"
+ android:layout_weight="2">
 
-        <WebView
-            android:id="@+id/web_movie"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:alpha="1" />
+ <WebView
+     android:id="@+id/web_movie"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     android:layout_alignParentStart="true"
+     android:alpha="1" />
 
-    </RelativeLayout>
+</RelativeLayout>
 
-    <SeekBar
-        android:id="@+id/alpha_control"
-        style="@android:style/Widget.DeviceDefault.Light.SeekBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+<SeekBar
+ android:id="@+id/alpha_control"
+ style="@android:style/Widget.DeviceDefault.Light.SeekBar"
+ android:layout_width="match_parent"
+ android:layout_height="wrap_content"
+ android:visibility="gone" />
 
 
-    <!-- <com.tutsplus.facedetection.FaceOverlayView
-       xmlns:android="http://schemas.android.com/apk/res/android"
-       android:id="@+id/face_overlay"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent" /> -->
+<!-- <com.tutsplus.facedetection.FaceOverlayView
+xmlns:android="http://schemas.android.com/apk/res/android"
+android:id="@+id/face_overlay"
+android:layout_width="match_parent"
+android:layout_height="match_parent" /> -->
 
 </LinearLayout>

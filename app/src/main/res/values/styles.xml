@@ -25,14 +25,14 @@
         <item name="android:paddingRight">@dimen/list_item_padding</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>  <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="ViewBody">
         <item name="background">@drawable/background</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
         <item name="colorPrimary">@color/viewbodyappbarcolor_main</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorForeground" tools:ignore="PrivateResource">@color/foreground_material_light</item>
+        <item name="android:colorForeground" tools:ignore="PrivateResource">@color/cardview_light_background</item>
         <item name="android:textColorPrimary">@color/viewbody_primary_text</item>
     </style>
     <style name="MyActionButtonStyle" parent="AppTheme">
@@ -54,14 +54,14 @@
         <item name="android:textColorPrimary">@color/colorPrimary</item>
         <item name="android:colorBackground" tools:ignore="PrivateResource">@color/cardview_light_background</item>
         <item name="android:textColorSecondary">@color/common_google_signin_btn_text_dark_focused</item>
-        <item name="android:colorForeground">@color/foreground_material_light</item>
+        <item name="android:colorForeground">@color/cardview_light_background</item>
         <item name="android:windowBackground">@color/cardview_light_background</item>
     </style>
     <style name="ViewBody.main" parent="Theme.AppCompat.Light">>
         <item name="colorPrimary">@color/viewbodyappbarcolor_main</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorForeground" tools:ignore="PrivateResource">@color/foreground_material_light</item>
+        <item name="android:colorForeground" tools:ignore="PrivateResource">@color/cardview_light_background</item>
         <item name="android:textColorPrimary">@color/viewbody_primary_text</item>
         <item name="android:colorBackground">@color/view_body_background_light</item>
     </style>
