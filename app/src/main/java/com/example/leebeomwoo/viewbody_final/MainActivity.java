@@ -2,6 +2,7 @@ package com.example.leebeomwoo.viewbody_final;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -25,9 +26,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
@@ -60,8 +63,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FoodTab_Sub foodTab_sub;
     WriterTab_Sub writerTab_sub;
     ListView menu_list;
+    ScrollView menu_Scroll;
+    LinearLayout btn_View;
 
     String[] body, follow, food, trainer;
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+    }
 
     int i = 0;
     @Override
@@ -178,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
          RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
          */
         mPopupWindow = new PopupWindow(popupView,
-                900, RelativeLayout.LayoutParams.WRAP_CONTENT);
+                900, RelativeLayout.LayoutParams.MATCH_PARENT);
         mPopupWindow.setFocusable(true);
         mPopupWindow.showAsDropDown(v, 0, 0);
         mPopupWindow.setOutsideTouchable(true);
@@ -190,6 +199,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         qna_menuBtn = (ImageButton) popupView.findViewById(R.id.qna_menuBtn);
         writer_menuBtn = (ImageButton) popupView.findViewById(R.id.writer_menuBtn);
         menu_list = (ListView) popupView.findViewById(R.id.menu_list);
+        menu_Scroll = (ScrollView) popupView.findViewById(R.id.menu_Scroll);
+        btn_View = (LinearLayout) popupView.findViewById(R.id.btn_View);
         cancel_menuBtn.setOnClickListener(this);
         account_menuBtn.setOnClickListener(this);
         body_menuBtn.setOnClickListener(this);
@@ -208,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                    case "상체 운동":
                        bodyTab_sub = new BodyTab_Sub();
                        bodyTab_sub.setTabitemSelected(0);
+                       menu_Scroll.setBackgroundResource(R.color.body_toolbar);
                        mPopupWindow.dismiss();
                        break;
                    case "상체 정보":
@@ -388,23 +400,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.body_menuBtn:
                 viewPager.setCurrentItem(1, true);
+                btn_View.setBackgroundResource(R.color.body_toolbar);
+                menu_list.setBackgroundResource(R.color.bodysubtabcolor);
                 menu_listSet(body);
                 break;
             case R.id.follow_menuBtn:
                 viewPager.setCurrentItem(2, true);
+                btn_View.setBackgroundResource(R.color.followtoolbar);
+                menu_list.setBackgroundResource(R.color.followsubtabcolor);
                 menu_listSet(follow);
                 //foodTab_sub.changePage(1);
                 break;
             case R.id.food_menuBtn:
                 viewPager.setCurrentItem(3, true);
+                btn_View.setBackgroundResource(R.color.foodtoolbar);
+                menu_list.setBackgroundResource(R.color.foodsubtabcolor);
                 menu_listSet(food);
                 break;
             case R.id.qna_menuBtn:
                 Intent qintent = new Intent(MainActivity.this, QnaActivity.class);
+                btn_View.setBackgroundResource(R.color.qnatoolbar);
                 startActivity(qintent);
                 break;
             case R.id.writer_menuBtn:
                 viewPager.setCurrentItem(4, true);
+                btn_View.setBackgroundResource(R.color.writertoolbar);
+                menu_list.setBackgroundResource(R.color.writersubtabcolor);
                 menu_listSet(trainer);
                 // foodTab_sub.changePage(4);
                 break;

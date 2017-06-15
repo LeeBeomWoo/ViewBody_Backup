@@ -3,6 +3,7 @@ package com.example.leebeomwoo.viewbody_final;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -48,7 +50,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     private static String TAG = "ItemViewActivity";
     FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
-    String tr_id, item_word, section, video;
+    String tr_id, item_word, section, video, videoPath;
     final Item_follow_fragment finalFollow_fragment = new Item_follow_fragment();
     final Item_follow_fragment_21 Follow_fragment = new Item_follow_fragment_21();
     int category, q, currentCameraId, page_num;
@@ -72,57 +74,10 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         // item_word = intent.getStringExtra("item_word");
 
             // Now later we can lookup the fragment by tag
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
-        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
-        fab4 = (FloatingActionButton) findViewById(R.id.fab4);
-        fab5 = (FloatingActionButton) findViewById(R.id.fab5);
 
-        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.iteammainfabclose);
-        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.iteammainfabopen);
-        fab.setOnClickListener(this);
-        fab1.setOnClickListener(this);
-        fab2.setOnClickListener(this);
-        fab3.setOnClickListener(this);
-        fab4.setOnClickListener(this);
-        fab5.setOnClickListener(this);
         pageSel(category);
     }
-    private String getPath(String column_Name,Uri uri) {
 
-        String[] projection = {column_Name};
-        String path = "";
-        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
-        int column_index_data;
-        if (cursor != null) {
-            column_index_data = cursor.getColumnIndexOrThrow(column_Name);
-            cursor.moveToFirst();
-            path = cursor.getString(column_index_data);
-            cursor.close();
-        }
-        return path;
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.d("requestCode", String.valueOf(requestCode));
-        String column_Name= MediaStore.Video.Media.DATA;
-        Log.d("resultCode", String.valueOf(resultCode));
-        if (resultCode != RESULT_OK)
-            Log.d("onActivityResult", "onActivityResult");
-        if (requestCode == 2) {
-            Uri mVideoURI = data.getData();
-            Log.d("onActivityResult", getPath(column_Name, mVideoURI));
-            if(Follow_fragment.isVisible() && Follow_fragment.videoView != null){
-                Follow_fragment.videoView.setVideoPath(getPath(column_Name, mVideoURI));
-            }else if(finalFollow_fragment.isVisible() && finalFollow_fragment.videoView != null){
-                finalFollow_fragment.videoView.setVideoPath(getPath(column_Name, mVideoURI));
-            }
-        }
-    }
     private void pageSel(int sec){
         Log.d(TAG, "pagesel");
         Bundle fbundle = new Bundle();
@@ -450,33 +405,23 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
-    /**
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    public void fabset(){
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab3 = (FloatingActionButton) findViewById(R.id.fab3);
+        fab4 = (FloatingActionButton) findViewById(R.id.fab4);
+        fab5 = (FloatingActionButton) findViewById(R.id.fab5);
 
-            if(Follow_fragment != null && Follow_fragment.isVisible()){
-                Follow_fragment.videoView.setDimensions(displayHeight, displayWidth);
-                Follow_fragment.videoView.getHolder().setFixedSize(displayHeight, displayWidth);
-            } else if(finalFollow_fragment != null && finalFollow_fragment.isVisible()){
-                finalFollow_fragment.videoView.setDimensions(displayHeight, displayWidth);
-                finalFollow_fragment.videoView.getHolder().setFixedSize(displayHeight, displayWidth);
-            }
-
-        } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
-            if(Follow_fragment != null && Follow_fragment.isVisible()){
-                Follow_fragment.videoView.setDimensions(displayWidth, smallHeight);
-                Follow_fragment.videoView.getHolder().setFixedSize(displayWidth, smallHeight);
-            } else if(finalFollow_fragment != null && finalFollow_fragment.isVisible()){
-                finalFollow_fragment.videoView.setDimensions(displayWidth, smallHeight);
-                finalFollow_fragment.videoView.getHolder().setFixedSize(displayWidth, smallHeight);
-            }
-
-        }
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.iteammainfabclose);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.iteammainfabopen);
+        fab.setOnClickListener(this);
+        fab1.setOnClickListener(this);
+        fab2.setOnClickListener(this);
+        fab3.setOnClickListener(this);
+        fab4.setOnClickListener(this);
+        fab5.setOnClickListener(this);
     }
-    **/
 }

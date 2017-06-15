@@ -6,14 +6,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -68,7 +71,9 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     public SurfaceHolder surfaceHolder;
     int page_num, witch;
     public static AutoFitTextureView textureView;
-    String tr_id, imageUrl, tr_password, URL, section, change, temp;
+    String tr_id, imageUrl, tr_password, URL, section, change, temp, videoString;
+    Uri videopath;
+    int videoPosition;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,7 +111,11 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             change = temp.replace("https://youtu.be", CHANGE);
             URL = FURL + change + BURL;
             Log.d(TAG, URL);
+        if(savedInstanceState != null){
+            webView.restoreState(savedInstanceState);
+        } else {
             webView.loadData(URL, "text/html", "charset=utf-8");
+        }
             seekBar.setOnSeekBarChangeListener(alphaChangListener);
         mCamera.startPreview();
         record = (Button) view.findViewById(R.id.record_Btn);
@@ -123,18 +132,15 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                 } else{
                     if(play_record) {
                         mMediaRecorder.start();
+                        play_record = false;
                     }else{
                         //closeCamera();
                         //startRecordingVideo();
+                        mMediaRecorder.release();
                         play_record =true;
                     }
                     record_plag = true;
                 }
-            }
-        });
-        record.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
             }
         });
         load.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +149,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                getActivity().startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
+                startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
             }
         });
         play.setOnClickListener(new View.OnClickListener() {
@@ -174,13 +180,34 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                 if(play_record){
                     videoView.setVisibility(View.VISIBLE);
                     textureView.setVisibility(View.GONE);
+                    play_record = false;
                 } else{
                     videoView.setVisibility(View.GONE);
                     textureView.setVisibility(View.VISIBLE);
+                    play_record = true;
                 }
             }
         });
+        if(savedInstanceState != null){
+            if(videoString != null){
+                videoString = savedInstanceState.getString("videopath");
+                videopath = Uri.parse(videoString);
+                videoPosition = savedInstanceState.getInt("Position");videoView.setVideoURI(videopath);
+                videoView.seekTo(videoPosition);
+                videoView.start();
+            }
+        }
         return view;
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        webView.saveState(outState);
+        if(videopath != null){
+            outState.putString("videopath", videopath.toString());
+            outState.putInt("Position", videoView.getCurrentPosition());
+            videoView.pause();
+        }
     }
     private TextureView.SurfaceTextureListener mSurfaceTextureListener
             = new TextureView.SurfaceTextureListener() {
@@ -211,6 +238,34 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         mCamera.startPreview();
     }
 
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("requestCode", String.valueOf(requestCode));
+        Log.d("resultCode", String.valueOf(resultCode));
+        //if (resultCode != RESULT_OK)
+        if (requestCode == 2 && data != null) {
+            Uri mVideoURI = data.getData();
+            videopath = mVideoURI;
+            Log.d("onActivityResult", mVideoURI.toString());
+            // Log.d("getRealPathFromURI", getRealPathFromURI(getContext(), mVideoURI));
+            videoView.setVideoURI(mVideoURI);
+        }
+    }
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {

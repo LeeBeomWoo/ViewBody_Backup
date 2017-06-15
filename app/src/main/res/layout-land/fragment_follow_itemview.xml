@@ -11,17 +11,17 @@
 
         <Button
             android:id="@+id/record_Btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignStart="@+id/play_Btn"
             android:layout_below="@+id/play_Btn"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="17dp"
             android:background="@drawable/record" />
 
         <Button
             android:id="@+id/load_Btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignStart="@+id/viewChange_Btn"
             android:layout_below="@+id/viewChange_Btn"
             android:layout_marginTop="15dp"
@@ -29,17 +29,17 @@
 
         <Button
             android:id="@+id/play_Btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/playbutton"
             android:layout_below="@+id/play_record"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/playbutton" />
+            android:layout_alignStart="@+id/play_record" />
 
         <Button
             android:id="@+id/viewChange_Btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="7dp"
@@ -47,11 +47,10 @@
 
         <Button
             android:id="@+id/play_record"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/load_Btn"
-            android:layout_marginTop="15dp" />
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignStart="@+id/load_Btn" />
     </RelativeLayout>
 
     <FrameLayout
@@ -106,7 +105,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="60dp"
         android:progress="50" />
 
 </RelativeLayout>

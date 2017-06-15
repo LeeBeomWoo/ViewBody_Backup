@@ -104,7 +104,9 @@ public class Item_follow_fragment_21 extends Fragment
     Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
-    String change, temp;
+    String change, temp, videoString;
+    Uri videopath;
+    int videoPosition;
     private String cameraId = CAMERA_FRONT;
     public VideoView videoView;
     private static final String[] VIDEO_PERMISSIONS = {
@@ -354,6 +356,15 @@ public class Item_follow_fragment_21 extends Fragment
         videoView = (VideoView) view.findViewById(R.id.videoView);
         videoView.setMinimumHeight(videoView.getHeight());
         videoView.setMinimumWidth(videoView.getWidth());
+        if(savedInstanceState != null){
+            if(videoString != null){
+                videoString = savedInstanceState.getString("videopath");
+                videopath = Uri.parse(videoString);
+                videoPosition = savedInstanceState.getInt("Position");videoView.setVideoURI(videopath);
+                videoView.seekTo(videoPosition);
+                videoView.start();
+            }
+        }
         play_recordBtn = (Button) view.findViewById(R.id.play_record);
         camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
         record.setOnClickListener(new View.OnClickListener() {
@@ -380,7 +391,7 @@ public class Item_follow_fragment_21 extends Fragment
                 Intent intent = new Intent();
                 intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                getActivity().startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
+                startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
                 videoView.setVisibility(View.VISIBLE);
                 mTextureView.setVisibility(View.GONE);
             }
@@ -406,7 +417,6 @@ public class Item_follow_fragment_21 extends Fragment
                     mTextureView.setVisibility(View.GONE);
                     videoView.setVisibility(View.VISIBLE);
                 } else {
-                    startBackgroundThread();
                     startPreview();
                     mTextureView.setVisibility(View.VISIBLE);
                     videoView.setVisibility(View.GONE);
@@ -439,9 +449,52 @@ public class Item_follow_fragment_21 extends Fragment
         change = temp.replace("https://youtu.be", CHANGE);
         URL = FURL + change + BURL;
         Log.d("프래그먼트 표현:", URL);
-        webView.loadData(URL, "text/html", "charset=utf-8");
+        if(savedInstanceState != null){
+            webView.restoreState(savedInstanceState);
+        } else {
+            webView.loadData(URL, "text/html", "charset=utf-8");
+        }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
+    }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        webView.saveState(outState);
+        Log.d(TAG, "onSaveInstanceState");
+        if(videopath != null){
+            outState.putString("videopath", videopath.toString());
+            outState.putInt("Position", videoView.getCurrentPosition());
+            videoView.pause();
+        }
+    }
+    private String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("requestCode", String.valueOf(requestCode));
+        Log.d("resultCode", String.valueOf(resultCode));
+        //if (resultCode != RESULT_OK)
+        if (requestCode == 2 && data != null) {
+            Uri mVideoURI = data.getData();
+            videopath = mVideoURI;
+            Log.d("onActivityResult", mVideoURI.toString());
+            //Log.d("getRealPathFromURI", getRealPathFromURI(getContext(), mVideoURI));
+            videoView.setVideoURI(mVideoURI);
+        }
     }
         @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
@@ -831,10 +884,9 @@ public class Item_follow_fragment_21 extends Fragment
         }
         mMediaRecorder.prepare();
     }
-
     private String getVideoFilePath(Context context) {
-        return context.getExternalFilesDir(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM).getPath()) + "/"
+        return Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM).getPath() + "/"
                 + "ViewBody_" +System.currentTimeMillis() + ".mp4";
     }
 
