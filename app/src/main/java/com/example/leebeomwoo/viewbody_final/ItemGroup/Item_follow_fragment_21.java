@@ -33,6 +33,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v13.app.ActivityCompat;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.DialogFragment;
@@ -192,6 +193,8 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+        setRetainInstance(true);
         if(getArguments() !=null){
             tr_id = getArguments().getString("tr_Id");
             imageUrl = getArguments().getString("itemUrl");
@@ -339,8 +342,57 @@ public class Item_follow_fragment_21 extends Fragment
     }
 
     @Override
+    public void onAttachFragment(Fragment childFragment) {
+        super.onAttachFragment(childFragment);
+        Log.d(TAG, "onAttachFragment");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttach");
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "onActivityCreated");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "onDetach");
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
         if(!hasPermissionsGranted(FILE_ACCESSPERMISSIONS)){
             requestFilePermissions();
         }
@@ -485,6 +537,7 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult");
         Log.d("requestCode", String.valueOf(requestCode));
         Log.d("resultCode", String.valueOf(resultCode));
         //if (resultCode != RESULT_OK)
@@ -499,6 +552,7 @@ public class Item_follow_fragment_21 extends Fragment
         @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         startPreview();
+            Log.d(TAG, "onViewCreated");
     }
 
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
@@ -537,6 +591,7 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume");
         startBackgroundThread();
         if (mTextureView.isAvailable()) {
             openCamera(mTextureView.getWidth(), mTextureView.getHeight());
@@ -547,6 +602,7 @@ public class Item_follow_fragment_21 extends Fragment
     }
     @Override
     public void onPause() {
+        Log.d(TAG, "onPause");
         closeCamera();
         stopBackgroundThread();
         super.onPause();

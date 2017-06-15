@@ -50,19 +50,28 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     private static String TAG = "ItemViewActivity";
     FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
-    String tr_id, item_word, section, video, videoPath;
+    String tr_id, item_word, section, video;
     final Item_follow_fragment finalFollow_fragment = new Item_follow_fragment();
     final Item_follow_fragment_21 Follow_fragment = new Item_follow_fragment_21();
     int category, q, currentCameraId, page_num;
     public boolean recording, pausing;
-    private static final int REQUEST_CODE = 6384; // onActivityResult request
     public Context context = this;
-    ListView videoList;
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
 
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+
+        }
+    }
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_item);
+        Log.d(TAG, "onCreate");
         Intent intent = getIntent();
         item_word = intent.getStringExtra("itemUrl");
         category = intent.getIntExtra("fragment", 10);
@@ -72,10 +81,45 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         section = intent.getStringExtra("section");
         Log.d(TAG, "item_word : " + item_word + "," + "video : " + video + "," + "tr_id : " + tr_id + "," + "section : " + section );
         // item_word = intent.getStringExtra("item_word");
-
             // Now later we can lookup the fragment by tag
 
         pageSel(category);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        Log.d(TAG, "onResumeFragments");
     }
 
     private void pageSel(int sec){
@@ -95,6 +139,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
             case 2:
                 if (Build.VERSION.SDK_INT >= 21 ) {
                     Item_follow_fragment_21 follow = new Item_follow_fragment_21();
+                    follow.setRetainInstance(true);
                     fbundle.putString("tr_Id", tr_id);
                     fbundle.putString("section", section);
                     fbundle.putInt("page_num", page_num);
@@ -105,6 +150,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                     transaction.commit();
                 } else {
                     Item_follow_fragment follow = new Item_follow_fragment();
+                    follow.setRetainInstance(true);
                     fbundle.putString("tr_Id", tr_id);
                     fbundle.putString("section", section);
                     fbundle.putInt("page_num", page_num);

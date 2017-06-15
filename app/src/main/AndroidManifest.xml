@@ -65,14 +65,15 @@
         <activity
             android:name=".QnaActivity"
             android:theme="@style/ViewBody"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ItemViewActivity"
-            android:theme="@style/ViewBody"></activity>
+            android:theme="@style/ViewBody"
+            android:configChanges="orientation|keyboardHidden" />
         <activity
             android:name=".AccountActivity"
             android:theme="@style/ViewBody"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

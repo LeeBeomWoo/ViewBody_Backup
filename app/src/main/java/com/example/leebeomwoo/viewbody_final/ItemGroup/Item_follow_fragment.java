@@ -77,6 +77,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         if (getArguments() != null) {
             tr_id = getArguments().getString("tr_Id");
             imageUrl = getArguments().getString("itemUrl");
