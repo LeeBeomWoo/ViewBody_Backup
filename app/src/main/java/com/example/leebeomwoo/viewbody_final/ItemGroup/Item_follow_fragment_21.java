@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -118,6 +119,7 @@ public class Item_follow_fragment_21 extends Fragment
     private String cameraId = CAMERA_FRONT;
     ItemViewActivity activity = (ItemViewActivity)getActivity();
     public VideoView videoView;
+    SeekBar seekBar;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
             Manifest.permission.RECORD_AUDIO,
@@ -425,6 +427,7 @@ public class Item_follow_fragment_21 extends Fragment
         videoView = (VideoView) view.findViewById(R.id.videoView);
         play_recordBtn = (Button) view.findViewById(R.id.play_record);
         camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
+
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -492,7 +495,7 @@ public class Item_follow_fragment_21 extends Fragment
                 switchCamera();
             }
         });
-        SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
+        seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
         seekBar.setMax(100);
         webView = (WebView) view.findViewById(R.id.web_movie);
         webView.setWebChromeClient(new WebChromeClient());
@@ -517,21 +520,32 @@ public class Item_follow_fragment_21 extends Fragment
                 videoView.setVideoURI(videopath);
                 videoView.setVisibility(View.VISIBLE);
                 mTextureView.setVisibility(View.GONE);
+                int p, r;
+                p = savedInstanceState.getInt("play");
+                r = savedInstanceState.getInt("record");
+                seekBar.setVerticalScrollbarPosition(savedInstanceState.getInt("alpha"));
+                if(p == 1){
+                    videoView.start();
+                }
+                if(r == 1){
+                    mIsRecordingVideo = true;
+                }
             }
             URL = savedInstanceState.getString("weburl");
             webView.loadData(URL, "text/html", "charset=utf-8");
             webView.restoreState(savedInstanceState);
+            ButtonImageSetUp();
         } else {
             webView.loadData(URL, "text/html", "charset=utf-8");
         }
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                if(videoPosition > 0) {
+                if(videoPosition > 91) {
                     videoView.seekTo(videoPosition);
                     videoView.start();
                 } else {
-                    videoView.seekTo(100);
+                    videoView.seekTo(90);
                 }
             }
         });
@@ -539,6 +553,14 @@ public class Item_follow_fragment_21 extends Fragment
             videoView.setVisibility(View.VISIBLE);
             mTextureView.setVisibility(View.GONE);
             videoView.start();
+        } if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
+            play_recordBtn.setVisibility(View.GONE);
+            mTextureView.setVisibility(View.VISIBLE);
+            videoView.setVisibility(View.VISIBLE);
+            play_recordBtn.setClickable(false);
+            webView.setAlpha((float)0.9);
+        }else {
+            webView.setAlpha((float)0.5);
         }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
@@ -546,9 +568,23 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        int p, r;
+        if(videoView.isPlaying()){
+            p = 1;
+        } else {
+            p = 0;
+        }
+        if(mIsRecordingVideo){
+            r =1;
+        }else {
+            r =0;
+        }
         outState.putString("videopath", videoString);
         outState.putInt("videoseek", videoPosition);
         outState.putString("weburl", URL);
+        outState.putInt("play", p);
+        outState.putInt("record", r);
+        outState.putInt("alpha", seekBar.getVerticalScrollbarPosition());
         webView.restoreState(outState);
     }
 

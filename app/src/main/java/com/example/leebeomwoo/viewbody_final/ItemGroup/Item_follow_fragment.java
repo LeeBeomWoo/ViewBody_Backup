@@ -47,6 +47,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
+import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
+
 /**
  * Created by LeeBeomWoo on 2017-02-13.
  */
@@ -141,6 +143,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         load = (Button) view.findViewById(R.id.load_Btn);
         play_recordBtn = (Button) view.findViewById(R.id.play_record);
         camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
+
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -241,6 +244,15 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             videoView.setVisibility(View.VISIBLE);
             textureView.setVisibility(View.GONE);
             videoView.start();
+        }
+        if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
+            play_recordBtn.setVisibility(View.GONE);
+            textureView.setVisibility(View.VISIBLE);
+            videoView.setVisibility(View.VISIBLE);
+            play_recordBtn.setClickable(false);
+            webView.setAlpha((float)0.9);
+        } else {
+            webView.setAlpha((float)0.5);
         }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
