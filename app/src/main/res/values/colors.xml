@@ -29,4 +29,6 @@
     <color name="qnatoolbar">#ffb5af</color>
     <color name="newtoolbar">#f6c120</color>
     <color name="introlowerback">#d7348b</color>
+    <color name="menu_backlinecolor">#f7081b4d</color>
+    <color name="menu_abllbackcolor">#f4000218</color>
 </resources>

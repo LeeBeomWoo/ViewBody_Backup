@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayShowTitleEnabled(false);
         ab.setDisplayShowCustomEnabled(true);
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ab.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
         ab.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
         ab.setDisplayShowHomeEnabled(false);            //홈 아이콘을 숨김처리합니다.
-
         if(getIntent().hasExtra("message")) {
             Bundle bundle = getIntent().getExtras();
             i = bundle.getInt("message");

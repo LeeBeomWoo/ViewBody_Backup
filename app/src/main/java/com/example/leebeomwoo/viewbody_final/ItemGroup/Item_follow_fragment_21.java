@@ -7,7 +7,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -15,6 +17,7 @@ import android.graphics.Point;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.SensorManager;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -23,6 +26,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -46,6 +50,7 @@ import android.util.SparseIntArray;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
@@ -57,6 +62,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.MediaController;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
@@ -97,6 +103,7 @@ public class Item_follow_fragment_21 extends Fragment
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
     private final int SELECT_MOVIE = 2;
+    private OrientationEventListener mOrientationListener;
     private static final int REQUEST_CODE = 6384; // onActivityResult request
     private static final String TAG = "Item_follow_fragment_21";
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
@@ -105,10 +112,11 @@ public class Item_follow_fragment_21 extends Fragment
     Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
-    String change, temp, videoString;
-    Uri videopath;
-    int videoPosition;
+    public String change, temp, videoString;
+    public Uri videopath;
+    public int videoPosition;
     private String cameraId = CAMERA_FRONT;
+    ItemViewActivity activity = (ItemViewActivity)getActivity();
     public VideoView videoView;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -137,7 +145,7 @@ public class Item_follow_fragment_21 extends Fragment
      * An {@link AutoFitTextureView} for camera preview.
      */
     public static AutoFitTextureView mTextureView;
-    private WebView webView;
+    public WebView webView;
     View view;
 
     /**
@@ -190,22 +198,6 @@ public class Item_follow_fragment_21 extends Fragment
     public Item_follow_fragment_21() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
-        setRetainInstance(true);
-        if(getArguments() !=null){
-            tr_id = getArguments().getString("tr_Id");
-            imageUrl = getArguments().getString("itemUrl");
-            page_num = getArguments().getInt("page_num");
-            temp = getArguments().getString("video");
-            if(imageUrl != null){
-                Log.d("프래그먼트 생성:", imageUrl);
-            }
-            Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
-        }
-    }
     /**
      * The {@link Size} of camera preview.
      */
@@ -220,7 +212,7 @@ public class Item_follow_fragment_21 extends Fragment
      * MediaRecorder
      */
     private MediaRecorder mMediaRecorder;
-
+    private MediaController mMediaController;
     /**
      * Whether the app is recording video now
      */
@@ -342,6 +334,23 @@ public class Item_follow_fragment_21 extends Fragment
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate");
+        setRetainInstance(true);
+        if(getArguments() !=null){
+            tr_id = getArguments().getString("tr_Id");
+            imageUrl = getArguments().getString("itemUrl");
+            page_num = getArguments().getInt("page_num");
+            temp = getArguments().getString("video");
+            if(imageUrl != null){
+                Log.d("프래그먼트 생성:", imageUrl);
+            }
+            Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
+        }
+    }
+
+    @Override
     public void onAttachFragment(Fragment childFragment) {
         super.onAttachFragment(childFragment);
         Log.d(TAG, "onAttachFragment");
@@ -369,6 +378,14 @@ public class Item_follow_fragment_21 extends Fragment
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop");
+        if(activity !=null){
+            activity.videoPath = videoString;
+            if(videoView.isPlaying()){
+                videoView.pause();
+                videoPosition = videoView.getCurrentPosition();
+                activity.videoSeek = videoPosition;
+            }
+        }
     }
 
     @Override
@@ -406,17 +423,6 @@ public class Item_follow_fragment_21 extends Fragment
         play = (Button) view.findViewById(R.id.play_Btn);
         load = (Button) view.findViewById(R.id.load_Btn);
         videoView = (VideoView) view.findViewById(R.id.videoView);
-        videoView.setMinimumHeight(videoView.getHeight());
-        videoView.setMinimumWidth(videoView.getWidth());
-        if(savedInstanceState != null){
-            if(videoString != null){
-                videoString = savedInstanceState.getString("videopath");
-                videopath = Uri.parse(videoString);
-                videoPosition = savedInstanceState.getInt("Position");videoView.setVideoURI(videopath);
-                videoView.seekTo(videoPosition);
-                videoView.start();
-            }
-        }
         play_recordBtn = (Button) view.findViewById(R.id.play_record);
         camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
         record.setOnClickListener(new View.OnClickListener() {
@@ -440,12 +446,12 @@ public class Item_follow_fragment_21 extends Fragment
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "load click");
+                videoString = null;
+                videopath = null;
                 Intent intent = new Intent();
                 intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
-                videoView.setVisibility(View.VISIBLE);
-                mTextureView.setVisibility(View.GONE);
             }
         });
         play.setOnClickListener(new View.OnClickListener() {
@@ -453,8 +459,10 @@ public class Item_follow_fragment_21 extends Fragment
             public void onClick(View v) {
                 if(videoView.isPlaying()){
                     videoView.pause();
+                    play.setBackgroundResource(R.drawable.playbutton);
                 }else {
                     videoView.start();
+                    play.setBackgroundResource(R.drawable.pause);
                 }
             }
         });
@@ -469,6 +477,9 @@ public class Item_follow_fragment_21 extends Fragment
                     mTextureView.setVisibility(View.GONE);
                     videoView.setVisibility(View.VISIBLE);
                 } else {
+                    if(videoView.isPlaying()){
+                        videoView.stopPlayback();
+                    }
                     startPreview();
                     mTextureView.setVisibility(View.VISIBLE);
                     videoView.setVisibility(View.GONE);
@@ -483,10 +494,6 @@ public class Item_follow_fragment_21 extends Fragment
         });
         SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
         seekBar.setMax(100);
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels; //320 dip
-        int height = dm.heightPixels; //533 dip
         webView = (WebView) view.findViewById(R.id.web_movie);
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
@@ -502,13 +509,63 @@ public class Item_follow_fragment_21 extends Fragment
         URL = FURL + change + BURL;
         Log.d("프래그먼트 표현:", URL);
         if(savedInstanceState != null){
+            Log.d("onAttach", "to " + TAG);
+            if(savedInstanceState.getString("videopath") != null) {
+                videoString = savedInstanceState.getString("videopath");
+                videopath = Uri.parse(videoString);
+                videoPosition = savedInstanceState.getInt("videoseek");
+                videoView.setVideoURI(videopath);
+                videoView.setVisibility(View.VISIBLE);
+                mTextureView.setVisibility(View.GONE);
+            }
+            URL = savedInstanceState.getString("weburl");
+            webView.loadData(URL, "text/html", "charset=utf-8");
             webView.restoreState(savedInstanceState);
         } else {
             webView.loadData(URL, "text/html", "charset=utf-8");
         }
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                if(videoPosition > 0) {
+                    videoView.seekTo(videoPosition);
+                    videoView.start();
+                } else {
+                    videoView.seekTo(100);
+                }
+            }
+        });
+        if(videoString != null){
+            videoView.setVisibility(View.VISIBLE);
+            mTextureView.setVisibility(View.GONE);
+            videoView.start();
+        }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("videopath", videoString);
+        outState.putInt("videoseek", videoPosition);
+        outState.putString("weburl", URL);
+        webView.restoreState(outState);
+    }
+
+    private void ButtonImageSetUp(){
+        if(videoView.isPlaying()){
+            play.setBackgroundResource(R.drawable.pause);
+        }else{
+            play.setBackgroundResource(R.drawable.playbutton);
+        }
+        if(mIsRecordingVideo){
+            record.setBackgroundResource(R.drawable.stop);
+        }else {
+            record.setBackgroundResource(R.drawable.record);
+        }
+    }
+
+    /**
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -519,21 +576,7 @@ public class Item_follow_fragment_21 extends Fragment
             outState.putInt("Position", videoView.getCurrentPosition());
             videoView.pause();
         }
-    }
-    private String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
+    }**/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -544,13 +587,30 @@ public class Item_follow_fragment_21 extends Fragment
         if (requestCode == 2 && data != null) {
             Uri mVideoURI = data.getData();
             videopath = mVideoURI;
+            videoString = videopath.toString();
             Log.d("onActivityResult", mVideoURI.toString());
+            Log.d("Result videoString", videoString);
             //Log.d("getRealPathFromURI", getRealPathFromURI(getContext(), mVideoURI));
-            videoView.setVideoURI(mVideoURI);
+            videoviewSetup(mVideoURI);
         }
     }
-        @Override
+
+    private void videoviewSetup(Uri path){
+        videoView.setVideoURI(path);
+    }
+
+    @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
+            ButtonImageSetUp();
+            mOrientationListener = new OrientationEventListener(getActivity(),
+                SensorManager.SENSOR_DELAY_NORMAL) {
+            @Override
+            public void onOrientationChanged(int orientation) {
+                if (mTextureView != null && mTextureView.isAvailable()) {
+                    configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
+                }
+            }
+        };
         startPreview();
             Log.d(TAG, "onViewCreated");
     }
@@ -600,6 +660,7 @@ public class Item_follow_fragment_21 extends Fragment
         }
 
     }
+
     @Override
     public void onPause() {
         Log.d(TAG, "onPause");
@@ -616,6 +677,7 @@ public class Item_follow_fragment_21 extends Fragment
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
+
     public void switchCamera() {
         if (cameraId.equals(CAMERA_FRONT)) {
             cameraId = CAMERA_BACK;
@@ -669,6 +731,7 @@ public class Item_follow_fragment_21 extends Fragment
             ActivityCompat.requestPermissions(getActivity(), VIDEO_PERMISSIONS, REQUEST_VIDEO_PERMISSIONS);
         }
     }
+
     private void requestFilePermissions(){
         if (shouldShowRequestPermissionRationale(FILE_ACCESSPERMISSIONS)) {
             new ConfirmationDialog().show(getActivity().getSupportFragmentManager(), FRAGMENT_DIALOG);
@@ -909,6 +972,8 @@ public class Item_follow_fragment_21 extends Fragment
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
         mTextureView.setTransform(matrix);
+        videoView.setTranslationX(viewWidth);
+        videoView.setTranslationY(viewHeight);
         Log.d("mTextureView :", String.valueOf(mTextureView.getWidth()) + "*" + String.valueOf(mTextureView.getHeight()));
     }
 
@@ -940,6 +1005,7 @@ public class Item_follow_fragment_21 extends Fragment
         }
         mMediaRecorder.prepare();
     }
+
     private String getVideoFilePath(Context context) {
         return Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_DCIM).getPath() + "/"

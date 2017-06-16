@@ -97,10 +97,24 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             videoView_3.setFocusable(false);
             videoView_3.setWebViewClient(new WebViewClient());
             WebviewSet(videoView_3);
+            /**
+             * webview.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+             장점 이건 설정하면 웹뷰를 계속 띄워도 뻗지 않는다 .
+             페이지 전환시 껌뻑임이 없다
+             단점은 웹뷰 내용을 스크롤 할 때 느리게 스크롤 되는 단점이있다
+             나는 계속 보니 어지러워서 토나올것 같더라
 
+             webview.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+             장점은 스크롤이 괭장히 부드럽게 된다 .
+             단점은 웹뷰 한 .. 10개 정도 .. 액티비티당 2개씩이라서 한 5개 정도 띄우면 뻗는다 버퍼에러 난다
+             그리고 페이지 불러올때 껌뻑인다 .. 퍼즐 맞추듯이 맞춰 진다
+             이거 할때는 android:hardwareAccelerated="true" 이것도 메니페스트 <application에 추가하자
+
+             출처: http://writefoot.tistory.com/entry/웹뷰-껌뻑임-현상 [발로쓰는 블로그]
+             */
             if (Build.VERSION.SDK_INT >= 21) {
-                imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                 videoView_1.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                 videoView_2.setLayerType(View.LAYER_TYPE_HARDWARE, null);
                 videoView_3.setLayerType(View.LAYER_TYPE_HARDWARE, null);

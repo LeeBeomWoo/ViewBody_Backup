@@ -38,6 +38,7 @@ import android.widget.VideoView;
 
 import com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView;
 import com.example.leebeomwoo.viewbody_final.CameraUse.CameraHelper;
+import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Support.VideoViewCustom;
 
@@ -65,15 +66,16 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     Boolean play_plag = false; //true = 재생, false = 정지
     Boolean play_record = true; //true = 촬영, false = 재생
     Button play, record, load, camerachange, play_recordBtn;
-    WebView webView;
+    public WebView webView;
     private final int SELECT_MOVIE = 2;
     public MediaRecorder mediaRecorder;
     public SurfaceHolder surfaceHolder;
     int page_num, witch;
     public static AutoFitTextureView textureView;
-    String tr_id, imageUrl, tr_password, URL, section, change, temp, videoString;
-    Uri videopath;
-    int videoPosition;
+    public String tr_id, imageUrl, tr_password, URL, section, change, temp, videoString;
+    public Uri videopath;
+    public int videoPosition;
+    ItemViewActivity activity = (ItemViewActivity)getActivity();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,21 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             Log.d(TAG, "imageUrl : " + "temp : " + temp + "," + "tr_id : " + tr_id + "," + "section : " + section );
         }
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+        if(activity !=null){
+            activity.videoPath = videoString;
+            if(videoView.isPlaying()){
+                videoView.pause();
+                videoPosition = videoView.getCurrentPosition();
+                activity.videoSeek = videoPosition;
+            }
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -127,27 +144,27 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(record_plag) {
-                    releaseMediaRecorder();
-                    record_plag = false;
-                } else{
-                    if(play_record) {
+                if(textureView.getVisibility() == View.GONE){
+                    textureView.setVisibility(View.VISIBLE);
+                }
+                if(textureView != null){
+                    if(record_plag){
+                        releaseMediaRecorder();
+                        record.setBackgroundResource(R.drawable.record);
+                    } else{
                         mMediaRecorder.start();
-                        play_record = false;
-                    }else{
-                        //closeCamera();
-                        //startRecordingVideo();
-                        mMediaRecorder.release();
-                        play_record =true;
+                        record.setBackgroundResource(R.drawable.stop);
                     }
-                    record_plag = true;
                 }
             }
         });
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
+                Log.d(TAG, "load click");
+                videoString = null;
+                videopath = null;
+                Intent intent = new Intent();
                 intent.setType("video/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
@@ -156,14 +173,10 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(play_plag){
-                    play_plag = false;
-                    Log.d(TAG, "video stop");
-                    play.setBackgroundResource(R.drawable.playbutton);
+                if(videoView.isPlaying()){
                     videoView.pause();
+                    play.setBackgroundResource(R.drawable.playbutton);
                 }else {
-                    play_plag = true;
-                    Log.d(TAG, "video play");
                     videoView.start();
                     play.setBackgroundResource(R.drawable.pause);
                 }
@@ -179,37 +192,81 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             @Override
             public void onClick(View v) {
                 if(play_record){
-                    videoView.setVisibility(View.VISIBLE);
+                    if(record_plag){
+                        mMediaRecorder.stop();
+                    }
+                    mCamera.release();
                     textureView.setVisibility(View.GONE);
-                    play_record = false;
-                } else{
-                    videoView.setVisibility(View.GONE);
+                    videoView.setVisibility(View.VISIBLE);
+                } else {
+                    if(videoView.isPlaying()){
+                        videoView.stopPlayback();
+                    }
+                    mCamera.startPreview();
                     textureView.setVisibility(View.VISIBLE);
-                    play_record = true;
+                    videoView.setVisibility(View.GONE);
                 }
             }
         });
+        change = temp.replace("https://youtu.be", CHANGE);
+        URL = FURL + change + BURL;
         if(savedInstanceState != null){
-            if(videoString != null){
+            Log.d("onAttach", "to " + TAG);
+            if(savedInstanceState.getString("videopath") != null) {
                 videoString = savedInstanceState.getString("videopath");
                 videopath = Uri.parse(videoString);
-                videoPosition = savedInstanceState.getInt("Position");videoView.setVideoURI(videopath);
-                videoView.seekTo(videoPosition);
-                videoView.start();
+                videoPosition = savedInstanceState.getInt("videoseek");
+                videoView.setVideoURI(videopath);
+                videoView.setVisibility(View.VISIBLE);
+                textureView.setVisibility(View.GONE);
             }
+            URL = savedInstanceState.getString("weburl");
+            webView.loadData(URL, "text/html", "charset=utf-8");
+            webView.restoreState(savedInstanceState);
+        } else {
+            webView.loadData(URL, "text/html", "charset=utf-8");
         }
+        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                if(videoPosition > 0) {
+                    videoView.seekTo(videoPosition);
+                    videoView.start();
+                } else {
+                    videoView.seekTo(100);
+                }
+            }
+        });
+        if(videoString != null){
+            videoView.setVisibility(View.VISIBLE);
+            textureView.setVisibility(View.GONE);
+            videoView.start();
+        }
+        seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        webView.saveState(outState);
-        if(videopath != null){
-            outState.putString("videopath", videopath.toString());
-            outState.putInt("Position", videoView.getCurrentPosition());
-            videoView.pause();
+        outState.putString("videopath", videoString);
+        outState.putInt("videoseek", videoPosition);
+        outState.putString("weburl", URL);
+        webView.restoreState(outState);
+    }
+
+    private void ButtonImageSetUp(){
+        if(videoView.isPlaying()){
+            play.setBackgroundResource(R.drawable.pause);
+        }else{
+            play.setBackgroundResource(R.drawable.playbutton);
+        }
+        if(record_plag){
+            record.setBackgroundResource(R.drawable.stop);
+        }else {
+            record.setBackgroundResource(R.drawable.record);
         }
     }
+
     private TextureView.SurfaceTextureListener mSurfaceTextureListener
             = new TextureView.SurfaceTextureListener() {
 
@@ -234,25 +291,17 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         }
 
     };
+
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         mCamera.startPreview();
+        ButtonImageSetUp();
     }
 
-    private String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
+    private void videoviewSetup(Uri path){
+        videoView.setVideoURI(path);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -262,11 +311,14 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         if (requestCode == 2 && data != null) {
             Uri mVideoURI = data.getData();
             videopath = mVideoURI;
+            videoString = videopath.toString();
             Log.d("onActivityResult", mVideoURI.toString());
-            // Log.d("getRealPathFromURI", getRealPathFromURI(getContext(), mVideoURI));
-            videoView.setVideoURI(mVideoURI);
+            Log.d("Result videoString", videoString);
+            //Log.d("getRealPathFromURI", getRealPathFromURI(getContext(), mVideoURI));
+            videoviewSetup(mVideoURI);
         }
     }
+
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
         @Override
         public void onProgressChanged(SeekBar seekBar, final int progress, boolean fromUser) {

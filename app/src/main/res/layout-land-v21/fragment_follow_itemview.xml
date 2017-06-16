@@ -65,12 +65,14 @@
         <com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView
             android:id="@+id/AutoView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
 
         <VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:visibility="gone" />
 
     </FrameLayout>
@@ -96,7 +98,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/alpha_control" />
+            android:layout_below="@+id/alpha_control"
+            android:alpha="0.5" />
     </RelativeLayout>
 
 </RelativeLayout>

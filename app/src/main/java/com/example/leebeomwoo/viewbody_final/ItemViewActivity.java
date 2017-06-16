@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -47,19 +48,20 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
      */
     public static final int REQUEST_CAMERA = 1;
     private Boolean isFabOpen = false;
-    private static String TAG = "ItemViewActivity";
+    private static String TAG = "ItemView";
     FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
-    String tr_id, item_word, section, video;
+    public String tr_id, item_word, section, video, videoPath;
+    public int videoSeek, webviewSeelk;
     final Item_follow_fragment finalFollow_fragment = new Item_follow_fragment();
     final Item_follow_fragment_21 Follow_fragment = new Item_follow_fragment_21();
     int category, q, currentCameraId, page_num;
     public boolean recording, pausing;
     public Context context = this;
+    public WebView webView;
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
@@ -82,10 +84,62 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         Log.d(TAG, "item_word : " + item_word + "," + "video : " + video + "," + "tr_id : " + tr_id + "," + "section : " + section );
         // item_word = intent.getStringExtra("item_word");
             // Now later we can lookup the fragment by tag
+        if (saveInstanceState == null) {
+            if (Build.VERSION.SDK_INT >= 21 ) {
+                Item_follow_fragment_21 follow = new Item_follow_fragment_21();
+                follow.setArguments(getIntent().getExtras());
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, follow, "your_fragment_21").commit();
+            } else {
+                Item_follow_fragment follow = new Item_follow_fragment();
+                follow.setArguments(getIntent().getExtras());
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, follow, "your_fragment").commit();
+            }
+        }else {
+            if (Build.VERSION.SDK_INT >= 21 ) {
+                Item_follow_fragment_21 follow = (Item_follow_fragment_21) getSupportFragmentManager().findFragmentByTag("your_fragment_21");
+            } else {
+                Item_follow_fragment follow = (Item_follow_fragment) getSupportFragmentManager().findFragmentByTag("your_fragment");
+            }
+        }
 
-        pageSel(category);
     }
-
+    public void videoPathSet(String path){
+        videoPath = path;
+        Log.d(TAG, videoPath);
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save custom values into the bundle
+        if(Follow_fragment.isVisible()) {
+            Follow_fragment.webView.saveState(savedInstanceState);
+        } else if (finalFollow_fragment.isVisible()) {
+            finalFollow_fragment.webView.saveState(savedInstanceState);
+        }
+        if(videoPath != null) {
+            savedInstanceState.putInt("videoseek", videoSeek);
+            savedInstanceState.putString("videopath", videoPath);
+        }
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can restore the view hierarchy
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore state members from saved instance
+        if(savedInstanceState != null)
+        videoSeek = savedInstanceState.getInt("videoseek");
+        videoPath = savedInstanceState.getString("videopath");
+        if(videoPath != null) {
+            Log.d("restor seek", String.valueOf(videoSeek));
+            Log.d("restor videopath", videoPath);
+            if (Follow_fragment.isVisible()) {
+                Follow_fragment.webView.restoreState(savedInstanceState);
+            } else if (finalFollow_fragment.isVisible()) {
+                finalFollow_fragment.webView.restoreState(savedInstanceState);
+            }
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -383,7 +437,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
-
     public static void setCameraDisplayOrientation(Activity activity, int cameraId, Camera camera) {
         Camera.CameraInfo info =
                 new Camera.CameraInfo();
