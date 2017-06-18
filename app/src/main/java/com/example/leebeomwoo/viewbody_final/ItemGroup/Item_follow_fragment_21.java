@@ -531,8 +531,6 @@ public class Item_follow_fragment_21 extends Fragment
                     mIsRecordingVideo = true;
                 }
             }
-            URL = savedInstanceState.getString("weburl");
-            webView.loadData(URL, "text/html", "charset=utf-8");
             webView.restoreState(savedInstanceState);
             ButtonImageSetUp();
         } else {
