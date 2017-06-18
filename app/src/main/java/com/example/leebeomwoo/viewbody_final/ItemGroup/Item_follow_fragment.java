@@ -125,7 +125,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             settings.setPluginState(WebSettings.PluginState.ON);
             settings.setLoadWithOverviewMode(true);
             settings.setUseWideViewPort(true);
-            double d = 0.5;
+            double d = 125;
             float f = (float)d;
             webView.setAlpha(f);
             change = temp.replace("https://youtu.be", CHANGE);
@@ -224,7 +224,6 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                 textureView.setVisibility(View.GONE);
             }
             URL = savedInstanceState.getString("weburl");
-            webView.loadData(URL, "text/html", "charset=utf-8");
             webView.restoreState(savedInstanceState);
         } else {
             webView.loadData(URL, "text/html", "charset=utf-8");
