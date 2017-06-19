@@ -94,12 +94,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 follow.setArguments(getIntent().getExtras());
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, follow, "your_fragment").commit();
             }
-        }else {
-            if (Build.VERSION.SDK_INT >= 21 ) {
-                Item_follow_fragment_21 follow = (Item_follow_fragment_21) getSupportFragmentManager().findFragmentByTag("your_fragment_21");
-            } else {
-                Item_follow_fragment follow = (Item_follow_fragment) getSupportFragmentManager().findFragmentByTag("your_fragment");
-            }
         }
 
     }

@@ -556,7 +556,7 @@ public class Item_follow_fragment_21 extends Fragment
             mTextureView.setVisibility(View.VISIBLE);
             videoView.setVisibility(View.VISIBLE);
             play_recordBtn.setClickable(false);
-            webView.setAlpha((float)0.9);
+            webView.setAlpha((float)0.99);
         }else {
             webView.setAlpha((float)0.5);
         }
@@ -599,18 +599,6 @@ public class Item_follow_fragment_21 extends Fragment
         }
     }
 
-    /**
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        webView.saveState(outState);
-        Log.d(TAG, "onSaveInstanceState");
-        if(videopath != null){
-            outState.putString("videopath", videopath.toString());
-            outState.putInt("Position", videoView.getCurrentPosition());
-            videoView.pause();
-        }
-    }**/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -659,8 +647,7 @@ public class Item_follow_fragment_21 extends Fragment
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
                                 // 메시지 큐에 저장될 메시지의 내용;
-                                double a = progress/100.0;
-                                float b = (float)a;
+                                float b = (float)(progress / 100);
                                 webView.setAlpha(b);
                             }
                         });
