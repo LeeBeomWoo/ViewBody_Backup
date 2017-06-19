@@ -62,6 +62,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.PopupWindow;
@@ -119,6 +120,8 @@ public class Item_follow_fragment_21 extends Fragment
     private String cameraId = CAMERA_FRONT;
     ItemViewActivity activity = (ItemViewActivity)getActivity();
     public VideoView videoView;
+    FrameLayout frameLayout;
+    ViewGroup viewGroup;
     SeekBar seekBar;
     private static final String[] VIDEO_PERMISSIONS = {
             Manifest.permission.CAMERA,
@@ -418,7 +421,11 @@ public class Item_follow_fragment_21 extends Fragment
         if(!hasPermissionsGranted(VIDEO_PERMISSIONS)){
             requestVideoPermissions();
         }
-        view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
+        if (getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
+            view = inflater.inflate(R.layout.fragment_follow_portrait_itemview, container, false);
+            } else {
+            view = inflater.inflate(R.layout.fragment_follow_landscape_itemview, container, false);
+        }
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         startBackgroundThread();
         record = (Button) view.findViewById(R.id.record_Btn);
@@ -499,7 +506,6 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar.setMax(100);
         webView = (WebView) view.findViewById(R.id.web_movie);
         webView.setWebChromeClient(new WebChromeClient());
-        webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
         webView.setWebViewClient(new WebViewClient());
         final WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -511,6 +517,7 @@ public class Item_follow_fragment_21 extends Fragment
         change = temp.replace("https://youtu.be", CHANGE);
         URL = FURL + change + BURL;
         Log.d("프래그먼트 표현:", URL);
+        /**
         if(savedInstanceState != null){
             Log.d("onAttach", "to " + TAG);
             if(savedInstanceState.getString("videopath") != null) {
@@ -531,12 +538,13 @@ public class Item_follow_fragment_21 extends Fragment
                     mIsRecordingVideo = true;
                 }
             }
-            webView.loadData(URL, "text/html", "charset=utf-8");
             webView.restoreState(savedInstanceState);
+            Log.d("webview_URL", webView.getUrl());
         } else {
             webView.setAlpha((float)1.0);
             webView.loadData(URL, "text/html", "charset=utf-8");
-        }
+        }**/
+        webView.loadData(URL, "text/html", "charset=utf-8");
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -562,6 +570,20 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LayoutInflater inflater2 = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            view = inflater2.inflate(R.layout.fragment_follow_landscape_itemview, null);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            view = inflater2.inflate(R.layout.fragment_follow_portrait_itemview, null);
+        }
+
+    }
+
+    /**
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -581,10 +603,9 @@ public class Item_follow_fragment_21 extends Fragment
         outState.putString("weburl", URL);
         outState.putInt("play", p);
         outState.putInt("record", r);
-        outState.putInt("alpha", seekBar.getVerticalScrollbarPosition());
-        webView.restoreState(outState);
+        webView.saveState(outState);
     }
-
+**/
     private void ButtonImageSetUp(){
         if(videoView.isPlaying()){
             play.setBackgroundResource(R.drawable.pause);
@@ -679,7 +700,10 @@ public class Item_follow_fragment_21 extends Fragment
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
-
+        if(webView != null){
+            webView.onResume();
+            webView.resumeTimers();
+        }
     }
 
     @Override
@@ -688,6 +712,10 @@ public class Item_follow_fragment_21 extends Fragment
         closeCamera();
         stopBackgroundThread();
         super.onPause();
+        if(webView != null) {
+            webView.onPause();
+            webView.pauseTimers();
+        }
     }
 
     /**

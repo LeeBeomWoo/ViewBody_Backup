@@ -59,6 +59,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     public boolean recording, pausing;
     public Context context = this;
     public WebView webView;
+    /**
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -68,7 +69,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
 
         }
-    }
+    }**/
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -96,43 +97,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
             }
         }
 
-    }
-    public void videoPathSet(String path){
-        videoPath = path;
-        Log.d(TAG, videoPath);
-    }
-    @Override
-    protected void onSaveInstanceState(Bundle savedInstanceState) {
-        // Save custom values into the bundle
-        if(Follow_fragment.isVisible()) {
-            Follow_fragment.webView.saveState(savedInstanceState);
-        } else if (finalFollow_fragment.isVisible()) {
-            finalFollow_fragment.webView.saveState(savedInstanceState);
-        }
-        if(videoPath != null) {
-            savedInstanceState.putInt("videoseek", videoSeek);
-            savedInstanceState.putString("videopath", videoPath);
-        }
-        // Always call the superclass so it can save the view hierarchy state
-        super.onSaveInstanceState(savedInstanceState);
-    }
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        // Always call the superclass so it can restore the view hierarchy
-        super.onRestoreInstanceState(savedInstanceState);
-        // Restore state members from saved instance
-        if(savedInstanceState != null)
-        videoSeek = savedInstanceState.getInt("videoseek");
-        videoPath = savedInstanceState.getString("videopath");
-        if(videoPath != null) {
-            Log.d("restor seek", String.valueOf(videoSeek));
-            Log.d("restor videopath", videoPath);
-            if (Follow_fragment.isVisible()) {
-                Follow_fragment.webView.restoreState(savedInstanceState);
-            } else if (finalFollow_fragment.isVisible()) {
-                finalFollow_fragment.webView.restoreState(savedInstanceState);
-            }
-        }
     }
     @Override
     protected void onStart() {
