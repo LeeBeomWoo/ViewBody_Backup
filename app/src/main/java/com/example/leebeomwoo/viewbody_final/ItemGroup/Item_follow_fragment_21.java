@@ -531,19 +531,20 @@ public class Item_follow_fragment_21 extends Fragment
                     mIsRecordingVideo = true;
                 }
             }
+            webView.loadData(URL, "text/html", "charset=utf-8");
             webView.restoreState(savedInstanceState);
-            ButtonImageSetUp();
         } else {
+            webView.setAlpha((float)1.0);
             webView.loadData(URL, "text/html", "charset=utf-8");
         }
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
-                if(videoPosition > 91) {
+                if(videoPosition > 101) {
                     videoView.seekTo(videoPosition);
                     videoView.start();
                 } else {
-                    videoView.seekTo(90);
+                    videoView.seekTo(100);
                 }
             }
         });
@@ -556,10 +557,8 @@ public class Item_follow_fragment_21 extends Fragment
             mTextureView.setVisibility(View.VISIBLE);
             videoView.setVisibility(View.VISIBLE);
             play_recordBtn.setClickable(false);
-            webView.setAlpha((float)0.99);
-        }else {
-            webView.setAlpha((float)0.5);
         }
+        ButtonImageSetUp();
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
     }
@@ -647,7 +646,8 @@ public class Item_follow_fragment_21 extends Fragment
                         getActivity().runOnUiThread(new Runnable() {
                             public void run() {
                                 // 메시지 큐에 저장될 메시지의 내용;
-                                float b = (float)(progress / 100);
+                                double a = progress * 0.01;
+                                float b = (float)a;
                                 webView.setAlpha(b);
                             }
                         });
@@ -993,8 +993,6 @@ public class Item_follow_fragment_21 extends Fragment
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
         mTextureView.setTransform(matrix);
-        videoView.setTranslationX(viewWidth);
-        videoView.setTranslationY(viewHeight);
         Log.d("mTextureView :", String.valueOf(mTextureView.getWidth()) + "*" + String.valueOf(mTextureView.getHeight()));
     }
 
