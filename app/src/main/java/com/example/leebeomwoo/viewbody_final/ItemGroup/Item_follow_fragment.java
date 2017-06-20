@@ -125,9 +125,17 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             settings.setPluginState(WebSettings.PluginState.ON);
             settings.setLoadWithOverviewMode(true);
             settings.setUseWideViewPort(true);
+            double d = 0.5;
+            float f = (float)d;
+            webView.setAlpha(f);
             change = temp.replace("https://youtu.be", CHANGE);
             URL = FURL + change + BURL;
             Log.d(TAG, URL);
+        if(savedInstanceState != null){
+            webView.restoreState(savedInstanceState);
+        } else {
+            webView.loadData(URL, "text/html", "charset=utf-8");
+        }
             seekBar.setOnSeekBarChangeListener(alphaChangListener);
         mCamera.startPreview();
         record = (Button) view.findViewById(R.id.record_Btn);
@@ -215,6 +223,8 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                 videoView.setVisibility(View.VISIBLE);
                 textureView.setVisibility(View.GONE);
             }
+            URL = savedInstanceState.getString("weburl");
+            webView.loadData(URL, "text/html", "charset=utf-8");
             webView.restoreState(savedInstanceState);
         } else {
             webView.loadData(URL, "text/html", "charset=utf-8");
@@ -331,7 +341,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
                     getActivity().runOnUiThread(new Runnable() {
                         public void run() {
                             // 메시지 큐에 저장될 메시지의 내용;
-                            webView.setAlpha((float)progress/100);
+                            webView.setAlpha(progress);
                         }
                     });
                 }
