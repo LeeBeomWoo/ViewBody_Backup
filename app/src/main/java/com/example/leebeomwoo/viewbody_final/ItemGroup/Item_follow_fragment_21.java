@@ -1,6 +1,7 @@
 package com.example.leebeomwoo.viewbody_final.ItemGroup;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -62,6 +63,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.PopupWindow;
@@ -345,10 +347,7 @@ public class Item_follow_fragment_21 extends Fragment
             imageUrl = getArguments().getString("itemUrl");
             page_num = getArguments().getInt("page_num");
             temp = getArguments().getString("video");
-            if(imageUrl != null){
-                Log.d("프래그먼트 생성:", imageUrl);
-            }
-            Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
+            change = temp.replace("https://youtu.be", CHANGE);
         }
     }
 
@@ -407,7 +406,8 @@ public class Item_follow_fragment_21 extends Fragment
         super.onDetach();
         Log.d(TAG, "onDetach");
     }
-
+    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressWarnings("deprecation")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -500,12 +500,19 @@ public class Item_follow_fragment_21 extends Fragment
         webView = (WebView) view.findViewById(R.id.web_movie);
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient(){
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                view.loadUrl(url);
+                return false;
+            }
+        });
         final WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setPluginState(WebSettings.PluginState.ON);
+        webView.getSettings().setSupportMultipleWindows(true);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
         if(savedInstanceState != null){
@@ -530,9 +537,9 @@ public class Item_follow_fragment_21 extends Fragment
             webView.restoreState(savedInstanceState);
             ButtonImageSetUp();
         } else {
-            change = temp.replace("https://youtu.be", CHANGE);
             URL = FURL + change + BURL;
             webView.loadData(URL, "text/html", "charset=utf-8");
+            Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
         }
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
