@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -112,6 +113,7 @@ public class Item_follow_fragment_21 extends Fragment
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
     int page_num;
+
     Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
@@ -149,7 +151,7 @@ public class Item_follow_fragment_21 extends Fragment
      * An {@link AutoFitTextureView} for camera preview.
      */
     public static AutoFitTextureView mTextureView;
-    public WebView webView;
+    static WebView webView;
     View view;
 
     /**
@@ -349,6 +351,7 @@ public class Item_follow_fragment_21 extends Fragment
             temp = getArguments().getString("video");
             change = temp.replace("https://youtu.be", CHANGE);
         }
+        getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
     @Override
@@ -419,15 +422,10 @@ public class Item_follow_fragment_21 extends Fragment
             requestVideoPermissions();
         }
         view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
-        mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         startBackgroundThread();
-        record = (Button) view.findViewById(R.id.record_Btn);
-        play = (Button) view.findViewById(R.id.play_Btn);
-        load = (Button) view.findViewById(R.id.load_Btn);
-        videoView = (VideoView) view.findViewById(R.id.videoView);
-        play_recordBtn = (Button) view.findViewById(R.id.play_record);
-        camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
-
+        mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
+        webView = (WebView) view.findViewById(R.id.web_movie);
+        viewSet();
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -495,9 +493,7 @@ public class Item_follow_fragment_21 extends Fragment
                 switchCamera();
             }
         });
-        seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
         seekBar.setMax(100);
-        webView = (WebView) view.findViewById(R.id.web_movie);
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
         webView.setWebViewClient(new WebViewClient(){
@@ -535,6 +531,8 @@ public class Item_follow_fragment_21 extends Fragment
                 }
             }
             webView.restoreState(savedInstanceState);
+            webView.resumeTimers();
+            webView.onResume();
             ButtonImageSetUp();
         } else {
             URL = FURL + change + BURL;
@@ -569,6 +567,16 @@ public class Item_follow_fragment_21 extends Fragment
         }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
+    }
+    private void viewSet(){
+        startBackgroundThread();
+        record = (Button) view.findViewById(R.id.record_Btn);
+        play = (Button) view.findViewById(R.id.play_Btn);
+        load = (Button) view.findViewById(R.id.load_Btn);
+        videoView = (VideoView) view.findViewById(R.id.videoView);
+        play_recordBtn = (Button) view.findViewById(R.id.play_record);
+        camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
+        seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -694,6 +702,8 @@ public class Item_follow_fragment_21 extends Fragment
         closeCamera();
         stopBackgroundThread();
         super.onPause();
+        webView.onPause();
+        webView.pauseTimers();
     }
 
     /**

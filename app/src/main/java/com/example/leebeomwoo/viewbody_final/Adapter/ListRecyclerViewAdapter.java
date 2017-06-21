@@ -60,15 +60,14 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
         public final TextView txtViewTitle, txtViewId, video_title_1, video_title_2, video_title_3;
-        public final HelpWebView imgViewIcon;
-        public final WebView imgViewFace, videoView_1, videoView_2, videoView_3;
+        public final WebView imgViewFace, videoView_1, videoView_2, videoView_3, imgViewIcon;
         public final Button button;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             mView = (CardView) itemLayoutView.findViewById(R.id.cardView);
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
-            imgViewIcon = (HelpWebView) itemLayoutView.findViewById(R.id.detile_Image);
+            imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
             video_title_1 = (TextView) itemLayoutView.findViewById(R.id.video_title_1);
             video_title_2 = (TextView) itemLayoutView.findViewById(R.id.video_title_2);
             video_title_3 = (TextView) itemLayoutView.findViewById(R.id.video_title_3);
