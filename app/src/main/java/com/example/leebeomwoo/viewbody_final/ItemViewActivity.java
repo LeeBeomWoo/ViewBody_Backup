@@ -61,16 +61,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     public Context context = this;
     public WebView webView;
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setContentView(R.layout.activity_item);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            setContentView(R.layout.activity_item);
-        }
-    }
-    @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.activity_item);

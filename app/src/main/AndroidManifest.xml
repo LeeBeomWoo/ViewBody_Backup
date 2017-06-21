@@ -69,7 +69,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".ItemViewActivity"
-            android:theme="@style/ViewBody"/>
+            android:theme="@style/ViewBody"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".AccountActivity"
             android:theme="@style/ViewBody"

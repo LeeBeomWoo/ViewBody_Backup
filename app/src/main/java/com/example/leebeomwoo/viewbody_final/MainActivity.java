@@ -47,6 +47,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.zip.Inflater;
 
+import cn.gavinliu.android.lib.scale.config.ScaleConfig;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     DrawerLayout mDrawerLayout;
     SearchView mSearchView;
@@ -76,6 +78,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ScaleConfig.create(this,
+                1080, // Design Width
+                1920, // Design Height
+                3,    // Design Density
+                3,    // Design FontScale
+                ScaleConfig.DIMENS_UNIT_DP);
         setContentView(R.layout.activity_main_page);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.

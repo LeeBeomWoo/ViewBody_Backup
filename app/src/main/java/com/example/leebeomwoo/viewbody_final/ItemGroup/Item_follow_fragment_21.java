@@ -147,6 +147,12 @@ public class Item_follow_fragment_21 extends Fragment
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_270, 0);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+    }
+
     /**
      * An {@link AutoFitTextureView} for camera preview.
      */
@@ -511,6 +517,7 @@ public class Item_follow_fragment_21 extends Fragment
         webView.getSettings().setSupportMultipleWindows(true);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
+        /**
         if(savedInstanceState != null){
             Log.d("onAttach", "to " + TAG);
             if(savedInstanceState.getString("videopath") != null) {
@@ -538,7 +545,10 @@ public class Item_follow_fragment_21 extends Fragment
             URL = FURL + change + BURL;
             webView.loadData(URL, "text/html", "charset=utf-8");
             Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
-        }
+        }**/
+        URL = FURL + change + BURL;
+        webView.loadData(URL, "text/html", "charset=utf-8");
+        Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -562,7 +572,6 @@ public class Item_follow_fragment_21 extends Fragment
             play_recordBtn.setClickable(false);
             webView.setAlpha((float)0.9);
         }else {
-            webView.setAlpha((float)0.5);
             seekBar.setProgress(50);
         }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);

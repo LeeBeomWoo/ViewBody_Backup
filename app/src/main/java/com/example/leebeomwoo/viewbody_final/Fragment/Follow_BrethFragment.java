@@ -18,6 +18,7 @@ import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
+import com.example.leebeomwoo.viewbody_final.Support.RecyclerviewClickEvent;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class Follow_BrethFragment extends android.support.v4.app.Fragment {
     ResponseLd responseLd;
     ResponseCbd responseCbd;
 
+    RecyclerviewClickEvent clickEvent = new RecyclerviewClickEvent();
     private List<ListDummyItem> ldItems;
     @SuppressLint("StaticFieldLeak")
     static FollowListRecyclerViewAdapter bdadapter;
@@ -55,6 +57,7 @@ public class Follow_BrethFragment extends android.support.v4.app.Fragment {
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
+
         listStart();
         return view;
     }

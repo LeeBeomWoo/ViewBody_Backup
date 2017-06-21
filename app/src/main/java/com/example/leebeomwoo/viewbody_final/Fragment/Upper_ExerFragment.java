@@ -17,6 +17,8 @@ import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
+import com.example.leebeomwoo.viewbody_final.Support.RecyclerItemClickListener;
+import com.example.leebeomwoo.viewbody_final.Support.RecyclerviewClickEvent;
 
 import java.util.List;
 
@@ -29,14 +31,12 @@ public class Upper_ExerFragment extends android.support.v4.app.Fragment {
     private RecyclerView rv;
     ResponseLd responseLd;
     ResponseCbd responseCbd;
-
+    RecyclerviewClickEvent clickEvent = new RecyclerviewClickEvent();
     private List<ListDummyItem> ldItems;
     @SuppressLint("StaticFieldLeak")
     static ListRecyclerViewAdapter bdadapter;
-
     String TAG = "Upper_ExerFragment";
     public Upper_ExerFragment(){}
-
     @Override
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -54,6 +54,12 @@ public class Upper_ExerFragment extends android.support.v4.app.Fragment {
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
+        rv.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                clickEvent.Click(bdadapter.getItem(position), getActivity());
+            }
+        }));
         listStart();
         return view;
     }
@@ -148,4 +154,5 @@ public class Upper_ExerFragment extends android.support.v4.app.Fragment {
     public static Upper_ExerFragment newInstance() {
         return new Upper_ExerFragment();
     }
+
 }
