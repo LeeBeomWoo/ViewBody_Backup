@@ -19,7 +19,6 @@ import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
-import com.example.leebeomwoo.viewbody_final.Support.RecyclerItemClickListener;
 import com.example.leebeomwoo.viewbody_final.Support.RecyclerviewClickEvent;
 
 import java.util.List;
@@ -58,41 +57,6 @@ public class Upper_MuscleFragment extends android.support.v4.app.Fragment {
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rv.setLayoutManager(llm);
-        rv.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Log.d("onItemClick" , view.toString());
-                switch (view.getId()){
-                case R.id.detile_Image:
-                    clickEvent.Click(bdadapter.getItem(position), getActivity());
-                    break;
-                case R.id.detile_face:
-                    intent.putExtra("itemUrl", "trainer");
-                    intent.putExtra("tr_Id", bdadapter.getItem(position).getLd_Id());
-                    intent.putExtra("section", bdadapter.getItem(position).getLd_Section());
-                    //intent_2.putExtra("item_word", item_word);
-                    intent.putExtra("fragment", 1);
-                    getActivity().startActivity(intent);
-                    break;
-                case R.id.like_btn:
-                    Call<LikeItem> call = ConAdapter.getInstance().getResult_List("Like", bdadapter.getItem(position).getLd_Num(), "UserId");
-                    call.enqueue(new Callback<LikeItem>() {
-                        @Override
-                        public void onResponse(Call<LikeItem> call, Response<LikeItem> response) {
-                            lkItems = response.body();
-                            Log.d(TAG, "서버와의 연결이 잘됐어요~.");
-                            Log.d("response", lkItems.toString());
-                        }
-
-                        @Override
-                        public void onFailure(Call<LikeItem> call, Throwable t) {
-                            Log.d(TAG, t.getMessage());
-                        }
-                    });
-                    break;
-            }
-            }
-        }));
         Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Upper_Muscle");
         call.enqueue(new Callback<ResponseLd>() {
             @Override

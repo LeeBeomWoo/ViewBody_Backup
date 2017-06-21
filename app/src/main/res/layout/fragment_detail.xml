@@ -6,16 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    android:background="@drawable/backline"
     android:orientation="horizontal">
 
-    <LinearLayout
+    <cn.gavinliu.android.lib.scale.ScaleLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/backline"
         android:orientation="vertical">
 
-        <LinearLayout
+        <cn.gavinliu.android.lib.scale.ScaleLinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/cardview_light_background"
@@ -23,7 +22,6 @@
 
             <ImageView
                 android:id="@+id/itemtitle_image"
-                srcCompat="@drawable/logomain"
                 android:layout_width="150dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
@@ -39,12 +37,13 @@
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold" />
-        </LinearLayout>
+        </cn.gavinliu.android.lib.scale.ScaleLinearLayout>
 
-        <WebView
+        <com.example.leebeomwoo.viewbody_final.Support.HelpWebView
             android:id="@+id/detile_Image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
 
         <TextView
             android:id="@+id/video_title_1"
@@ -94,6 +93,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,28 +110,28 @@
             <TextView
                 android:id="@+id/detile_Id"
                 android:layout_width="80dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
+                android:layout_height="35dp"
                 android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/detile_face"
+                android:layout_toLeftOf="@+id/like_btn"
+                android:layout_toRightOf="@+id/detile_face"
                 android:background="@color/cardview_light_background"
+                android:padding="5dp"
                 android:textAlignment="center"
-                android:textSize="20sp"
                 tools:ignore="RtlHardcoded" />
 
             <Button
                 android:id="@+id/like_btn"
                 android:layout_width="80dp"
-                android:layout_height="40dp"
+                android:layout_height="80dp"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/detile_Id"
-                android:layout_toEndOf="@+id/detile_face"
+                android:layout_alignParentTop="true"
                 android:text="@string/like"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
         </RelativeLayout>
 
-    </LinearLayout>
+    </cn.gavinliu.android.lib.scale.ScaleLinearLayout>
 
 </android.support.v7.widget.CardView>
+

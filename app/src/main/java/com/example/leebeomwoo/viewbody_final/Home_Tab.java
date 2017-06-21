@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.ListRecyclerViewAdapter;
-import com.example.leebeomwoo.viewbody_final.Adapter.MyCardRecyclerViewAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.TrainerRecyclerView;
 import com.example.leebeomwoo.viewbody_final.Item.CardItem;
 import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
@@ -21,7 +19,6 @@ import com.example.leebeomwoo.viewbody_final.Response.ResponseCard;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Support.ListSection;
-import com.example.leebeomwoo.viewbody_final.Support.RecyclerItemClickListener;
 import com.example.leebeomwoo.viewbody_final.Support.RecyclerviewClickEvent;
 
 import java.util.List;
@@ -94,18 +91,6 @@ public class Home_Tab extends Fragment {
             pw = (RecyclerView) view.findViewById(R.id.popular_list);
             ns = (RecyclerView) view.findViewById(R.id.new_writer_list);
             ps = (RecyclerView) view.findViewById(R.id.popular_writer_list);
-            nw.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    clickEvent.Click(nsa.getItem(position), getActivity());
-                }
-            }));
-            pw.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-                    clickEvent.Click(psa.getItem(position), getActivity());
-                }
-            }));
             setHasOptionsMenu(true);
             getActivity().invalidateOptionsMenu();
             listSetup(nw);

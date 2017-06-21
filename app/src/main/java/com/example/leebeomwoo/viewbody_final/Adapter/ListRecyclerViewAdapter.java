@@ -23,6 +23,7 @@ import com.example.leebeomwoo.viewbody_final.ItemViewActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
+import com.example.leebeomwoo.viewbody_final.Support.HelpWebView;
 import com.example.leebeomwoo.viewbody_final.Support.RecyclerviewClickEvent;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     private final List<ListDummyItem> filteredUserList;
     private UserFilter userFilter;
     private String callClass, URL1, URL2, URL3, change;
-    RecyclerviewClickEvent clickEvent;
+    RecyclerviewClickEvent clickEvent = new RecyclerviewClickEvent();
     Intent intent;
     public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
         this.ldItems = ldItemList;
@@ -53,17 +54,19 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         this.filteredUserList = new ArrayList<>();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
         public final TextView txtViewTitle, txtViewId, video_title_1, video_title_2, video_title_3;
-        public final WebView imgViewFace, videoView_1, videoView_2, videoView_3, imgViewIcon;
+        public final WebView imgViewFace, videoView_1, videoView_2, videoView_3;
         public final Button button;
+        public final HelpWebView imgViewIcon;
+
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
             mView = (CardView) itemLayoutView.findViewById(R.id.cardView);
             txtViewTitle = (TextView) itemLayoutView.findViewById(R.id.detile_Title);
-            imgViewIcon = (WebView) itemLayoutView.findViewById(R.id.detile_Image);
+            imgViewIcon = (HelpWebView) itemLayoutView.findViewById(R.id.detile_Image);
             video_title_1 = (TextView) itemLayoutView.findViewById(R.id.video_title_1);
             video_title_2 = (TextView) itemLayoutView.findViewById(R.id.video_title_2);
             video_title_3 = (TextView) itemLayoutView.findViewById(R.id.video_title_3);
@@ -73,19 +76,12 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             txtViewId = (TextView) itemLayoutView.findViewById(R.id.detile_Id);
             button = (Button) itemLayoutView.findViewById(R.id.like_btn);
             videoView_3 = (WebView) itemLayoutView.findViewById(R.id.video_view_3);
-            imgViewIcon.setOnClickListener(this);
-            imgViewFace.setOnClickListener(this);
-            button.setOnClickListener(this);
-            imgViewIcon.setFocusable(false);
-            imgViewIcon.getSettings().setJavaScriptEnabled(true);
-            imgViewIcon.getSettings().setDomStorageEnabled(true);
-            imgViewIcon.getSettings().setUseWideViewPort(true);
-            imgViewIcon.getSettings().setLoadWithOverviewMode(true);
+            imgViewFace.setWebViewClient(new WebViewClient());
+            imgViewIcon.setWebViewClient(new WebViewClient());
             imgViewFace.setFocusable(false);
-            imgViewFace.getSettings().setJavaScriptEnabled(true);
-            imgViewFace.getSettings().setDomStorageEnabled(true);
-            imgViewFace.getSettings().setUseWideViewPort(true);
-            imgViewFace.getSettings().setLoadWithOverviewMode(true);
+            imgViewIcon.setFocusable(false);
+            WebviewSet(imgViewFace);
+            WebviewSet(imgViewIcon);
             videoView_1.setFocusable(false);
             videoView_1.setWebViewClient(new WebViewClient());
             WebviewSet(videoView_1);
@@ -124,25 +120,27 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                 videoView_2.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                 videoView_3.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
-        }
-
-        @Override
-        public void onClick(View view) {
-            ListDummyItem item = ldItems.get(getAdapterPosition());
-            switch (view.getId()){
-                case R.id.detile_Image:
-                    clickEvent.Click(item, bContext);
-                    break;
-                case R.id.detile_face:
+            imgViewIcon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    clickEvent.Click(getItem(getLayoutPosition()), bContext);
+                }
+            });
+            imgViewFace.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
                     intent.putExtra("itemUrl", "trainer");
-                    intent.putExtra("tr_Id", item.getLd_Id());
-                    intent.putExtra("section", item.getLd_Section());
+                    intent.putExtra("tr_Id", getItem(getLayoutPosition()).getLd_Id());
+                    intent.putExtra("section", getItem(getLayoutPosition()).getLd_Section());
                     //intent_2.putExtra("item_word", item_word);
                     intent.putExtra("fragment", 1);
                     bContext.startActivity(intent);
-                    break;
-                case R.id.like_btn:
-                    Call<LikeItem> call = ConAdapter.getInstance().getResult_List("Like", item.getLd_Num(), "UserId");
+                }
+            });
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Call<LikeItem> call = ConAdapter.getInstance().getResult_List("Like", getItem(getLayoutPosition()).getLd_Num(), "UserId");
                     call.enqueue(new Callback<LikeItem>() {
                         @Override
                         public void onResponse(Call<LikeItem> call, Response<LikeItem> response) {
@@ -156,8 +154,8 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                             Log.d(TAG, t.getMessage());
                         }
                     });
-                    break;
-            }
+                }
+            });
         }
     }
     private void WebviewSet(WebView view){
@@ -247,6 +245,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         }
 
     }
+
     public ListDummyItem getItem(int position){
         return ldItems.get(position);
     }
