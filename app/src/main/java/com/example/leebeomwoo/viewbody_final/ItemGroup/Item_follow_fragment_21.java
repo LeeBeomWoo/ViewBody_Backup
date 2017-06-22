@@ -46,6 +46,7 @@ import android.support.v13.app.FragmentCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.Layout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Size;
@@ -65,6 +66,7 @@ import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.PopupWindow;
@@ -88,6 +90,10 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import cn.gavinliu.android.lib.scale.ScaleFrameLayout;
+import cn.gavinliu.android.lib.scale.ScaleRelativeLayout;
+import cn.gavinliu.android.lib.scale.helper.ScaleLayoutHelper;
+
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 
@@ -102,7 +108,7 @@ public class Item_follow_fragment_21 extends Fragment
     private static final int SENSOR_ORIENTATION_INVERSE_DEGREES = 270;
     private static final SparseIntArray DEFAULT_ORIENTATIONS = new SparseIntArray();
     private static final SparseIntArray INVERSE_ORIENTATIONS = new SparseIntArray();
-    Button play, record, load, camerachange, play_recordBtn;
+    ImageButton play, record, load, camerachange, play_recordBtn;
     private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
@@ -112,6 +118,8 @@ public class Item_follow_fragment_21 extends Fragment
     private static final String TAG = "Item_follow_fragment_21";
     private static final int REQUEST_VIDEO_PERMISSIONS = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
+    ScaleRelativeLayout bTnLayout;
+    ScaleFrameLayout cameraLayout;
     int page_num;
 
     Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
@@ -414,11 +422,43 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        ReSize(videoView.getWidth(), videoView.getHeight(), videoView);
-        VideoReSize(webView.getWidth(), webView.getHeight(), webView);
         configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
+        LayoutReSize(webView, getResources().getConfiguration().orientation);
+        LayoutReSize(cameraLayout, getResources().getConfiguration().orientation);
+        switch (activity.getWindowManager().getDefaultDisplay().getRotation()) {
+            case Surface.ROTATION_90:
+                videoView.setRotation(videoView.getRotation() + 270);
+                webView.setRotation(webView.getRotation() + 270);
+                break;
+            case Surface.ROTATION_180:
+                videoView.setRotation(videoView.getRotation() + 180);
+                webView.setRotation(webView.getRotation() + 180);
+                break;
+            case Surface.ROTATION_270:
+                videoView.setRotation(videoView.getRotation() + 90);
+                webView.setRotation(webView.getRotation() + 90);
+                break;
+        }
     }
-    public void ReSize(int viewWidth, int viewHeight, View view){
+    public void LayoutReSize(View view, int config){
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        int width = size.x;
+        int height = size.y;
+        view.setPivotX(width/2);
+        view.setPivotY(height/2);
+        if(config == ORIENTATION_PORTRAIT){
+            layoutParams.height = width;
+            layoutParams.width = width/2;
+        } else {
+            layoutParams.height = height;
+            layoutParams.width = width;
+
+        }
+    }
+    public void LandReSize(View view){
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -428,22 +468,8 @@ public class Item_follow_fragment_21 extends Fragment
         RectF landRect = new RectF(0, 0, mPreviewSize.getWidth(), mPreviewSize.getHeight());
         view.setPivotX(width/2);
         view.setPivotY(height/2);
-        view.setScaleX(2);
-        view.setRotation(90);
-        view.setScaleY((float) 1.5);
-    }
-    public void VideoReSize(int viewWidth, int viewHeight, View view){
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        RectF deviceRect = new RectF(0, 0, width, height);
-        RectF landRect = new RectF(0, 0, mPreviewSize.getWidth(), mPreviewSize.getHeight());
-        view.setPivotX(width/2);
-        view.setPivotY(height/2);
-        view.setScaleX(2);
-        view.setScaleY(2);
+        view.setScaleX(4);
+        view.setScaleY(1);
     }
     public void ButtonReSize(int viewWidth, int viewHeight, View view){
         Activity activity = getActivity();
@@ -655,13 +681,15 @@ public class Item_follow_fragment_21 extends Fragment
     private void viewSet(){
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
         webView = (WebView) view.findViewById(R.id.web_movie);
-        record = (Button) view.findViewById(R.id.record_Btn);
-        play = (Button) view.findViewById(R.id.play_Btn);
-        load = (Button) view.findViewById(R.id.load_Btn);
+        record = (ImageButton) view.findViewById(R.id.record_Btn);
+        play = (ImageButton) view.findViewById(R.id.play_Btn);
+        load = (ImageButton) view.findViewById(R.id.load_Btn);
         videoView = (VideoView) view.findViewById(R.id.videoView);
-        play_recordBtn = (Button) view.findViewById(R.id.play_record);
-        camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
+        play_recordBtn = (ImageButton) view.findViewById(R.id.play_record);
+        camerachange = (ImageButton) view.findViewById(R.id.viewChange_Btn);
         seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
+        bTnLayout = (ScaleRelativeLayout) view.findViewById(R.id.button_layout);
+        cameraLayout = (ScaleFrameLayout) view.findViewById(R.id.video_layout);
     }
 
     private void ButtonImageSetUp(){
