@@ -7,6 +7,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -54,7 +55,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         this.filteredUserList = new ArrayList<>();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
         public final CardView mView;
         public final TextView txtViewTitle, txtViewId, video_title_1, video_title_2, video_title_3;
         public final WebView imgViewFace, videoView_1, videoView_2, videoView_3;
@@ -78,6 +79,8 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             videoView_3 = (WebView) itemLayoutView.findViewById(R.id.video_view_3);
             imgViewFace.setWebViewClient(new WebViewClient());
             imgViewIcon.setWebViewClient(new WebViewClient());
+            imgViewFace.setFocusable(false);
+            imgViewIcon.setFocusable(false);
             imgViewFace.setFocusable(false);
             imgViewIcon.setFocusable(false);
             WebviewSet(imgViewFace);
@@ -120,15 +123,38 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                 videoView_2.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                 videoView_3.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
-            imgViewIcon.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    clickEvent.Click(getItem(getLayoutPosition()), bContext);
-                }
-            });
-            imgViewFace.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            imgViewIcon.setOnTouchListener(this);
+            imgViewFace.setOnClickListener(this);
+            button.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.d("onClick", view.toString());
+            if(view.getId() == button.getId()){
+                Call<LikeItem> call = ConAdapter.getInstance().getResult_List("Like", getItem(getLayoutPosition()).getLd_Num(), "UserId");
+                call.enqueue(new Callback<LikeItem>() {
+                    @Override
+                    public void onResponse(Call<LikeItem> call, Response<LikeItem> response) {
+                        lkItems = response.body();
+                        Log.d(TAG, "서버와의 연결이 잘됐어요~.");
+                        Log.d("response", lkItems.toString());
+                    }
+
+                    @Override
+                    public void onFailure(Call<LikeItem> call, Throwable t) {
+                        Log.d(TAG, t.getMessage());
+                    }
+                });
+            }
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                if (view.getId() == imgViewIcon.getId()) {
+                    clickEvent.Click(ldItems.get(getLayoutPosition()), bContext);
+                } else if (view.getId() == imgViewFace.getId()) {
                     intent.putExtra("itemUrl", "trainer");
                     intent.putExtra("tr_Id", getItem(getLayoutPosition()).getLd_Id());
                     intent.putExtra("section", getItem(getLayoutPosition()).getLd_Section());
@@ -136,26 +162,9 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                     intent.putExtra("fragment", 1);
                     bContext.startActivity(intent);
                 }
-            });
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Call<LikeItem> call = ConAdapter.getInstance().getResult_List("Like", getItem(getLayoutPosition()).getLd_Num(), "UserId");
-                    call.enqueue(new Callback<LikeItem>() {
-                        @Override
-                        public void onResponse(Call<LikeItem> call, Response<LikeItem> response) {
-                            lkItems = response.body();
-                            Log.d(TAG, "서버와의 연결이 잘됐어요~.");
-                            Log.d("response", lkItems.toString());
-                        }
-
-                        @Override
-                        public void onFailure(Call<LikeItem> call, Throwable t) {
-                            Log.d(TAG, t.getMessage());
-                        }
-                    });
-                }
-            });
+                return true;
+            }
+            return false;
         }
     }
     private void WebviewSet(WebView view){

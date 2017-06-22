@@ -51,6 +51,8 @@
         android:supportsRtl="true"
         android:theme="@style/ViewBody"
         android:hardwareAccelerated="true">
+        <meta-data android:name="android.webkit.WebView.MetricsOptOut"
+        android:value="true" />
         <activity
             android:name=".IntroActivity"
             android:theme="@style/ViewBody"

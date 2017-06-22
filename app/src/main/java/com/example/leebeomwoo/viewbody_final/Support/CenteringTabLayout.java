@@ -2,6 +2,9 @@ package com.example.leebeomwoo.viewbody_final.Support;
 
 import android.content.Context;
 import android.support.design.widget.TabLayout;
+import cn.gavinliu.android.lib.scale.ScaleFrameLayout;
+import cn.gavinliu.android.lib.scale.ScaleLinearLayout;
+import cn.gavinliu.android.lib.scale.ScaleRelativeLayout;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;

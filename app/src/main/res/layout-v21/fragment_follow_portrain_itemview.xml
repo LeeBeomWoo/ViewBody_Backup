@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.gavinliu.android.lib.scale.ScaleFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ItemGroup.Item_follow_fragment">
+
+    <SeekBar
+        android:id="@+id/alpha_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_editor_absoluteX="0dp"
+        app:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="25dp" />
+
+    <WebView
+        android:id="@+id/web_movie"
+        android:layout_width="match_parent"
+        android:layout_height="284dp"
+        android:layout_alignParentStart="true"
+        android:layout_gravity="bottom|center_vertical"
+        android:alpha="1"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout5"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView
+        android:id="@+id/AutoView"
+        android:layout_width="180dp"
+        android:layout_height="280dp"
+        android:layout_alignParentStart="false"
+        android:layout_below="@+id/load_Btn"
+        android:layout_gravity="top|left"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="180dp"
+        android:layout_height="280dp"
+        android:layout_gravity="top|right"
+        android:visibility="visible"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+
+    <Button
+        android:id="@+id/play_record"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="false"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_margin="3dp" />
+
+    <Button
+        android:id="@+id/record_Btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="false"
+        android:layout_centerHorizontal="false"
+        android:layout_gravity="top|right"
+        android:layout_margin="3dp"
+        android:background="@drawable/record" />
+
+    <Button
+        android:id="@+id/load_Btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="false"
+        android:layout_margin="3dp"
+        android:layout_marginStart="43dp"
+        android:background="@drawable/plus" />
+
+    <Button
+        android:id="@+id/play_Btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentTop="false"
+        android:layout_gravity="top|start"
+        android:layout_margin="3dp"
+        android:layout_marginStart="43dp"
+        android:background="@drawable/playbutton" />
+
+    <Button
+        android:id="@+id/viewChange_Btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentStart="false"
+        android:layout_alignParentTop="false"
+        android:layout_gravity="top|right"
+        android:layout_margin="3dp"
+        android:layout_marginRight="43dp"
+        android:background="@drawable/switch_camera" />
+
+
+        <!-- <com.tutsplus.facedetection.FaceOverlayView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/face_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" /> -->
+</cn.gavinliu.android.lib.scale.ScaleFrameLayout>

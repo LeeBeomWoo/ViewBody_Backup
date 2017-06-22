@@ -146,18 +146,11 @@ public class Item_follow_fragment_21 extends Fragment
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_180, 90);
         INVERSE_ORIENTATIONS.append(Surface.ROTATION_270, 0);
     }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-    }
-
     /**
      * An {@link AutoFitTextureView} for camera preview.
      */
     public static AutoFitTextureView mTextureView;
-    static WebView webView;
+    WebView webView;
     View view;
 
     /**
@@ -357,7 +350,6 @@ public class Item_follow_fragment_21 extends Fragment
             temp = getArguments().getString("video");
             change = temp.replace("https://youtu.be", CHANGE);
         }
-        getActivity().setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
     }
 
     @Override
@@ -373,9 +365,12 @@ public class Item_follow_fragment_21 extends Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Log.d(TAG, "onActivityCreated");
+        if(savedInstanceState != null) {
+            webView.restoreState(savedInstanceState);
+        }
     }
 
     @Override
@@ -415,22 +410,91 @@ public class Item_follow_fragment_21 extends Fragment
         super.onDetach();
         Log.d(TAG, "onDetach");
     }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        ReSize(videoView.getWidth(), videoView.getHeight(), videoView);
+        VideoReSize(webView.getWidth(), webView.getHeight(), webView);
+    }
+    public void ReSize(int viewWidth, int viewHeight, View view){
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        RectF deviceRect = new RectF(0, 0, width, height);
+        RectF landRect = new RectF(0, 0, mPreviewSize.getWidth(), mPreviewSize.getHeight());
+        view.setPivotX(width/2);
+        view.setPivotY(height/2);
+        view.setScaleX(2);
+        view.setScaleY((float) 1.5);
+    }
+    public void VideoReSize(int viewWidth, int viewHeight, View view){
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        RectF deviceRect = new RectF(0, 0, width, height);
+        RectF landRect = new RectF(0, 0, mPreviewSize.getWidth(), mPreviewSize.getHeight());
+        view.setPivotX(width/2);
+        view.setPivotY(height/2);
+        view.setScaleX(2);
+        view.setScaleY(2);
+    }
+    public void ButtonReSize(int viewWidth, int viewHeight, View view){
+        Activity activity = getActivity();
+        if (null == view || null == mPreviewSize || null == activity) {
+            return;
+        }
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        Matrix matrix = new Matrix();
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        RectF deviceRect = new RectF(0, 0, width, height);
+        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
+        Log.d("viewRect :", String.valueOf(viewWidth) + "*" + String.valueOf(viewHeight));
+        RectF landRect = new RectF(0, 0, mPreviewSize.getWidth(), mPreviewSize.getHeight());
+        Log.d("bufferRect :", String.valueOf(mPreviewSize.getWidth()) + "*" + String.valueOf(mPreviewSize.getHeight()));
+        float centerX = deviceRect.centerX();
+        float centerY = deviceRect.centerY();
+        Log.d("center :", String.valueOf(centerX) + "*" + String.valueOf(centerY));
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
+            Log.d("beforecenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerY()));
+            // deviceRect.offset(centerX - deviceRect.centerX(), centerY - deviceRect.centerY());
+            Log.d("aftercenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerX()));
+            matrix.setRectToRect(deviceRect, deviceRect, Matrix.ScaleToFit.CENTER);
+            float scale = Math.max(
+                    (float) viewHeight / height,
+                    (float) viewWidth / width);
+            Log.d("scale :", String.valueOf(scale));
+            matrix.postScale(1,  2 , deviceRect.centerX(), deviceRect.centerY());
+            Log.d("postScale :", String.valueOf(scale*2) + ":" + String.valueOf(centerX) + ":" + String.valueOf(centerY));
+            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+        }
+        view.setScaleX(width);
+        view.setScaleY(height);
+        Log.d("mTextureView :", String.valueOf(view.getWidth()) + "*" + String.valueOf(view.getHeight()));
+    }
     @SuppressLint("SetJavaScriptEnabled")
     @SuppressWarnings("deprecation")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        if(!hasPermissionsGranted(FILE_ACCESSPERMISSIONS)){
+        if (!hasPermissionsGranted(FILE_ACCESSPERMISSIONS)) {
             requestFilePermissions();
         }
-        if(!hasPermissionsGranted(VIDEO_PERMISSIONS)){
+        if (!hasPermissionsGranted(VIDEO_PERMISSIONS)) {
             requestVideoPermissions();
         }
-        view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
+        // FrameLayout frameLayout = new FrameLayout(getActivity());
         startBackgroundThread();
-        mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
-        webView = (WebView) view.findViewById(R.id.web_movie);
+        view = inflater.inflate(R.layout.fragment_follow_portrain_itemview, container, false);
         viewSet();
         record.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -502,13 +566,7 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar.setMax(100);
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
-        webView.setWebViewClient(new WebViewClient(){
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return false;
-            }
-        });
+        webView.setWebViewClient(new WebViewClient());
         final WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -517,49 +575,8 @@ public class Item_follow_fragment_21 extends Fragment
         webView.getSettings().setSupportMultipleWindows(true);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
-        /**
-        if(savedInstanceState != null){
-            Log.d("onAttach", "to " + TAG);
-            if(savedInstanceState.getString("videopath") != null) {
-                videoString = savedInstanceState.getString("videopath");
-                videopath = Uri.parse(videoString);
-                videoPosition = savedInstanceState.getInt("videoseek");
-                videoView.setVideoURI(videopath);
-                videoView.setVisibility(View.VISIBLE);
-                mTextureView.setVisibility(View.GONE);
-                int p, r;
-                p = savedInstanceState.getInt("play");
-                r = savedInstanceState.getInt("record");
-                if(p == 1){
-                    videoView.start();
-                }
-                if(r == 1){
-                    mIsRecordingVideo = true;
-                }
-            }
-            webView.restoreState(savedInstanceState);
-            webView.resumeTimers();
-            webView.onResume();
-            ButtonImageSetUp();
-        } else {
-            URL = FURL + change + BURL;
-            webView.loadData(URL, "text/html", "charset=utf-8");
-            Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
-        }**/
         URL = FURL + change + BURL;
-        webView.loadData(URL, "text/html", "charset=utf-8");
         Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                if(videoPosition > 91) {
-                    videoView.seekTo(videoPosition);
-                    videoView.start();
-                } else {
-                    videoView.seekTo(90);
-                }
-            }
-        });
         if(videoString != null){
             videoView.setVisibility(View.VISIBLE);
             mTextureView.setVisibility(View.GONE);
@@ -575,17 +592,43 @@ public class Item_follow_fragment_21 extends Fragment
             seekBar.setProgress(50);
         }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
+        if (savedInstanceState != null) {
+            Log.d("onAttach", "to " + TAG);
+            if (savedInstanceState.getString("videopath") != null) {
+                videoString = savedInstanceState.getString("videopath");
+                videopath = Uri.parse(videoString);
+                videoPosition = savedInstanceState.getInt("videoseek");
+                videoView.setVideoURI(videopath);
+                videoView.setVisibility(View.VISIBLE);
+                mTextureView.setVisibility(View.GONE);
+                int p, r;
+                p = savedInstanceState.getInt("play");
+                r = savedInstanceState.getInt("record");
+                if (p == 1) {
+                    videoView.start();
+                }
+                if (r == 1) {
+                    mIsRecordingVideo = true;
+                }
+            }
+            ButtonImageSetUp();
+        } else {
+            URL = FURL + change + BURL;
+            Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id);
+            webView.loadData(URL, "text/html", "charset=utf-8");
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    if (videoPosition > 91) {
+                        videoView.seekTo(videoPosition);
+                        videoView.start();
+                    } else {
+                        videoView.seekTo(90);
+                    }
+                }
+            });
+        }
         return view;
-    }
-    private void viewSet(){
-        startBackgroundThread();
-        record = (Button) view.findViewById(R.id.record_Btn);
-        play = (Button) view.findViewById(R.id.play_Btn);
-        load = (Button) view.findViewById(R.id.load_Btn);
-        videoView = (VideoView) view.findViewById(R.id.videoView);
-        play_recordBtn = (Button) view.findViewById(R.id.play_record);
-        camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
-        seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
     }
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -606,6 +649,17 @@ public class Item_follow_fragment_21 extends Fragment
         outState.putInt("play", p);
         outState.putInt("record", r);
         webView.saveState(outState);
+    }
+    private void viewSet(){
+        mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
+        webView = (WebView) view.findViewById(R.id.web_movie);
+        record = (Button) view.findViewById(R.id.record_Btn);
+        play = (Button) view.findViewById(R.id.play_Btn);
+        load = (Button) view.findViewById(R.id.load_Btn);
+        videoView = (VideoView) view.findViewById(R.id.videoView);
+        play_recordBtn = (Button) view.findViewById(R.id.play_record);
+        camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
+        seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
     }
 
     private void ButtonImageSetUp(){
@@ -1008,18 +1062,16 @@ public class Item_follow_fragment_21 extends Fragment
             Log.d("beforecenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerY()));
             // deviceRect.offset(centerX - deviceRect.centerX(), centerY - deviceRect.centerY());
             Log.d("aftercenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerX()));
-            matrix.setRectToRect(viewRect, deviceRect, Matrix.ScaleToFit.CENTER);
+            matrix.setRectToRect(deviceRect, deviceRect, Matrix.ScaleToFit.CENTER);
             float scale = Math.max(
                     (float) viewHeight / height,
                     (float) viewWidth / width);
             Log.d("scale :", String.valueOf(scale));
-            matrix.postScale(scale, scale*2 , deviceRect.centerX(), deviceRect.centerY());
+            matrix.postScale(1,  2 , deviceRect.centerX(), deviceRect.centerY());
             Log.d("postScale :", String.valueOf(scale*2) + ":" + String.valueOf(centerX) + ":" + String.valueOf(centerY));
             matrix.postRotate(90 * (rotation - 2), centerX, centerY);
         }
         mTextureView.setTransform(matrix);
-        videoView.setTranslationX(viewWidth);
-        videoView.setTranslationY(viewHeight);
         Log.d("mTextureView :", String.valueOf(mTextureView.getWidth()) + "*" + String.valueOf(mTextureView.getHeight()));
     }
 
