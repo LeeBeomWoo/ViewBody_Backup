@@ -416,6 +416,7 @@ public class Item_follow_fragment_21 extends Fragment
         super.onConfigurationChanged(newConfig);
         ReSize(videoView.getWidth(), videoView.getHeight(), videoView);
         VideoReSize(webView.getWidth(), webView.getHeight(), webView);
+        configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
     }
     public void ReSize(int viewWidth, int viewHeight, View view){
         Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -428,6 +429,7 @@ public class Item_follow_fragment_21 extends Fragment
         view.setPivotX(width/2);
         view.setPivotY(height/2);
         view.setScaleX(2);
+        view.setRotation(90);
         view.setScaleY((float) 1.5);
     }
     public void VideoReSize(int viewWidth, int viewHeight, View view){
