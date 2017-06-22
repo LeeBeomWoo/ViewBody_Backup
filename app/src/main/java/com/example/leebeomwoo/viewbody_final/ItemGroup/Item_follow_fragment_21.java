@@ -121,7 +121,9 @@ public class Item_follow_fragment_21 extends Fragment
     ScaleRelativeLayout bTnLayout;
     ScaleFrameLayout cameraLayout;
     int page_num;
-
+    WebView.LayoutParams deFaultWebView;
+    ScaleFrameLayout.LayoutParams deFaultCamera;
+    ScaleRelativeLayout.LayoutParams deFaultButton;
     Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
@@ -423,66 +425,32 @@ public class Item_follow_fragment_21 extends Fragment
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
-        LayoutReSize(webView, getResources().getConfiguration().orientation);
-        LayoutReSize(cameraLayout, getResources().getConfiguration().orientation);
-        switch (activity.getWindowManager().getDefaultDisplay().getRotation()) {
-            case Surface.ROTATION_90:
-                videoView.setRotation(videoView.getRotation() + 270);
-                webView.setRotation(webView.getRotation() + 270);
-                break;
-            case Surface.ROTATION_180:
-                videoView.setRotation(videoView.getRotation() + 180);
-                webView.setRotation(webView.getRotation() + 180);
-                break;
-            case Surface.ROTATION_270:
-                videoView.setRotation(videoView.getRotation() + 90);
-                webView.setRotation(webView.getRotation() + 90);
-                break;
-        }
-    }
-    public void LayoutReSize(View view, int config){
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         int width = size.x;
         int height = size.y;
-        view.setPivotX(width/2);
-        view.setPivotY(height/2);
-        if(config == ORIENTATION_PORTRAIT){
-            layoutParams.height = width;
-            layoutParams.width = width/2;
+        if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
+            cameraLayout.setLayoutParams(deFaultCamera);
+            webView.setLayoutParams(deFaultWebView);
+            bTnLayout.setLayoutParams(deFaultButton);
         } else {
-            layoutParams.height = height;
-            layoutParams.width = width;
-
+            WebView.LayoutParams params = new WebView.LayoutParams(width, width/3, 0, cameraLayout.getLayoutParams().height + 50);
+            ScaleFrameLayout.LayoutParams layoutParams = new ScaleFrameLayout.LayoutParams(width, width/3);
         }
-    }
-    public void LandReSize(View view){
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        RectF deviceRect = new RectF(0, 0, width, height);
-        RectF landRect = new RectF(0, 0, mPreviewSize.getWidth(), mPreviewSize.getHeight());
-        view.setPivotX(width/2);
-        view.setPivotY(height/2);
-        view.setScaleX(4);
-        view.setScaleY(1);
     }
     public void ButtonReSize(int viewWidth, int viewHeight, View view){
         Activity activity = getActivity();
         if (null == view || null == mPreviewSize || null == activity) {
             return;
         }
-        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-        Matrix matrix = new Matrix();
         Display display = getActivity().getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
+        Matrix matrix = new Matrix();
+        display.getSize(size);
         RectF deviceRect = new RectF(0, 0, width, height);
         RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
         Log.d("viewRect :", String.valueOf(viewWidth) + "*" + String.valueOf(viewHeight));
@@ -490,23 +458,21 @@ public class Item_follow_fragment_21 extends Fragment
         Log.d("bufferRect :", String.valueOf(mPreviewSize.getWidth()) + "*" + String.valueOf(mPreviewSize.getHeight()));
         float centerX = deviceRect.centerX();
         float centerY = deviceRect.centerY();
-        Log.d("center :", String.valueOf(centerX) + "*" + String.valueOf(centerY));
-        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
-            Log.d("beforecenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerY()));
-            // deviceRect.offset(centerX - deviceRect.centerX(), centerY - deviceRect.centerY());
-            Log.d("aftercenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerX()));
-            matrix.setRectToRect(deviceRect, deviceRect, Matrix.ScaleToFit.CENTER);
-            float scale = Math.max(
-                    (float) viewHeight / height,
-                    (float) viewWidth / width);
-            Log.d("scale :", String.valueOf(scale));
-            matrix.postScale(1,  2 , deviceRect.centerX(), deviceRect.centerY());
-            Log.d("postScale :", String.valueOf(scale*2) + ":" + String.valueOf(centerX) + ":" + String.valueOf(centerY));
-            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
-        }
-        view.setScaleX(width);
-        view.setScaleY(height);
-        Log.d("mTextureView :", String.valueOf(view.getWidth()) + "*" + String.valueOf(view.getHeight()));
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        Log.d("beforecenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerY()));
+        // deviceRect.offset(centerX - deviceRect.centerX(), centerY - deviceRect.centerY());
+        Log.d("aftercenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerX()));
+        matrix.setRectToRect(deviceRect, deviceRect, Matrix.ScaleToFit.CENTER);
+        float scale = Math.max(
+                (float) viewHeight / height,
+                (float) viewWidth / width);
+        Log.d("scale :", String.valueOf(scale));
+        matrix.postScale(scale,  scale*2 , deviceRect.centerX(), deviceRect.centerY());
+        Log.d("postScale :", String.valueOf(scale*2) + ":" + String.valueOf(centerX) + ":" + String.valueOf(centerY));
+        matrix.postRotate(90 * (rotation - 1), centerX, centerY);
+        view.setPivotX(centerX);
+        view.setPivotY(centerY);
+        view.setRotation(90 * (rotation - 1));
     }
     @SuppressLint("SetJavaScriptEnabled")
     @SuppressWarnings("deprecation")
@@ -524,6 +490,9 @@ public class Item_follow_fragment_21 extends Fragment
         startBackgroundThread();
         view = inflater.inflate(R.layout.fragment_follow_portrain_itemview, container, false);
         viewSet();
+        deFaultWebView = new WebView.LayoutParams(webView.getLayoutParams());
+        deFaultButton = new ScaleRelativeLayout.LayoutParams(bTnLayout.getLayoutParams());
+        deFaultCamera = new ScaleRelativeLayout.LayoutParams(cameraLayout.getLayoutParams();
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -605,6 +574,7 @@ public class Item_follow_fragment_21 extends Fragment
         settings.setUseWideViewPort(true);
         URL = FURL + change + BURL;
         Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id );
+        webView.loadData(URL, "text/html", "charset=utf-8");
         if(videoString != null){
             videoView.setVisibility(View.VISIBLE);
             mTextureView.setVisibility(View.GONE);
@@ -641,9 +611,6 @@ public class Item_follow_fragment_21 extends Fragment
             }
             ButtonImageSetUp();
         } else {
-            URL = FURL + change + BURL;
-            Log.d(TAG, "temp : " + temp + "," + "tr_id : " + tr_id);
-            webView.loadData(URL, "text/html", "charset=utf-8");
             videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {

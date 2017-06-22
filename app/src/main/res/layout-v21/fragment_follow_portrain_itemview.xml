@@ -59,9 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom|center_vertical"
-            android:visibility="visible"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+            android:visibility="gone" />
     </cn.gavinliu.android.lib.scale.ScaleFrameLayout>
 
     <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
