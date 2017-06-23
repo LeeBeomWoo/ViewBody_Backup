@@ -6,13 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/item_mainLayout"
-    tools:context=".ItemGroup.Item_follow_fragment_21">
+    tools:context=".ItemGroup.Item_follow_fragment_21"
+    tools:ignore="ExtraText">
 
     <SeekBar
         android:id="@+id/alpha_control"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_editor_absoluteX="0dp"
         app:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="0dp"
@@ -21,19 +22,12 @@
     <WebView
         android:id="@+id/web_movie"
         android:layout_width="match_parent"
-        android:layout_height="285dp"
+        android:layout_height="280dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:alpha="1"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/relativeLayout5"
-        app:layout_constraintVertical_bias="0.0" />
+        android:visibility="visible" />
 
-    <cn.gavinliu.android.lib.scale.ScaleFrameLayout
+    <FrameLayout
         android:id="@+id/video_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -61,9 +55,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="bottom|center_vertical"
             android:visibility="gone" />
-    </cn.gavinliu.android.lib.scale.ScaleFrameLayout>
+    </FrameLayout>
 
-    <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
+    <RelativeLayout
         android:id="@+id/button_layout"
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -76,7 +70,8 @@
             android:layout_toStartOf="@+id/viewChange_Btn"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            android:src="@drawable/record" />
+            android:src="@drawable/record"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/load_Btn"
@@ -87,7 +82,8 @@
             android:layout_toEndOf="@+id/play_Btn"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            android:src="@drawable/plus" />
+            android:src="@drawable/plus"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/play_Btn"
@@ -98,7 +94,8 @@
             android:layout_marginStart="43dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            android:src="@drawable/playbutton" />
+            android:src="@drawable/playbutton"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/viewChange_Btn"
@@ -110,7 +107,8 @@
             android:layout_margin="5dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            android:src="@drawable/switch_camera" />
+            android:src="@drawable/switch_camera"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/play_record"
@@ -122,10 +120,9 @@
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
             android:src="@drawable/arrows1"
-            android:visibility="visible" />
-    </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
-v
-
+            android:visibility="visible"
+            tools:ignore="ContentDescription" />
+    </RelativeLayout>
         <!-- <com.tutsplus.facedetection.FaceOverlayView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/face_overlay"
