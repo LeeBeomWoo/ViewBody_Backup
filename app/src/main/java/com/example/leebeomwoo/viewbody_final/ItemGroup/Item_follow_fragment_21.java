@@ -59,6 +59,7 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -120,10 +121,12 @@ public class Item_follow_fragment_21 extends Fragment
     private static final String FRAGMENT_DIALOG = "dialog";
     ScaleRelativeLayout bTnLayout;
     ScaleFrameLayout cameraLayout;
+    RelativeLayout main;
     int page_num;
-    WebView.LayoutParams deFaultWebView;
-    ScaleFrameLayout.LayoutParams deFaultCamera;
-    ScaleRelativeLayout.LayoutParams deFaultButton;
+    // WebView.LayoutParams deFaultWebView;
+    // ScaleFrameLayout.LayoutParams deFaultCamera;
+    // ScaleRelativeLayout.LayoutParams deFaultButton;
+    RelativeLayout.LayoutParams deFaultButton, deFaultCamera, deFaultWebView;
     Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
@@ -425,18 +428,34 @@ public class Item_follow_fragment_21 extends Fragment
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
-        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-        if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
-            cameraLayout.setLayoutParams(deFaultCamera);
-            webView.setLayoutParams(deFaultWebView);
-            bTnLayout.setLayoutParams(deFaultButton);
-        } else {
-            WebView.LayoutParams params = new WebView.LayoutParams(width, width/3, 0, cameraLayout.getLayoutParams().height + 50);
-            ScaleFrameLayout.LayoutParams layoutParams = new ScaleFrameLayout.LayoutParams(width, width/3);
+        int rotation = display.getRotation();
+        if (mTextureView != null && mTextureView.isAvailable()) {
+            configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
+        }
+        switch (rotation){
+            case Surface.ROTATION_0: // 원래 모양
+                cameraLayout.setLayoutParams(deFaultCamera);
+                webView.setLayoutParams(deFaultWebView);
+                bTnLayout.setLayoutParams(deFaultButton);
+                break;
+            case Surface.ROTATION_90: // 오른쪽이 위
+                deFaultCamera.addRule();
+                break;
+            case Surface.ROTATION_180: // 뒤집은 모양
+                cameraLayout.setLayoutParams(deFaultCamera);
+                webView.setLayoutParams(deFaultWebView);
+                bTnLayout.setLayoutParams(deFaultButton);
+                main.setRotation(180f);
+                break;
+            case Surface.ROTATION_270: // 왼쪽이 위
+                main.setRotation(180f);
+                break;
         }
     }
     public void ButtonReSize(int viewWidth, int viewHeight, View view){
@@ -490,9 +509,6 @@ public class Item_follow_fragment_21 extends Fragment
         startBackgroundThread();
         view = inflater.inflate(R.layout.fragment_follow_portrain_itemview, container, false);
         viewSet();
-        deFaultWebView = new WebView.LayoutParams(webView.getLayoutParams());
-        deFaultButton = new ScaleRelativeLayout.LayoutParams(bTnLayout.getLayoutParams());
-        deFaultCamera = new ScaleRelativeLayout.LayoutParams(cameraLayout.getLayoutParams();
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -657,6 +673,7 @@ public class Item_follow_fragment_21 extends Fragment
         seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
         bTnLayout = (ScaleRelativeLayout) view.findViewById(R.id.button_layout);
         cameraLayout = (ScaleFrameLayout) view.findViewById(R.id.video_layout);
+        main = (RelativeLayout) view.findViewById(R.id.item_mainLayout);
     }
 
     private void ButtonImageSetUp(){
@@ -697,15 +714,11 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
             ButtonImageSetUp();
-            mOrientationListener = new OrientationEventListener(getActivity(),
-                SensorManager.SENSOR_DELAY_NORMAL) {
-            @Override
-            public void onOrientationChanged(int orientation) {
-                if (mTextureView != null && mTextureView.isAvailable()) {
-                    configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
-                }
-            }
-        };
+        if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
+            deFaultWebView = new WebView.LayoutParams(webView.getLayoutParams());
+            deFaultButton = new ScaleRelativeLayout.LayoutParams(bTnLayout.getLayoutParams());
+            deFaultCamera = new ScaleFrameLayout.LayoutParams(cameraLayout.getLayoutParams());
+        }
         startPreview();
             Log.d(TAG, "onViewCreated");
     }

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.gavinliu.android.lib.scale.ScaleRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ItemGroup.Item_follow_fragment">
+    android:id="@+id/item_mainLayout"
+    tools:context=".ItemGroup.Item_follow_fragment_21">
 
     <SeekBar
         android:id="@+id/alpha_control"
@@ -130,4 +131,4 @@ v
         android:id="@+id/face_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" /> -->
-</cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+</RelativeLayout>
