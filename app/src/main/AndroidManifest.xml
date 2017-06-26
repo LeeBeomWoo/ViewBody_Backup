@@ -72,7 +72,7 @@
         <activity
             android:name=".ItemViewActivity"
             android:theme="@style/ViewBody"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
             android:name=".AccountActivity"
             android:theme="@style/ViewBody"
