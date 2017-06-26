@@ -6,7 +6,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Matrix;
+import android.graphics.Point;
+import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
@@ -19,17 +23,20 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.Toast;
@@ -47,6 +54,9 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
+import cn.gavinliu.android.lib.scale.ScaleFrameLayout;
+import cn.gavinliu.android.lib.scale.ScaleRelativeLayout;
+
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 
 /**
@@ -63,11 +73,11 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     private final static String FURL = "<html><body><iframe width=\"1280\" height=\"720\" src=\"";
     private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
     private final static String CHANGE = "https://www.youtube.com/embed";
-
+    ScaleRelativeLayout bTnLayout;
     Boolean record_plag = false; // true = 녹화중, false = 정지
     Boolean play_plag = false; //true = 재생, false = 정지
     Boolean play_record = true; //true = 촬영, false = 재생
-    Button play, record, load, camerachange, play_recordBtn;
+    ImageButton play, record, load, camerachange, play_recordBtn;
     public WebView webView;
     private final int SELECT_MOVIE = 2;
     public MediaRecorder mediaRecorder;
@@ -77,6 +87,10 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     public String tr_id, imageUrl, tr_password, URL, section, change, temp, videoString;
     public Uri videopath;
     public int videoPosition;
+    ScaleFrameLayout cameraLayout;
+    ScaleRelativeLayout.LayoutParams LandButton, LandCamera, LandWebView, playlayout, recordlayout, switchlayout, loadlayout, play_recordlayout;
+    View view;
+    SeekBar seekBar;
     ItemViewActivity activity = (ItemViewActivity)getActivity();
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,29 +109,185 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     public void onStop() {
         super.onStop();
         Log.d(TAG, "onStop");
-        if(activity !=null){
-            activity.videoPath = videoString;
-            if(videoView.isPlaying()){
-                videoView.pause();
-                videoPosition = videoView.getCurrentPosition();
-                activity.videoSeek = videoPosition;
-            }
+    }
+    private void configureTransform(int viewWidth, int viewHeight) {
+        Activity activity = getActivity();
+        if (null == textureView || null == activity) {
+            return;
+        }
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
+        Matrix matrix = new Matrix();
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        RectF deviceRect = new RectF(0, 0, width, height);
+        RectF viewRect = new RectF(0, 0, viewWidth, viewHeight);
+        Log.d("viewRect :", String.valueOf(viewWidth) + "*" + String.valueOf(viewHeight));
+        float centerX = deviceRect.centerX();
+        float centerY = deviceRect.centerY();
+        Log.d("center :", String.valueOf(centerX) + "*" + String.valueOf(centerY));
+        if (Surface.ROTATION_90 == rotation || Surface.ROTATION_270 == rotation) {
+            Log.d("beforecenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerY()));
+            // deviceRect.offset(centerX - deviceRect.centerX(), centerY - deviceRect.centerY());
+            Log.d("aftercenter :", String.valueOf(deviceRect.centerX()) + "*" + String.valueOf(deviceRect.centerX()));
+            matrix.setRectToRect(viewRect, deviceRect, Matrix.ScaleToFit.CENTER);
+            float scale = Math.max(
+                    (float) viewHeight / height,
+                    (float) viewWidth / width);
+            Log.d("scale :", String.valueOf(scale));
+            matrix.postScale(scale, scale*2 , deviceRect.centerX(), deviceRect.centerY());
+            Log.d("postScale :", String.valueOf(scale*2) + ":" + String.valueOf(centerX) + ":" + String.valueOf(centerY));
+            matrix.postRotate(90 * (rotation - 2), centerX, centerY);
+        }
+        textureView.setTransform(matrix);
+        Log.d("mTextureView :", String.valueOf(textureView.getWidth()) + "*" + String.valueOf(textureView.getHeight()));
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int width = size.x;
+        int height = size.y;
+        int rotation = display.getRotation();
+        switch (rotation){
+            case Surface.ROTATION_0: // 원래 모양
+                PortrainSet();
+                if (textureView != null && textureView.isAvailable()) {
+                    configureTransform(textureView.getWidth(), textureView.getHeight());
+                }
+                Log.d("ROTATION_0 Device", String.valueOf(width) + " x " + String.valueOf(height));
+                break;
+            case Surface.ROTATION_90: // 왼쪽이 위
+                Log.d("ROTATION_90 Device", String.valueOf(width) + " x " + String.valueOf(height));
+                LandSet();
+                seekBar.setVisibility(View.VISIBLE);
+                if (textureView != null && textureView.isAvailable()) {
+                    configureTransform(textureView.getHeight(), textureView.getWidth());
+                }
+                break;
+
+            case Surface.ROTATION_180: // 뒤집은 모양
+                Log.d("ROTATION_180 Device", String.valueOf(width) + " x " + String.valueOf(height));
+                PortrainSet();
+                if (textureView != null && textureView.isAvailable()) {
+                    configureTransform(textureView.getWidth(), textureView.getHeight());
+                }
+                break;
+            case Surface.ROTATION_270: // 오른쪽이 위
+                Log.d("ROTATION_270 Device", String.valueOf(width) + " x " + String.valueOf(height));
+                LandSet();
+                seekBar.setVisibility(View.VISIBLE);
+                if (textureView != null && textureView.isAvailable()) {
+                    configureTransform(textureView.getHeight(), textureView.getWidth());
+                }
+                break;
         }
     }
-
+    private void LandSet(){
+        LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LandButton = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.btnlayoutSiz_item), ViewGroup.LayoutParams.MATCH_PARENT);
+        LandCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ScaleRelativeLayout.LayoutParams cameraView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        playlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        recordlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        switchlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        play_recordlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        loadlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        ScaleRelativeLayout.LayoutParams seek = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_LEFT);
+        bTnLayout.setLayoutParams(LandButton);
+        cameraView.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
+        cameraView.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        cameraView.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
+        textureView.setLayoutParams(cameraView);
+        playlayout.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
+        playlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        play.setLayoutParams(playlayout);
+        recordlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        recordlayout.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
+        record.setLayoutParams(recordlayout);
+        loadlayout.addRule(ScaleRelativeLayout.BELOW, R.id.play_Btn);
+        loadlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        load.setLayoutParams(loadlayout);
+        play_recordlayout.addRule(ScaleRelativeLayout.CENTER_VERTICAL);
+        play_recordlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        play_recordBtn.setLayoutParams(play_recordlayout);
+        play_recordBtn.setVisibility(View.VISIBLE);
+        switchlayout.addRule(ScaleRelativeLayout.ABOVE, R.id.record_Btn);
+        switchlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        camerachange.setLayoutParams(switchlayout);
+        LandCamera.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
+        cameraLayout.setLayoutParams(LandCamera);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
+        LandWebView.addRule(ScaleRelativeLayout.BELOW, R.id.alpha_control);
+        LandWebView.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
+        webView.setLayoutParams(LandWebView);
+        seek.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        seek.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
+        seekBar.setLayoutParams(seek);
+        seekBar.setProgress(50);
+        seekBar.bringToFront();
+        webView.setAlpha((float)0.5);
+    }
+    private void PortrainSet(){
+        LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.videoviewSiz_item));
+        LandButton = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.btnlayoutSiz_item));
+        LandCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.videoviewSiz_item));
+        playlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        recordlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        switchlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        play_recordlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        loadlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
+        ScaleRelativeLayout.LayoutParams cameraView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_LEFT);
+        bTnLayout.setLayoutParams(LandButton);
+        playlayout.addRule(ScaleRelativeLayout.ALIGN_PARENT_START);
+        playlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        play.setLayoutParams(playlayout);
+        recordlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        recordlayout.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        record.setLayoutParams(recordlayout);
+        loadlayout.addRule(ScaleRelativeLayout.END_OF, R.id.play_Btn);
+        loadlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        load.setLayoutParams(loadlayout);
+        play_recordlayout.addRule(ScaleRelativeLayout.CENTER_HORIZONTAL);
+        play_recordlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        play_recordBtn.setLayoutParams(play_recordlayout);
+        play_recordBtn.setVisibility(View.GONE);
+        switchlayout.addRule(ScaleRelativeLayout.START_OF, R.id.record_Btn);
+        switchlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
+        camerachange.setLayoutParams(switchlayout);
+        textureView.setLayoutParams(cameraView);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_START);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
+        webView.setLayoutParams(LandWebView);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_START);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        LandCamera.addRule(ScaleRelativeLayout.BELOW, R.id.button_layout);
+        LandCamera.addRule(ScaleRelativeLayout.ABOVE, R.id.web_movie);
+        cameraLayout.setLayoutParams(LandCamera);
+        seekBar.setVisibility(View.GONE);
+        webView.setAlpha((float)1);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
-            textureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
-            textureView.setSurfaceTextureListener(mSurfaceTextureListener);
-            webView = (WebView) view.findViewById(R.id.web_movie);
-            videoView = (VideoView) view.findViewById(R.id.videoView);
-            SeekBar seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
-            seekBar.setMax(100);
-            webView.setWebChromeClient(new WebChromeClient());
-            webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
-            webView.setWebViewClient(new WebViewClient());
+            view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
+
             final WebSettings settings = webView.getSettings();
             settings.setJavaScriptEnabled(true);
             settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -131,104 +301,14 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             change = temp.replace("https://youtu.be", CHANGE);
             URL = FURL + change + BURL;
             Log.d(TAG, URL);
-        if(savedInstanceState != null){
-            webView.restoreState(savedInstanceState);
-        } else {
-            webView.loadData(URL, "text/html", "charset=utf-8");
-        }
+        webView.loadData(URL, "text/html", "charset=utf-8");
             seekBar.setOnSeekBarChangeListener(alphaChangListener);
         mCamera.startPreview();
-        record = (Button) view.findViewById(R.id.record_Btn);
-        play = (Button) view.findViewById(R.id.play_Btn);
-        load = (Button) view.findViewById(R.id.load_Btn);
-        play_recordBtn = (Button) view.findViewById(R.id.play_record);
-        camerachange = (Button) view.findViewById(R.id.viewChange_Btn);
 
-        record.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(textureView.getVisibility() == View.GONE){
-                    textureView.setVisibility(View.VISIBLE);
-                }
-                if(textureView != null){
-                    if(record_plag){
-                        releaseMediaRecorder();
-                        record.setBackgroundResource(R.drawable.record);
-                    } else{
-                        mMediaRecorder.start();
-                        record.setBackgroundResource(R.drawable.stop);
-                    }
-                }
-            }
-        });
-        load.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "load click");
-                videoString = null;
-                videopath = null;
-                Intent intent = new Intent();
-                intent.setType("video/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
-            }
-        });
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(videoView.isPlaying()){
-                    videoView.pause();
-                    play.setBackgroundResource(R.drawable.playbutton);
-                }else {
-                    videoView.start();
-                    play.setBackgroundResource(R.drawable.pause);
-                }
-            }
-        });
-        camerachange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flipit();
-            }
-        });
-        play_recordBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(play_record){
-                    if(record_plag){
-                        mMediaRecorder.stop();
-                    }
-                    mCamera.release();
-                    textureView.setVisibility(View.GONE);
-                    videoView.setVisibility(View.VISIBLE);
-                } else {
-                    if(videoView.isPlaying()){
-                        videoView.stopPlayback();
-                    }
-                    mCamera.startPreview();
-                    textureView.setVisibility(View.VISIBLE);
-                    videoView.setVisibility(View.GONE);
-                }
-            }
-        });
         change = temp.replace("https://youtu.be", CHANGE);
         URL = FURL + change + BURL;
-        if(savedInstanceState != null){
-            Log.d("onAttach", "to " + TAG);
-            if(savedInstanceState.getString("videopath") != null) {
-                videoString = savedInstanceState.getString("videopath");
-                videopath = Uri.parse(videoString);
-                videoPosition = savedInstanceState.getInt("videoseek");
-                videoView.setVideoURI(videopath);
-                videoView.setVisibility(View.VISIBLE);
-                textureView.setVisibility(View.GONE);
-            }
-            URL = savedInstanceState.getString("weburl");
+
             webView.loadData(URL, "text/html", "charset=utf-8");
-            webView.restoreState(savedInstanceState);
-        } else {
-            webView.loadData(URL, "text/html", "charset=utf-8");
-        }
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -260,22 +340,111 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("videopath", videoString);
-        outState.putInt("videoseek", videoPosition);
-        outState.putString("weburl", URL);
-        webView.restoreState(outState);
+    }
+
+    private void viewSet(){
+        textureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
+        webView = (WebView) view.findViewById(R.id.web_movie);
+        record = (ImageButton) view.findViewById(R.id.record_Btn);
+        play = (ImageButton) view.findViewById(R.id.play_Btn);
+        load = (ImageButton) view.findViewById(R.id.load_Btn);
+        videoView = (VideoView) view.findViewById(R.id.videoView);
+        play_recordBtn = (ImageButton) view.findViewById(R.id.play_record);
+        camerachange = (ImageButton) view.findViewById(R.id.viewChange_Btn);
+        seekBar = (SeekBar) view.findViewById(R.id.alpha_control);
+        bTnLayout = (ScaleRelativeLayout) view.findViewById(R.id.button_layout);
+        cameraLayout = (ScaleFrameLayout) view.findViewById(R.id.video_layout);
+
+        record.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(textureView.getVisibility() == View.GONE){
+                    textureView.setVisibility(View.VISIBLE);
+                }
+                if(textureView != null){
+                    if(record_plag){
+                        releaseMediaRecorder();
+                        record.setBackgroundResource(R.drawable.record);
+                    } else{
+                        mMediaRecorder.start();
+                        videoView.setVisibility(View.GONE);
+                        cameraLayout.setVisibility(View.VISIBLE);
+                        record.setBackgroundResource(R.drawable.stop);
+                    }
+                }
+            }
+        });
+        camerachange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flipit();
+            }
+        });
+        play_recordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(play_record){
+                    if(record_plag){
+                        mMediaRecorder.stop();
+                    }
+                    mCamera.release();
+                    textureView.setVisibility(View.GONE);
+                    videoView.setVisibility(View.VISIBLE);
+                } else {
+                    if(videoView.isPlaying()){
+                        videoView.stopPlayback();
+                    }
+                    mCamera.startPreview();
+                    textureView.setVisibility(View.VISIBLE);
+                    videoView.setVisibility(View.GONE);}
+                    mCamera.startPreview();
+                }
+            });
+        load.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "load click");
+                videoString = null;
+                videopath = null;
+                Intent intent = new Intent();
+                intent.setType("video/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Video"), SELECT_MOVIE);
+            }
+        });
+        play.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(videoView.isPlaying()){
+                    videoView.pause();
+                    play.setImageResource(R.drawable.playbutton);
+                }else {
+                    videoView.start();
+                    play.setImageResource(R.drawable.pause);
+                    textureView.setVisibility(View.GONE);
+                    cameraLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        camerachange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                flipit();
+            }
+        });
     }
 
     private void ButtonImageSetUp(){
         if(videoView.isPlaying()){
-            play.setBackgroundResource(R.drawable.pause);
+            play.setImageResource(R.drawable.pause);
         }else{
-            play.setBackgroundResource(R.drawable.playbutton);
+            play.setImageResource(R.drawable.playbutton);
         }
         if(record_plag){
-            record.setBackgroundResource(R.drawable.stop);
+            record.setImageResource(R.drawable.stop);
         }else {
-            record.setBackgroundResource(R.drawable.record);
+            record.setImageResource(R.drawable.record);
         }
     }
 
