@@ -440,16 +440,24 @@ public class Item_follow_fragment_21 extends Fragment
                 if (mTextureView != null && mTextureView.isAvailable()) {
                     configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
                 }
+                PortrainSet();
                 Log.d("ROTATION_0 Device", String.valueOf(width) + " x " + String.valueOf(height));
                 break;
             case Surface.ROTATION_90: // 왼쪽이 위
                 Log.d("ROTATION_90 Device", String.valueOf(width) + " x " + String.valueOf(height));
+                LandSet();
+                if (mTextureView != null && mTextureView.isAvailable()) {
+                    configureTransform(mTextureView.getHeight(), mTextureView.getWidth());
+                }
                 break;
 
             case Surface.ROTATION_180: // 뒤집은 모양
                 Log.d("ROTATION_180 Device", String.valueOf(width) + " x " + String.valueOf(height));
                 main.setRotation(180);
-
+                if (mTextureView != null && mTextureView.isAvailable()) {
+                    configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
+                }
+                PortrainSet();
                 break;
             case Surface.ROTATION_270: // 오른쪽이 위
                 Log.d("ROTATION_270 Device", String.valueOf(width) + " x " + String.valueOf(height));
@@ -525,7 +533,7 @@ public class Item_follow_fragment_21 extends Fragment
         switchlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         play_recordlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         loadlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
-        ScaleRelativeLayout.LayoutParams seek = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        ScaleRelativeLayout.LayoutParams cameraView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
@@ -552,16 +560,12 @@ public class Item_follow_fragment_21 extends Fragment
         switchlayout.addRule(ScaleRelativeLayout.START_OF, R.id.record_Btn);
         switchlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
         camerachange.setLayoutParams(switchlayout);
-        LandWebView.addRule(ScaleRelativeLayout.BELOW, R.id.alpha_control);
-        LandWebView.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
         webView.setLayoutParams(LandWebView);
-        LandCamera.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
+        LandCamera.addRule(ScaleRelativeLayout.BELOW, R.id.button_layout);
+        LandCamera.addRule(ScaleRelativeLayout.ABOVE, R.id.web_movie);
         cameraLayout.setLayoutParams(LandCamera);
-        mTextureView.setLayoutParams(LandCamera);
-        seek.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
-        seek.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
-        seekBar.setLayoutParams(seek);
-        seekBar.setVisibility(View.VISIBLE);
+        mTextureView.setLayoutParams(cameraView);
+        seekBar.setVisibility(View.GONE);
     }
     @SuppressLint("SetJavaScriptEnabled")
     @SuppressWarnings("deprecation")
