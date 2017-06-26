@@ -440,49 +440,21 @@ public class Item_follow_fragment_21 extends Fragment
         int rotation = display.getRotation();
         switch (rotation){
             case Surface.ROTATION_0: // 원래 모양
-                PortrainSet(deFaultCamera, deFaultButton,deFaultWebView);
-                Log.d("webview size(0)", String.valueOf(webView.getWidth()) + "x" + String.valueOf(webView.getHeight()));
-                Log.d("camera size(0)", String.valueOf(mTextureView.getWidth()) + "x" + String.valueOf(mTextureView.getHeight()));
-                Log.d("videoView size(0)", String.valueOf(videoView.getWidth()) + "x" + String.valueOf(videoView.getHeight()));
-                main.setRotation(0);
-                Log.d("webview retation(0)", String.valueOf(webView.getRotation()));
-                Log.d("camera retation(0)", String.valueOf(mTextureView.getRotation()));
-                Log.d("videoView retation(0)", String.valueOf(videoView.getRotation()));
-                seekBar.setVisibility(View.GONE);
+
+                Log.d("ROTATION_0 Device", String.valueOf(width) + " x " + String.valueOf(height));
                 break;
             case Surface.ROTATION_90: // 왼쪽이 위
-                LandSet(LandCamera, LandButton, LandWebView);
-                main.setRotation(0);
-                Log.d("webview size(90)", String.valueOf(webView.getWidth()) + "x" + String.valueOf(webView.getHeight()));
-                Log.d("camera size(90)", String.valueOf(mTextureView.getWidth()) + "x" + String.valueOf(mTextureView.getHeight()));
-                Log.d("videoView size(90)", String.valueOf(videoView.getWidth()) + "x" + String.valueOf(videoView.getHeight()));
-                Log.d("webview retation(90)", String.valueOf(webView.getRotation()));
-                Log.d("camera retation(90)", String.valueOf(mTextureView.getRotation()));
-                Log.d("videoView retation(90)", String.valueOf(videoView.getRotation()));
-                seekBar.setVisibility(View.VISIBLE);
-                main.setRotation(180);
+                Log.d("ROTATION_90 Device", String.valueOf(width) + " x " + String.valueOf(height));
                 break;
 
             case Surface.ROTATION_180: // 뒤집은 모양
-                PortrainSet(deFaultCamera, deFaultButton,deFaultWebView);
-                Log.d("webview size(180)", String.valueOf(webView.getWidth()) + "x" + String.valueOf(webView.getHeight()));
-                Log.d("camera size(180)", String.valueOf(mTextureView.getWidth()) + "x" + String.valueOf(mTextureView.getHeight()));
-                Log.d("videoView size(180)", String.valueOf(videoView.getWidth()) + "x" + String.valueOf(videoView.getHeight()));
-                seekBar.setVisibility(View.GONE);
+                Log.d("ROTATION_180 Device", String.valueOf(width) + " x " + String.valueOf(height));
                 main.setRotation(180);
-                Log.d("webview retation(180)", String.valueOf(webView.getRotation()));
-                Log.d("camera retation(180)", String.valueOf(mTextureView.getRotation()));
-                Log.d("videoView retation(180)", String.valueOf(videoView.getRotation()));
+
                 break;
             case Surface.ROTATION_270: // 오른쪽이 위
-                LandSet(LandCamera, LandButton, LandWebView);
-                Log.d("webview size(270)", String.valueOf(webView.getWidth()) + "x" + String.valueOf(webView.getHeight()));
-                Log.d("camera size(270)", String.valueOf(mTextureView.getWidth()) + "x" + String.valueOf(mTextureView.getHeight()));
-                Log.d("videoView size(270)", String.valueOf(videoView.getWidth()) + "x" + String.valueOf(videoView.getHeight()));
-                seekBar.setVisibility(View.VISIBLE);
-                Log.d("webview retation(270)", String.valueOf(webView.getRotation()));
-                Log.d("camera retation(270)", String.valueOf(mTextureView.getRotation()));
-                Log.d("videoView retation(270)", String.valueOf(videoView.getRotation()));
+                Log.d("ROTATION_270 Device", String.valueOf(width) + " x " + String.valueOf(height));
+                LandSet();
                 break;
         }
         if(videoView.isPlaying()){
@@ -493,14 +465,13 @@ public class Item_follow_fragment_21 extends Fragment
             videoView.setVisibility(View.GONE);
         }
     }
-    private void LandSet(RelativeLayout.LayoutParams caParams, RelativeLayout.LayoutParams btParams, RelativeLayout.LayoutParams weParams){
-        mTextureView.setVisibility(View.GONE);
-
-        mainlayout = new ScaleRelativeLayout.LayoutParams(main.getLayoutParams());
-        caParams.removeRule(RelativeLayout.ABOVE);
-        caParams.removeRule(RelativeLayout.BELOW);
-        weParams.removeRule(RelativeLayout.ABOVE);
-        weParams.removeRule(RelativeLayout.RIGHT_OF);
+    private void LandSet(){
+        LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LandButton = new ScaleRelativeLayout.LayoutParams(500, ViewGroup.LayoutParams.MATCH_PARENT);
+        LandCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_RIGHT);
+        LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_LEFT);
         WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
@@ -509,30 +480,29 @@ public class Item_follow_fragment_21 extends Fragment
         int height = size.y; // 짧은 부분
         Log.d("x Length", String.valueOf(width));
         Log.d("y Length", String.valueOf(height));
-        btParams.addRule(ScaleRelativeLayout.ALIGN_TOP);
-        btParams.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
-        btParams.width = 500;
-        btParams.height = height;
         playlayout.addRule(ScaleRelativeLayout.ALIGN_START);
         play.setLayoutParams(playlayout);
         play.setRotation(270);
         recordlayout.addRule(ScaleRelativeLayout.RIGHT_OF, R.id.load_Btn);
         record.setRotation(270);
-        playlayout.addRule(ScaleRelativeLayout.ALIGN_BOTTOM);
+        recordlayout.addRule(ScaleRelativeLayout.ALIGN_BOTTOM);
         camerachange.setRotation(270);
         loadlayout.addRule(ScaleRelativeLayout.LEFT_OF, R.id.play_Btn);
         load.setRotation(270);
         play_recordlayout.addRule(ScaleRelativeLayout.CENTER_IN_PARENT);
         play_recordBtn.setRotation(270);
-        bTnLayout.setLayoutParams(btParams);
-        weParams.addRule(ScaleRelativeLayout.BELOW, R.id.button_layout);
-        webView.setLayoutParams(weParams);
-        caParams.addRule(ScaleRelativeLayout.BELOW, R.id.button_layout);
-        caParams.addRule(ScaleRelativeLayout.LEFT_OF, R.id.alpha_control);
-        cameraLayout.setLayoutParams(caParams);
+        play_recordBtn.setLayoutParams(play_recordlayout);
+        LandWebView.addRule(ScaleRelativeLayout.BELOW, R.id.button_layout);
+        webView.setLayoutParams(LandWebView);
+        LandCamera.addRule(ScaleRelativeLayout.BELOW, R.id.button_layout);
+        LandCamera.addRule(ScaleRelativeLayout.LEFT_OF, R.id.alpha_control);
+        cameraLayout.setLayoutParams(LandCamera);
     }
     private void PortrainSet(ScaleRelativeLayout.LayoutParams caParams, ScaleRelativeLayout.LayoutParams btParams, ScaleRelativeLayout.LayoutParams weParams){
 
+        deFaultWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        deFaultButton = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 500);
+        deFaultCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
@@ -564,6 +534,11 @@ public class Item_follow_fragment_21 extends Fragment
         }
         view = inflater.inflate(R.layout.fragment_follow_portrain_itemview, container, false);
         viewSet();
+        playlayout = new ScaleRelativeLayout.LayoutParams(play.getLayoutParams());
+        recordlayout = new ScaleRelativeLayout.LayoutParams(record.getLayoutParams());
+        switchlayout = new ScaleRelativeLayout.LayoutParams(camerachange.getLayoutParams());
+        play_recordlayout = new ScaleRelativeLayout.LayoutParams(play_recordBtn.getLayoutParams());
+        loadlayout = new ScaleRelativeLayout.LayoutParams(load.getLayoutParams());
         record.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -631,6 +606,7 @@ public class Item_follow_fragment_21 extends Fragment
                 switchCamera();
             }
         });
+        startPreview();
         seekBar.setMax(100);
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setPluginState(WebSettings.PluginState.ON_DEMAND);
@@ -815,25 +791,6 @@ public class Item_follow_fragment_21 extends Fragment
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
-        if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
-            deFaultWebView = new ScaleRelativeLayout.LayoutParams(webView.getLayoutParams());
-            deFaultButton = new ScaleRelativeLayout.LayoutParams(bTnLayout.getLayoutParams());
-            deFaultCamera = new ScaleRelativeLayout.LayoutParams(cameraLayout.getLayoutParams());
-            playlayout = new ScaleRelativeLayout.LayoutParams(play.getLayoutParams());
-            recordlayout = new ScaleRelativeLayout.LayoutParams(record.getLayoutParams());
-            switchlayout = new ScaleRelativeLayout.LayoutParams(camerachange.getLayoutParams());
-            play_recordlayout = new ScaleRelativeLayout.LayoutParams(play_recordBtn.getLayoutParams());
-            loadlayout = new ScaleRelativeLayout.LayoutParams(load.getLayoutParams());
-        } else {
-            playlayout = new ScaleRelativeLayout.LayoutParams(play.getLayoutParams());
-            recordlayout = new ScaleRelativeLayout.LayoutParams(record.getLayoutParams());
-            switchlayout = new ScaleRelativeLayout.LayoutParams(camerachange.getLayoutParams());
-            play_recordlayout = new ScaleRelativeLayout.LayoutParams(play_recordBtn.getLayoutParams());
-            loadlayout = new ScaleRelativeLayout.LayoutParams(load.getLayoutParams());
-        }
-        LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        LandButton = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        LandCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         Log.d(TAG, "onViewCreated");
         Log.d("webview size(default)", String.valueOf(webView.getWidth()) + "x" + String.valueOf(webView.getHeight()));
         Log.d("camera size(default)", String.valueOf(mTextureView.getWidth()) + "x" + String.valueOf(mTextureView.getHeight()));

@@ -18,6 +18,12 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="25dp" />
 
+    <com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView
+        android:id="@+id/AutoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible" />
+
     <WebView
         android:id="@+id/web_movie"
         android:layout_width="match_parent"
@@ -34,12 +40,6 @@
         android:layout_above="@+id/web_movie"
         android:layout_below="@+id/button_layout">
 
-
-        <com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView
-            android:id="@+id/AutoView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible"/>
 
         <VideoView
             android:id="@+id/videoView"
