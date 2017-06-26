@@ -34,8 +34,7 @@
     <cn.gavinliu.android.lib.scale.ScaleFrameLayout
         android:id="@+id/video_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/web_movie"
+        android:layout_height="250dp"
         android:layout_below="@+id/button_layout">
 
 
@@ -43,7 +42,7 @@
             android:id="@+id/videoView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="visible"/>
+            android:visibility="visible" />
     </cn.gavinliu.android.lib.scale.ScaleFrameLayout>
 
     <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
@@ -51,8 +50,6 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="false"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentRight="false"
         android:layout_alignParentTop="false">
 
         <ImageButton
@@ -63,7 +60,8 @@
             android:layout_toStartOf="@+id/viewChange_Btn"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            android:src="@drawable/record" />
+            android:src="@drawable/record"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/load_Btn"
@@ -74,7 +72,8 @@
             android:layout_toEndOf="@+id/play_Btn"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            android:src="@drawable/plus" />
+            android:src="@drawable/plus"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/play_Btn"
@@ -85,7 +84,8 @@
             android:layout_marginStart="43dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            android:src="@drawable/playbutton" />
+            android:src="@drawable/playbutton"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/viewChange_Btn"
@@ -97,7 +97,8 @@
             android:layout_margin="5dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            android:src="@drawable/switch_camera" />
+            android:src="@drawable/switch_camera"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/play_record"
@@ -109,9 +110,9 @@
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
             android:src="@drawable/arrows1"
-            android:visibility="visible" />
+            android:visibility="visible"
+            tools:ignore="ContentDescription" />
     </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
-    v
 
     <!-- <com.tutsplus.facedetection.FaceOverlayView
     xmlns:android="http://schemas.android.com/apk/res/android"

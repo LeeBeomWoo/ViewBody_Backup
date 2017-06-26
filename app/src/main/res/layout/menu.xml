@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/menu_main"
     android:layout_width="300dp"
     android:layout_height="match_parent"
     android:background="@color/menubackcolor"
@@ -11,6 +12,7 @@
     android:showDividers="beginning|middle|end">
 
     <LinearLayout
+        android:id="@+id/menu_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
@@ -70,17 +72,17 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
         android:layout_weight="1"
-        android:background="?attr/colorButtonNormal"
+        android:background="@color/nocolor"
         android:text="@string/apptest"
-        android:textSize="16sp" />
+        android:textSize="18sp" />
 
     <ScrollView
         android:id="@+id/menu_Scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/menubackcolor">
 
         <RelativeLayout
@@ -168,6 +170,7 @@
                 android:background="#ededed"
                 android:divider="@drawable/underline"
                 android:dividerHeight="5dp"
+                tools:ignore="NestedScrolling"
                 tools:listfooter="@drawable/underline"
                 tools:listitem="@layout/menulistitem" />
 

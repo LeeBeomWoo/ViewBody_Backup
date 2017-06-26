@@ -124,10 +124,7 @@ public class Item_follow_fragment_21 extends Fragment
     ScaleRelativeLayout main, bTnLayout;
     ScaleFrameLayout cameraLayout;
     int page_num;
-   // WebView.LayoutParams deFaultWebView;
-   // ScaleFrameLayout.LayoutParams deFaultCamera;
-   // ScaleRelativeLayout.LayoutParams deFaultButton;
-   ScaleRelativeLayout.LayoutParams LandButton, LandCamera, LandWebView, deFaultButton, deFaultCamera, deFaultWebView, mainlayout, playlayout, recordlayout, switchlayout, loadlayout, play_recordlayout;
+   ScaleRelativeLayout.LayoutParams LandButton, LandCamera, LandWebView, playlayout, recordlayout, switchlayout, loadlayout, play_recordlayout;
     Boolean play_record = true; //true 가 촬영모드, false 가 재생모드
     public static final String CAMERA_FRONT = "1";
     public static final String CAMERA_BACK = "0";
@@ -453,7 +450,6 @@ public class Item_follow_fragment_21 extends Fragment
 
             case Surface.ROTATION_180: // 뒤집은 모양
                 Log.d("ROTATION_180 Device", String.valueOf(width) + " x " + String.valueOf(height));
-                main.setRotation(180);
                 if (mTextureView != null && mTextureView.isAvailable()) {
                     configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
                 }
@@ -467,18 +463,12 @@ public class Item_follow_fragment_21 extends Fragment
                 }
                 break;
         }
-        if(videoView.isPlaying()){
-            mTextureView.setVisibility(View.GONE);
-            videoView.setVisibility(View.VISIBLE);
-        }else {
-            mTextureView.setVisibility(View.VISIBLE);
-            videoView.setVisibility(View.GONE);
-        }
     }
     private void LandSet(){
         LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LandButton = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.btnlayoutSiz_item), ViewGroup.LayoutParams.MATCH_PARENT);
         LandCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        ScaleRelativeLayout.LayoutParams cameraView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         playlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         recordlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         switchlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
@@ -489,14 +479,6 @@ public class Item_follow_fragment_21 extends Fragment
         LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
         LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_LEFT);
         bTnLayout.setLayoutParams(LandButton);
-        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x; //긴 부분
-        int height = size.y; // 짧은 부분
-        Log.d("x Length", String.valueOf(width));
-        Log.d("y Length", String.valueOf(height));
         playlayout.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
         playlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
         play.setLayoutParams(playlayout);
@@ -513,33 +495,36 @@ public class Item_follow_fragment_21 extends Fragment
         switchlayout.addRule(ScaleRelativeLayout.ABOVE, R.id.record_Btn);
         switchlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
         camerachange.setLayoutParams(switchlayout);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
         LandWebView.addRule(ScaleRelativeLayout.BELOW, R.id.alpha_control);
         LandWebView.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
         webView.setLayoutParams(LandWebView);
         LandCamera.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
         cameraLayout.setLayoutParams(LandCamera);
-        mTextureView.setLayoutParams(LandCamera);
+        cameraView.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
+        cameraView.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        cameraView.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
+        mTextureView.setLayoutParams(cameraView);
         seek.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
         seek.addRule(ScaleRelativeLayout.END_OF, R.id.button_layout);
         seekBar.setLayoutParams(seek);
         seekBar.setVisibility(View.VISIBLE);
+        seekBar.setProgress(50);
+        webView.setAlpha((float)0.5);
     }
     private void PortrainSet(){
-        LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.videoviewSiz_item));
         LandButton = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.btnlayoutSiz_item));
-        LandCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LandCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.videoviewSiz_item));
         playlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         recordlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         switchlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         play_recordlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         loadlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.imageBtnsize_item));
         ScaleRelativeLayout.LayoutParams cameraView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x; // 짧은 것
-        int height = size.y; // 긴 것
         LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_TOP);
         LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
         LandButton.addRule(ScaleRelativeLayout.ALIGN_PARENT_LEFT);
@@ -560,12 +545,18 @@ public class Item_follow_fragment_21 extends Fragment
         switchlayout.addRule(ScaleRelativeLayout.START_OF, R.id.record_Btn);
         switchlayout.setMargins(getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item), getResources().getDimensionPixelSize(R.dimen.imageBtnmargine_item));
         camerachange.setLayoutParams(switchlayout);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_START);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
+        LandWebView.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
         webView.setLayoutParams(LandWebView);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_START);
+        LandCamera.addRule(ScaleRelativeLayout.ALIGN_PARENT_END);
         LandCamera.addRule(ScaleRelativeLayout.BELOW, R.id.button_layout);
         LandCamera.addRule(ScaleRelativeLayout.ABOVE, R.id.web_movie);
         cameraLayout.setLayoutParams(LandCamera);
         mTextureView.setLayoutParams(cameraView);
         seekBar.setVisibility(View.GONE);
+        webView.setAlpha((float)1);
     }
     @SuppressLint("SetJavaScriptEnabled")
     @SuppressWarnings("deprecation")
@@ -629,16 +620,23 @@ public class Item_follow_fragment_21 extends Fragment
                     if(mIsRecordingVideo){
                         stopRecordingVideo();
                     }
+                    closePreviewSession();
                     closeCamera();
                     mTextureView.setVisibility(View.GONE);
                     videoView.setVisibility(View.VISIBLE);
+                    play_record = false;
                 } else {
                     if(videoView.isPlaying()){
                         videoView.stopPlayback();
+                    } if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
+                        openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+                    }else {
+                        openCamera(mTextureView.getHeight(), mTextureView.getWidth());
                     }
                     startPreview();
                     mTextureView.setVisibility(View.VISIBLE);
                     videoView.setVisibility(View.GONE);
+                    play_record = true;
                 }
             }
         });
@@ -648,6 +646,14 @@ public class Item_follow_fragment_21 extends Fragment
                 switchCamera();
             }
         });
+        if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+            webView.setAlpha((float)1);
+        }else {
+            openCamera(mTextureView.getHeight(), mTextureView.getWidth());
+            seekBar.setProgress(50);
+            webView.setAlpha((float)0.5);
+        }
         startPreview();
         seekBar.setMax(100);
         webView.setWebChromeClient(new WebChromeClient());
@@ -669,70 +675,8 @@ public class Item_follow_fragment_21 extends Fragment
             mTextureView.setVisibility(View.GONE);
             videoView.start();
         }
-        if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT){
-            play_recordBtn.setVisibility(View.GONE);
-            mTextureView.setVisibility(View.VISIBLE);
-            videoView.setVisibility(View.VISIBLE);
-            play_recordBtn.setClickable(false);
-            webView.setAlpha((float)0.9);
-        }else {
-            seekBar.setProgress(50);
-        }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
-        if (savedInstanceState != null) {
-            Log.d("onAttach", "to " + TAG);
-            if (savedInstanceState.getString("videopath") != null) {
-                videoString = savedInstanceState.getString("videopath");
-                videopath = Uri.parse(videoString);
-                videoPosition = savedInstanceState.getInt("videoseek");
-                videoView.setVideoURI(videopath);
-                videoView.setVisibility(View.VISIBLE);
-                mTextureView.setVisibility(View.GONE);
-                int p, r;
-                p = savedInstanceState.getInt("play");
-                r = savedInstanceState.getInt("record");
-                if (p == 1) {
-                    videoView.start();
-                }
-                if (r == 1) {
-                    mIsRecordingVideo = true;
-                }
-            }
-            ButtonImageSetUp();
-        } else {
-            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    if (videoPosition > 91) {
-                        videoView.seekTo(videoPosition);
-                        videoView.start();
-                    } else {
-                        videoView.seekTo(90);
-                    }
-                }
-            });
-        }
         return view;
-    }
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        int p, r;
-        if(videoView.isPlaying()){
-            p = 1;
-        } else {
-            p = 0;
-        }
-        if(mIsRecordingVideo){
-            r =1;
-        }else {
-            r =0;
-        }
-        outState.putString("videopath", videoString);
-        outState.putInt("videoseek", videoPosition);
-        outState.putInt("play", p);
-        outState.putInt("record", r);
-        webView.saveState(outState);
     }
     private void viewSet(){
         mTextureView = (AutoFitTextureView) view.findViewById(R.id.AutoView);
@@ -787,8 +731,6 @@ public class Item_follow_fragment_21 extends Fragment
     @Override
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         ButtonImageSetUp();
-        startPreview();
-        startPreview();
     }
 
     private SeekBar.OnSeekBarChangeListener alphaChangListener = new SeekBar.OnSeekBarChangeListener() {
@@ -828,11 +770,17 @@ public class Item_follow_fragment_21 extends Fragment
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
-        startBackgroundThread();if (mTextureView.isAvailable()) {
-            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+        startBackgroundThread();
+        if (mTextureView.isAvailable()) {
+            if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
+                openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+            }else {
+                openCamera(mTextureView.getHeight(), mTextureView.getWidth());
+            }
         } else {
             mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
+        webView.resumeTimers();
         Log.d(TAG, "onViewCreated");
         Log.d("webview size(default)", String.valueOf(webView.getWidth()) + "x" + String.valueOf(webView.getHeight()));
         Log.d("camera size(default)", String.valueOf(mTextureView.getWidth()) + "x" + String.valueOf(mTextureView.getHeight()));
@@ -847,7 +795,6 @@ public class Item_follow_fragment_21 extends Fragment
         closeCamera();
         stopBackgroundThread();
         super.onPause();
-        webView.onPause();
         webView.pauseTimers();
     }
 

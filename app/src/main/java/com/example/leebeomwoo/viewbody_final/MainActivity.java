@@ -66,14 +66,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     WriterTab_Sub writerTab_sub;
     ListView menu_list;
     ScrollView menu_Scroll;
-    LinearLayout btn_View;
+    LinearLayout btn_View, main, top;
 
     String[] body, follow, food, trainer;
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-    }
-
     int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,6 +204,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         menu_list = (ListView) popupView.findViewById(R.id.menu_list);
         menu_Scroll = (ScrollView) popupView.findViewById(R.id.menu_Scroll);
         btn_View = (LinearLayout) popupView.findViewById(R.id.btn_View);
+        main = (LinearLayout) popupView.findViewById(R.id.menu_main);
+        top = (LinearLayout) popupView.findViewById(R.id.menu_top);
+
+
         cancel_menuBtn.setOnClickListener(this);
         account_menuBtn.setOnClickListener(this);
         body_menuBtn.setOnClickListener(this);
@@ -218,7 +217,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         writer_menuBtn.setOnClickListener(this);
 
         menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
@@ -227,7 +225,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                    case "상체 운동":
                        bodyTab_sub = new BodyTab_Sub();
                        bodyTab_sub.setTabitemSelected(0);
-                       menu_Scroll.setBackgroundResource(R.color.body_toolbar);
                        mPopupWindow.dismiss();
                        break;
                    case "상체 정보":
@@ -410,12 +407,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 viewPager.setCurrentItem(1, true);
                 btn_View.setBackgroundResource(R.color.body_toolbar);
                 menu_list.setBackgroundResource(R.color.bodysubtabcolor);
+                main.setBackgroundResource(R.color.body_toolbar);
+                top.setBackgroundResource(R.color.bodysubtabcolor);
                 menu_listSet(body);
                 break;
             case R.id.follow_menuBtn:
                 viewPager.setCurrentItem(2, true);
                 btn_View.setBackgroundResource(R.color.followtoolbar);
                 menu_list.setBackgroundResource(R.color.followsubtabcolor);
+                main.setBackgroundResource(R.color.followtoolbar);
+                top.setBackgroundResource(R.color.followsubtabcolor);
                 menu_listSet(follow);
                 //foodTab_sub.changePage(1);
                 break;
@@ -423,6 +424,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 viewPager.setCurrentItem(3, true);
                 btn_View.setBackgroundResource(R.color.foodtoolbar);
                 menu_list.setBackgroundResource(R.color.foodsubtabcolor);
+                main.setBackgroundResource(R.color.foodtoolbar);
+                top.setBackgroundResource(R.color.foodsubtabcolor);
                 menu_listSet(food);
                 break;
             case R.id.qna_menuBtn:
@@ -434,6 +437,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 viewPager.setCurrentItem(4, true);
                 btn_View.setBackgroundResource(R.color.writertoolbar);
                 menu_list.setBackgroundResource(R.color.writersubtabcolor);
+                main.setBackgroundResource(R.color.writertoolbar);
+                top.setBackgroundResource(R.color.writersubtabcolor);
                 menu_listSet(trainer);
                 // foodTab_sub.changePage(4);
                 break;
