@@ -42,7 +42,7 @@ import java.util.Arrays;
 /**
  * Created by LBW on 2016-06-30.
  */
-public class ItemViewActivity extends AppCompatActivity implements View.OnClickListener {
+public class ItemViewActivity extends AppCompatActivity {
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -50,7 +50,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
     public static final int REQUEST_CAMERA = 1;
     private Boolean isFabOpen = false;
     private static String TAG = "ItemView";
-    FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
+    // FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
     private Animation fab_open, fab_close, rotate_forward, rotate_backward;
     public String tr_id, item_word, section, video, videoPath;
     public int videoSeek, webviewSeelk;
@@ -175,6 +175,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
+    /**
     @Override
     public void onClick(View v){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -351,12 +352,10 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 isFabOpen = false;
                 break;
             case R.id.fab4 :
-                /**
                 timetreck timetreck = new timetreck();
                 FragmentManager fragmentManager_1 = getFragmentManager();
                 FragmentTransaction fragmentTransaction_1 = fragmentManager_1.beginTransaction();
                 fragmentTransaction_1.replace(R.id.fragment, timetreck).commit();
-                **/
                 fab.startAnimation(rotate_backward);
                 fab1.startAnimation(fab_close);
                 fab2.startAnimation(fab_close);
@@ -395,6 +394,7 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
+    **/
     public static void setCameraDisplayOrientation(Activity activity, int cameraId, Camera camera) {
         Camera.CameraInfo info =
                 new Camera.CameraInfo();
@@ -418,6 +418,15 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         }
         camera.setDisplayOrientation(result);
     }
+    @Override
+    public void onBackPressed() {
+        // Otherwise defer to system default behavior.
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+    }
+    /**
     public void animateFAB() {
 
         if (isFabOpen) {
@@ -454,14 +463,6 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        // Otherwise defer to system default behavior.
-        super.onBackPressed();
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
     public void fabset(){
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab1 = (FloatingActionButton) findViewById(R.id.fab1);
@@ -480,5 +481,5 @@ public class ItemViewActivity extends AppCompatActivity implements View.OnClickL
         fab3.setOnClickListener(this);
         fab4.setOnClickListener(this);
         fab5.setOnClickListener(this);
-    }
+    }**/
 }

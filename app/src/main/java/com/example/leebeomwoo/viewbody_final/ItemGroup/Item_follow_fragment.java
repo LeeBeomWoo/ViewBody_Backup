@@ -1,6 +1,7 @@
 package com.example.leebeomwoo.viewbody_final.ItemGroup;
 
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -283,11 +284,13 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         seekBar.setVisibility(View.GONE);
         webView.setAlpha((float)1);
     }
+    @SuppressLint("SetJavaScriptEnabled")
+    @SuppressWarnings("deprecation")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
             view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
-
+            viewSet();
             final WebSettings settings = webView.getSettings();
             settings.setJavaScriptEnabled(true);
             settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -336,10 +339,6 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         }
         seekBar.setOnSeekBarChangeListener(alphaChangListener);
         return view;
-    }
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
     }
 
     private void viewSet(){
@@ -484,6 +483,19 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume");
+        if (textureView.isAvailable()) {
+            prepareVideoRecorder();
+            new MediaPrepareTask().execute(null, null, null);
+        } else {
+            textureView.setSurfaceTextureListener(mSurfaceTextureListener);
+        }
+        webView.resumeTimers();
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("requestCode", String.valueOf(requestCode));
@@ -604,6 +616,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         releaseMediaRecorder();
         // release the camera immediately on pause event
         releaseCamera();
+        webView.pauseTimers();
     }
 
     private void releaseMediaRecorder(){

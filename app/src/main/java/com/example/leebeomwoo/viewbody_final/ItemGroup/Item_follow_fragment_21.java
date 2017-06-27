@@ -510,6 +510,7 @@ public class Item_follow_fragment_21 extends Fragment
         webView.setZ(2);
         seekBar.bringToFront();
         webView.setAlpha((float)0.5);
+        adjustAspectRatio(mTextureView.getWidth(), mTextureView.getHeight());
     }
     private void PortrainSet(){
         LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.videoviewSiz_item));
@@ -553,6 +554,7 @@ public class Item_follow_fragment_21 extends Fragment
         cameraLayout.setLayoutParams(LandCamera);
         seekBar.setVisibility(View.GONE);
         webView.setAlpha((float)1);
+        adjustAspectRatio(mTextureView.getWidth(), mTextureView.getHeight());
     }
     @SuppressLint("SetJavaScriptEnabled")
     @SuppressWarnings("deprecation")
@@ -796,7 +798,35 @@ public class Item_follow_fragment_21 extends Fragment
         super.onPause();
         webView.pauseTimers();
     }
+    private void adjustAspectRatio(int videoWidth, int videoHeight) {
+        int viewWidth = mTextureView.getWidth();
+        int viewHeight = mTextureView.getHeight();
+        double aspectRatio = (double) videoHeight / videoWidth;
 
+        int newWidth, newHeight;
+        if (viewHeight > (int) (viewWidth * aspectRatio)) {
+            // limited by narrow width; restrict height
+            newWidth = viewWidth;
+            newHeight = (int) (viewWidth * aspectRatio);
+        } else {
+            // limited by short height; restrict width
+            newWidth = (int) (viewHeight / aspectRatio);
+            newHeight = viewHeight;
+        }
+        int xoff = (viewWidth - newWidth) / 2;
+        int yoff = (viewHeight - newHeight) / 2;
+        Log.v(TAG, "video=" + videoWidth + "x" + videoHeight +
+                " view=" + viewWidth + "x" + viewHeight +
+                " newView=" + newWidth + "x" + newHeight +
+                " off=" + xoff + "," + yoff);
+
+        Matrix txform = new Matrix();
+        mTextureView.getTransform(txform);
+        txform.setScale((float) newWidth / viewWidth, (float) newHeight / viewHeight);
+        //txform.postRotate(10);          // just for fun
+        txform.postTranslate(xoff, yoff);
+        mTextureView.setTransform(txform);
+    }
     /**
      * Starts a background thread and its {@link Handler}.
      */
