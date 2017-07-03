@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -48,18 +49,15 @@ public class ItemViewActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     public static final int REQUEST_CAMERA = 1;
-    private Boolean isFabOpen = false;
     private static String TAG = "ItemView";
     // FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
-    private Animation fab_open, fab_close, rotate_forward, rotate_backward;
     public String tr_id, item_word, section, video, videoPath;
-    public int videoSeek, webviewSeelk;
-    final Item_follow_fragment finalFollow_fragment = new Item_follow_fragment();
-    final Item_follow_fragment_21 Follow_fragment = new Item_follow_fragment_21();
-    int category, q, currentCameraId, page_num;
-    public boolean recording, pausing;
+    int category, page_num;
     public Context context = this;
-    public WebView webView;
+    public static void setAutoOrientationEnabled(Context context, boolean enabled)
+    {
+        Settings.System.putInt( context.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, enabled ? 1 : 0);
+    }
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -92,11 +90,7 @@ public class ItemViewActivity extends AppCompatActivity {
                 Item_follow_fragment follow = (Item_follow_fragment) getSupportFragmentManager().findFragmentByTag("your_fragment");
             }
         }
-
-    }
-    public void videoPathSet(String path){
-        videoPath = path;
-        Log.d(TAG, videoPath);
+        setAutoOrientationEnabled(context, true);
     }
     @Override
     protected void onStart() {

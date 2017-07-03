@@ -6,141 +6,20 @@
     android:layout_height="match_parent"
     tools:context="com.example.leebeomwoo.viewbody_final.IntroActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="344dp"
-        android:layout_height="300dp"
-        app:layout_constraintHorizontal_bias="0.0"
+    <cn.gavinliu.android.lib.scale.ScaleLinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="40dp"
-            app:layout_constraintHorizontal_bias="0.504"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/toolbartext"
-            tools:ignore="ContentDescription" />
+        <android.support.v4.view.ViewPager
+            android:id="@+id/tutorial"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4"
-            tools:ignore="ContentDescription"
-            app:srcCompat="@drawable/logo" />
+    </cn.gavinliu.android.lib.scale.ScaleLinearLayout>
 
-    </android.support.constraint.ConstraintLayout>
-
-    <RelativeLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@color/introlowerback"
-        android:elevation="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="30dp"
-            android:background="@color/cardview_light_background">
-
-            <ImageButton
-                android:id="@+id/intro_bodyBtn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_margin="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/fablabel_bacground"
-                tools:ignore="ContentDescription"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/bodyinfo" />
-
-            <ImageButton
-                android:id="@+id/imageButton6"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@+id/imageButton3"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="20dp"
-                android:layout_toEndOf="@+id/imageButton5"
-                android:background="@drawable/fablabel_bacground"
-                android:scaleType="fitCenter"
-                tools:ignore="ContentDescription"
-                app:srcCompat="@drawable/bodyinfo" />
-
-            <ImageButton
-                android:id="@+id/imageButton5"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_below="@+id/intro_bodyBtn"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="20dp"
-                android:layout_toEndOf="@+id/intro_bodyBtn"
-                android:background="@drawable/fablabel_bacground"
-                android:scaleType="fitCenter"
-                tools:ignore="ContentDescription"
-                app:srcCompat="@drawable/bodyinfo" />
-
-            <ImageButton
-                android:id="@+id/imageButton4"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/intro_bodyBtn"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/fablabel_bacground"
-                android:scaleType="fitCenter"
-                tools:ignore="ContentDescription"
-                app:srcCompat="@drawable/bodyinfo" />
-
-            <ImageButton
-                android:id="@+id/imageButton3"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/imageButton2"
-                android:background="@drawable/fablabel_bacground"
-                android:scaleType="fitCenter"
-                tools:ignore="ContentDescription"
-                app:srcCompat="@drawable/bodyinfo" />
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_toEndOf="@+id/intro_bodyBtn"
-                android:background="@drawable/fablabel_bacground"
-                android:scaleType="fitCenter"
-                tools:ignore="ContentDescription"
-                app:srcCompat="@drawable/bodyinfo" />
-        </RelativeLayout>
-    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -33,9 +34,11 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.leebeomwoo.viewbody_final.Adapter.LicenseListAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.TabsAdapter;
 import com.example.leebeomwoo.viewbody_final.Fragment.QnAFragment;
+import com.example.leebeomwoo.viewbody_final.Item.LicenseItem;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Support.CenteringTabLayout;
 import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
@@ -54,12 +57,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SearchView mSearchView;
     MenuItem myActionMenuItem;
     CenteringTabLayout tabLayout;
+    TextView license_source, license_Title;
     ViewPager viewPager;
     RelativeLayout maintab;
     PopupWindow mPopupWindow;
     Button back, menu;
     Context context;
-    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn;
+    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn, licenseBtn;
     BodyTab_Sub bodyTab_sub;
     FollowTab_Sub followTab_sub;
     FoodTab_Sub foodTab_sub;
@@ -68,11 +72,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ScrollView menu_Scroll;
     LinearLayout btn_View, main, top;
 
-    String[] body, follow, food, trainer;
+    String[] body, follow, food, trainer, license;
     int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferencesCompat preferencesCompat = getSharedPreferences("a", MODE_PRIVATE);
+        int tutorial = preferencesCompat.("First", 0)
         ScaleConfig.create(this,
                 1080, // Design Width
                 1920, // Design Height
@@ -206,6 +212,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_View = (LinearLayout) popupView.findViewById(R.id.btn_View);
         main = (LinearLayout) popupView.findViewById(R.id.menu_main);
         top = (LinearLayout) popupView.findViewById(R.id.menu_top);
+        licenseBtn = (ImageButton) popupView.findViewById(R.id.license_Btn);
+        license_source = (TextView) popupView.findViewById(R.id.sourceTxt);
+        license_Title = (TextView) popupView.findViewById(R.id.titleTxt);
 
 
         cancel_menuBtn.setOnClickListener(this);
@@ -215,6 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         food_menuBtn.setOnClickListener(this);
         qna_menuBtn.setOnClickListener(this);
         writer_menuBtn.setOnClickListener(this);
+        licenseBtn.setOnClickListener(this);
 
         menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -378,11 +388,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Log.d("menu_listSet list:", ArrayList.(list));
         Log.d("menu_listSet values:", Arrays.toString(values));
         for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
+                list.add(values[i]);
             Log.d("menu_listSet list:", values[i]);
         }
         final StableArrayAdapter adapter = new StableArrayAdapter(this,
                 R.layout.menulistitem, list);
+        menu_list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        //foodTab_sub.changePage(2);
+    }
+    private void license_listSet(){
+        final ArrayList<LicenseItem> list = new ArrayList<LicenseItem>();
+        String[] title = {"Square", "Retrofit2"};
+        String[] source = {"Copyright 2016 Square, Inc.\n" + "\n" +
+                "Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                "you may not use this file except in compliance with the License.\n" +
+                "You may obtain a copy of the License at\n" + "\n" +
+                "http://www.apache.org/licenses/LICENSE-2.0\n" + "\n" +
+                "Unless required by applicable law or agreed to in writing, software\n" +
+                "distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                "See the License for the specific language governing permissions and\n" +
+                "limitations under the License.",
+                "Copyright 2013 Square, Inc.\n" + "\n" + "Licensed under the Apache License, Version 2.0 (the \"License\");\n" +
+                        "you may not use this file except in compliance with the License.\n" +
+                        " You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0\n"+ "\n" +
+                        "Unless required by applicable law or agreed to in writing, software\n" +
+                        "distributed under the License is distributed on an \"AS IS\" BASIS,\n" +
+                        "WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n" +
+                        "See the License for the specific language governing permissions and\n" +
+                        "limitations under the License."};
+        for (int i = 0; i < title.length; ++i) {
+            list.add(new LicenseItem(title[i], source[i]));
+        }
+        final LicenseListAdapter adapter = new LicenseListAdapter(this,
+                R.layout.license, list);
         menu_list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         //foodTab_sub.changePage(2);
@@ -394,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         follow = new String[] {"코어 운동", "유산소운동", "근력운동", "스트레칭 따라하기"};
         food = new String[]{"체지방감소", "근력강화", "근육량증대", "몸매관리", "대사증후군"};
         trainer = new String[]{"트레이너", "영양사"};
-        Log.d("main :", Arrays.toString(trainer) + Arrays.toString(body));
+        license = new String[]{};
         switch (v.getId()) {
             case R.id.cancel_menuBtn:
                 mPopupWindow.dismiss();
@@ -442,7 +482,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 menu_listSet(trainer);
                 // foodTab_sub.changePage(4);
                 break;
-
+            case R.id.license_Btn:
+                license_listSet();
+                btn_View.setBackgroundResource(R.color.menubackcolor);
+                menu_list.setBackgroundResource(R.color.button_material_light);
+                main.setBackgroundResource(R.color.button_material_light);
+                top.setBackgroundResource(R.color.menubackcolor);
+                break;
+            case R.id.tabbackBtn:
+                viewPager.setCurrentItem(0, true);
+                break;
         }
     }
 }

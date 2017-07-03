@@ -289,7 +289,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.fragment_follow_itemview, container, false);
+            view = inflater.inflate(R.layout.fragment_follow_portrain_itemview, container, false);
             viewSet();
             final WebSettings settings = webView.getSettings();
             settings.setJavaScriptEnabled(true);
