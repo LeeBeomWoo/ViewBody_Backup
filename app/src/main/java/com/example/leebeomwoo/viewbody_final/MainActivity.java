@@ -81,8 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         SharedPreferences preferencesCompat = getSharedPreferences("a", MODE_PRIVATE);
         int tutorial = preferencesCompat.getInt("First", 0);
-        if(tutorial == 1){
-            Intent intent = new Intent();
+        if(tutorial == 0){
+            Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
         }
         ScaleConfig.create(this,

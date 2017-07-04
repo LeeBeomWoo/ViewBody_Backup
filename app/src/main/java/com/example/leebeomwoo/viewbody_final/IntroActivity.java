@@ -59,8 +59,11 @@ public class IntroActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(viewPager.getCurrentItem() != 3)
+                if(viewPager.getCurrentItem() != 3) {
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
+                } else {
+                    finish();
+                }
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
