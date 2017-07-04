@@ -110,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <Button
+            <ImageButton
                 android:id="@+id/tabbackBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
@@ -132,7 +132,7 @@
                 app:tabTextAppearance="@style/maintabtextsize"
                 app:tabTextColor="@color/nocolor" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/tabmenuBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"

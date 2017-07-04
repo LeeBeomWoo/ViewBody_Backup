@@ -2,6 +2,7 @@ package com.example.leebeomwoo.viewbody_final;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -61,9 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ViewPager viewPager;
     RelativeLayout maintab;
     PopupWindow mPopupWindow;
-    Button back, menu;
     Context context;
-    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn, licenseBtn;
+    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn, licenseBtn, back, menu;
     BodyTab_Sub bodyTab_sub;
     FollowTab_Sub followTab_sub;
     FoodTab_Sub foodTab_sub;
@@ -71,14 +72,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ListView menu_list;
     ScrollView menu_Scroll;
     LinearLayout btn_View, main, top;
+    CheckedTextView checkedTextView;
 
     String[] body, follow, food, trainer, license;
     int i = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferencesCompat preferencesCompat = getSharedPreferences("a", MODE_PRIVATE);
-        int tutorial = preferencesCompat.("First", 0)
+        SharedPreferences preferencesCompat = getSharedPreferences("a", MODE_PRIVATE);
+        int tutorial = preferencesCompat.getInt("First", 0);
+        if(tutorial == 1){
+            Intent intent = new Intent();
+            startActivity(intent);
+        }
         ScaleConfig.create(this,
                 1080, // Design Width
                 1920, // Design Height
@@ -109,13 +115,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // mSearchView = (SearchView) toolbar.getMenu().findItem(R.id.action_search).getActionView();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        back = (Button) findViewById(R.id.tabbackBtn);
+        back = (ImageButton) findViewById(R.id.tabbackBtn);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                viewPager.setCurrentItem(0, true);
             }
         });
-        menu = (Button) findViewById(R.id.tabmenuBtn);
+        menu = (ImageButton) findViewById(R.id.tabmenuBtn);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,8 +140,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
         mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
-        back = (Button) findViewById(R.id.tabbackBtn);
-        menu = (Button) findViewById(R.id.tabmenuBtn);
+        back = (ImageButton) findViewById(R.id.tabbackBtn);
+        menu = (ImageButton) findViewById(R.id.tabmenuBtn);
         tabLayout = (CenteringTabLayout) findViewById(R.id.main_TabLayout);
         tabLayout.setClickable(false);
         maintab = (RelativeLayout) findViewById(R.id.maintablayout);
@@ -215,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         licenseBtn = (ImageButton) popupView.findViewById(R.id.license_Btn);
         license_source = (TextView) popupView.findViewById(R.id.sourceTxt);
         license_Title = (TextView) popupView.findViewById(R.id.titleTxt);
-
+        checkedTextView = (CheckedTextView) popupView.findViewById(R.id.menuchecked);
 
         cancel_menuBtn.setOnClickListener(this);
         account_menuBtn.setOnClickListener(this);
@@ -225,6 +232,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         qna_menuBtn.setOnClickListener(this);
         writer_menuBtn.setOnClickListener(this);
         licenseBtn.setOnClickListener(this);
+        checkedTextView.setOnClickListener(this);
 
         menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -489,9 +497,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 main.setBackgroundResource(R.color.button_material_light);
                 top.setBackgroundResource(R.color.menubackcolor);
                 break;
-            case R.id.tabbackBtn:
-                viewPager.setCurrentItem(0, true);
-                break;
+            case R.id.menuchecked:
+                SharedPreferences pref = getSharedPreferences("a", MODE_PRIVATE);
+                SharedPreferences.Editor editor = pref.edit();
+                if(checkedTextView.isChecked()){
+                    editor.putInt("First", 0);
+                } else{
+                    editor.putInt("First", 1);
+                }
+                editor.apply();
         }
     }
 }
