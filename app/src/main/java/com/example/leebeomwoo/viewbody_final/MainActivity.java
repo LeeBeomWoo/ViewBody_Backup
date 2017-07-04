@@ -27,6 +27,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ListView menu_list;
     ScrollView menu_Scroll;
     LinearLayout btn_View, main, top;
-    CheckedTextView checkedTextView;
+    CheckBox checkedTextView;
 
     String[] body, follow, food, trainer, license;
     int i = 0;
@@ -222,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         licenseBtn = (ImageButton) popupView.findViewById(R.id.license_Btn);
         license_source = (TextView) popupView.findViewById(R.id.sourceTxt);
         license_Title = (TextView) popupView.findViewById(R.id.titleTxt);
-        checkedTextView = (CheckedTextView) popupView.findViewById(R.id.menuchecked);
+        checkedTextView = (CheckBox) popupView.findViewById(R.id.menuchecked);
 
         cancel_menuBtn.setOnClickListener(this);
         account_menuBtn.setOnClickListener(this);
@@ -233,7 +234,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         writer_menuBtn.setOnClickListener(this);
         licenseBtn.setOnClickListener(this);
         checkedTextView.setOnClickListener(this);
-
+        SharedPreferences preferencesCompat = getSharedPreferences("a", MODE_PRIVATE);
+        int tutorial = preferencesCompat.getInt("First", 0);
+        if(tutorial == 0){
+            checkedTextView.setChecked(true);
+        } else {
+            checkedTextView.setChecked(false);
+        }
         menu_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,

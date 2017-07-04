@@ -11,11 +11,13 @@
     android:orientation="vertical"
     android:showDividers="beginning|middle|end">
 
-    <CheckedTextView
+    <CheckBox
         android:id="@+id/menuchecked"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/menututorial" />
+        android:lineSpacingExtra="8sp"
+        android:text="@string/menututorial"
+        android:textAlignment="viewStart" />
 
     <LinearLayout
         android:id="@+id/menu_top"

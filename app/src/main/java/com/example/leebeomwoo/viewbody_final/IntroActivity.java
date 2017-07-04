@@ -8,13 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
 
 public class IntroActivity extends AppCompatActivity {
     ImageButton next, back;
     ViewPager viewPager;
-    CheckedTextView checkedTextView;
+    CheckBox checkedTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +23,7 @@ public class IntroActivity extends AppCompatActivity {
         next = (ImageButton) findViewById(R.id.next_tutorial_Btn);
         back = (ImageButton) findViewById(R.id.before_tutorial_Btn);
         viewPager = (ViewPager) findViewById(R.id.tutorial);
-        checkedTextView = (CheckedTextView) findViewById(R.id.checkedTextView);
+        checkedTextView = (CheckBox) findViewById(R.id.checkedTextView);
 
         viewPager.setAdapter(new PagerAdapterClass(getApplicationContext()));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
