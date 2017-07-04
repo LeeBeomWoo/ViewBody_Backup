@@ -30,6 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
@@ -50,14 +51,14 @@ public class ItemViewActivity extends AppCompatActivity {
      */
     public static final int REQUEST_CAMERA = 1;
     private static String TAG = "ItemView";
-    // FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
-    public String tr_id, item_word, section, video, videoPath;
-    int category, page_num;
-    public Context context = this;
     public static void setAutoOrientationEnabled(Context context, boolean enabled)
     {
         Settings.System.putInt( context.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, enabled ? 1 : 0);
     }
+    // FloatingActionButton fab, fab1, fab2, fab3, fab4, fab5;
+    public String tr_id, item_word, section, video, videoPath;
+    int category, page_num;
+    public Context context = this;
     @Override
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -90,7 +91,9 @@ public class ItemViewActivity extends AppCompatActivity {
                 Item_follow_fragment follow = (Item_follow_fragment) getSupportFragmentManager().findFragmentByTag("your_fragment");
             }
         }
-        setAutoOrientationEnabled(context, true);
+        if (android.provider.Settings.System.getInt(getContentResolver(),Settings.System.ACCELEROMETER_ROTATION, 0) != 1){
+            setAutoOrientationEnabled(this, true);
+        }
     }
     @Override
     protected void onStart() {

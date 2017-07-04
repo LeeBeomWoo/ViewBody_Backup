@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Rect;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.SharedPreferencesCompat;
@@ -36,6 +39,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.LicenseListAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
@@ -85,6 +89,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(tutorial == 0){
             Intent intent = new Intent(this, IntroActivity.class);
             startActivity(intent);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.System.canWrite(this)) {
+            } else {
+                Toast.makeText(this, "시스템 설정을 허가하기를 원치 않으시면 화면회전을 자동으로 설저앟여 주시기 바랍니다.", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+                intent.setData(Uri.parse("package:" + this.getPackageName()));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
         }
         ScaleConfig.create(this,
                 1080, // Design Width

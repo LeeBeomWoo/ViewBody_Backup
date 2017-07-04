@@ -39,6 +39,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v13.app.ActivityCompat;
@@ -775,6 +776,11 @@ public class Item_follow_fragment_21 extends Fragment
         super.onResume();
         Log.d(TAG, "onResume");
         startBackgroundThread();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.System.canWrite(getActivity())) {
+                Toast.makeText(getActivity(), "onResume: Granted", Toast.LENGTH_SHORT).show();
+            }
+        }
         if (mTextureView.isAvailable()) {
             if(getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
                 openCamera(mTextureView.getWidth(), mTextureView.getHeight());

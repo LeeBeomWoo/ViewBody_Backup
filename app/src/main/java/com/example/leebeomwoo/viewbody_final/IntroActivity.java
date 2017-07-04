@@ -2,6 +2,7 @@ package com.example.leebeomwoo.viewbody_final;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -35,18 +36,32 @@ public class IntroActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
+                        PortSet();
                         next.setImageResource(R.drawable.arrows);
                         back.setVisibility(View.INVISIBLE);
                         break;
                     case 1:
+                        PortSet();
                         next.setImageResource(R.drawable.arrows);
                         back.setVisibility(View.VISIBLE);
                         break;
                     case 2:
+                        PortSet();
                         next.setImageResource(R.drawable.arrows);
                         back.setVisibility(View.VISIBLE);
                         break;
                     case 3:
+                        PortSet();
+                        next.setImageResource(R.drawable.arrows);
+                        back.setVisibility(View.VISIBLE);
+                        break;
+                    case 4:
+                        PortSet();
+                        next.setImageResource(R.drawable.arrows);
+                        back.setVisibility(View.VISIBLE);
+                        break;
+                    case 5:
+                        LandSet();
                         next.setImageResource(R.drawable.close);
                         back.setVisibility(View.VISIBLE);
                         break;
@@ -88,7 +103,12 @@ public class IntroActivity extends AppCompatActivity {
             }
         });
     }
-
+    private void LandSet(){
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+    private void PortSet(){
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
 
     private class PagerAdapterClass extends PagerAdapter{
 
@@ -101,7 +121,7 @@ public class IntroActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 4;
+            return 6;
         }
 
         @Override
@@ -120,6 +140,12 @@ public class IntroActivity extends AppCompatActivity {
                     break;
                 case 3:
                     v = mInflater.inflate(R.layout.tutorial_4, null);
+                    break;
+                case 4:
+                    v = mInflater.inflate(R.layout.tutorial_5, null);
+                    break;
+                case 5:
+                    v = mInflater.inflate(R.layout.tutorial_6, null);
                     break;
             }
             if(position==0){
