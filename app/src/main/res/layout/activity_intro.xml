@@ -49,7 +49,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/arrows"
-            tools:ignore="ContentDescription"
+            tools:ignore="ContentDescription,RtlHardcoded"
             tools:layout_editor_absoluteY="289dp" />
 
         <ImageButton
@@ -67,7 +67,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/arrows"
-            tools:ignore="ContentDescription"
+            tools:ignore="ContentDescription,RtlHardcoded"
             tools:layout_editor_absoluteY="289dp" />
 
         <CheckBox
