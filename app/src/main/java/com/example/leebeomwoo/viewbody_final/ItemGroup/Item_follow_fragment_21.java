@@ -942,6 +942,10 @@ public class Item_follow_fragment_21 extends Fragment
         }
     }
 
+    public static void setAutoOrientationEnabled(Context context, boolean enabled)
+    {
+        Settings.System.putInt( context.getContentResolver(), Settings.System.ACCELEROMETER_ROTATION, enabled ? 1 : 0);
+    }
     private boolean hasPermissionsGranted(String[] permissions) {
         for (String permission : permissions) {
             if (ActivityCompat.checkSelfPermission(getActivity(), permission)

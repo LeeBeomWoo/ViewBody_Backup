@@ -14,9 +14,9 @@ import com.example.leebeomwoo.viewbody_final.R;
  * Created by Lee on 2017-07-04.
  */
 
-public class Tutorial_1  extends Fragment
+public class Tutorial_5 extends Fragment
 {
-    public Tutorial_1()
+    public Tutorial_5()
     {
     }
     @Override
@@ -28,7 +28,7 @@ public class Tutorial_1  extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        ImageView layout = (ImageView) inflater.inflate(R.layout.tutorial_1, container, false);
+        ImageView layout = (ImageView) inflater.inflate(R.layout.tutorial_5, container, false);
         return layout;
     }
 }

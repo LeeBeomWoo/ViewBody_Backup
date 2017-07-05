@@ -3,15 +3,27 @@ package com.example.leebeomwoo.viewbody_final;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+
+import com.example.leebeomwoo.viewbody_final.Fragment.Tutorial_1;
+import com.example.leebeomwoo.viewbody_final.Fragment.Tutorial_2;
+import com.example.leebeomwoo.viewbody_final.Fragment.Tutorial_3;
+import com.example.leebeomwoo.viewbody_final.Fragment.Tutorial_4;
+import com.example.leebeomwoo.viewbody_final.Fragment.Tutorial_5;
+import com.example.leebeomwoo.viewbody_final.Fragment.Tutorial_6;
+
+import cn.gavinliu.android.lib.scale.ScaleRelativeLayout;
 
 public class IntroActivity extends AppCompatActivity {
     ImageButton next, back;
@@ -26,7 +38,7 @@ public class IntroActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.tutorial);
         checkedTextView = (CheckBox) findViewById(R.id.checkedTextView);
 
-        viewPager.setAdapter(new PagerAdapterClass(getApplicationContext()));
+        viewPager.setAdapter(new PagerAdapterClass(getSupportFragmentManager()));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -75,7 +87,7 @@ public class IntroActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(viewPager.getCurrentItem() != 3) {
+                if(viewPager.getCurrentItem() != 5) {
                     viewPager.setCurrentItem(viewPager.getCurrentItem() + 1, true);
                 } else {
                     finish();
@@ -105,76 +117,51 @@ public class IntroActivity extends AppCompatActivity {
     }
     private void LandSet(){
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        next.setScaleY((float)0.5);
+        back.setScaleY((float)0.5);
+        next.setScaleX((float)0.5);
+        back.setScaleX((float)0.5);
+        ScaleRelativeLayout.LayoutParams layoutParams = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.landcheckSiz_item));
+        layoutParams.addRule(ScaleRelativeLayout.ALIGN_PARENT_BOTTOM);
+        layoutParams.addRule(ScaleRelativeLayout.ALIGN_PARENT_START);
+        checkedTextView.setLayoutParams(layoutParams);
     }
     private void PortSet(){
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
-    private class PagerAdapterClass extends PagerAdapter{
-
-        private LayoutInflater mInflater;
-
-        public PagerAdapterClass(Context c){
-            super();
-            mInflater = LayoutInflater.from(c);
+    private class PagerAdapterClass extends FragmentStatePagerAdapter
+    {
+        public PagerAdapterClass(android.support.v4.app.FragmentManager fm)
+        {
+            super(fm);
         }
-
         @Override
-        public int getCount() {
+        public android.support.v4.app.Fragment getItem(int position)
+        {
+            switch(position)
+            {
+                case 0:
+                    return new Tutorial_1();
+                case 1:
+                    return new Tutorial_2();
+                case 2:
+                    return new Tutorial_3();
+                case 3:
+                    return new Tutorial_4();
+                case 4:
+                    return new Tutorial_5();
+                case 5:
+                    return new Tutorial_6();
+                default:
+                    return null;
+            }
+        }
+        @Override
+        public int getCount()
+        {
             return 6;
         }
-
-        @Override
-        public Object instantiateItem(View pager, int position) {
-            View v = null;
-            int page;
-            switch (position){
-                case 0:
-                    v = mInflater.inflate(R.layout.tutorial_1, null);
-                    break;
-                case 1:
-                    v = mInflater.inflate(R.layout.tutorial_2, null);
-                    break;
-                case 2:
-                    v = mInflater.inflate(R.layout.tutorial_3, null);
-                    break;
-                case 3:
-                    v = mInflater.inflate(R.layout.tutorial_4, null);
-                    break;
-                case 4:
-                    v = mInflater.inflate(R.layout.tutorial_5, null);
-                    break;
-                case 5:
-                    v = mInflater.inflate(R.layout.tutorial_6, null);
-                    break;
-            }
-            if(position==0){
-                page = position;
-            }
-            else if(position==1){
-                page = position;
-            }else{
-                page = position;
-            }
-            ((ViewPager)pager).addView(v, 0);
-            return v;
-        }
-
-        @Override
-        public void destroyItem(View pager, int position, Object view) {
-            ((ViewPager)pager).removeView((View)view);
-        }
-
-        @Override
-        public boolean isViewFromObject(View pager, Object obj) {
-            return pager == obj;
-        }
-        @Override public void startUpdate(View arg0) {}
-        @Override public void finishUpdate(View arg0) {
-
-        }
-
-
     }
 
 }
