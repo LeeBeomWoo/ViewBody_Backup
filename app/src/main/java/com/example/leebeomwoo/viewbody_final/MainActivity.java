@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         back = (ImageButton) findViewById(R.id.tabbackBtn);
         menu = (ImageButton) findViewById(R.id.tabmenuBtn);
         tabLayout = (CenteringTabLayout) findViewById(R.id.main_TabLayout);
-        tabLayout.setClickable(false);
+        tabLayout.setClickable(true);
         maintab = (RelativeLayout) findViewById(R.id.maintablayout);
         tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
@@ -167,9 +167,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            Log.d("Scrolled position :", String.valueOf(position));
-                Log.d("positionOffset :", String.valueOf(positionOffset));
-                Log.d("positionOffsetPixels :", String.valueOf(positionOffsetPixels));
             }
 
             @Override

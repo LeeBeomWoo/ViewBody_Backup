@@ -18,6 +18,10 @@ package com.example.leebeomwoo.viewbody_final.Support;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -31,6 +35,8 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.leebeomwoo.viewbody_final.R;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -77,7 +83,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     public ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
 
     private SlidingTabStrip mTabStrip;
-
+    int[] color_selected;
     public SlidingTabLayout(Context context) {
         this(context, null);
     }
@@ -121,6 +127,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
      */
     public void setSelectedIndicatorColors(int... colors) {
         mTabStrip.setSelectedIndicatorColors(colors);
+        color_selected = colors;
     }
 
     /**
@@ -144,7 +151,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
         mTabViewLayoutId = layoutResId;
         mTabViewTextViewId = textViewId;
     }
-
     /**
      * Sets the associated view pager. Note that the assumption here is that the pager content
      * (number of tabs and tab titles) does not change after this call has been made.
@@ -168,17 +174,24 @@ public class SlidingTabLayout extends HorizontalScrollView {
         textView.setGravity(Gravity.CENTER);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, TAB_VIEW_TEXT_SIZE_SP);
         textView.setTypeface(Typeface.DEFAULT_BOLD);
-        textView.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams layout = new LinearLayout.LayoutParams(
+                getResources().getDimensionPixelSize(R.dimen.subTabTileSiz_item), getResources().getDimensionPixelSize(R.dimen.subTabTileSiz_item));
+        layout.setMargins(10, 5, 10, 5);
+        textView.setLayoutParams(layout);
 
         TypedValue outValue = new TypedValue();
         getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
                 outValue, true);
-        textView.setBackgroundResource(outValue.resourceId);
+        textView.setBackgroundResource(R.drawable.selectortab);
+        StateListDrawable drawable = (StateListDrawable)textView.getBackground();
+        DrawableContainer.DrawableContainerState dcs = (DrawableContainer.DrawableContainerState)drawable.getConstantState();
+        Drawable[] drawableItems = dcs.getChildren();
+        GradientDrawable gradientDrawableChecked = (GradientDrawable)drawableItems[0]; // item 1
+        GradientDrawable gradientDrawableUnChecked = (GradientDrawable)drawableItems[1]; // item 2
+        gradientDrawableChecked.setStroke(5, mTabStrip.blendColors(color_selected));
         textView.setAllCaps(true);
-
-        int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
-        textView.setPadding(padding, padding, padding, padding);
+        //int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
+        //textView.setPadding(padding, padding, padding, padding);
 
         return textView;
     }

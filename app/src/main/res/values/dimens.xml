@@ -47,4 +47,5 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     <dimen name="btnlayoutSiz_item">50dp</dimen>
     <dimen name="videoviewSiz_item">250dp</dimen>
     <dimen name="landcheckSiz_item">25dp</dimen>
+    <dimen name="subTabTileSiz_item">50dp</dimen>
 </resources>

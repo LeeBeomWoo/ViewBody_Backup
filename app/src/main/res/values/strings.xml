@@ -126,4 +126,5 @@
     <string name="error_selecting_file">파일 선택 오류</string>
     <string name="tutorialtext">다음부터 이 페이지를 보지 않겠습니다.</string>
     <string name="menututorial">앱을 시작할때 사용설명 페이지를 보겠습니다.</string>
+    <string name="testtabtitle">테스트\n타이틀</string>
 </resources>

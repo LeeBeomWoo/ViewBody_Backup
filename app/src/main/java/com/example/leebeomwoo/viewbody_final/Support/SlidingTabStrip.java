@@ -23,6 +23,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -35,10 +36,10 @@ public class SlidingTabStrip extends LinearLayout {
     private static final int DEFAULT_SELECTED_INDICATOR_COLOR = 0xFF33B5E5;
 
     private final int mBottomBorderThickness;
-    private final Paint mBottomBorderPaint;
+    public final Paint mBottomBorderPaint;
 
     private final int mSelectedIndicatorThickness;
-    private final Paint mSelectedIndicatorPaint;
+    public final Paint mSelectedIndicatorPaint;
 
     private final int mDefaultBottomBorderColor;
 
@@ -89,6 +90,11 @@ public class SlidingTabStrip extends LinearLayout {
         invalidate();
     }
 
+    Color getSelectedIndicatorColors() {
+        // Make sure that the custom colorizer is removed
+        Color a = mDefaultTabColorizer.getIndicatorColor(mSelectedPosition);
+        return a;
+    }
     public void onViewPagerPageChanged(int position, float positionOffset) {
         mSelectedPosition = position;
         mSelectionOffset = positionOffset;
@@ -104,12 +110,12 @@ public class SlidingTabStrip extends LinearLayout {
                 : mDefaultTabColorizer;
 
         // Thick colored underline below the current selection
+        // 현재 선택 영역 아래에 두껍게 색칠 된 밑줄
         if (childCount > 0) {
             View selectedTitle = getChildAt(mSelectedPosition);
             int left = selectedTitle.getLeft();
             int right = selectedTitle.getRight();
             int color = tabColorizer.getIndicatorColor(mSelectedPosition);
-
             if (mSelectionOffset > 0f && mSelectedPosition < (getChildCount() - 1)) {
                 int nextColor = tabColorizer.getIndicatorColor(mSelectedPosition + 1);
                 if (color != nextColor) {
@@ -117,6 +123,7 @@ public class SlidingTabStrip extends LinearLayout {
                 }
 
                 // Draw the selection partway between the tabs
+                // 탭 사이에 선택 영역을 그립니다.
                 View nextTitle = getChildAt(mSelectedPosition + 1);
                 left = (int) (mSelectionOffset * nextTitle.getLeft() +
                         (1.0f - mSelectionOffset) * left);
@@ -125,12 +132,14 @@ public class SlidingTabStrip extends LinearLayout {
             }
 
             mSelectedIndicatorPaint.setColor(color);
-
             canvas.drawRect(left, height - mSelectedIndicatorThickness, right,
                     height, mSelectedIndicatorPaint);
+            Log.d("SelecColor", mSelectedIndicatorPaint.toString());
+            Log.d("BottomColor", mBottomBorderPaint.toString());
         }
 
         // Thin underline along the entire bottom edge
+        // 전체 하단 가장자리를 따라가는 밑줄
         canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
     }
 
@@ -147,7 +156,7 @@ public class SlidingTabStrip extends LinearLayout {
      * @param ratio of which to blend. 1.0 will return {@code color1}, 0.5 will give an even blend,
      *              0.0 will return {@code color2}.
      */
-    private static int blendColors(int color1, int color2, float ratio) {
+    public static int blendColors(int color1, int color2, float ratio) {
         final float inverseRation = 1f - ratio;
         float r = (Color.red(color1) * ratio) + (Color.red(color2) * inverseRation);
         float g = (Color.green(color1) * ratio) + (Color.green(color2) * inverseRation);

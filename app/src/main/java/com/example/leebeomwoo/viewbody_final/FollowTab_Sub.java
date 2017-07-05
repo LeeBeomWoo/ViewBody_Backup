@@ -80,10 +80,10 @@ import java.util.ArrayList;
         }
         private void pageSetup(){
             items = new ArrayList<>();
-            items.add(new MainTabItem("코어 운동", mParam1, Follow_CoreFragment.class));
-            items.add(new MainTabItem("유산소 운동", mParam1, Follow_BrethFragment.class));
-            items.add(new MainTabItem("근력 운동", mParam1, Follow_MuscleUpFragment.class));
-            items.add(new MainTabItem("스트레칭 따라하기", mParam1, Follow_StretchingFragment.class));
+            items.add(new MainTabItem("코어운동" + "\n" + "따라하기", mParam1, Follow_CoreFragment.class));
+            items.add(new MainTabItem("유산소운동" + "\n" + "따라하기", mParam1, Follow_BrethFragment.class));
+            items.add(new MainTabItem("근력운동" + "\n" + "따라하기", mParam1, Follow_MuscleUpFragment.class));
+            items.add(new MainTabItem("스트레칭" + "\n" + "따라하기", mParam1, Follow_StretchingFragment.class));
 
             final SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.follow_TabLayout);
             viewPager = (ViewPager) view.findViewById(R.id.follow_viewPager);
