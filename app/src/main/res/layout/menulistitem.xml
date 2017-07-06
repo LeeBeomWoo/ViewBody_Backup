@@ -8,5 +8,5 @@
     android:orientation="vertical"
     android:padding="3dp"
     android:textAlignment="viewStart"
-    android:textColor="@color/cardview_light_background"
+    android:textColor="@color/cardview_dark_background"
     android:textSize="24sp" />

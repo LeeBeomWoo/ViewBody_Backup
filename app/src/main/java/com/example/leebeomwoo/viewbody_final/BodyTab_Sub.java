@@ -100,6 +100,7 @@ public class BodyTab_Sub extends Fragment {
         items.add(new MainTabItem("하체" + "\n" + "정보", mParam1, Lower_MuscleFragment.class));
         items.add(new MainTabItem("스트" + "\n" + "레칭", mParam1, StretchingFragment.class));
         tabsAdapter = new TabsAdapter(getChildFragmentManager(), items);
+        slidingTabLayout.setCustomTabView(R.layout.customtab_1, R.id.tabIcon_1);
         viewPager.setAdapter(tabsAdapter);
         slidingTabLayout.setViewPager(viewPager);
         slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.body_toolbar));

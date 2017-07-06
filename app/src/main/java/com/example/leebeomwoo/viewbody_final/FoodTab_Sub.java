@@ -72,13 +72,16 @@ public class FoodTab_Sub extends Fragment {
     }
     private void pageSetup(){
         items = new ArrayList<>();
+        /**
         items.add(new MainTabItem("체지방" + "\n" + "감소", mParam1, Food_FatFragment.class));
         items.add(new MainTabItem("근력" + "\n" + "강화", mParam1, Food_PowerUpFragment.class));
         items.add(new MainTabItem("근육량" + "\n" + "증대", mParam1, Food_MuscleUpFragment.class));
         items.add(new MainTabItem("몸매" + "\n" + "관리", mParam1, Food_DietFragment.class));
         items.add(new MainTabItem("대사" + "\n" + "증후군", mParam1, Food_MetabolicFragment.class));
+         **/
        final SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.food_TabLayout);
         viewPager = (ViewPager) view.findViewById(R.id.food_viewPager);
+        slidingTabLayout.setCustomTabView(R.layout.customtab_3, R.id.tabIcon_3);
 
         viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
         slidingTabLayout.setViewPager(viewPager);

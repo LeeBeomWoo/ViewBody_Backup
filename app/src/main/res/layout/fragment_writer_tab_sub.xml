@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/writertab"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:background="@color/writersubtabcolor"
         android:orientation="horizontal"
         app:layout_constraintLeft_toLeftOf="parent"

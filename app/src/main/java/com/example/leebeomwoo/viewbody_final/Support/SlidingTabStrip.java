@@ -90,11 +90,6 @@ public class SlidingTabStrip extends LinearLayout {
         invalidate();
     }
 
-    Color getSelectedIndicatorColors() {
-        // Make sure that the custom colorizer is removed
-        Color a = mDefaultTabColorizer.getIndicatorColor(mSelectedPosition);
-        return a;
-    }
     public void onViewPagerPageChanged(int position, float positionOffset) {
         mSelectedPosition = position;
         mSelectionOffset = positionOffset;
@@ -169,7 +164,7 @@ public class SlidingTabStrip extends LinearLayout {
         invalidate();
     }
 
-    private static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer {
+    public static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer {
         private int[] mIndicatorColors;
 
         @Override

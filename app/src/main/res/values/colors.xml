@@ -32,4 +32,6 @@
     <color name="menu_backlinecolor">#f7081b4d</color>
     <color name="menu_abllbackcolor">#f4000218</color>
     <color name="menubackcolor">#f2b6b6b6</color>
+    <color name="menutextback">#f9f9f9</color>
+    <color name="menucategoryback">#f9f9f9</color>
 </resources>

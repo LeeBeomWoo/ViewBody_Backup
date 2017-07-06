@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.SharedPreferencesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -59,6 +62,8 @@ import java.util.zip.Inflater;
 
 import cn.gavinliu.android.lib.scale.config.ScaleConfig;
 
+import static android.support.v4.content.ContextCompat.getColor;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     DrawerLayout mDrawerLayout;
     SearchView mSearchView;
@@ -78,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ScrollView menu_Scroll;
     LinearLayout btn_View, main, top;
     CheckBox checkedTextView;
+    public Drawable selector;
 
     String[] body, follow, food, trainer, license;
     int i = 0;
@@ -163,21 +169,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
         viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), mainMenuItems));
-        tabLayout.setupWithViewPager(viewPager);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
-
             @Override
             public void onPageSelected(int position) {
                 tabColor(position);
+                switch (position) {
+                    case 1:
+                        selector = getResources().getDrawable(R.drawable.selector_body);
+                        break;
+                    case 2:
+                        selector = getResources().getDrawable(R.drawable.selector_follow);
+                        break;
+                    case 3:
+                        selector = getResources().getDrawable(R.drawable.selector_food);
+                        break;
+                    case 4:
+                        selector = getResources().getDrawable(R.drawable.selector_writer);
+                        break;
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
+        tabLayout.setupWithViewPager(viewPager);
         tabColor(i);
         viewPager.setCurrentItem(i, true);
     }
@@ -203,7 +222,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-
     public PopupWindow popupDisplay(View v)
     {
         final View popupView = getLayoutInflater().inflate(R.layout.menu, null);
@@ -471,27 +489,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.body_menuBtn:
                 viewPager.setCurrentItem(1, true);
-                btn_View.setBackgroundResource(R.color.body_toolbar);
-                menu_list.setBackgroundResource(R.color.bodysubtabcolor);
-                main.setBackgroundResource(R.color.body_toolbar);
-                top.setBackgroundResource(R.color.bodysubtabcolor);
                 menu_listSet(body);
                 break;
             case R.id.follow_menuBtn:
                 viewPager.setCurrentItem(2, true);
-                btn_View.setBackgroundResource(R.color.followtoolbar);
-                menu_list.setBackgroundResource(R.color.followsubtabcolor);
-                main.setBackgroundResource(R.color.followtoolbar);
-                top.setBackgroundResource(R.color.followsubtabcolor);
                 menu_listSet(follow);
                 //foodTab_sub.changePage(1);
                 break;
             case R.id.food_menuBtn:
                 viewPager.setCurrentItem(3, true);
-                btn_View.setBackgroundResource(R.color.foodtoolbar);
-                menu_list.setBackgroundResource(R.color.foodsubtabcolor);
-                main.setBackgroundResource(R.color.foodtoolbar);
-                top.setBackgroundResource(R.color.foodsubtabcolor);
                 menu_listSet(food);
                 break;
             case R.id.qna_menuBtn:
@@ -501,19 +507,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.writer_menuBtn:
                 viewPager.setCurrentItem(4, true);
-                btn_View.setBackgroundResource(R.color.writertoolbar);
-                menu_list.setBackgroundResource(R.color.writersubtabcolor);
-                main.setBackgroundResource(R.color.writertoolbar);
-                top.setBackgroundResource(R.color.writersubtabcolor);
                 menu_listSet(trainer);
                 // foodTab_sub.changePage(4);
                 break;
             case R.id.license_Btn:
                 license_listSet();
-                btn_View.setBackgroundResource(R.color.menubackcolor);
-                menu_list.setBackgroundResource(R.color.button_material_light);
-                main.setBackgroundResource(R.color.button_material_light);
-                top.setBackgroundResource(R.color.menubackcolor);
                 break;
             case R.id.menuchecked:
                 SharedPreferences pref = getSharedPreferences("a", MODE_PRIVATE);

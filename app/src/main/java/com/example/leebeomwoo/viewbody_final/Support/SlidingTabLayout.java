@@ -22,20 +22,20 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
-import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.leebeomwoo.viewbody_final.MainActivity;
 import com.example.leebeomwoo.viewbody_final.R;
 
 /**
@@ -71,8 +71,9 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private static final int TITLE_OFFSET_DIPS = 24;
     private static final int TAB_VIEW_PADDING_DIPS = 16;
     private static final int TAB_VIEW_TEXT_SIZE_SP = 12;
-
+    private SlidingTabStrip.SimpleTabColorizer tabColorizer = new SlidingTabStrip.SimpleTabColorizer();
     private int mTitleOffset;
+    int selectTab;
 
     private int mTabViewLayoutId;
     private int mTabViewTextViewId;
@@ -81,7 +82,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     public ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
-
+    MainActivity mainActivity = new MainActivity();
     private SlidingTabStrip mTabStrip;
     int[] color_selected;
     public SlidingTabLayout(Context context) {
@@ -140,7 +141,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
     public void setOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         mViewPagerPageChangeListener = listener;
     }
-
     /**
      * Set the custom layout to be inflated for the tab views.
      *
@@ -178,21 +178,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 getResources().getDimensionPixelSize(R.dimen.subTabTileSiz_item), getResources().getDimensionPixelSize(R.dimen.subTabTileSiz_item));
         layout.setMargins(10, 5, 10, 5);
         textView.setLayoutParams(layout);
-
-        TypedValue outValue = new TypedValue();
-        getContext().getTheme().resolveAttribute(android.R.attr.selectableItemBackground,
-                outValue, true);
-        textView.setBackgroundResource(R.drawable.selectortab);
-        StateListDrawable drawable = (StateListDrawable)textView.getBackground();
-        DrawableContainer.DrawableContainerState dcs = (DrawableContainer.DrawableContainerState)drawable.getConstantState();
-        Drawable[] drawableItems = dcs.getChildren();
-        GradientDrawable gradientDrawableChecked = (GradientDrawable)drawableItems[0]; // item 1
-        GradientDrawable gradientDrawableUnChecked = (GradientDrawable)drawableItems[1]; // item 2
-        gradientDrawableChecked.setStroke(5, mTabStrip.blendColors(color_selected));
-        textView.setAllCaps(true);
-        //int padding = (int) (TAB_VIEW_PADDING_DIPS * getResources().getDisplayMetrics().density);
-        //textView.setPadding(padding, padding, padding, padding);
-
         return textView;
     }
 
@@ -306,6 +291,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
         @Override
         public void onPageSelected(int position) {
+            selectTab = position;
             if (mScrollState == ViewPager.SCROLL_STATE_IDLE) {
                 mTabStrip.onViewPagerPageChanged(position, 0f);
                 scrollToTab(position, 0);

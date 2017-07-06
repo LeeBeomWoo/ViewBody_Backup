@@ -73,6 +73,7 @@ public class WriterTab_Sub extends Fragment {
         items.add(new MainTabItem("트레이너", mParam1, WriterListFragment.class));
 
         final SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.writer_TabLayout);
+        slidingTabLayout.setCustomTabView(R.layout.customtab_4, R.id.tabIcon_4);
         viewPager = (ViewPager) view.findViewById(R.id.writer_viewPager);
 
         viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));

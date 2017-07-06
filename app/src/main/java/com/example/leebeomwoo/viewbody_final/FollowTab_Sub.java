@@ -88,6 +88,7 @@ import java.util.ArrayList;
             final SlidingTabLayout slidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.follow_TabLayout);
             viewPager = (ViewPager) view.findViewById(R.id.follow_viewPager);
 
+            slidingTabLayout.setCustomTabView(R.layout.customtab_2, R.id.tabIcon_2);
             viewPager.setAdapter(new TabsAdapter(getChildFragmentManager(), items));
             slidingTabLayout.setViewPager(viewPager);
             slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.followtoolbar));
