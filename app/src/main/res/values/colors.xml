@@ -34,4 +34,6 @@
     <color name="menubackcolor">#f2b6b6b6</color>
     <color name="menutextback">#f9f9f9</color>
     <color name="menucategoryback">#f9f9f9</color>
+    <color name="first_bottom_back">#ed495a</color>
+    <color name="first_topback">#2aaba7</color>
 </resources>
