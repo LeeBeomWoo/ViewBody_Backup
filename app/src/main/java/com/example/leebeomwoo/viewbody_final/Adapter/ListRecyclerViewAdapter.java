@@ -196,7 +196,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
         viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
-        viewHolder.categoryImage.setImageDrawable(titlecategory(ldItem.getLd_Section()));
+        viewHolder.categoryImage.setImageDrawable(titlecategory(ldItem.getLd_Category()));
         intent = new Intent(bContext, ItemViewActivity.class);
         if(ldItem.getLd_Video() != null) {
             String[] animalsArray = ldItem.getLd_Video().split(",");
@@ -260,10 +260,13 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         }
 
     }
+    private void titlecategory(){
+        titlecategory(0);
+    }
     private Drawable titlecategory(int i){
         switch (i){
             case 0://근육
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                drawable = bContext.getResources().getDrawable(R.drawable.logomain);
                 break;
             case 1://골격
                 drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
@@ -308,10 +311,10 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                 drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
             break;
             case 15://상체
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                drawable = bContext.getResources().getDrawable(R.drawable.upper);
             break;
             case 16://하체
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                drawable = bContext.getResources().getDrawable(R.drawable.lower);
             break;
             case 17://몸통
                 drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);

@@ -82,13 +82,12 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:layout_weight="1"
         android:background="@color/menutextback"
         android:text="@string/apptest"
-        android:textSize="18sp"
-        tools:ignore="InefficientWeight" />
+        android:textAlignment="viewStart"
+        android:textSize="18sp" />
 
     <ScrollView
         android:id="@+id/menu_Scroll"

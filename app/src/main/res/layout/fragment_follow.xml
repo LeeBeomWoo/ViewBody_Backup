@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/followCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:orientation="vertical">
 
-    <LinearLayout
+    <cn.gavinliu.android.lib.scale.ScaleLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+<cn.gavinliu.android.lib.scale.ScaleRelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/follow_Title"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginBottom="2dp" />
+    <ImageView
+        android:id="@+id/followtitle_image"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="@color/body_toolbar"
+        app:srcCompat="@drawable/logomain"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/follow_Title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="2dp"
+        android:layout_toEndOf="@+id/followtitle_image" /></cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
 
         <WebView
             android:id="@+id/list_movie"
@@ -66,5 +80,5 @@
                 android:text="@string/like" />
         </RelativeLayout>
 
-    </LinearLayout>
+    </cn.gavinliu.android.lib.scale.ScaleLinearLayout>
 </android.support.v7.widget.CardView>

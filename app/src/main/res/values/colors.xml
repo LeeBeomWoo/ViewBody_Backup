@@ -32,7 +32,7 @@
     <color name="menu_backlinecolor">#f7081b4d</color>
     <color name="menu_abllbackcolor">#f4000218</color>
     <color name="menubackcolor">#f2f8f8f8</color>
-    <color name="menutextback">#696969</color>
+    <color name="menutextback">#ffffff</color>
     <color name="menucategoryback">#eaeaea</color>
     <color name="first_bottom_back">#ed495a</color>
     <color name="first_topback">#2aaba7</color>

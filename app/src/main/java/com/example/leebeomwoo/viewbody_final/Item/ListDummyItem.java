@@ -8,13 +8,13 @@ public class ListDummyItem {
     private String ld_Id;
     private String ld_Title;
     private String ld_FaceUrl;
-    private int ld_Section;
+    private String ld_Section;
     private String ld_Video;
     private int ld_Pop;
     private int ld_Num;
+    private int ld_Category;
 
-
-    public ListDummyItem(String ld_Id, String ld_Title, String ld_ImageUrl, String ld_FaceUrl, int ld_Section, String ld_video, int ld_Num, int ld_Pop){
+    public ListDummyItem(String ld_Id, String ld_Title, String ld_ImageUrl, String ld_FaceUrl, String ld_Section, String ld_video, int ld_Num, int ld_Pop, int ld_Category){
         this.ld_Id = ld_Id;
         this.ld_Title = ld_Title;
         this.ld_ImageUrl = ld_ImageUrl;
@@ -23,6 +23,7 @@ public class ListDummyItem {
         this.ld_Video = ld_video;
         this.ld_Num = ld_Num;
         this.ld_Pop = ld_Pop;
+        this.ld_Category = ld_Category;
     }
 
     public String getLd_Video() {
@@ -65,11 +66,11 @@ public class ListDummyItem {
         this.ld_FaceUrl = ld_FaceUrl;
     }
 
-    public int getLd_Section() {
+    public String getLd_Section() {
         return ld_Section;
     }
 
-    public void setLd_Section(int ld_Section) {
+    public void setLd_Section(String ld_Section) {
         this.ld_Section = ld_Section;
     }
 
@@ -88,5 +89,14 @@ public class ListDummyItem {
     public void setLd_Pop(int ld_Pop) {
         this.ld_Pop = ld_Pop;
     }
+
+    public int getLd_Category() {
+        return ld_Category;
+    }
+
+    public void setLd_Category(int ld_Category) {
+        this.ld_Category = ld_Category;
+    }
+
 }
 

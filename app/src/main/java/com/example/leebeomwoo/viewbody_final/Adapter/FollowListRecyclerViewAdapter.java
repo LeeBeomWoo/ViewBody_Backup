@@ -2,6 +2,7 @@ package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.Item.LikeItem;
@@ -43,6 +45,7 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
     private final static String CHANGE = "https://www.youtube.com/embed";
     private final List<ListDummyItem> filteredUserList;
     private UserFilter userFilter;
+    Drawable drawable;
     private String callClass, URL, change;
     Intent intent;
 
@@ -56,6 +59,7 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
         public final TextView txtViewTitle, txtViewId;
         public final WebView imgView;
         public final Button likebutton, followbuttonn;
+        public final ImageView categoryImage;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
@@ -65,6 +69,7 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
             txtViewId = (TextView) itemLayoutView.findViewById(R.id.follow_Id);
             likebutton = (Button) itemLayoutView.findViewById(R.id.follow_Like);
             followbuttonn = (Button) itemLayoutView.findViewById(R.id.follow_Btn);
+            categoryImage = (ImageView) itemLayoutView.findViewById(R.id.followtitle_image);
             imgView.setFocusable(false);
             imgView.setWebViewClient(new WebViewClient());
             WebviewSet(imgView);
@@ -101,6 +106,7 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
         // - replace the contents of the view with that itemsData
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
+        viewHolder.categoryImage.setImageDrawable(titlecategory(ldItem.getLd_Category()));
         intent = new Intent(bContext, ItemViewActivity.class);
         if(ldItem.getLd_Video() != null) {
             change = ldItem.getLd_Video().replace("https://youtu.be", CHANGE);
@@ -141,6 +147,74 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
                 Log.d(TAG, ldItem.toString());
             }
         });
+    }
+    private void titlecategory(){
+        titlecategory(0);
+    }
+    private Drawable titlecategory( int i){
+        switch (i){
+            case 0://근육
+                drawable = bContext.getResources().getDrawable(R.drawable.logomain);
+                break;
+            case 1://골격
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 2://근지구력
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 3://근파워
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 4://머슬업
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 5://허리
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 6://상완
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 7://하완
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 8://복부
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 9://가슴
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 10://어깨
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 11://목
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 12://허벅지
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 13://종아리
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 14://엉덩이
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 15://상체
+                drawable = bContext.getResources().getDrawable(R.drawable.upper);
+                break;
+            case 16://하체
+                drawable = bContext.getResources().getDrawable(R.drawable.lower);
+                break;
+            case 17://몸통
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 18://심폐지구력
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+            case 19://미정
+                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+                break;
+        }
+        return drawable;
     }
     @Override
     public int getItemCount() {

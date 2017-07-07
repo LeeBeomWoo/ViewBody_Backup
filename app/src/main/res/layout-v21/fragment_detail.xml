@@ -22,9 +22,8 @@
 
             <ImageView
                 android:id="@+id/itemtitle_image"
-                android:layout_width="150dp"
+                android:layout_width="50dp"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:background="@color/body_toolbar"
                 app:srcCompat="@drawable/logomain" />
 
@@ -32,7 +31,6 @@
                 android:id="@+id/detile_Title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:background="@drawable/fablabel_bacground"
                 android:textAlignment="viewStart"
                 android:textSize="24sp"
