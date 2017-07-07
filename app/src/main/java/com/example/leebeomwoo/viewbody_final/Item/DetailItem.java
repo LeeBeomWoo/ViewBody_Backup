@@ -9,9 +9,9 @@ public class DetailItem {
     private String detail_Content;
     private String detail_Id;
     private String detail_Title;
-    private String detail_Category;
+    private int detail_Category;
 
-    public DetailItem(String detail_Id, String detail_Title, String detail_Content, String detail_ImageUrl, String detail_Category){
+    public DetailItem(String detail_Id, String detail_Title, String detail_Content, String detail_ImageUrl, int detail_Category){
         this.detail_Id = detail_Id;
         this.detail_Title = detail_Title;
         this.detail_Content = detail_Content;
@@ -51,11 +51,11 @@ public class DetailItem {
         this.detail_Title = detail_Title;
     }
 
-    public String getDetail_Category() {
+    public int getDetail_Category() {
         return detail_Category;
     }
 
-    public void setDetail_Category(String detail_Category) {
+    public void setDetail_Category(int detail_Category) {
         this.detail_Category = detail_Category;
     }
 }

@@ -515,3 +515,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
+/** 근육 : 0, 골격 : 1, 지구력 : 2, 근파워 : 3, 머슬업 : 4, 허리 : 5, 상완 :6, 하완 : 7,
+ *  복부 : 8, 가슴 : 9, 어깨 : 10, 목 : 11, 허벅지 : 12, 종아리 : 13, 엉덩이 :14,
+ *   상체 : 15, 하체 : 16, 몸통 : 17, 심폐지구력 : 18
+ */

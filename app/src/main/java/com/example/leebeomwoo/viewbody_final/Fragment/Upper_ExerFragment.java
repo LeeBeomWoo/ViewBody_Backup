@@ -33,8 +33,7 @@ public class Upper_ExerFragment extends android.support.v4.app.Fragment {
     ResponseCbd responseCbd;
     RecyclerviewClickEvent clickEvent = new RecyclerviewClickEvent();
     private List<ListDummyItem> ldItems;
-    @SuppressLint("StaticFieldLeak")
-    static ListRecyclerViewAdapter bdadapter;
+    ListRecyclerViewAdapter bdadapter;
     String TAG = "Upper_ExerFragment";
     public Upper_ExerFragment(){}
     @Override
