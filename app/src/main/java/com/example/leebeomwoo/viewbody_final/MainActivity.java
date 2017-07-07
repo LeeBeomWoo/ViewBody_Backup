@@ -3,38 +3,26 @@ package com.example.leebeomwoo.viewbody_final;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.SharedPreferencesCompat;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,7 +30,6 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.leebeomwoo.viewbody_final.Adapter.LicenseListAdapter;
 import com.example.leebeomwoo.viewbody_final.Adapter.StableArrayAdapter;
@@ -51,18 +38,11 @@ import com.example.leebeomwoo.viewbody_final.Fragment.QnAFragment;
 import com.example.leebeomwoo.viewbody_final.Item.LicenseItem;
 import com.example.leebeomwoo.viewbody_final.Item.MainTabItem;
 import com.example.leebeomwoo.viewbody_final.Support.CenteringTabLayout;
-import com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout;
-import com.example.leebeomwoo.viewbody_final.Support.SlidingTabStrip;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.zip.Inflater;
 
 import cn.gavinliu.android.lib.scale.config.ScaleConfig;
-
-import static android.support.v4.content.ContextCompat.getColor;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     DrawerLayout mDrawerLayout;
@@ -90,22 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences preferencesCompat = getSharedPreferences("a", MODE_PRIVATE);
-        int tutorial = preferencesCompat.getInt("First", 0);
-        if(tutorial == 0){
-            Intent intent = new Intent(this, IntroActivity.class);
-            startActivity(intent);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.System.canWrite(this)) {
-            } else {
-                Toast.makeText(this, "시스템 설정을 허가하기를 원치 않으시면 화면회전을 자동으로 설저앟여 주시기 바랍니다.", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
-                intent.setData(Uri.parse("package:" + this.getPackageName()));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        }
+
         ScaleConfig.create(this,
                 1080, // Design Width
                 1920, // Design Height
@@ -140,7 +105,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(0, true);
+                Intent intent = new Intent(context, FirstActivity.class);
+                intent.putExtra("message", 1);
+                startActivity(intent);
             }
         });
         menu = (ImageButton) findViewById(R.id.tabmenuBtn);
@@ -161,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
         mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
-        back = (ImageButton) findViewById(R.id.tabbackBtn);
-        menu = (ImageButton) findViewById(R.id.tabmenuBtn);
         tabLayout = (CenteringTabLayout) findViewById(R.id.main_TabLayout);
         tabLayout.setClickable(true);
         maintab = (RelativeLayout) findViewById(R.id.maintablayout);
@@ -176,20 +141,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onPageSelected(int position) {
                 tabColor(position);
-                switch (position) {
-                    case 1:
-                        selector = getResources().getDrawable(R.drawable.selector_body);
-                        break;
-                    case 2:
-                        selector = getResources().getDrawable(R.drawable.selector_follow);
-                        break;
-                    case 3:
-                        selector = getResources().getDrawable(R.drawable.selector_food);
-                        break;
-                    case 4:
-                        selector = getResources().getDrawable(R.drawable.selector_writer);
-                        break;
-                }
             }
 
             @Override
@@ -198,6 +149,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         tabLayout.setupWithViewPager(viewPager);
         tabColor(i);
+        tabLayout.setSelected(true);
+        new Handler().postDelayed(
+                new Runnable() {
+                    @Override public void run() {
+                        tabLayout.getTabAt(i).select();
+                    }
+                }, 100);
         viewPager.setCurrentItem(i, true);
     }
     private void tabColor(int i){
@@ -471,6 +429,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.notifyDataSetChanged();
         //foodTab_sub.changePage(2);
     }
+    private void background(View v){
+        body_menuBtn.setBackgroundResource(R.color.nocolor);
+        follow_menuBtn.setBackgroundResource(R.color.nocolor);
+        food_menuBtn.setBackgroundResource(R.color.nocolor);
+        writer_menuBtn.setBackgroundResource(R.color.nocolor);
+        licenseBtn.setBackgroundResource(R.color.nocolor);
+    }
     @Override
     public void onClick(View v) {
 
@@ -490,15 +455,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.body_menuBtn:
                 viewPager.setCurrentItem(1, true);
                 menu_listSet(body);
+                body_menuBtn.setBackgroundResource(R.color.menubackcolor);
+                follow_menuBtn.setBackgroundResource(R.color.nocolor);
+                food_menuBtn.setBackgroundResource(R.color.nocolor);
+                writer_menuBtn.setBackgroundResource(R.color.nocolor);
+                licenseBtn.setBackgroundResource(R.color.nocolor);
                 break;
             case R.id.follow_menuBtn:
                 viewPager.setCurrentItem(2, true);
                 menu_listSet(follow);
+                follow_menuBtn.setBackgroundResource(R.color.menubackcolor);
+                body_menuBtn.setBackgroundResource(R.color.nocolor);
+                food_menuBtn.setBackgroundResource(R.color.nocolor);
+                writer_menuBtn.setBackgroundResource(R.color.nocolor);
+                licenseBtn.setBackgroundResource(R.color.nocolor);
                 //foodTab_sub.changePage(1);
                 break;
             case R.id.food_menuBtn:
                 viewPager.setCurrentItem(3, true);
                 menu_listSet(food);
+                food_menuBtn.setBackgroundResource(R.color.menubackcolor);
+                body_menuBtn.setBackgroundResource(R.color.nocolor);
+                follow_menuBtn.setBackgroundResource(R.color.nocolor);
+                writer_menuBtn.setBackgroundResource(R.color.nocolor);
+                licenseBtn.setBackgroundResource(R.color.nocolor);
                 break;
             case R.id.qna_menuBtn:
                 Intent qintent = new Intent(MainActivity.this, QnaActivity.class);
@@ -508,10 +488,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.writer_menuBtn:
                 viewPager.setCurrentItem(4, true);
                 menu_listSet(trainer);
+                writer_menuBtn.setBackgroundResource(R.color.menubackcolor);
+                body_menuBtn.setBackgroundResource(R.color.nocolor);
+                follow_menuBtn.setBackgroundResource(R.color.nocolor);
+                food_menuBtn.setBackgroundResource(R.color.nocolor);
+                licenseBtn.setBackgroundResource(R.color.nocolor);
                 // foodTab_sub.changePage(4);
                 break;
             case R.id.license_Btn:
                 license_listSet();
+                licenseBtn.setBackgroundResource(R.color.menubackcolor);
+                body_menuBtn.setBackgroundResource(R.color.nocolor);
+                follow_menuBtn.setBackgroundResource(R.color.nocolor);
+                food_menuBtn.setBackgroundResource(R.color.nocolor);
+                writer_menuBtn.setBackgroundResource(R.color.nocolor);
                 break;
             case R.id.menuchecked:
                 SharedPreferences pref = getSharedPreferences("a", MODE_PRIVATE);

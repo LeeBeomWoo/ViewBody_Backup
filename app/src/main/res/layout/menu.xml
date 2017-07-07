@@ -5,7 +5,7 @@
     android:id="@+id/menu_main"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
+    android:background="@color/menubackcolor"
     android:divider="@drawable/underline"
     android:dividerPadding="2dp"
     android:orientation="vertical"
@@ -24,6 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
+        android:background="@color/menucategoryback"
         android:divider="@drawable/backline"
         android:dividerPadding="5dp"
         android:orientation="horizontal">
@@ -81,7 +82,7 @@
     <TextView
         android:id="@+id/textView6"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginBottom="3dp"
         android:layout_weight="1"
         android:background="@color/menutextback"
@@ -92,7 +93,7 @@
     <ScrollView
         android:id="@+id/menu_Scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -110,9 +111,10 @@
 
                 <ImageButton
                     android:id="@+id/body_menuBtn"
-                    android:layout_width="80dp"
+                    android:layout_width="85dp"
                     android:layout_height="90dp"
                     android:layout_margin="5dp"
+                    android:layout_marginStart="10dp"
                     android:background="@color/nocolor"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/body_with_text"
@@ -127,11 +129,12 @@
 
                 <ImageButton
                     android:id="@+id/follow_menuBtn"
-                    android:layout_width="80dp"
+                    android:layout_width="85dp"
                     android:layout_height="90dp"
                     android:layout_margin="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginStart="10dp"
                     android:background="@color/nocolor"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/follow_with_text"
@@ -146,9 +149,10 @@
 
                 <ImageButton
                     android:id="@+id/food_menuBtn"
-                    android:layout_width="80dp"
+                    android:layout_width="85dp"
                     android:layout_height="90dp"
                     android:layout_margin="5dp"
+                    android:layout_marginStart="10dp"
                     android:background="@color/nocolor"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/food_with_text"
@@ -163,11 +167,12 @@
 
                 <ImageButton
                     android:id="@+id/writer_menuBtn"
-                    android:layout_width="80dp"
+                    android:layout_width="85dp"
                     android:layout_height="90dp"
                     android:layout_margin="5dp"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginStart="10dp"
                     android:background="@color/nocolor"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/arrows2"
@@ -182,8 +187,9 @@
 
                 <ImageButton
                     android:id="@+id/license_Btn"
-                    android:layout_width="80dp"
+                    android:layout_width="85dp"
                     android:layout_height="90dp"
+                    android:layout_marginStart="10dp"
                     android:background="@color/nocolor"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/idcard"

@@ -47,7 +47,6 @@ public class SlidingTabStrip extends LinearLayout {
     private float mSelectionOffset;
 
     private SlidingTabLayout.TabColorizer mCustomTabColorizer;
-    private CenterSlidingTabLayout.TabColorizer mTabCustomColorizer;
     private final SimpleTabColorizer mDefaultTabColorizer;
 
     SlidingTabStrip(Context context) {
@@ -157,11 +156,6 @@ public class SlidingTabStrip extends LinearLayout {
         float g = (Color.green(color1) * ratio) + (Color.green(color2) * inverseRation);
         float b = (Color.blue(color1) * ratio) + (Color.blue(color2) * inverseRation);
         return Color.rgb((int) r, (int) g, (int) b);
-    }
-
-    public void setCustomTabColorizer(CenterSlidingTabLayout.TabColorizer tabColorizer) {
-        mTabCustomColorizer = tabColorizer;
-        invalidate();
     }
 
     public static class SimpleTabColorizer implements SlidingTabLayout.TabColorizer {

@@ -34,7 +34,7 @@
                 android:layout_height="40dp"
                 android:layout_weight="1"
                 android:background="@drawable/fablabel_bacground"
-                android:textAlignment="center"
+                android:textAlignment="viewStart"
                 android:textSize="24sp"
                 android:textStyle="bold" />
         </cn.gavinliu.android.lib.scale.ScaleLinearLayout>

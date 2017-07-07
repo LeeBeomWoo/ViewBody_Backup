@@ -82,7 +82,6 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     public ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
-    MainActivity mainActivity = new MainActivity();
     private SlidingTabStrip mTabStrip;
     int[] color_selected;
     public SlidingTabLayout(Context context) {
