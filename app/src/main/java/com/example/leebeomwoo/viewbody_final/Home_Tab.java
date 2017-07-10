@@ -141,7 +141,7 @@ public class Home_Tab extends Fragment {
                 });
                 break;
             case R.id.popular_list:
-                call = ConAdapter.getInstance().getResult_Ld("Poppular_Source");
+                call = ConAdapter.getInstance().getResult_Ld("Poppular");
                 call.enqueue(new Callback<ResponseLd>() {
                     @Override
                     public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {

@@ -20,8 +20,9 @@
         android:id="@+id/AutoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        android:layout_below="@+id/button_layout" />
+        android:layout_above="@+id/web_movie"
+        android:layout_toStartOf="@+id/button_layout"
+        android:visibility="visible" />
 
     <WebView
         android:id="@+id/web_movie"
@@ -35,31 +36,30 @@
     <cn.gavinliu.android.lib.scale.ScaleFrameLayout
         android:id="@+id/video_layout"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_below="@+id/button_layout"
-        android:layout_above="@+id/web_movie">
-
+        android:layout_height="match_parent"
+        android:layout_above="@+id/web_movie"
+        android:layout_toStartOf="@+id/button_layout"
+        android:visibility="invisible">
 
         <VideoView
             android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="visible" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </cn.gavinliu.android.lib.scale.ScaleFrameLayout>
 
     <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
         android:id="@+id/button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="false"
-        android:layout_alignParentTop="false">
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/web_movie"
+        android:layout_alignParentEnd="true">
 
         <ImageButton
             android:id="@+id/record_Btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_alignParentTop="true"
             android:layout_margin="5dp"
-            android:layout_toStartOf="@+id/viewChange_Btn"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
             android:src="@drawable/record"
@@ -69,9 +69,9 @@
             android:id="@+id/load_Btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_above="@+id/play_Btn"
             android:layout_margin="5dp"
             android:layout_marginStart="43dp"
-            android:layout_toEndOf="@+id/play_Btn"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
             android:src="@drawable/plus"
@@ -81,7 +81,7 @@
             android:id="@+id/play_Btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="top|start"
+            android:layout_alignParentBottom="true"
             android:layout_margin="5dp"
             android:layout_marginStart="43dp"
             android:background="@color/nocolor"
@@ -93,9 +93,7 @@
             android:id="@+id/viewChange_Btn"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="false"
-            android:layout_alignParentTop="false"
+            android:layout_below="@+id/record_Btn"
             android:layout_margin="5dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
@@ -106,8 +104,7 @@
             android:id="@+id/play_record"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="false"
+            android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
@@ -115,7 +112,6 @@
             android:visibility="visible"
             tools:ignore="ContentDescription" />
     </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
-
     <!-- <com.tutsplus.facedetection.FaceOverlayView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/face_overlay"
