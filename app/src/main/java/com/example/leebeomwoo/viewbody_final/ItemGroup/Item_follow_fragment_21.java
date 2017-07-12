@@ -417,8 +417,14 @@ public class Item_follow_fragment_21 extends Fragment
             super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             PortrainSet();
+            if (mTextureView != null && mTextureView.isAvailable()) {
+                configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
+            }
         } else if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
             LandSet();
+            if (mTextureView != null && mTextureView.isAvailable()) {
+                configureTransform(mTextureView.getHeight(), mTextureView.getWidth());
+            }
         }
     }
     private void LandSet(){
@@ -468,6 +474,7 @@ public class Item_follow_fragment_21 extends Fragment
         mTextureView.setZ((float)0);
     }
     private void PortrainSet(){
+        LandWebView = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelSize(R.dimen.videoviewSiz_item));
         LandButton = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LandCamera = new ScaleRelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         playlayout = new ScaleRelativeLayout.LayoutParams(getResources().getDimensionPixelSize(R.dimen.portlaneimageBtnsize_item), getResources().getDimensionPixelSize(R.dimen.portlaneimageBtnsize_item));
