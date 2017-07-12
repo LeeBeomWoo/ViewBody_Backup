@@ -16,14 +16,6 @@
         android:layout_alignParentTop="true"
         android:visibility="gone" />
 
-    <com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView
-        android:id="@+id/AutoView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/web_movie"
-        android:layout_toStartOf="@+id/button_layout"
-        android:visibility="visible" />
-
     <WebView
         android:id="@+id/web_movie"
         android:layout_width="match_parent"
@@ -39,25 +31,33 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/web_movie"
         android:layout_toStartOf="@+id/button_layout"
-        android:visibility="invisible">
+        android:visibility="visible">
+
+        <com.example.leebeomwoo.viewbody_final.CameraUse.AutoFitTextureView
+            android:id="@+id/AutoView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible" />
 
         <VideoView
             android:id="@+id/videoView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:visibility="invisible" />
     </cn.gavinliu.android.lib.scale.ScaleFrameLayout>
 
     <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
         android:id="@+id/button_layout"
-        android:layout_width="50dp"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/web_movie"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true">
 
         <ImageButton
             android:id="@+id/record_Btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentTop="true"
             android:layout_margin="5dp"
             android:background="@color/nocolor"
@@ -67,8 +67,8 @@
 
         <ImageButton
             android:id="@+id/load_Btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_above="@+id/play_Btn"
             android:layout_margin="5dp"
             android:background="@color/nocolor"
@@ -78,8 +78,8 @@
 
         <ImageButton
             android:id="@+id/play_Btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentBottom="true"
             android:layout_margin="5dp"
             android:background="@color/nocolor"
@@ -89,8 +89,8 @@
 
         <ImageButton
             android:id="@+id/viewChange_Btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_below="@+id/record_Btn"
             android:layout_margin="5dp"
             android:background="@color/nocolor"
@@ -101,8 +101,8 @@
 
         <ImageButton
             android:id="@+id/play_record"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:background="@color/nocolor"

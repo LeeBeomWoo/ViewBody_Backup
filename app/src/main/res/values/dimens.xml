@@ -43,8 +43,10 @@ http://developer.android.com/guide/topics/appwidgets/index.html#CreatingLayout
     -->
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="imageBtnsize_item">40dp</dimen>
+    <dimen name="portlaneimageBtnsize_item">60dp</dimen>
     <dimen name="imageBtnmargine_item">5dp</dimen>
     <dimen name="btnlayoutSiz_item">50dp</dimen>
+    <dimen name="portlanebtnlayoutSiz_item">70dp</dimen>
     <dimen name="videoviewSiz_item">250dp</dimen>
     <dimen name="landcheckSiz_item">25dp</dimen>
     <dimen name="subTabTileSiz_item">50dp</dimen>
