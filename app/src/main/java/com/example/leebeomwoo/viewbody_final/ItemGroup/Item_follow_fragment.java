@@ -416,7 +416,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
             public void onClick(View v) {
                 if(videoView.isPlaying()){
                     videoView.pause();
-                    play.setImageResource(R.drawable.playbutton);
+                    play.setImageResource(R.drawable.play);
                 }else {
                     videoView.start();
                     play.setImageResource(R.drawable.pause);
@@ -438,7 +438,7 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
         if(videoView.isPlaying()){
             play.setImageResource(R.drawable.pause);
         }else{
-            play.setImageResource(R.drawable.playbutton);
+            play.setImageResource(R.drawable.play);
         }
         if(record_plag){
             record.setImageResource(R.drawable.stop);

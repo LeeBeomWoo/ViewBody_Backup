@@ -153,6 +153,7 @@ public class ItemViewActivity extends AppCompatActivity {
                     fbundle.putString("section", section);
                     fbundle.putInt("page_num", page_num);
                     fbundle.putString("video", video);
+                    fbundle.putInt("category", category);
                     follow.setArguments(fbundle);
                     transaction.replace(R.id.fragment_container, follow);
                     transaction.addToBackStack(null);
@@ -163,6 +164,7 @@ public class ItemViewActivity extends AppCompatActivity {
                     fbundle.putString("tr_Id", tr_id);
                     fbundle.putString("section", section);
                     fbundle.putInt("page_num", page_num);
+                    fbundle.putInt("category", category);
                     fbundle.putString("video", video);
                     follow.setArguments(fbundle);
                     transaction.replace(R.id.fragment_container, follow);

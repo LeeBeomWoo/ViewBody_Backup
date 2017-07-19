@@ -46,7 +46,7 @@
             android:layout_margin="2dp"
             android:background="@color/nocolor"
             android:scaleType="fitCenter"
-            app:srcCompat="@drawable/arrows2"
+            app:srcCompat="@drawable/account"
             tools:ignore="ContentDescription" />
 
         <ImageView
@@ -72,7 +72,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@color/nocolor"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/close"
+                app:srcCompat="@drawable/cancel"
                 tools:ignore="ContentDescription"
                 tools:layout_editor_absoluteY="0dp" />
         </RelativeLayout>
@@ -174,7 +174,7 @@
                     android:layout_marginStart="10dp"
                     android:background="@color/nocolor"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/arrows2"
+                    app:srcCompat="@drawable/writer"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
@@ -188,10 +188,12 @@
                     android:id="@+id/license_Btn"
                     android:layout_width="85dp"
                     android:layout_height="90dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginStart="10dp"
                     android:background="@color/nocolor"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/idcard"
+                    app:srcCompat="@drawable/license"
                     tools:ignore="ContentDescription" />
 
                 <ImageView

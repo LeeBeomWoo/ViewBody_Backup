@@ -180,6 +180,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         settings.setPluginState(WebSettings.PluginState.ON);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -260,67 +261,85 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         }
 
     }
-    private void titlecategory(){
-        titlecategory(0);
-    }
     private Drawable titlecategory(int i){
         switch (i){
-            case 0://근육
-                drawable = bContext.getResources().getDrawable(R.drawable.logomain);
+            case 31://근육
+                drawable = bContext.getResources().getDrawable(R.drawable.muscleup_body);
                 break;
-            case 1://골격
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 32://골격
+                drawable = bContext.getResources().getDrawable(R.drawable.bone);
             break;
-            case 2://근지구력
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 33://근지구력
+                drawable = bContext.getResources().getDrawable(R.drawable.muscletime);
             break;
-            case 3://근파워
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 34://근파워
+                drawable = bContext.getResources().getDrawable(R.drawable.musclepower);
             break;
-            case 4://머슬업
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 35://머슬업
+                drawable = bContext.getResources().getDrawable(R.drawable.muscleup_body);
             break;
-            case 5://허리
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 42://허리
+                drawable = bContext.getResources().getDrawable(R.drawable.spine);
             break;
-            case 6://상완
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 11://전면상완
+                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
             break;
-            case 7://하완
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 21://후면상완
+                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_arm);
+                break;
+            case 12://전면하완
+                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
             break;
-            case 8://복부
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 22://후면하완
+                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_arm);
+                break;
+            case 37://복부
+                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
             break;
-            case 9://가슴
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 38://가슴
+                drawable = bContext.getResources().getDrawable(R.drawable.burst);
             break;
-            case 10://어깨
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 13://전면어깨
+                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
             break;
-            case 11://목
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 23://후면어깨
+                drawable = bContext.getResources().getDrawable(R.drawable.back_shoulder);
+                break;
+            case 14://전면목
+                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
             break;
-            case 12://허벅지
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 24://후면목
+                drawable = bContext.getResources().getDrawable(R.drawable.back_neck);
+                break;
+            case 15://전면허벅지
+                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
             break;
-            case 13://종아리
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 25://후면허벅지
+                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_leg);
+                break;
+            case 16://전면종아리
+                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
             break;
-            case 14://엉덩이
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 26://후면종아리
+                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_leg);
+                break;
+            case 36://엉덩이
+                drawable = bContext.getResources().getDrawable(R.drawable.hip);
             break;
-            case 15://상체
+            case 39://상체
                 drawable = bContext.getResources().getDrawable(R.drawable.upper);
             break;
-            case 16://하체
+            case 40://하체
                 drawable = bContext.getResources().getDrawable(R.drawable.lower);
             break;
-            case 17://몸통
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 17://전면몸통
+                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
             break;
-            case 18://심폐지구력
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
+            case 27://후면몸통
+                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                break;
+            case 41://심폐지구력
+                drawable = bContext.getResources().getDrawable(R.drawable.cardiopulmonary_endurance);
             break;
             case 19://미정
                 drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
