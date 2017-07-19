@@ -761,12 +761,12 @@ public class Item_follow_fragment_21 extends Fragment
 
     public void switchCamera() {
         if (cameraId.equals(CAMERA_FRONT)) {
-            cameraId = CAMERA_BACK;
             onPause();
+            cameraId = CAMERA_BACK;
             onResume();
         } else if (cameraId.equals(CAMERA_BACK)) {
-            cameraId = CAMERA_FRONT;
             onPause();
+            cameraId = CAMERA_FRONT;
             onResume();
         }
     }
