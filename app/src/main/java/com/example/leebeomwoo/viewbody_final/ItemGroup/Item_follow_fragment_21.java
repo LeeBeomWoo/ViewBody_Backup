@@ -730,15 +730,7 @@ public class Item_follow_fragment_21 extends Fragment
         super.onResume();
         Log.d(TAG, "onResume");
         startBackgroundThread();
-        if (mTextureView.isAvailable()) {
-            if (getResources().getConfiguration().orientation == ORIENTATION_PORTRAIT) {
-                configureTransform(mTextureView.getWidth(), mTextureView.getHeight());
-            } else {
-                configureTransform(mTextureView.getHeight(), mTextureView.getWidth());
-            }
-        } else {
-            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
-        }
+        reopenCamera();
         webView.resumeTimers();
     }
 
@@ -761,16 +753,24 @@ public class Item_follow_fragment_21 extends Fragment
 
     public void switchCamera() {
         if (cameraId.equals(CAMERA_FRONT)) {
-            onPause();
             cameraId = CAMERA_BACK;
-            onResume();
+            closeCamera();
+            reopenCamera();
+
         } else if (cameraId.equals(CAMERA_BACK)) {
-            onPause();
             cameraId = CAMERA_FRONT;
-            onResume();
+            closeCamera();
+            reopenCamera();
         }
     }
 
+    public void reopenCamera() {
+        if (mTextureView.isAvailable()) {
+            openCamera(mTextureView.getWidth(), mTextureView.getHeight());
+        } else {
+            mTextureView.setSurfaceTextureListener(mSurfaceTextureListener);
+        }
+    }
     /**
      * Stops the background thread and its {@link Handler}.
      */
@@ -829,13 +829,13 @@ public class Item_follow_fragment_21 extends Fragment
             if (grantResults.length == VIDEO_PERMISSIONS.length) {
                 for (int result : grantResults) {
                     if (result != PackageManager.PERMISSION_GRANTED) {
-                        ErrorDialog.newInstance(getString(R.string.permission_request))
+                        ErrorDialog.newInstance(getString(R.string.permission_request_camera))
                                 .show(getChildFragmentManager(), FRAGMENT_DIALOG);
                         break;
                     }
                 }
             } else {
-                ErrorDialog.newInstance(getString(R.string.permission_request))
+                ErrorDialog.newInstance(getString(R.string.permission_request_camera))
                         .show(getChildFragmentManager(), FRAGMENT_DIALOG);
             }
         } else {
@@ -845,13 +845,13 @@ public class Item_follow_fragment_21 extends Fragment
             if (grantResults.length == FILE_ACCESSPERMISSIONS.length) {
                 for (int result : grantResults) {
                     if (result != PackageManager.PERMISSION_GRANTED) {
-                        ErrorDialog.newInstance(getString(R.string.permission_request))
+                        ErrorDialog.newInstance(getString(R.string.permission_request_file))
                                 .show(getChildFragmentManager(), FRAGMENT_DIALOG);
                         break;
                     }
                 }
             } else {
-                ErrorDialog.newInstance(getString(R.string.permission_request))
+                ErrorDialog.newInstance(getString(R.string.permission_request_file))
                         .show(getChildFragmentManager(), FRAGMENT_DIALOG);
             }
         } else {
