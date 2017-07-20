@@ -486,6 +486,15 @@ public class Item_follow_fragment extends Fragment implements Camera.PreviewCall
     public void onResume() {
         super.onResume();
         Log.d(TAG, "onResume");
+        try {
+            mCamera.setPreviewDisplay(surfaceHolder);
+            mCamera.setPreviewCallback(this);
+            mCamera.startPreview();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //"this" is a SurfaceView which implements SurfaceHolder.Callback,
+        //as found in the code examples
         if (textureView.isAvailable()) {
             prepareVideoRecorder();
             new MediaPrepareTask().execute(null, null, null);
