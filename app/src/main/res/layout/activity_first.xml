@@ -108,11 +108,10 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="13dp"
                 android:layout_marginTop="35dp"
-                android:background="@color/bodysubtabcolor"
+                android:background="@drawable/main_body"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
                 android:transitionName="body"
-                app:srcCompat="@drawable/body_with_text"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -123,11 +122,10 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="35dp"
-                android:background="@color/foodtoolbar"
+                android:background="@drawable/main_foodlogo"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
                 android:transitionName="food"
-                app:srcCompat="@drawable/food_with_text"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -138,11 +136,10 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="13dp"
                 android:layout_marginTop="35dp"
-                android:background="@color/followsubtabcolor"
+                android:background="@drawable/main_followlogo"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
                 android:transitionName="follow"
-                app:srcCompat="@drawable/follow_with_text"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -153,11 +150,10 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="35dp"
                 android:layout_marginStart="13dp"
-                android:background="@color/writersubtabcolor"
+                android:background="@drawable/main_writerlogo"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
                 android:transitionName="writer"
-                app:srcCompat="@drawable/mainlogo"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -167,11 +163,10 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="35dp"
-                android:background="@color/newtoolbar"
+                android:background="@drawable/main_new"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
                 android:transitionName="home"
-                app:srcCompat="@drawable/mainlogo"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -182,11 +177,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginBottom="35dp"
                 android:layout_marginEnd="13dp"
-                android:background="@color/foodsubtabcolor"
+                android:background="@drawable/main_qna"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
                 android:transitionName="qna"
-                app:srcCompat="@drawable/qna_main"
                 tools:ignore="ContentDescription" />
         </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
     </cn.gavinliu.android.lib.scale.ScaleLinearLayout>

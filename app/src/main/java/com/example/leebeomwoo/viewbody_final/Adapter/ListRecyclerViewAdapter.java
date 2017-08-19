@@ -262,88 +262,496 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
 
     }
     private Drawable titlecategory(int i){
-        switch (i){
-            case 31://근육
-                drawable = bContext.getResources().getDrawable(R.drawable.muscleup_body);
-                break;
-            case 32://골격
-                drawable = bContext.getResources().getDrawable(R.drawable.bone);
-            break;
-            case 33://근지구력
-                drawable = bContext.getResources().getDrawable(R.drawable.muscletime);
-            break;
-            case 34://근파워
-                drawable = bContext.getResources().getDrawable(R.drawable.musclepower);
-            break;
-            case 35://머슬업
-                drawable = bContext.getResources().getDrawable(R.drawable.muscleup_body);
-            break;
-            case 42://허리
-                drawable = bContext.getResources().getDrawable(R.drawable.spine);
-            break;
-            case 11://전면상완
-                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
-            break;
-            case 21://후면상완
-                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_arm);
-                break;
-            case 12://전면하완
-                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
-            break;
-            case 22://후면하완
-                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_arm);
-                break;
-            case 37://복부
-                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
-            break;
-            case 38://가슴
-                drawable = bContext.getResources().getDrawable(R.drawable.burst);
-            break;
-            case 13://전면어깨
-                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
-            break;
-            case 23://후면어깨
-                drawable = bContext.getResources().getDrawable(R.drawable.back_shoulder);
-                break;
-            case 14://전면목
-                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
-            break;
-            case 24://후면목
-                drawable = bContext.getResources().getDrawable(R.drawable.back_neck);
-                break;
-            case 15://전면허벅지
-                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
-            break;
-            case 25://후면허벅지
-                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_leg);
-                break;
-            case 16://전면종아리
-                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
-            break;
-            case 26://후면종아리
-                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_leg);
-                break;
-            case 36://엉덩이
-                drawable = bContext.getResources().getDrawable(R.drawable.hip);
-            break;
-            case 39://상체
-                drawable = bContext.getResources().getDrawable(R.drawable.upper);
-            break;
-            case 40://하체
-                drawable = bContext.getResources().getDrawable(R.drawable.lower);
-            break;
-            case 17://전면몸통
-                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
-            break;
-            case 27://후면몸통
-                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
-                break;
-            case 41://심폐지구력
-                drawable = bContext.getResources().getDrawable(R.drawable.cardiopulmonary_endurance);
-            break;
-            case 19://미정
-                drawable = bContext.getResources().getDrawable(R.drawable.foodlogo);
-            break;
+        String s =String.valueOf(i);
+        String[] sa = s.split("");
+        if(sa[0] == "1"){//상체
+            if(sa[1] == "0"){//전후면 상관없음
+                switch (sa[2]) {
+                    case "0": // 상관없음
+                        break;
+                    case "1": // 골격
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.burst);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
+                                break;
+                        }
+                    case "2": // 근육
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.burst);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
+                                break;
+                        }
+                        break;
+                }
+            }else if(sa[1] == "1"){ // 전면
+                switch (sa[2]) {
+                    case "0": // 상관없음
+                        break;
+                    case "1": // 골격
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.burst);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
+                                break;
+                        }
+                        break;
+                    case "2": // 근육
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.burst);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
+                                break;
+                        }
+                        break;
+                    case "3": // 근력
+                        drawable = bContext.getResources().getDrawable(R.drawable.muscleup);
+                        break;
+                    case "4": // 근지구력
+                        drawable = bContext.getResources().getDrawable(R.drawable.musclelong);
+                        break;
+                    case "5": // 근파워
+                        drawable = bContext.getResources().getDrawable(R.drawable.musclepower);
+                        break;
+                    case "6": // 심폐지구력
+                        drawable = bContext.getResources().getDrawable(R.drawable.cardiopulmonary_endurance);
+                        break;
+                    case "7": // 유연성
+                        drawable = bContext.getResources().getDrawable(R.drawable.stretching);
+                        break;
+                }
+            }else if(sa[1] == "2") { // 후면
+                switch (sa[2]) {
+                    case "0": // 상관없음
+                        break;
+                    case "1": // 골격
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                                break;
+                        }
+                        break;
+                    case "2": // 근육
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                                break;
+                        }
+                        break;
+                    case "3": // 근력
+                        drawable = bContext.getResources().getDrawable(R.drawable.muscleup);
+                        break;
+                    case "4": // 근지구력
+                        drawable = bContext.getResources().getDrawable(R.drawable.musclelong);
+                        break;
+                    case "5": // 근파워
+                        drawable = bContext.getResources().getDrawable(R.drawable.musclepower);
+                        break;
+                    case "6": // 심폐지구력
+                        drawable = bContext.getResources().getDrawable(R.drawable.cardiopulmonary_endurance);
+                        break;
+                    case "7": // 유연성
+                        drawable = bContext.getResources().getDrawable(R.drawable.stretching);
+                        break;
+                }
+            }
+        }else {//하체
+            if(sa[1] == "0"){//전후면 상관없음
+                switch (sa[2]) {
+                    case "0": // 상관없음
+                        break;
+                    case "1": // 골격
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.burst);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
+                                break;
+                        }
+                    case "2": // 근육
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.burst);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
+                                break;
+                        }
+                        break;
+                }
+            }else if(sa[1] == "1"){ // 전면
+                switch (sa[2]) {
+                    case "0": // 상관없음
+                        break;
+                    case "1": // 골격
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.burst);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
+                                break;
+                        }
+                        break;
+                    case "2": // 근육
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.front_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.burst);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.stormach);
+                                break;
+                        }
+                        break;
+                    case "3": // 근력
+                        drawable = bContext.getResources().getDrawable(R.drawable.muscleup);
+                        break;
+                    case "4": // 근지구력
+                        drawable = bContext.getResources().getDrawable(R.drawable.musclelong);
+                        break;
+                    case "5": // 근파워
+                        drawable = bContext.getResources().getDrawable(R.drawable.musclepower);
+                        break;
+                    case "6": // 심폐지구력
+                        drawable = bContext.getResources().getDrawable(R.drawable.cardiopulmonary_endurance);
+                        break;
+                    case "7": // 유연성
+                        drawable = bContext.getResources().getDrawable(R.drawable.stretching);
+                        break;
+                }
+            }else if(sa[1] == "2"){ // 후면
+                switch (sa[2]) {
+                    case "0": // 상관없음
+                        break;
+                    case "1": // 골격
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                                break;
+                        }
+                        break;
+                    case "2": // 근육
+                        switch (sa[3]) {
+                            case "0": // 상관없음
+                                break;
+                            case "1": // 상완
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_arm);
+                                break;
+                            case "2": // 하완
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_arm);
+                                break;
+                            case "3": // 어깨
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_shoulder);
+                                break;
+                            case "4": // 목
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_neck);
+                                break;
+                            case "5": // 허벅지
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_upper_leg);
+                                break;
+                            case "6": // 종아리
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_lower_leg);
+                                break;
+                            case "7": // 가슴
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                                break;
+                            case "8": // 엉덩이
+                                drawable = bContext.getResources().getDrawable(R.drawable.hip);
+                                break;
+                            case "9": // 복부
+                                drawable = bContext.getResources().getDrawable(R.drawable.back_body);
+                                break;
+                        }
+                        break;
+                    case "3": // 근력
+                        drawable = bContext.getResources().getDrawable(R.drawable.muscleup);
+                        break;
+                    case "4": // 근지구력
+                        drawable = bContext.getResources().getDrawable(R.drawable.musclelong);
+                        break;
+                    case "5": // 근파워
+                        drawable = bContext.getResources().getDrawable(R.drawable.musclepower);
+                        break;
+                    case "6": // 심폐지구력
+                        drawable = bContext.getResources().getDrawable(R.drawable.cardiopulmonary_endurance);
+                        break;
+                    case "7": // 유연성
+                        drawable = bContext.getResources().getDrawable(R.drawable.stretching);
+                        break;
+                }
+            }
         }
         return drawable;
     }

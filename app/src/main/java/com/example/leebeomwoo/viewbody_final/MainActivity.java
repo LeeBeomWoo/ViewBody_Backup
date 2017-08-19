@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RelativeLayout maintab;
     PopupWindow mPopupWindow;
     Context context;
-    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn, licenseBtn, back, menu;
+    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn, licenseBtn, back, menu, menuHomeBtn;
     BodyTab_Sub bodyTab_sub;
     FollowTab_Sub followTab_sub;
     FoodTab_Sub foodTab_sub;
@@ -195,22 +195,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mPopupWindow.setFocusable(true);
         mPopupWindow.showAsDropDown(v, 0, 0);
         mPopupWindow.setOutsideTouchable(true);
-        cancel_menuBtn = (ImageButton) popupView.findViewById(R.id.cancel_menuBtn);
-        account_menuBtn = (ImageButton) popupView.findViewById(R.id.account_menuBtn);
-        body_menuBtn = (ImageButton) popupView.findViewById(R.id.body_menuBtn);
-        follow_menuBtn = (ImageButton) popupView.findViewById(R.id.follow_menuBtn);
-        food_menuBtn = (ImageButton) popupView.findViewById(R.id.food_menuBtn);
-        qna_menuBtn = (ImageButton) popupView.findViewById(R.id.qna_menuBtn);
-        writer_menuBtn = (ImageButton) popupView.findViewById(R.id.writer_menuBtn);
-        menu_list = (ListView) popupView.findViewById(R.id.menu_list);
-        menu_Scroll = (ScrollView) popupView.findViewById(R.id.menu_Scroll);
-        btn_View = (LinearLayout) popupView.findViewById(R.id.btn_View);
-        main = (LinearLayout) popupView.findViewById(R.id.menu_main);
-        top = (LinearLayout) popupView.findViewById(R.id.menu_top);
-        licenseBtn = (ImageButton) popupView.findViewById(R.id.license_Btn);
-        license_source = (TextView) popupView.findViewById(R.id.sourceTxt);
-        license_Title = (TextView) popupView.findViewById(R.id.titleTxt);
-        checkedTextView = (CheckBox) popupView.findViewById(R.id.menuchecked);
+        cancel_menuBtn = popupView.findViewById(R.id.cancel_menuBtn);
+        account_menuBtn = popupView.findViewById(R.id.account_menuBtn);
+        body_menuBtn = popupView.findViewById(R.id.body_menuBtn);
+        follow_menuBtn = popupView.findViewById(R.id.follow_menuBtn);
+        food_menuBtn = popupView.findViewById(R.id.food_menuBtn);
+        qna_menuBtn = popupView.findViewById(R.id.qna_Btn);
+        writer_menuBtn =  popupView.findViewById(R.id.writer_menuBtn);
+        menu_list = popupView.findViewById(R.id.menu_list);
+        menu_Scroll = popupView.findViewById(R.id.menu_Scroll);
+        btn_View = popupView.findViewById(R.id.btn_View);
+        main = popupView.findViewById(R.id.menu_main);
+        top = popupView.findViewById(R.id.menu_top);
+        menuHomeBtn = popupView.findViewById(R.id.menuBtn_home);
+        //licenseBtn = popupView.findViewById(R.id.license_Btn);
+        license_source = popupView.findViewById(R.id.sourceTxt);
+        license_Title = popupView.findViewById(R.id.titleTxt);
+        checkedTextView = popupView.findViewById(R.id.menuchecked);
 
         cancel_menuBtn.setOnClickListener(this);
         account_menuBtn.setOnClickListener(this);
@@ -455,6 +456,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.body_menuBtn:
                 viewPager.setCurrentItem(1, true);
                 menu_listSet(body);
+                body_menuBtn.setImageResource(R.drawable.menu_body_sel);
+                follow_menuBtn.setImageResource(R.drawable.menu_follow);
+                food_menuBtn.setImageResource(R.drawable.menu_food_sel);
+                writer_menuBtn.setImageResource(R.drawable.menu_writer);
                 body_menuBtn.setBackgroundResource(R.color.menubackcolor);
                 follow_menuBtn.setBackgroundResource(R.color.nocolor);
                 food_menuBtn.setBackgroundResource(R.color.nocolor);
@@ -464,6 +469,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.follow_menuBtn:
                 viewPager.setCurrentItem(2, true);
                 menu_listSet(follow);
+                follow_menuBtn.setImageResource(R.drawable.menu_follow_sel);
+                body_menuBtn.setImageResource(R.drawable.menu_body);
+                food_menuBtn.setImageResource(R.drawable.menu_food);
+                writer_menuBtn.setImageResource(R.drawable.menu_writer);
                 follow_menuBtn.setBackgroundResource(R.color.menubackcolor);
                 body_menuBtn.setBackgroundResource(R.color.nocolor);
                 food_menuBtn.setBackgroundResource(R.color.nocolor);
@@ -474,13 +483,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.food_menuBtn:
                 viewPager.setCurrentItem(3, true);
                 menu_listSet(food);
+                food_menuBtn.setImageResource(R.drawable.menu_food_sel);
+                body_menuBtn.setImageResource(R.drawable.menu_body);
+                follow_menuBtn.setImageResource(R.drawable.menu_follow);
+                writer_menuBtn.setImageResource(R.drawable.menu_writer);
                 food_menuBtn.setBackgroundResource(R.color.menubackcolor);
                 body_menuBtn.setBackgroundResource(R.color.nocolor);
                 follow_menuBtn.setBackgroundResource(R.color.nocolor);
                 writer_menuBtn.setBackgroundResource(R.color.nocolor);
                 licenseBtn.setBackgroundResource(R.color.nocolor);
                 break;
-            case R.id.qna_menuBtn:
+            case R.id.qna_Btn:
                 Intent qintent = new Intent(MainActivity.this, QnaActivity.class);
                 btn_View.setBackgroundResource(R.color.qnatoolbar);
                 startActivity(qintent);
@@ -488,6 +501,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.writer_menuBtn:
                 viewPager.setCurrentItem(4, true);
                 menu_listSet(trainer);
+                writer_menuBtn.setImageResource(R.drawable.menu_writer_sel);
+                body_menuBtn.setImageResource(R.drawable.menu_body);
+                follow_menuBtn.setImageResource(R.drawable.menu_follow);
+                food_menuBtn.setImageResource(R.drawable.menu_food);
                 writer_menuBtn.setBackgroundResource(R.color.menubackcolor);
                 body_menuBtn.setBackgroundResource(R.color.nocolor);
                 follow_menuBtn.setBackgroundResource(R.color.nocolor);
@@ -495,6 +512,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 licenseBtn.setBackgroundResource(R.color.nocolor);
                 // foodTab_sub.changePage(4);
                 break;
+            /**
             case R.id.license_Btn:
                 license_listSet();
                 licenseBtn.setBackgroundResource(R.color.menubackcolor);
@@ -502,7 +520,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 follow_menuBtn.setBackgroundResource(R.color.nocolor);
                 food_menuBtn.setBackgroundResource(R.color.nocolor);
                 writer_menuBtn.setBackgroundResource(R.color.nocolor);
-                break;
+                break;*/
             case R.id.menuchecked:
                 SharedPreferences pref = getSharedPreferences("a", MODE_PRIVATE);
                 SharedPreferences.Editor editor = pref.edit();
@@ -512,11 +530,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     editor.putInt("First", 1);
                 }
                 editor.apply();
+                break;
+            case R.id.menuBtn_home:
+                Intent home = new Intent(MainActivity.this, FirstActivity.class);
+                startActivity(home);
         }
     }
 }
-/** 상체 :1, 하체 : 2
- * 전면 : 1, 후면 : 2
- * 골격 : 0, 근육 : 1, 근력 : 2, 근지구력 : 3, 근파워 : 4, 심폐지구력 : 5, 유연성 : 6
- * 상완 : 1, 하완 : 2,  어깨 : 3, 목 : 4, 허벅지 : 5, 종아리 : 6, 가슴 : 7, 엉덩이 : 8, 복부 : 9
+/** 상체 : 1, 하체 : 2
+ * 상관 없음 : 0, 전면 : 1, 후면 : 2
+ * 상관 없음 : 0, 골격 : 1, 근육 : 2, 근력 : 3, 근지구력 : 4, 근파워 : 5, 심폐지구력 : 6, 유연성 : 7
+ * 상관 없음 : 0, 상완 : 1, 하완 : 2,  어깨 : 3, 목 : 4, 허벅지 : 5, 종아리 : 6, 가슴 : 7, 엉덩이 : 8, 복부 : 9
  */
