@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     RelativeLayout maintab;
     PopupWindow mPopupWindow;
     Context context;
-    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, home_menuBtn, qna_menuBtn, writer_menuBtn, licenseBtn, back, menu, menuHomeBtn;
+    ImageButton cancel_menuBtn, account_menuBtn, body_menuBtn, follow_menuBtn, food_menuBtn, qna_menuBtn, writer_menuBtn, licenseBtn, back, menu, menuHomeBtn;
     BodyTab_Sub bodyTab_sub;
     FollowTab_Sub followTab_sub;
     FoodTab_Sub foodTab_sub;
@@ -220,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         food_menuBtn.setOnClickListener(this);
         qna_menuBtn.setOnClickListener(this);
         writer_menuBtn.setOnClickListener(this);
-        licenseBtn.setOnClickListener(this);
+       // licenseBtn.setOnClickListener(this);
         checkedTextView.setOnClickListener(this);
         SharedPreferences preferencesCompat = getSharedPreferences("a", MODE_PRIVATE);
         int tutorial = preferencesCompat.getInt("First", 0);
@@ -430,13 +430,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         adapter.notifyDataSetChanged();
         //foodTab_sub.changePage(2);
     }
-    private void background(View v){
-        body_menuBtn.setBackgroundResource(R.color.nocolor);
-        follow_menuBtn.setBackgroundResource(R.color.nocolor);
-        food_menuBtn.setBackgroundResource(R.color.nocolor);
-        writer_menuBtn.setBackgroundResource(R.color.nocolor);
-        licenseBtn.setBackgroundResource(R.color.nocolor);
-    }
     @Override
     public void onClick(View v) {
 
@@ -464,7 +457,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 follow_menuBtn.setBackgroundResource(R.color.nocolor);
                 food_menuBtn.setBackgroundResource(R.color.nocolor);
                 writer_menuBtn.setBackgroundResource(R.color.nocolor);
-                licenseBtn.setBackgroundResource(R.color.nocolor);
+               // licenseBtn.setBackgroundResource(R.color.nocolor);
                 break;
             case R.id.follow_menuBtn:
                 viewPager.setCurrentItem(2, true);
@@ -477,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 body_menuBtn.setBackgroundResource(R.color.nocolor);
                 food_menuBtn.setBackgroundResource(R.color.nocolor);
                 writer_menuBtn.setBackgroundResource(R.color.nocolor);
-                licenseBtn.setBackgroundResource(R.color.nocolor);
+               // licenseBtn.setBackgroundResource(R.color.nocolor);
                 //foodTab_sub.changePage(1);
                 break;
             case R.id.food_menuBtn:
@@ -491,7 +484,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 body_menuBtn.setBackgroundResource(R.color.nocolor);
                 follow_menuBtn.setBackgroundResource(R.color.nocolor);
                 writer_menuBtn.setBackgroundResource(R.color.nocolor);
-                licenseBtn.setBackgroundResource(R.color.nocolor);
+               // licenseBtn.setBackgroundResource(R.color.nocolor);
                 break;
             case R.id.qna_Btn:
                 Intent qintent = new Intent(MainActivity.this, QnaActivity.class);
@@ -509,7 +502,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 body_menuBtn.setBackgroundResource(R.color.nocolor);
                 follow_menuBtn.setBackgroundResource(R.color.nocolor);
                 food_menuBtn.setBackgroundResource(R.color.nocolor);
-                licenseBtn.setBackgroundResource(R.color.nocolor);
+                //licenseBtn.setBackgroundResource(R.color.nocolor);
                 // foodTab_sub.changePage(4);
                 break;
             /**
