@@ -26,7 +26,7 @@ public class ConAdapter {
     private static OkHttpClient client;
     private static NetworkService Interface;
 
-    public static final String SERVER_URL = "http://bcns.iptime.org:80/";
+    public static final String SERVER_URL = "http://bcns.iptime.org:2986/";
 
     public synchronized static NetworkService getInstance() {
         if (Interface == null) {
