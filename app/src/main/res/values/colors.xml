@@ -20,14 +20,16 @@
     <color name="common_google_signin_btn_text_dark_default">#070808</color>
     <color name="body_toolbar">#6c5382</color>
     <color name="bodysubtabcolor">#ac67eb</color>
-    <color name="followtoolbar">#2ab0aa</color>
+    <color name="followtoolbar">#1cb3ac</color>
     <color name="followsubtabcolor">#31cbc5</color>
     <color name="foodtoolbar">#ff857b</color>
     <color name="foodsubtabcolor">#ffb5af</color>
     <color name="writertoolbar">#5c69d0</color>
     <color name="writersubtabcolor">#83a5f6</color>
     <color name="qnatoolbar">#ffb5af</color>
+    <color name="qnasubtabcolor">#ffdfdd</color>
     <color name="newtoolbar">#f6c120</color>
+    <color name="newsubtabcolor">#ffd868</color>
     <color name="introlowerback">#d7348b</color>
     <color name="menu_backlinecolor">#f7081b4d</color>
     <color name="menu_abllbackcolor">#f4000218</color>

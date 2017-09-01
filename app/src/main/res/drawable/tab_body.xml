@@ -5,7 +5,7 @@
 
     <stroke
         android:width="5dp"
-        android:color="#2bb0aa" />
+        android:color="@color/body_toolbar" />
 
     <corners
         android:bottomLeftRadius="30dp"

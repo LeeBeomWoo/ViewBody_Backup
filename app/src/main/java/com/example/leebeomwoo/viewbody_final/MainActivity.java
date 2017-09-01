@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
         tabLayout = (CenteringTabLayout) findViewById(R.id.main_TabLayout);
         tabLayout.setClickable(true);
+        tabLayout.setSelectedTabIndicatorHeight(17);
         maintab = (RelativeLayout) findViewById(R.id.maintablayout);
         tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         viewPager = (ViewPager) findViewById(R.id.main_viewPager);
@@ -162,21 +163,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (i){
             case 0:
                 maintab.setBackgroundResource(R.color.newtoolbar);
+                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.newsubtabcolor));
                 break;
             case 1:
                 maintab.setBackgroundResource(R.color.body_toolbar);
+                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.bodysubtabcolor));
                 break;
             case 2:
                 maintab.setBackgroundResource(R.color.followtoolbar);
+                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.followsubtabcolor));
                 break;
             case 3:
                 maintab.setBackgroundResource(R.color.foodtoolbar);
+                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.foodsubtabcolor));
                 break;
             case 4:
                 maintab.setBackgroundResource(R.color.writertoolbar);
+                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.writersubtabcolor));
                 break;
             case 5:
                 maintab.setBackgroundResource(R.color.qnatoolbar);
+                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.qnasubtabcolor));
                 break;
         }
     }
