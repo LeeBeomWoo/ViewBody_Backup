@@ -50,10 +50,12 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     private UserFilter userFilter;
     private RecyclerviewClickEvent clickEvent = new RecyclerviewClickEvent();
     private Intent intent;
-    public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
+    private int color;
+    public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList, int color){
         this.ldItems = ldItemList;
         this.bContext = context;
         this.filteredUserList = new ArrayList<>();
+        this.color = color;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
@@ -80,6 +82,24 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             button = itemLayoutView.findViewById(R.id.like_btn);
             videoView_3 = itemLayoutView.findViewById(R.id.video_view_3);
             categoryImage = itemLayoutView.findViewById(R.id.itemtitle_image);
+            categoryImage.setBackgroundResource(color);
+            switch (color){
+                case R.drawable.body_title_back:
+                    txtViewTitle.setBackgroundResource(R.drawable.body_title_text_back);
+                    break;
+                case R.drawable.follow_title_back:
+                    txtViewTitle.setBackgroundResource(R.drawable.follow_title_text_back);
+                    break;
+                case R.drawable.food_title_back:
+                    txtViewTitle.setBackgroundResource(R.drawable.food_title_text_back);
+                    break;
+                case R.drawable.new_title_back:
+                    txtViewTitle.setBackgroundResource(R.drawable.new_title_text_back);
+                    break;
+                case R.drawable.writer_title_back:
+                    txtViewTitle.setBackgroundResource(R.drawable.writer_title_text_back);
+                    break;
+            }
             imgViewFace.setWebViewClient(new WebViewClient());
             imgViewIcon.setWebViewClient(new WebViewClient());
             imgViewFace.setFocusable(false);

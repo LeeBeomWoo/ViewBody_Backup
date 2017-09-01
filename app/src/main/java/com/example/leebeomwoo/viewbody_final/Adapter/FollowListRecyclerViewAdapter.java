@@ -48,11 +48,12 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
     Drawable drawable;
     private String callClass, URL, change;
     Intent intent;
-
-    public FollowListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList){
+    int color;
+    public FollowListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList, int color){
         this.ldItems = ldItemList;
         this.bContext = context;
         this.filteredUserList = new ArrayList<>();
+        this.color = color;
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final CardView mView;
@@ -70,6 +71,8 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
             likebutton = (Button) itemLayoutView.findViewById(R.id.follow_Like);
             followbuttonn = (Button) itemLayoutView.findViewById(R.id.follow_Btn);
             categoryImage = (ImageView) itemLayoutView.findViewById(R.id.followtitle_image);
+            categoryImage.setBackgroundResource(R.drawable.follow_title_back);
+            txtViewTitle.setBackgroundResource(R.drawable.follow_title_text_back);
             imgView.setFocusable(false);
             imgView.setWebViewClient(new WebViewClient());
             WebviewSet(imgView);

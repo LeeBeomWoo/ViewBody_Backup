@@ -127,7 +127,7 @@ public class Home_Tab extends Fragment {
                             Log.d(TAG + "_1", "서버와의 연결이 잘됐어요~.");
                             Log.d(TAG + "_1", responseLd.toString());
                             nsldItems = responseLd.getLdItem();
-                            nsa = new ListRecyclerViewAdapter(getActivity(), nsldItems);
+                            nsa = new ListRecyclerViewAdapter(getActivity(), nsldItems, R.drawable.new_title_back);
                             Log.d("response", nsldItems.toString());
                             rv.setAdapter(nsa);
                         }else{
@@ -150,7 +150,7 @@ public class Home_Tab extends Fragment {
                             Log.d(TAG + "_1", "서버와의 연결이 잘됐어요~.");
                             Log.d(TAG + "_1", responseLd.toString());
                             psldItems = responseLd.getLdItem();
-                            psa = new ListRecyclerViewAdapter(getActivity(), psldItems);
+                            psa = new ListRecyclerViewAdapter(getActivity(), psldItems, R.drawable.new_title_back);
                             Log.d("response", psldItems.toString());
                             rv.setAdapter(psa);
                         }else{

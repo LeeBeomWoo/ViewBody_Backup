@@ -16,7 +16,7 @@
 
         <cn.gavinliu.android.lib.scale.ScaleLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/cardview_light_background"
             android:orientation="horizontal">
 
@@ -24,15 +24,17 @@
                 android:id="@+id/itemtitle_image"
                 android:layout_width="50dp"
                 android:layout_height="40dp"
-                android:background="@color/body_toolbar" />
+                tools:ignore="ContentDescription" />
 
             <TextView
                 android:id="@+id/detile_Title"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/fablabel_bacground"
-                android:textAlignment="viewStart"
-                android:textSize="24sp"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@+id/itemtitle_image"
+                android:paddingLeft="15dp"
+                android:paddingRight="5dp"
+                android:textAlignment="textStart"
+                android:textSize="22sp"
                 android:textStyle="bold" />
         </cn.gavinliu.android.lib.scale.ScaleLinearLayout>
 
@@ -48,6 +50,7 @@
             android:layout_height="wrap_content"
             android:background="@color/cardview_light_background"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -64,6 +67,7 @@
             android:layout_height="wrap_content"
             android:background="@color/cardview_light_background"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -80,6 +84,7 @@
             android:layout_height="wrap_content"
             android:background="@color/cardview_light_background"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
             android:visibility="gone" />

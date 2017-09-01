@@ -21,7 +21,7 @@
         android:layout_width="50dp"
         android:layout_height="40dp"
         android:layout_weight="1"
-        android:background="@color/body_toolbar"
+        android:background="@drawable/follow_title_back"
         app:srcCompat="@drawable/logomain"
         tools:ignore="ContentDescription" />
 
@@ -29,8 +29,11 @@
         android:id="@+id/follow_Title"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginBottom="2dp"
-        android:layout_toEndOf="@+id/followtitle_image" /></cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+        android:layout_toEndOf="@+id/followtitle_image"
+        android:paddingLeft="15dp"
+        android:paddingRight="5dp"
+        android:textSize="22sp"
+        android:textStyle="bold" /></cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
 
         <WebView
             android:id="@+id/list_movie"

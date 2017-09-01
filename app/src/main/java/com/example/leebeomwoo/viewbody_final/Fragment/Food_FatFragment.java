@@ -62,7 +62,7 @@ public class Food_FatFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
                 ldItems = responseLd.getLdItem();
                 Log.d("response", ldItems.toString());
-                bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems);
+                bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems, R.drawable.food_title_back);
                 rv.setAdapter(bdadapter);
             }
             @Override

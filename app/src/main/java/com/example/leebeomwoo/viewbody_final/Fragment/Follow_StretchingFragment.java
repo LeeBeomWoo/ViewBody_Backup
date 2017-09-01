@@ -118,7 +118,7 @@ public class Follow_StretchingFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
                 ldItems = responseLd.getLdItem();
                 Log.d("response", ldItems.toString());
-                bdadapter = new FollowListRecyclerViewAdapter(getActivity(), ldItems);
+                bdadapter = new FollowListRecyclerViewAdapter(getActivity(), ldItems, R.drawable.follow_title_back);
                 rv.setAdapter(bdadapter);
             }
             @Override

@@ -111,7 +111,6 @@
                 android:background="@drawable/main_body"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
-                android:transitionName="body"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -125,7 +124,6 @@
                 android:background="@drawable/main_foodlogo"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
-                android:transitionName="food"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -139,7 +137,6 @@
                 android:background="@drawable/main_followlogo"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
-                android:transitionName="follow"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -153,7 +150,6 @@
                 android:background="@drawable/main_writerlogo"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
-                android:transitionName="writer"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -166,7 +162,6 @@
                 android:background="@drawable/main_new"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
-                android:transitionName="home"
                 tools:ignore="ContentDescription" />
 
             <ImageButton
@@ -180,7 +175,6 @@
                 android:background="@drawable/main_qna"
                 android:padding="15dp"
                 android:scaleType="fitCenter"
-                android:transitionName="qna"
                 tools:ignore="ContentDescription" />
         </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
     </cn.gavinliu.android.lib.scale.ScaleLinearLayout>

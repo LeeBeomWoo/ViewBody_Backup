@@ -120,7 +120,7 @@ public class Follow_BrethFragment extends android.support.v4.app.Fragment {
                 responseLd = response.body();
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
                 ldItems = responseLd.getLdItem();
-                bdadapter = new FollowListRecyclerViewAdapter(getActivity(), ldItems);
+                bdadapter = new FollowListRecyclerViewAdapter(getActivity(), ldItems, R.drawable.follow_title_back);
                 rv.setAdapter(bdadapter);
                 Log.d("response", ldItems.toString());
             }
@@ -146,7 +146,7 @@ public class Follow_BrethFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,t.getMessage());
             }
         });
-        bdadapter = new FollowListRecyclerViewAdapter(getActivity(), ldItems);
+        bdadapter = new FollowListRecyclerViewAdapter(getActivity(), ldItems,  R.drawable.follow_title_back);
         rv.setAdapter(bdadapter);
     }
     @Override
