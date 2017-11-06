@@ -6,6 +6,7 @@ import cn.gavinliu.android.lib.scale.ScaleFrameLayout;
 import cn.gavinliu.android.lib.scale.ScaleLinearLayout;
 import cn.gavinliu.android.lib.scale.ScaleRelativeLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,4 +35,5 @@ public class CenteringTabLayout extends TabLayout {
         View lastTab = ((ViewGroup)getChildAt(0)).getChildAt(((ViewGroup)getChildAt(0)).getChildCount()-1);
         ViewCompat.setPaddingRelative(getChildAt(0), (getWidth()/2) - (firstTab.getWidth()/2),0,(getWidth()/2) - (lastTab.getWidth()/2),0);
     }
+
 }

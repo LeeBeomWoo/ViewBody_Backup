@@ -5,117 +5,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:touchscreenBlocksFocus="true"
     tools:context="com.example.leebeomwoo.viewbody_final.MainActivity">
-<cn.gavinliu.android.lib.scale.ScaleRelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:logo="@drawable/logomain"
-            app:layout_scrollFlags="scroll|enterAlways|snap">
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:logo="@drawable/logomain"
+                app:layout_scrollFlags="scroll|enterAlways|snap">
+
+                <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/logoimageBtn"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/nocolor"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/logo"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/logoimageBtn"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/divider"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/imageView5"
+                        android:layout_width="230dp"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/imageView3"
+                        android:padding="5dp"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/toolbartext"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:layout_toEndOf="@+id/imageView5"
+                        android:scaleType="fitCenter"
+                        app:srcCompat="@drawable/divider"
+                        tools:ignore="ContentDescription" />
+
+                </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+
+            </android.support.v7.widget.Toolbar>
 
             <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
+                android:id="@+id/maintablayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/logoimageBtn"
+                <ImageButton
+                    android:id="@+id/tabbackBtn"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/nocolor"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/logo"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/tabback"
                     tools:ignore="ContentDescription" />
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/logoimageBtn"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/divider"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/imageView3"
+                <com.example.leebeomwoo.viewbody_final.Support.CenteringTabLayout
+                    android:id="@+id/main_TabLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_toEndOf="@+id/tabbackBtn"
+                    android:layout_toStartOf="@+id/tabmenuBtn"
                     android:padding="5dp"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/toolbartext"
-                    tools:ignore="ContentDescription" />
+                    android:textAlignment="center"
+                    app:tabGravity="center"
+                    app:tabMode="scrollable"
+                    app:tabSelectedTextColor="@color/cardview_light_background"
+                    app:tabTextAppearance="@style/maintabtextsize"
+                    app:tabTextColor="@color/nocolor" />
 
-                <ImageView
-                    android:id="@+id/imageView4"
+                <ImageButton
+                    android:id="@+id/tabmenuBtn"
                     android:layout_width="40dp"
-                    android:layout_height="match_parent"
-                    android:layout_toEndOf="@+id/imageView5"
-                    android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/divider"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/tabmenu"
                     tools:ignore="ContentDescription" />
 
             </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
 
-        </android.support.v7.widget.Toolbar>
+        </android.support.design.widget.AppBarLayout>
 
-        <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
-            android:id="@+id/maintablayout"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/tabbackBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/tabback"
-                tools:ignore="ContentDescription" />
-
-            <com.example.leebeomwoo.viewbody_final.Support.CenteringTabLayout
-                android:id="@+id/main_TabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_toEndOf="@+id/tabbackBtn"
-                android:layout_toStartOf="@+id/tabmenuBtn"
-                android:padding="5dp"
-                android:textAlignment="center"
-                app:tabGravity="center"
-                app:tabMaxWidth="0dp"
-                app:tabMode="scrollable"
-                app:tabSelectedTextColor="@color/cardview_light_background"
-                app:tabTextAppearance="@style/maintabtextsize"
-                app:tabTextColor="@color/nocolor" />
-
-            <ImageButton
-                android:id="@+id/tabmenuBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_margin="10dp"
-                android:background="@drawable/tabmenu"
-                tools:ignore="ContentDescription" />
-
-        </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
-
-    </android.support.design.widget.AppBarLayout>
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/appbar"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-</cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/appbar"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
