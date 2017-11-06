@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cn.gavinliu.android.lib.scale.ScaleRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,21 +7,19 @@
     tools:context="com.example.leebeomwoo.viewbody_final.FoodTab_Sub">
 
     <!-- TODO: Update blank fragment layout -->
-    <android.support.constraint.ConstraintLayout
+    <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
         android:id="@+id/writertab"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@color/writersubtabcolor"
         android:orientation="horizontal"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteY="8dp">
 
         <com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout
             android:id="@+id/writer_TabLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="0dp"
@@ -29,27 +27,21 @@
             android:layout_marginTop="0dp"
             android:fillViewport="true"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:tabTextAppearance="@style/subtabtextsize"
             app:tabTextColor="@color/cardview_light_background"
             tools:ignore="MissingConstraints" />
-    </android.support.constraint.ConstraintLayout>
+    </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/writer_viewPager"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/writertab"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        app:layout_constraintTop_toBottomOf="@+id/writertab"
-        android:layout_marginRight="5dp"
-        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="5dp"
         android:layout_marginLeft="5dp"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="5dp"
         android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_marginTop="5dp"
+        android:layout_weight="1" />
+</cn.gavinliu.android.lib.scale.ScaleRelativeLayout>

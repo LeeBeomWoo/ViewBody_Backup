@@ -6,26 +6,23 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.example.leebeomwoo.viewbody_final.MainActivity">
+<cn.gavinliu.android.lib.scale.ScaleRelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_editor_absoluteX="8dp"
-        app:layout_editor_absoluteY="25dp">
+        android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_weight="1"
             android:logo="@drawable/logomain"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
-            <android.support.constraint.ConstraintLayout
+            <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -37,59 +34,45 @@
                     android:layout_marginTop="8dp"
                     android:background="@color/nocolor"
                     android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/logo"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/imageView3"
                     android:layout_width="40dp"
-                    android:layout_height="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@+id/logoimageBtn"
                     android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/logoimageBtn"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0"
                     app:srcCompat="@drawable/divider"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/imageView5"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@+id/imageView3"
                     android:padding="5dp"
                     android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/imageView3"
-                    app:layout_constraintRight_toLeftOf="@+id/imageView4"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/toolbartext"
                     tools:ignore="ContentDescription" />
 
                 <ImageView
                     android:id="@+id/imageView4"
                     android:layout_width="40dp"
-                    android:layout_height="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@+id/imageView5"
                     android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/divider"
                     tools:ignore="ContentDescription" />
 
-            </android.support.constraint.ConstraintLayout>
+            </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
 
         </android.support.v7.widget.Toolbar>
 
         <cn.gavinliu.android.lib.scale.ScaleRelativeLayout
             android:id="@+id/maintablayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            android:layout_height="match_parent">
 
             <ImageButton
                 android:id="@+id/tabbackBtn"
@@ -132,9 +115,7 @@
         android:id="@+id/main_viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/maintablayout" />
+        android:layout_below="@+id/appbar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+</cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
 </android.support.design.widget.CoordinatorLayout>
