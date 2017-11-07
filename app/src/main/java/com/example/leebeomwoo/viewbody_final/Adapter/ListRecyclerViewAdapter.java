@@ -2,6 +2,7 @@ package com.example.leebeomwoo.viewbody_final.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
 import com.example.leebeomwoo.viewbody_final.Support.HelpWebView;
 import com.example.leebeomwoo.viewbody_final.Support.RecyclerviewClickEvent;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -50,7 +52,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     private UserFilter userFilter;
     private RecyclerviewClickEvent clickEvent = new RecyclerviewClickEvent();
     private Intent intent;
-    private int color;
+    private int color, rusult, result, fin;
     public ListRecyclerViewAdapter(Context context, List<ListDummyItem> ldItemList, int color){
         this.ldItems = ldItemList;
         this.bContext = context;
@@ -63,8 +65,8 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         final TextView txtViewTitle, txtViewId, video_title_1, video_title_2, video_title_3;
         final WebView imgViewFace, videoView_1, videoView_2, videoView_3;
         public final Button button;
-        final HelpWebView imgViewIcon;
-        final ImageView categoryImage;
+        //final HelpWebView imgViewIcon;
+        final ImageView categoryImage, imgViewIcon;
 
 
         public ViewHolder(View itemLayoutView) {
@@ -100,51 +102,13 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                     txtViewTitle.setBackgroundResource(R.drawable.writer_title_text_back);
                     break;
             }
-            imgViewFace.setWebViewClient(new WebViewClient());
-            imgViewIcon.setWebViewClient(new WebViewClient());
-            imgViewFace.setFocusable(false);
-            imgViewIcon.setFocusable(false);
-            imgViewFace.setFocusable(false);
-            imgViewIcon.setFocusable(false);
             WebviewSet(imgViewFace);
-            WebviewSet(imgViewIcon);
-            videoView_1.setFocusable(false);
-            videoView_1.setWebViewClient(new WebViewClient());
+           // WebviewSet(imgViewIcon);
             WebviewSet(videoView_1);
-            videoView_2.setFocusable(false);
-            videoView_2.setWebViewClient(new WebViewClient());
             WebviewSet(videoView_2);
-            videoView_3.setFocusable(false);
-            videoView_3.setWebViewClient(new WebViewClient());
             WebviewSet(videoView_3);
-            /** webview.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
-             장점 이건 설정하면 웹뷰를 계속 띄워도 뻗지 않는다 .
-             페이지 전환시 껌뻑임이 없다
-             단점은 웹뷰 내용을 스크롤 할 때 느리게 스크롤 되는 단점이있다
-             나는 계속 보니 어지러워서 토나올것 같더라
-
-             webview.setLayerType(View.LAYER_TYPE_HARDWARE,null);
-             장점은 스크롤이 괭장히 부드럽게 된다 .
-             단점은 웹뷰 한 .. 10개 정도 .. 액티비티당 2개씩이라서 한 5개 정도 띄우면 뻗는다 버퍼에러 난다
-             그리고 페이지 불러올때 껌뻑인다 .. 퍼즐 맞추듯이 맞춰 진다
-             이거 할때는 android:hardwareAccelerated="true" 이것도 메니페스트 <application에 추가하자
-
-             출처: http://writefoot.tistory.com/entry/웹뷰-껌뻑임-현상 [발로쓰는 블로그]
-             */
-            if (Build.VERSION.SDK_INT >= 21) {
-                imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                videoView_1.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                videoView_2.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                videoView_3.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-            }
-            else {
-                imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                videoView_1.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                videoView_2.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                videoView_3.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            }
+            //imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            //imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             imgViewIcon.setOnTouchListener(this);
             imgViewFace.setOnClickListener(this);
             button.setOnClickListener(this);
@@ -170,7 +134,12 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                 });
             }
         }
-
+        public List<ListDummyItem> getlistitem(){
+            if(ldItems != null){
+                return ldItems;
+            }
+            return ldItems;
+        }
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
@@ -190,6 +159,29 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         }
     }
     private void WebviewSet(WebView view){
+        view.setFocusable(false);
+        view.setWebViewClient(new WebViewClient());
+        /** webview.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
+         장점 이건 설정하면 웹뷰를 계속 띄워도 뻗지 않는다 .
+         페이지 전환시 껌뻑임이 없다
+         단점은 웹뷰 내용을 스크롤 할 때 느리게 스크롤 되는 단점이있다
+         나는 계속 보니 어지러워서 토나올것 같더라
+
+         webview.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+         장점은 스크롤이 괭장히 부드럽게 된다 .
+         단점은 웹뷰 한 .. 10개 정도 .. 액티비티당 2개씩이라서 한 5개 정도 띄우면 뻗는다 버퍼에러 난다
+         그리고 페이지 불러올때 껌뻑인다 .. 퍼즐 맞추듯이 맞춰 진다
+         이거 할때는 android:hardwareAccelerated="true" 이것도 메니페스트 <application에 추가하자
+
+         출처: http://writefoot.tistory.com/entry/웹뷰-껌뻑임-현상 [발로쓰는 블로그]
+         */
+        if(view.getId() != R.id.detile_Image && view.getId() != R.id.detile_face)
+        if (Build.VERSION.SDK_INT >= 21) {
+            view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+    }
+        else {
+            view.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
         WebSettings settings = view.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
@@ -197,7 +189,8 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         settings.setPluginState(WebSettings.PluginState.ON);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
-        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        settings.setDomStorageEnabled(true);
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -209,12 +202,17 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
         final ListDummyItem ldItem = ldItems.get(position);
+        Uri uri = Uri.parse(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
+        Context cont = viewHolder.imgViewIcon.getContext();
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
-        viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
+        //viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
+        String result = ldItem.getLd_ImageUrl().replaceAll("\\/","/");
+        Picasso.with(bContext).load(ConAdapter.SERVER_URL + result).into(viewHolder.imgViewIcon);
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
-        viewHolder.categoryImage.setImageResource(titlecategory(ldItem.getLd_Category()));
+       // viewHolder.categoryImage.setImageResource(titlecategory(ldItem.getLd_Category()));
+        Picasso.with(bContext).load(titlecategory(ldItem.getLd_Category())).into(viewHolder.categoryImage);
         intent = new Intent(bContext, ItemViewActivity.class);
         if(ldItem.getLd_Video() != null) {
             String[] animalsArray = ldItem.getLd_Video().split(",");
@@ -286,9 +284,6 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         Log.d("카테고리1", sa[2]);
         Log.d("카테고리2", sa[3]);
         Log.d("카테고리3", sa[4]);
-        int rusult = 0;
-        int result = 0;
-        int fin = 0;
         if(Objects.equals(sa[1], "1")){//상체
             if(Objects.equals(sa[2], "0")){//전후면 상관없음
                 switch (sa[3]) {
@@ -362,8 +357,8 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                             case "9": // 복부
                                 rusult = R.drawable.stormach;
                                 break;
-                        }
-                        result = rusult;
+                    }
+                    result = rusult;
                         break;
                 }
                 fin = result;
@@ -446,7 +441,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                         result = R.drawable.muscleup;
                         break;
                     case "4": // 근지구력
-                        rusult = R.drawable.musclelong;
+                        result = R.drawable.musclelong;
                         break;
                     case "5": // 근파워
                         result = R.drawable.musclepower;
@@ -535,7 +530,6 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                         result =rusult;
                         Log.d("drawble rusult", String.valueOf(rusult));
                         Log.d("drawble result", String.valueOf(result));
-                        Log.d("drawble fin",String.valueOf(fin));
                         break;
                     case "3": // 근력
                         result = R.drawable.muscleup;
@@ -822,7 +816,6 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                 fin = result;
             }
         }
-        Log.d("result", String.valueOf(fin));
         return fin;
     }
     private ListDummyItem getItem(int position){

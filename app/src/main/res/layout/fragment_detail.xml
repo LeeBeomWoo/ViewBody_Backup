@@ -38,7 +38,7 @@
                 android:textStyle="bold" />
         </cn.gavinliu.android.lib.scale.ScaleLinearLayout>
 
-        <com.example.leebeomwoo.viewbody_final.Support.HelpWebView
+        <ImageView
             android:id="@+id/detile_Image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

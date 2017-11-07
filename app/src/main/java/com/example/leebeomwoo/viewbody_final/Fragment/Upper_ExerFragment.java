@@ -52,6 +52,7 @@ public class Upper_ExerFragment extends android.support.v4.app.Fragment {
         rv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        llm.setInitialPrefetchItemCount(30);
         rv.setLayoutManager(llm);
         listStart();
         return view;

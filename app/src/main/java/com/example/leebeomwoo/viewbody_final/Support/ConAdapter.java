@@ -20,9 +20,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ConAdapter {
-    public static final int CONNECT_TIMEOUT = 30;
-    public static final int WRITE_TIMEOUT = 30;
-    public static final int READ_TIMEOUT = 30;
+    public static final int CONNECT_TIMEOUT = 600;
+    public static final int WRITE_TIMEOUT = 600;
+    public static final int READ_TIMEOUT = 600;
     private static OkHttpClient client;
     private static NetworkService Interface;
 
@@ -104,5 +104,6 @@ public class ConAdapter {
 
         return builder;
     }
+
 }
 

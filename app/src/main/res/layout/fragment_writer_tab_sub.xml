@@ -18,8 +18,9 @@
 
         <com.example.leebeomwoo.viewbody_final.Support.SlidingTabLayout
             android:id="@+id/writer_TabLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="0dp"
