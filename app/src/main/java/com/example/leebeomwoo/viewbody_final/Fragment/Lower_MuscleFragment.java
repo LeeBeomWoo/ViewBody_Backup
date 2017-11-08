@@ -33,7 +33,7 @@ public class Lower_MuscleFragment extends android.support.v4.app.Fragment {
     RecyclerviewClickEvent clickEvent = new RecyclerviewClickEvent();
     private List<ListDummyItem> ldItems;
     @SuppressLint("StaticFieldLeak")
-    static ListRecyclerViewAdapter bdadapter;
+    ListRecyclerViewAdapter bdadapter;
 
     String TAG = "Lower_MuscleFragment";
     public Lower_MuscleFragment(){}
@@ -65,7 +65,7 @@ public class Lower_MuscleFragment extends android.support.v4.app.Fragment {
                 responseLd = response.body();
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
                 ldItems = responseLd.getLdItem();
-                Log.d("response", ldItems.toString());
+                Log.d("Lower_Muscle", ldItems.toString());
                 bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems, R.drawable.body_title_back);
                 rv.setAdapter(bdadapter);
             }
@@ -93,36 +93,7 @@ public class Lower_MuscleFragment extends android.support.v4.app.Fragment {
     @Override
     public void onResume(){
         super.onResume();
-            final boolean keepRunning1 = true;
-            Thread thread_two = new Thread() {
-                @Override
-                public void run() {
-                    if(bdadapter != null) {
-                        while (keepRunning1) {
 
-                            // Make the thread wait half a second. If you want...
-                            try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException e) {
-                                Toast.makeText(getActivity().getApplicationContext(), "Default Signature                         Fail", Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
-
-                            // here you check the value of getActivity() and break up if needed
-                            if (getActivity() == null)
-                                return;
-
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bdadapter.notifyDataSetChanged();
-                                }
-                            });
-                        }
-                    }
-                }
-            };
-            thread_two.start();
     }
 
 

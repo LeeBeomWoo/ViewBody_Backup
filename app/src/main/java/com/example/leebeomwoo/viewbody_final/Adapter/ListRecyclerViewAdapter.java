@@ -1,16 +1,20 @@
 package com.example.leebeomwoo.viewbody_final.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -39,6 +43,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static java.security.AccessController.getContext;
+
 public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerViewAdapter.ViewHolder> implements Filterable {
     private List<ListDummyItem> ldItems = new ArrayList<>();
     private LikeItem lkItems;
@@ -60,7 +66,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         this.color = color;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final CardView mView;
         final TextView txtViewTitle, txtViewId, video_title_1, video_title_2, video_title_3;
         final WebView imgViewFace, videoView_1, videoView_2, videoView_3;
@@ -109,7 +115,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
             WebviewSet(videoView_3);
             //imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             //imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-            imgViewIcon.setOnTouchListener(this);
+            imgViewIcon.setOnClickListener(this);
             imgViewFace.setOnClickListener(this);
             button.setOnClickListener(this);
         }
@@ -132,30 +138,16 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                         Log.d(TAG, t.getMessage());
                     }
                 });
+            }else  if (view.getId() == imgViewIcon.getId()) {
+                clickEvent.Click(ldItems.get(getLayoutPosition()), bContext);
+            }else if (view.getId() == imgViewFace.getId()) {
+                intent.putExtra("itemUrl", "trainer");
+                intent.putExtra("tr_Id", getItem(getLayoutPosition()).getLd_Id());
+                intent.putExtra("section", getItem(getLayoutPosition()).getLd_Section());
+                //intent_2.putExtra("item_word", item_word);
+                intent.putExtra("fragment", 1);
+                bContext.startActivity(intent);
             }
-        }
-        public List<ListDummyItem> getlistitem(){
-            if(ldItems != null){
-                return ldItems;
-            }
-            return ldItems;
-        }
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            if(motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                if (view.getId() == imgViewIcon.getId()) {
-                    clickEvent.Click(ldItems.get(getLayoutPosition()), bContext);
-                } else if (view.getId() == imgViewFace.getId()) {
-                    intent.putExtra("itemUrl", "trainer");
-                    intent.putExtra("tr_Id", getItem(getLayoutPosition()).getLd_Id());
-                    intent.putExtra("section", getItem(getLayoutPosition()).getLd_Section());
-                    //intent_2.putExtra("item_word", item_word);
-                    intent.putExtra("fragment", 1);
-                    bContext.startActivity(intent);
-                }
-                return true;
-            }
-            return false;
         }
     }
     private void WebviewSet(WebView view){
@@ -201,6 +193,10 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+        WindowManager wm = (WindowManager) bContext.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        int height = display.getHeight();
+        int width = display.getWidth();
         final ListDummyItem ldItem = ldItems.get(position);
         Uri uri = Uri.parse(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         Context cont = viewHolder.imgViewIcon.getContext();
@@ -209,10 +205,11 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
         //viewHolder.imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         String result = ldItem.getLd_ImageUrl().replaceAll("\\/","/");
-        Picasso.with(bContext).load(ConAdapter.SERVER_URL + result).into(viewHolder.imgViewIcon);
+        Picasso.with(bContext).load(ConAdapter.SERVER_URL + result).resize(1500,2420).into(viewHolder.imgViewIcon);
+        //Picasso.with(bContext).load(ConAdapter.SERVER_URL + result).into(viewHolder.imgViewIcon);
         viewHolder.txtViewId.setText(ldItem.getLd_Id());
        // viewHolder.categoryImage.setImageResource(titlecategory(ldItem.getLd_Category()));
-        Picasso.with(bContext).load(titlecategory(ldItem.getLd_Category())).into(viewHolder.categoryImage);
+        Picasso.with(bContext).load(titlecategory(ldItem.getLd_Category())).fit().into(viewHolder.categoryImage);
         intent = new Intent(bContext, ItemViewActivity.class);
         if(ldItem.getLd_Video() != null) {
             String[] animalsArray = ldItem.getLd_Video().split(",");
@@ -529,7 +526,6 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
                         }
                         result =rusult;
                         Log.d("drawble rusult", String.valueOf(rusult));
-                        Log.d("drawble result", String.valueOf(result));
                         break;
                     case "3": // 근력
                         result = R.drawable.muscleup;

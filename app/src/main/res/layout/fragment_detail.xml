@@ -23,7 +23,7 @@
             <ImageView
                 android:id="@+id/itemtitle_image"
                 android:layout_width="50dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -42,7 +42,8 @@
             android:id="@+id/detile_Image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true" />
+            android:clickable="true"
+            android:scaleType="fitCenter" />
 
 
         <TextView

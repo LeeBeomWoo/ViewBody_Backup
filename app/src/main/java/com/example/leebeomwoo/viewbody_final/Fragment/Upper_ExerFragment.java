@@ -52,7 +52,6 @@ public class Upper_ExerFragment extends android.support.v4.app.Fragment {
         rv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        llm.setInitialPrefetchItemCount(30);
         rv.setLayoutManager(llm);
         listStart();
         return view;
@@ -76,36 +75,6 @@ public class Upper_ExerFragment extends android.support.v4.app.Fragment {
     @Override
     public void onResume(){
         super.onResume();
-            final boolean keepRunning1 = true;
-            Thread thread_two = new Thread() {
-                @Override
-                public void run() {
-                    if(bdadapter != null) {
-                        while (keepRunning1) {
-
-                            // Make the thread wait half a second. If you want...
-                            try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException e) {
-                                Toast.makeText(getActivity().getApplicationContext(), "Default Signature                         Fail", Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
-
-                            // here you check the value of getActivity() and break up if needed
-                            if (getActivity() == null)
-                                return;
-
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bdadapter.notifyDataSetChanged();
-                                }
-                            });
-                        }
-                    }
-                }
-            };
-            thread_two.start();
     }
 
     private void listStart(){

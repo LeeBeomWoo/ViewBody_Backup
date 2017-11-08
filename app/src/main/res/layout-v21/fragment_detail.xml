@@ -10,20 +10,20 @@
 
     <cn.gavinliu.android.lib.scale.ScaleLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/backline"
         android:orientation="vertical">
 
         <cn.gavinliu.android.lib.scale.ScaleLinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@color/cardview_light_background"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/itemtitle_image"
                 android:layout_width="50dp"
-                android:layout_height="40dp"
+                android:layout_height="50dp"
                 tools:ignore="ContentDescription" />
 
             <TextView
@@ -41,7 +41,8 @@
         <ImageView
             android:id="@+id/detile_Image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:scaleType="fitCenter" />
 
 
         <TextView
@@ -49,8 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/cardview_light_background"
-            android:paddingStart="5dp"
             android:paddingEnd="5dp"
+            android:paddingStart="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -66,8 +67,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/cardview_light_background"
-            android:paddingStart="5dp"
             android:paddingEnd="5dp"
+            android:paddingStart="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
             android:visibility="gone" />
@@ -83,8 +84,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/cardview_light_background"
-            android:paddingStart="5dp"
             android:paddingEnd="5dp"
+            android:paddingStart="5dp"
             android:textAlignment="viewStart"
             android:textSize="20sp"
             android:visibility="gone" />
