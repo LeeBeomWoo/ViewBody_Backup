@@ -51,6 +51,11 @@ public class RecyclerviewClickEvent implements View.OnTouchListener {
     boolean end;
     Handler handler;
     Matrix matrix;
+    @Override
+    private RectF mCurrentViewport =
+        new RectF(AXIS_X_MIN, AXIS_Y_MIN, AXIS_X_MAX, AXIS_Y_MAX);
+    private Rect mContentRect;
+    private ScaleGestureDetector mScaleGestureDetector;
     public void Click(ListDummyItem ld_Item, Context context){
         this.context = context;
         ldItem = ld_Item;
@@ -190,54 +195,68 @@ public class RecyclerviewClickEvent implements View.OnTouchListener {
         }
         return drawable;
     }
-    @SuppressLint("ClickableViewAccessibility")
+}
+
+/**
+ * The scale listener, used for handling multi-finger scale gestures.
+ */
+private final ScaleGestureDetector.OnScaleGestureListener mScaleGestureListener
+        = new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    /**
+     * This is the active focal point in terms of the viewport. Could be a local
+     * variable but kept here to minimize per-frame allocations.
+     */
+    private PointF viewportFocus = new PointF();
+    private float lastSpanX;
+    private float lastSpanY;
+
+    // Detects that new pointers are going down.
     @Override
-    public boolean onTouch(View view, MotionEvent event) {
-        final int X = (int) event.getRawX();
-        final int Y = (int) event.getRawY();
-        width = imgViewIcon.getWidth();
-        height = imgViewIcon.getHeight();
-
-        scaleWidth = width/(float) X;
-        scaleHeight = height/(float) Y;
-
-        // createa matrix for the manipulation
-        matrix = new Matrix();
-        ScaleLayoutHelper.ScaleLayoutParams lParams = (ScaleLayoutHelper.ScaleLayoutParams) view.getLayoutParams();
-        switch (event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN:
-                end = false;
-                break;
-            case MotionEvent.ACTION_UP:
-                end = false;
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                _xDelta = X;
-                _yDelta = Y;
-                end = true;
-                Log.d("Down_scale", String.valueOf(X) + "*" + String.valueOf(Y));
-                break;
-            case MotionEvent.ACTION_POINTER_UP:
-                end = false;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                if(end){
-                    handler = new Handler();
-                    final Runnable r = new Runnable() {
-                        public void run() {
-                            // resize the bit map
-                            imgViewIcon.setScaleY(scaleHeight);
-                            imgViewIcon.setScaleX(scaleWidth);
-                            handler.postDelayed(this, 1000);
-                        }
-                    };
-                    r.run();
-                Log.d("Move_scale", String.valueOf( X + _xDelta) + "*" + String.valueOf(Y + _yDelta));
-                }
-
-                break;
-        }
-        imgViewIcon.invalidate();
+    public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
+        lastSpanX = ScaleGestureDetectorCompat.
+                getCurrentSpanX(scaleGestureDetector);
+        lastSpanY = ScaleGestureDetectorCompat.
+                getCurrentSpanY(scaleGestureDetector);
         return true;
     }
+
+    @Override
+    public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+
+        float spanX = ScaleGestureDetectorCompat.
+                getCurrentSpanX(scaleGestureDetector);
+        float spanY = ScaleGestureDetectorCompat.
+                getCurrentSpanY(scaleGestureDetector);
+
+        float newWidth = lastSpanX / spanX * mCurrentViewport.width();
+        float newHeight = lastSpanY / spanY * mCurrentViewport.height();
+
+        float focusX = scaleGestureDetector.getFocusX();
+        float focusY = scaleGestureDetector.getFocusY();
+        // Makes sure that the chart point is within the chart region.
+        // See the sample for the implementation of hitTest().
+        hitTest(scaleGestureDetector.getFocusX(),
+                scaleGestureDetector.getFocusY(),
+                viewportFocus);
+
+        mCurrentViewport.set(
+                viewportFocus.x
+                        - newWidth * (focusX - mContentRect.left)
+                        / mContentRect.width(),
+                viewportFocus.y
+                        - newHeight * (mContentRect.bottom - focusY)
+                        / mContentRect.height(),
+                0,
+                0);
+        mCurrentViewport.right = mCurrentViewport.left + newWidth;
+        mCurrentViewport.bottom = mCurrentViewport.top + newHeight;
+        ...
+        // Invalidates the View to update the display.
+        ViewCompat.postInvalidateOnAnimation(InteractiveLineGraphView.this);
+
+        lastSpanX = spanX;
+        lastSpanY = spanY;
+        return true;
+    }
+};
 }
