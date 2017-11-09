@@ -3,68 +3,69 @@ package com.example.leebeomwoo.viewbody_final.Support;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Handler;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.MotionEventCompat;
+import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.example.leebeomwoo.viewbody_final.R;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import cn.gavinliu.android.lib.scale.ScaleRelativeLayout;
-import cn.gavinliu.android.lib.scale.helper.ScaleLayoutHelper;
-
-import static android.view.MotionEvent.INVALID_POINTER_ID;
 
 /**
  * Created by LeeBeomWoo on 2017-06-21.
  */
 
 public class RecyclerviewClickEvent implements View.OnTouchListener {
+    private static final String TAG = "Popup";
     private Context context;
     private Drawable drawable ;
     private int _xDelta, _yDelta, width, height;
-    float scaleWidth, scaleHeight;
+    float mLastTouchX, mLastTouchY, mPosX, mPosY;
     private ImageView imgViewIcon;
     private ListDummyItem ldItem;
     boolean end;
-    Handler handler;
-    Matrix matrix;
-    @Override
-    private RectF mCurrentViewport =
-        new RectF(AXIS_X_MIN, AXIS_Y_MIN, AXIS_X_MAX, AXIS_Y_MAX);
-    private Rect mContentRect;
-    private ScaleGestureDetector mScaleGestureDetector;
+
+    // These matrices will be used to move and zoom image
+    Matrix matrix = new Matrix();
+    Matrix savedMatrix = new Matrix();
+
+    // We can be in one of these 3 states
+    static final int NONE = 0;
+    static final int DRAG = 1;
+    static final int ZOOM = 2;
+    int mode = NONE;
+
+    // Remember some things for zooming
+    PointF start = new PointF();
+    PointF mid = new PointF();
+    float oldDist = 1f;
+    String savedItemClicked;
+
+    private final static String FURL = "<html><body><iframe width=\"1080\" height=\"720\" src=\"";
+    private final static String BURL = "\" frameborder=\"0\" allowfullscreen></iframe></html></body>";
+    private final static String CHANGE = "https://www.youtube.com/embed";
+    @SuppressLint("ClickableViewAccessibility")
     public void Click(ListDummyItem ld_Item, Context context){
         this.context = context;
         ldItem = ld_Item;
         //read your lovely variable
-        Log.d("Popup", ldItem.getLd_ImageUrl());
+        Log.d(TAG, ldItem.getLd_ImageUrl());
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.fragment_detail);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
-
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
         ScaleRelativeLayout main = dialog.findViewById(R.id.detail_layout);
         TextView txtViewTitle = (TextView) dialog.findViewById(R.id.detile_Title);
         imgViewIcon = (ImageView) dialog.findViewById(R.id.detile_Image);
@@ -78,7 +79,6 @@ public class RecyclerviewClickEvent implements View.OnTouchListener {
         Button button = (Button) dialog.findViewById(R.id.like_btn);
         WebView videoView_3 = (WebView) dialog.findViewById(R.id.video_view_3);
         ImageView titleimage = (ImageView) dialog.findViewById(R.id.itemtitle_image);
-        main.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
         titleimage.setImageDrawable(titlecategory(ldItem.getLd_Category()));
         String result = ldItem.getLd_ImageUrl().replaceAll("\\/","/");
         Picasso.with(context).load(ConAdapter.SERVER_URL + result).into(imgViewIcon);
@@ -106,6 +106,65 @@ public class RecyclerviewClickEvent implements View.OnTouchListener {
             videoView_1.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             videoView_2.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             videoView_3.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        } if(ldItem.getLd_Video() != null) {
+            String[] animalsArray = ldItem.getLd_Video().split(",");
+            for(int i = 0; i < animalsArray.length; i++) {
+                Log.d(TAG + "animalsArray_" + i, animalsArray[i]);
+            }
+            switch (animalsArray.length){
+                case 2:
+                    video_title_1.setVisibility(View.VISIBLE);
+                    video_title_1.setText(animalsArray[0]);
+                    String change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                    String URL1 = FURL + change + BURL;
+                    Log.d(TAG, URL1);
+                    videoView_1.setVisibility(View.VISIBLE);
+                    videoView_1.loadData(URL1, "text/html", "utf-8");
+                    break;
+                case 4:
+                    video_title_1.setVisibility(View.VISIBLE);
+                    video_title_1.setText(animalsArray[0]);
+                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                    URL1 = FURL + change + BURL;
+                    Log.d(TAG, URL1);
+                    videoView_1.setVisibility(View.VISIBLE);
+                    videoView_1.loadData(URL1, "text/html", "utf-8");
+
+                    video_title_2.setVisibility(View.VISIBLE);
+                    video_title_2.setText(animalsArray[2]);
+                    change = animalsArray[3].replace("https://youtu.be", CHANGE);
+                    String URL2 = FURL + change + BURL;
+                    Log.d(TAG, URL2);
+                    videoView_2.setVisibility(View.VISIBLE);
+                    videoView_2.loadData(URL2, "text/html", "utf-8");
+                    break;
+                case 6:
+                    video_title_1.setVisibility(View.VISIBLE);
+                    video_title_1.setText(animalsArray[0]);
+                    change = animalsArray[1].replace("https://youtu.be", CHANGE);
+                    URL1 = FURL + change + BURL;
+                    Log.d(TAG, URL1);
+                    videoView_1.setVisibility(View.VISIBLE);
+                    videoView_1.loadData(URL1, "text/html", "utf-8");
+
+                    video_title_2.setVisibility(View.VISIBLE);
+                    video_title_2.setText(animalsArray[2]);
+                    change = animalsArray[3].replace("https://youtu.be", CHANGE);
+                    URL2 = FURL + change + BURL;
+                    Log.d(TAG, URL2);
+                    videoView_2.setVisibility(View.VISIBLE);
+                    videoView_2.loadData(URL2, "text/html", "utf-8");
+
+                    video_title_3.setVisibility(View.VISIBLE);
+                    video_title_3.setText(animalsArray[4]);
+                    change = animalsArray[5].replace("https://youtu.be", CHANGE);
+                    String URL3 = FURL + change + BURL;
+                    Log.d(TAG, URL3);
+                    videoView_3.setVisibility(View.VISIBLE);
+                    videoView_3.loadData(URL3, "text/html", "utf-8");
+                    break;
+            }
+
         }
         dialog.show();
     }
@@ -195,68 +254,94 @@ public class RecyclerviewClickEvent implements View.OnTouchListener {
         }
         return drawable;
     }
-}
 
-/**
- * The scale listener, used for handling multi-finger scale gestures.
- */
-private final ScaleGestureDetector.OnScaleGestureListener mScaleGestureListener
-        = new ScaleGestureDetector.SimpleOnScaleGestureListener() {
-    /**
-     * This is the active focal point in terms of the viewport. Could be a local
-     * variable but kept here to minimize per-frame allocations.
-     */
-    private PointF viewportFocus = new PointF();
-    private float lastSpanX;
-    private float lastSpanY;
-
-    // Detects that new pointers are going down.
     @Override
-    public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
-        lastSpanX = ScaleGestureDetectorCompat.
-                getCurrentSpanX(scaleGestureDetector);
-        lastSpanY = ScaleGestureDetectorCompat.
-                getCurrentSpanY(scaleGestureDetector);
+    public boolean onTouch(View v, MotionEvent event) {
+
+        ImageView view = (ImageView) v;
+        dumpEvent(event);
+
+        // Handle touch events here...
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                savedMatrix.set(matrix);
+                start.set(event.getX(), event.getY());
+                Log.d(TAG, "mode=DRAG");
+                mode = DRAG;
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                oldDist = spacing(event);
+                Log.d(TAG, "oldDist=" + oldDist);
+                if (oldDist > 10f) {
+                    savedMatrix.set(matrix);
+                    midPoint(mid, event);
+                    mode = ZOOM;
+                    Log.d(TAG, "mode=ZOOM");
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+                mode = NONE;
+                Log.d(TAG, "mode=NONE");
+                break;
+            case MotionEvent.ACTION_MOVE:
+                if (mode == DRAG) {
+                    // ...
+                    matrix.set(savedMatrix);
+                    matrix.postTranslate(event.getX() - start.x, event.getY()
+                            - start.y);
+                } else if (mode == ZOOM) {
+                    float newDist = spacing(event);
+                    Log.d(TAG, "newDist=" + newDist);
+                    if (newDist > 10f) {
+                        matrix.set(savedMatrix);
+                        float scale = newDist / oldDist;
+                        matrix.postScale(scale, scale, mid.x, mid.y);
+                    }
+                }
+                break;
+        }
+        view.setImageMatrix(matrix);
         return true;
     }
 
-    @Override
-    public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
-
-        float spanX = ScaleGestureDetectorCompat.
-                getCurrentSpanX(scaleGestureDetector);
-        float spanY = ScaleGestureDetectorCompat.
-                getCurrentSpanY(scaleGestureDetector);
-
-        float newWidth = lastSpanX / spanX * mCurrentViewport.width();
-        float newHeight = lastSpanY / spanY * mCurrentViewport.height();
-
-        float focusX = scaleGestureDetector.getFocusX();
-        float focusY = scaleGestureDetector.getFocusY();
-        // Makes sure that the chart point is within the chart region.
-        // See the sample for the implementation of hitTest().
-        hitTest(scaleGestureDetector.getFocusX(),
-                scaleGestureDetector.getFocusY(),
-                viewportFocus);
-
-        mCurrentViewport.set(
-                viewportFocus.x
-                        - newWidth * (focusX - mContentRect.left)
-                        / mContentRect.width(),
-                viewportFocus.y
-                        - newHeight * (mContentRect.bottom - focusY)
-                        / mContentRect.height(),
-                0,
-                0);
-        mCurrentViewport.right = mCurrentViewport.left + newWidth;
-        mCurrentViewport.bottom = mCurrentViewport.top + newHeight;
-        ...
-        // Invalidates the View to update the display.
-        ViewCompat.postInvalidateOnAnimation(InteractiveLineGraphView.this);
-
-        lastSpanX = spanX;
-        lastSpanY = spanY;
-        return true;
+    private void dumpEvent(MotionEvent event) {
+        String names[] = { "DOWN", "UP", "MOVE", "CANCEL", "OUTSIDE",
+                "POINTER_DOWN", "POINTER_UP", "7?", "8?", "9?" };
+        StringBuilder sb = new StringBuilder();
+        int action = event.getAction();
+        int actionCode = action & MotionEvent.ACTION_MASK;
+        sb.append("event ACTION_").append(names[actionCode]);
+        if (actionCode == MotionEvent.ACTION_POINTER_DOWN
+                || actionCode == MotionEvent.ACTION_POINTER_UP) {
+            sb.append("(pid ").append(
+                    action >> MotionEvent.ACTION_POINTER_ID_SHIFT);
+            sb.append(")");
+        }
+        sb.append("[");
+        for (int i = 0; i < event.getPointerCount(); i++) {
+            sb.append("#").append(i);
+            sb.append("(pid ").append(event.getPointerId(i));
+            sb.append(")=").append((int) event.getX(i));
+            sb.append(",").append((int) event.getY(i));
+            if (i + 1 < event.getPointerCount())
+                sb.append(";");
+        }
+        sb.append("]");
+        Log.d(TAG, sb.toString());
     }
-};
+
+    /** Determine the space between the first two fingers */
+    private float spacing(MotionEvent event) {
+        float x = event.getX(0) - event.getX(1);
+        float y = event.getY(0) - event.getY(1);
+        return (x * x + y * y);
+    }
+
+    /** Calculate the mid point of the first two fingers */
+    private void midPoint(PointF point, MotionEvent event) {
+        float x = event.getX(0) + event.getX(1);
+        float y = event.getY(0) + event.getY(1);
+        point.set(x / 2, y / 2);
+    }
 }
