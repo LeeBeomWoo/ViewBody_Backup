@@ -19,8 +19,10 @@ import com.example.leebeomwoo.viewbody_final.R;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseCbd;
 import com.example.leebeomwoo.viewbody_final.Response.ResponseLd;
 import com.example.leebeomwoo.viewbody_final.Support.ConAdapter;
+import com.example.leebeomwoo.viewbody_final.Support.EndlessRecyclerViewScrollListener;
 import com.example.leebeomwoo.viewbody_final.Support.RecyclerviewClickEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -34,11 +36,12 @@ public class Upper_MuscleFragment extends android.support.v4.app.Fragment {
     ResponseCbd responseCbd;
     private LikeItem lkItems;
 
-    private List<ListDummyItem> ldItems;
+    private List<ListDummyItem> ldItems = new ArrayList<>();
     @SuppressLint("StaticFieldLeak")
     ListRecyclerViewAdapter bdadapter;
     RecyclerviewClickEvent clickEvent = new RecyclerviewClickEvent();
     String TAG = "Upper_MuscleFragment";
+    EndlessRecyclerViewScrollListener scrollListener;
     Intent intent;
     public Upper_MuscleFragment(){}
 
@@ -51,21 +54,33 @@ public class Upper_MuscleFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail_list, container, false);
-        rv = (RecyclerView) view.findViewById(R.id.detail_list);
+        rv = view.findViewById(R.id.detail_list);
         setHasOptionsMenu(true);
         rv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        listStart();
+        if(ldItems != null) {
+            Log.d("testitem", ldItems.toString());
+        }
         rv.setLayoutManager(llm);
+        return view;
+    }
+    private void getDate(List<ListDummyItem> item){
+        ldItems = item;
+    }
+    private void listStart(){
         Call<ResponseLd> call = ConAdapter.getInstance().getResult_Ld("Upper_Muscle");
         call.enqueue(new Callback<ResponseLd>() {
             @Override
             public void onResponse(Call<ResponseLd> call, Response<ResponseLd> response) {
                 responseLd = response.body();
                 Log.d(TAG,"서버와의 연결이 잘됐어요~.");
-                ldItems = responseLd.getLdItem();
-                Log.d("response", ldItems.toString());
-                bdadapter = new ListRecyclerViewAdapter(getActivity(), ldItems, R.drawable.body_title_back);
+                List<ListDummyItem> tempitem;
+                tempitem = responseLd.getLdItem();
+                Log.d("response_test",  responseLd.getLdItem().toString());
+                getDate( responseLd.getLdItem());
+                bdadapter = new ListRecyclerViewAdapter(getActivity(), tempitem, R.drawable.body_title_back);
                 rv.setAdapter(bdadapter);
             }
             @Override
@@ -73,7 +88,6 @@ public class Upper_MuscleFragment extends android.support.v4.app.Fragment {
                 Log.d(TAG,t.getMessage());
             }
         });
-        return view;
     }
 
     public void datachanged(String category) {
@@ -94,36 +108,7 @@ public class Upper_MuscleFragment extends android.support.v4.app.Fragment {
     @Override
     public void onResume(){
         super.onResume();
-            final boolean keepRunning1 = true;
-            Thread thread_two = new Thread() {
-                @Override
-                public void run() {
-                    if(bdadapter != null) {
-                        while (keepRunning1) {
 
-                            // Make the thread wait half a second. If you want...
-                            try {
-                                Thread.sleep(500);
-                            } catch (InterruptedException e) {
-                                Toast.makeText(getActivity().getApplicationContext(), "Default Signature                         Fail", Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
-
-                            // here you check the value of getActivity() and break up if needed
-                            if (getActivity() == null)
-                                return;
-
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    bdadapter.notifyDataSetChanged();
-                                }
-                            });
-                        }
-                    }
-                }
-            };
-            thread_two.start();
     }
 
 

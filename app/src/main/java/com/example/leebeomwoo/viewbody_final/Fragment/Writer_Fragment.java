@@ -62,6 +62,7 @@ public class Writer_Fragment extends Fragment {
         awrv.setHasFixedSize(true);
         getActivity().invalidateOptionsMenu();
         LinearLayoutManager allm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        allm.setInitialPrefetchItemCount(300);
         awrv.setLayoutManager(allm);
         Call<WriterFirstItem> call = ConAdapter.getInstance().getResult_Writer();
         call.enqueue(new Callback<WriterFirstItem>() {

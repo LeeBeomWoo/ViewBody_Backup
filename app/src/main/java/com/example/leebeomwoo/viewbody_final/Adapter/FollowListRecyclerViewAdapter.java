@@ -94,6 +94,7 @@ public class FollowListRecyclerViewAdapter extends RecyclerView.Adapter<FollowLi
         settings.setPluginState(WebSettings.PluginState.ON);
         settings.setLoadWithOverviewMode(true);
         settings.setUseWideViewPort(true);
+        settings.setDomStorageEnabled(true);
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

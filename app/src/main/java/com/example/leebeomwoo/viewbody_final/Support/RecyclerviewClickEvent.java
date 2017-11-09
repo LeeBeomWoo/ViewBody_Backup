@@ -1,40 +1,73 @@
 package com.example.leebeomwoo.viewbody_final.Support;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MotionEventCompat;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.leebeomwoo.viewbody_final.Item.ListDummyItem;
 import com.example.leebeomwoo.viewbody_final.R;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import cn.gavinliu.android.lib.scale.ScaleRelativeLayout;
+import cn.gavinliu.android.lib.scale.helper.ScaleLayoutHelper;
+
+import static android.view.MotionEvent.INVALID_POINTER_ID;
 
 /**
  * Created by LeeBeomWoo on 2017-06-21.
  */
 
-public class RecyclerviewClickEvent {
-    Context context;
-    Drawable drawable ;
-    public void Click(ListDummyItem ldItem, Context context){
+public class RecyclerviewClickEvent implements View.OnTouchListener {
+    private Context context;
+    private Drawable drawable ;
+    private int _xDelta, _yDelta, width, height;
+    float scaleWidth, scaleHeight;
+    private ImageView imgViewIcon;
+    private ListDummyItem ldItem;
+    boolean end;
+    Handler handler;
+    Matrix matrix;
+    @Override
+    private RectF mCurrentViewport =
+        new RectF(AXIS_X_MIN, AXIS_Y_MIN, AXIS_X_MAX, AXIS_Y_MAX);
+    private Rect mContentRect;
+    private ScaleGestureDetector mScaleGestureDetector;
+    public void Click(ListDummyItem ld_Item, Context context){
         this.context = context;
+        ldItem = ld_Item;
         //read your lovely variable
+        Log.d("Popup", ldItem.getLd_ImageUrl());
         Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.fragment_detail);
         dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+
+        ScaleRelativeLayout main = dialog.findViewById(R.id.detail_layout);
         TextView txtViewTitle = (TextView) dialog.findViewById(R.id.detile_Title);
-        HelpWebView imgViewIcon = (HelpWebView) dialog.findViewById(R.id.detile_Image);
+        imgViewIcon = (ImageView) dialog.findViewById(R.id.detile_Image);
         TextView video_title_1 = (TextView) dialog.findViewById(R.id.video_title_1);
         TextView video_title_2 = (TextView) dialog.findViewById(R.id.video_title_2);
         TextView video_title_3 = (TextView) dialog.findViewById(R.id.video_title_3);
@@ -45,18 +78,14 @@ public class RecyclerviewClickEvent {
         Button button = (Button) dialog.findViewById(R.id.like_btn);
         WebView videoView_3 = (WebView) dialog.findViewById(R.id.video_view_3);
         ImageView titleimage = (ImageView) dialog.findViewById(R.id.itemtitle_image);
+        main.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
         titleimage.setImageDrawable(titlecategory(ldItem.getLd_Category()));
-
+        String result = ldItem.getLd_ImageUrl().replaceAll("\\/","/");
+        Picasso.with(context).load(ConAdapter.SERVER_URL + result).into(imgViewIcon);
         txtViewTitle.setText(ldItem.getLd_Title());
-        imgViewIcon.loadUrl(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
         txtViewId.setText(ldItem.getLd_Id());
-        imgViewIcon.setFocusable(false);
-        imgViewIcon.getSettings().setJavaScriptEnabled(true);
-        imgViewIcon.getSettings().setDomStorageEnabled(true);
-        imgViewIcon.getSettings().setUseWideViewPort(true);
-        imgViewIcon.getSettings().setLoadWithOverviewMode(true);
-        imgViewIcon.getSettings().setBuiltInZoomControls(true);
-        imgViewIcon.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        imgViewIcon.setFocusable(true);
+        imgViewIcon.setOnTouchListener(this);
         imgViewFace.setFocusable(false);
         imgViewFace.getSettings().setJavaScriptEnabled(true);
         imgViewFace.getSettings().setDomStorageEnabled(true);
@@ -67,14 +96,12 @@ public class RecyclerviewClickEvent {
         videoView_2.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         videoView_3.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
         if (Build.VERSION.SDK_INT >= 19) {
-            imgViewIcon.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             imgViewFace.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             videoView_1.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             videoView_2.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             videoView_3.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         }
         else {
-            imgViewIcon.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             imgViewFace.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             videoView_1.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             videoView_2.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
@@ -168,4 +195,68 @@ public class RecyclerviewClickEvent {
         }
         return drawable;
     }
+}
+
+/**
+ * The scale listener, used for handling multi-finger scale gestures.
+ */
+private final ScaleGestureDetector.OnScaleGestureListener mScaleGestureListener
+        = new ScaleGestureDetector.SimpleOnScaleGestureListener() {
+    /**
+     * This is the active focal point in terms of the viewport. Could be a local
+     * variable but kept here to minimize per-frame allocations.
+     */
+    private PointF viewportFocus = new PointF();
+    private float lastSpanX;
+    private float lastSpanY;
+
+    // Detects that new pointers are going down.
+    @Override
+    public boolean onScaleBegin(ScaleGestureDetector scaleGestureDetector) {
+        lastSpanX = ScaleGestureDetectorCompat.
+                getCurrentSpanX(scaleGestureDetector);
+        lastSpanY = ScaleGestureDetectorCompat.
+                getCurrentSpanY(scaleGestureDetector);
+        return true;
+    }
+
+    @Override
+    public boolean onScale(ScaleGestureDetector scaleGestureDetector) {
+
+        float spanX = ScaleGestureDetectorCompat.
+                getCurrentSpanX(scaleGestureDetector);
+        float spanY = ScaleGestureDetectorCompat.
+                getCurrentSpanY(scaleGestureDetector);
+
+        float newWidth = lastSpanX / spanX * mCurrentViewport.width();
+        float newHeight = lastSpanY / spanY * mCurrentViewport.height();
+
+        float focusX = scaleGestureDetector.getFocusX();
+        float focusY = scaleGestureDetector.getFocusY();
+        // Makes sure that the chart point is within the chart region.
+        // See the sample for the implementation of hitTest().
+        hitTest(scaleGestureDetector.getFocusX(),
+                scaleGestureDetector.getFocusY(),
+                viewportFocus);
+
+        mCurrentViewport.set(
+                viewportFocus.x
+                        - newWidth * (focusX - mContentRect.left)
+                        / mContentRect.width(),
+                viewportFocus.y
+                        - newHeight * (mContentRect.bottom - focusY)
+                        / mContentRect.height(),
+                0,
+                0);
+        mCurrentViewport.right = mCurrentViewport.left + newWidth;
+        mCurrentViewport.bottom = mCurrentViewport.top + newHeight;
+        ...
+        // Invalidates the View to update the display.
+        ViewCompat.postInvalidateOnAnimation(InteractiveLineGraphView.this);
+
+        lastSpanX = spanX;
+        lastSpanY = spanY;
+        return true;
+    }
+};
 }
