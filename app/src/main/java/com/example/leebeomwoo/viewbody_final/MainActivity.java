@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -129,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
         mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
         tabLayout = (CenteringTabLayout) findViewById(R.id.main_TabLayout);
-        tabLayout.setClickable(true);
+        tabLayout.setClickable(false);
         tabLayout.setSelectedTabIndicatorHeight(17);
         maintab = (RelativeLayout) findViewById(R.id.maintablayout);
         tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
@@ -148,15 +149,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onPageScrollStateChanged(int state) {
             }
         });
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition(), true);
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         tabLayout.setupWithViewPager(viewPager);
         tabColor(i);
         tabLayout.setSelected(true);
-        new Handler().postDelayed(
+       /* new Handler().postDelayed(
                 new Runnable() {
                     @Override public void run() {
                         tabLayout.getTabAt(i).select();
                     }
                 }, 100);
+                */
         viewPager.setCurrentItem(i, true);
     }
     private void tabColor(int i){

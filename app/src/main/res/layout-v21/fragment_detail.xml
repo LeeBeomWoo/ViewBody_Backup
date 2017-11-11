@@ -12,8 +12,7 @@
         android:id="@+id/detail_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/backline"
-        android:orientation="vertical">
+        android:background="@drawable/backline">
 
         <cn.gavinliu.android.lib.scale.ScaleLinearLayout
             android:id="@+id/title_layout"
@@ -33,8 +32,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toEndOf="@+id/itemtitle_image"
-                android:paddingLeft="15dp"
-                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="15dp"
                 android:textAlignment="textStart"
                 android:textSize="22sp"
                 android:textStyle="bold" />
@@ -45,7 +44,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title_layout"
-            android:scaleType="fitCenter" />
+            android:layout_gravity="center"
+            android:scaleType="matrix" />
 
 
         <TextView
@@ -145,5 +145,4 @@
         </RelativeLayout>
 
     </cn.gavinliu.android.lib.scale.ScaleRelativeLayout>
-
 </android.support.v7.widget.CardView>

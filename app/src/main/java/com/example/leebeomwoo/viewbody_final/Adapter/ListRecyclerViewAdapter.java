@@ -193,13 +193,7 @@ public class ListRecyclerViewAdapter extends RecyclerView.Adapter<ListRecyclerVi
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        WindowManager wm = (WindowManager) bContext.getSystemService(Context.WINDOW_SERVICE);
-        Display display = wm.getDefaultDisplay();
-        int height = display.getHeight();
-        int width = display.getWidth();
         final ListDummyItem ldItem = ldItems.get(position);
-        Uri uri = Uri.parse(ConAdapter.SERVER_URL + ldItem.getLd_ImageUrl());
-        Context cont = viewHolder.imgViewIcon.getContext();
         // - get data from your itemsData at this position
         // - replace the contents of the view with that itemsData
         viewHolder.txtViewTitle.setText(ldItem.getLd_Title());
