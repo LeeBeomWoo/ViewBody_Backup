@@ -60,7 +60,8 @@
             android:name=".IntroActivity"
             android:theme="@style/ViewBody"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:theme="@style/ViewBody">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>

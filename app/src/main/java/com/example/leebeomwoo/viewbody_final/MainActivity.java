@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
@@ -65,9 +66,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     LinearLayout btn_View, main, top;
     CheckBox checkedTextView;
     public Drawable selector;
-
+    CollapsingToolbarLayout toolbarLayout;
     String[] body, follow, food, trainer, license;
     int i = 0;
+    int a, b;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,18 +81,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 3,    // Design FontScale
                 ScaleConfig.DIMENS_UNIT_DP);
         setContentView(R.layout.activity_main_page);
+        final CollapsingToolbarLayout toolbarLayout = findViewById(R.id.toolbar_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar to act as the ActionBar for this Activity window.
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarLayout.setCollapsedTitleGravity(Gravity.START);
+        toolbarLayout.setExpandedTitleGravity(Gravity.CENTER);
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayShowTitleEnabled(false);
         ab.setDisplayShowCustomEnabled(true);
         ab.setDisplayShowCustomEnabled(true);
         ab.setDisplayHomeAsUpEnabled(false);            //액션바 아이콘을 업 네비게이션 형태로 표시합니다.
         ab.setDisplayShowTitleEnabled(false);        //액션바에 표시되는 제목의 표시유무를 설정합니다.
-        ab.setDisplayShowHomeEnabled(false);            //홈 아이콘을 숨김처리합니다.
+        ab.setDisplayShowHomeEnabled(false);         //홈 아이콘을 숨김처리합니다.
         if(getIntent().hasExtra("message")) {
             Bundle bundle = getIntent().getExtras();
             i = bundle.getInt("message");
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // mSearchView = (SearchView) toolbar.getMenu().findItem(R.id.action_search).getActionView();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        back = (ImageButton) findViewById(R.id.tabbackBtn);
+        /**back = (ImageButton) findViewById(R.id.tabbackBtn);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +123,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 popupDisplay(v);
             }
         });
+         tabLayout = (CenteringTabLayout) findViewById(R.id.main_TabLayout);
+         tabLayout.setClickable(false);
+         tabLayout.setSelectedTabIndicatorHeight(17);
+         maintab = (RelativeLayout) findViewById(R.id.maintablayout);
+         tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+         tabLayout.setupWithViewPager(viewPager);
+         tabColor(i);
+         tabLayout.setSelected(true);
+         /* new Handler().postDelayed(
+         new Runnable() {
+        @Override public void run() {
+        tabLayout.getTabAt(i).select();
+        }
+        }, 100);
+         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+        viewPager.setCurrentItem(tab.getPosition(), true);
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+        });
+         */
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
@@ -129,12 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainMenuItems.add(new MainTabItem("음식과 영양", null, FoodTab_Sub.class));
         mainMenuItems.add(new MainTabItem("트레이너와 영양사", null, WriterTab_Sub.class));
         mainMenuItems.add(new MainTabItem("묻고 답하기", null, QnAFragment.class));
-        tabLayout = (CenteringTabLayout) findViewById(R.id.main_TabLayout);
-        tabLayout.setClickable(false);
-        tabLayout.setSelectedTabIndicatorHeight(17);
-        maintab = (RelativeLayout) findViewById(R.id.maintablayout);
-        tabLayout.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-        viewPager = (ViewPager) findViewById(R.id.main_viewPager);
+        viewPager = findViewById(R.id.main_viewPager);
         viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), mainMenuItems));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -142,68 +173,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             @Override
             public void onPageSelected(int position) {
-                tabColor(position);
+                toolbarLayout.setExpandedTitleColor(getResources().getColor(tabColor(position)[0]));
+                toolbarLayout.setCollapsedTitleTextColor(getResources().getColor(tabColor(position)[1]));
+                switch (position){
+                    case 0:
+                        toolbarLayout.setTitle("홈");
+                        break;
+                    case 1:
+                        toolbarLayout.setTitle("몸과 운동");
+                        break;
+                    case 2:
+                        toolbarLayout.setTitle("동영상 따라하기");
+                        break;
+                    case 3:
+                        toolbarLayout.setTitle("영양과 음식");
+                        break;
+                    case 4:
+                        toolbarLayout.setTitle("트레이너와 영양사");
+                        break;
+                    case 5:
+                        toolbarLayout.setTitle("묻고 답하기");
+                        break;
+                }
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition(), true);
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-        tabLayout.setupWithViewPager(viewPager);
-        tabColor(i);
-        tabLayout.setSelected(true);
-       /* new Handler().postDelayed(
-                new Runnable() {
-                    @Override public void run() {
-                        tabLayout.getTabAt(i).select();
-                    }
-                }, 100);
-                */
         viewPager.setCurrentItem(i, true);
     }
-    private void tabColor(int i){
+    private int[] tabColor(int i){
         switch (i){
             case 0:
-                maintab.setBackgroundResource(R.color.newtoolbar);
-                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.newsubtabcolor));
+                a = (R.color.newtoolbar);
+                b = (R.color.newsubtabcolor);
                 break;
             case 1:
-                maintab.setBackgroundResource(R.color.body_toolbar);
-                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.bodysubtabcolor));
+                a =(R.color.body_toolbar);
+                b = (R.color.bodysubtabcolor);
                 break;
             case 2:
-                maintab.setBackgroundResource(R.color.followtoolbar);
-                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.followsubtabcolor));
+                a =(R.color.followtoolbar);
+                b = (R.color.followsubtabcolor);
                 break;
             case 3:
-                maintab.setBackgroundResource(R.color.foodtoolbar);
-                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.foodsubtabcolor));
+                a =(R.color.foodtoolbar);
+                b = (R.color.foodsubtabcolor);
                 break;
             case 4:
-                maintab.setBackgroundResource(R.color.writertoolbar);
-                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.writersubtabcolor));
+                a =(R.color.writertoolbar);
+                b = (R.color.writersubtabcolor);
                 break;
             case 5:
-                maintab.setBackgroundResource(R.color.qnatoolbar);
-                tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.qnasubtabcolor));
+                a =(R.color.qnatoolbar);
+                b = (R.color.qnasubtabcolor);
                 break;
         }
+        int[] c = {a, b};
+        return c;
     }
     public PopupWindow popupDisplay(View v)
     {
